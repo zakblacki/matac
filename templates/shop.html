@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load category_template_tags %}
+{% load custom_filters %}
 {% block content %}
 <style type="text/css">
 	.selection-2{
@@ -36,170 +37,464 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
-					<div class="leftbar p-r-20 p-r-0-sm">
-						<!--  -->
-						<h4 class="m-text14 p-b-7">
-							Categories
-						</h4>
+					<aside style="padding-left: 8px !important;" 
+					class="col-lg-3 sidebar sidebar-fixed shop-sidebar 
+					sticky-sidebar-wrapper">
 
-						<ul class="p-b-54">
-							<li class="p-t-4">
-								<a href="/shop" class="s-text13 active1">
-									All
-								</a>
-							</li>
-
-							{% categories_li_a %}
-
-						</ul>
-
-						<!--  -->
-						<h4 class="m-text14 p-b-32">
-							Filters
-						</h4>
-
-						<div class="filter-price p-t-22 p-b-50 bo3">
-							<div class="m-text15 p-b-17">
-								Price
-							</div>
-
-							<div class="wra-filter-bar">
-								<div id="filter-bar"></div>
-							</div>
-
-							<div class="flex-sb-m flex-w p-t-16">
-								<div class="w-size11">
-									<!-- Button -->
-									<button class="flex-c-m size4 bg7 bo-rad-15 hov1 s-text14 trans-0-4">
-										Filter
+						<form style="width: 235px;" action="." method="get">
+								<div class="sidebar-overlay"></div>
+									
+									<a href="#" class="sidebar-toggle mobile-side"><img src="/static/images/3.svg" class="img-filter"></a>
+									<a class="sidebar-close" href="#"><i class="d-icon-times"></i></a>
+							<div class="sidebar-content">
+								<div class="filter-actions "> 
+									
+									<button type="submit" class="toolbox-item btn btn-outline btn-primary btn-icon-left filter-btn" style="border:none;font-size: 13px;
+									font-weight: bold;">
+									<img src="/static/images/3.svg" class="img-filter">&nbsp; Filtrer
 									</button>
+									
+									
+									<a style="margin-left: 95px !important;" href="/fr/produits/" class="clear-all text-primary pb-3 clear-all"><i class="fas fa-times"></i></a>
 								</div>
-
-								<div class="s-text3 p-t-10 p-b-10">
-									Range: $<span id="value-lower">610</span> - $<span id="value-upper">980</span>
+								<div class="widget widget-collapsible">
+									<h3 class="widget-title"> Catégories<span style="height: 10px;" class="toggle-btn"></span></h3>
+									<ul class="widget-body filter-items">
+										
+										
+											<li>
+												<input type="radio" class="custom-checkbox" id="cat-1" value="F" name="gender" onchange="this.form.submit()">
+												<label class="form-control-label " for="cat-1">FEMME</label>
+											</li>
+										
+											<li>
+												<input type="radio" class="custom-checkbox" id="cat-24" value="M" name="gender" onchange="this.form.submit()">
+												<label class="form-control-label " for="cat-24">HOMME </label>
+											</li>
+										
+											 
+										
+									</ul>   
 								</div>
+					
+									<div class="widget widget-collapsible">
+										<h3 class="widget-title">Prix<span style="height: 10px;" class="toggle-btn"></span></h3>
+										<ul class="widget-body filter-items">
+												<li style="display:flex;">
+													<input style="padding: 8px !important;" type="number" class="form-control price-input" name="start_price" placeholder="de">
+														<span class="price-devider"> &nbsp; - &nbsp;</span>
+													<input style="padding: 8px !important;" type="number" class="form-control price-input" name="end_price" placeholder="à">
+													<button style="scale: 1.6;
+													padding-bottom: 16px;
+													padding-right: 12px;" class="price-btn-f" type="submit">
+														<i class="fa-solid fa-magnifying-glass"></i>
+														</button>
+												</li>
+												
+												<li>
+													<input id="rangeOne" type="radio" class="custom-checkbox" name="price_range" value="range_one" onchange="this.form.submit()">
+													<label for="rangeOne" class="form-control-label">0 DZD - 700 DZD</label>
+												</li>
+												<li>
+													<input id="rangeTwo" type="radio" class="custom-checkbox" name="price_range" value="range_two" onchange="this.form.submit()">
+													<label for="rangeTwo" class="form-control-label">700 DZD - 1400 DZD</label>
+												</li>
+												<li>
+													<input id="rangeThree" type="radio" class="custom-checkbox" name="price_range" value="range_three" onchange="this.form.submit()">
+													<label for="rangeThree" class="form-control-label">1400 DZD - 4200 DZD</label>
+												</li>
+												<li>
+													<input id="rangeFour" type="radio" class="custom-checkbox" name="price_range" value="range_four" onchange="this.form.submit()">
+													<label for="rangeFour" class="form-control-label"> + 4200 DZD </label>
+												</li>
+												  
+										</ul>
+									</div>
+								
+								
+									<div class="widget widget-collapsible">
+										<h3 class="widget-title">Couleur<span style="height: 10px;" class="toggle-btn"></span></h3>
+										<ul class="widget-body d-inline-block">
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-1">
+														<input type="radio" id="color-1" name="color" value="1" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #FF8F1B;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-2">
+														<input type="radio" id="color-2" name="color" value="2" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #F5F5DC;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-3">
+														<input type="radio" id="color-3" name="color" value="3" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #4E2D05;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-4">
+														<input type="radio" id="color-4" name="color" value="4" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #000000;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-5">
+														<input type="radio" id="color-5" name="color" value="5" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #9B9B9B;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-7">
+														<input type="radio" id="color-7" name="color" value="7" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #FEFEE0;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-9">
+														<input type="radio" id="color-9" name="color" value="9" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #008020;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-11">
+														<input type="radio" id="color-11" name="color" value="11" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #03224C;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-12">
+														<input type="radio" id="color-12" name="color" value="12" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #FF007F;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-13">
+														<input type="radio" id="color-13" name="color" value="13" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #F0E68C;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-14">
+														<input type="radio" id="color-14" name="color" value="14" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #7F00FF;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-16">
+														<input type="radio" id="color-16" name="color" value="16" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #0000FF;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-17">
+														<input type="radio" id="color-17" name="color" value="17" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #D70000;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-19">
+														<input type="radio" id="color-19" name="color" value="19" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #FFFFFF;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-8">
+														<input type="radio" id="color-8" name="color" value="8" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #FFFF00;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-20">
+														<input type="radio" id="color-20" name="color" value="20" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #AE730E;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-15">
+														<input type="radio" id="color-15" name="color" value="15" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #000000;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-10">
+														<input type="radio" id="color-10" name="color" value="10" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #7F1734;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+												<li class="colours float-left">
+													<div class="d-inline-block text-center dot-wrapper">
+														<label for="color-18">
+														<input type="radio" id="color-18" name="color" value="18" onchange="this.form.submit()">
+															
+															<span class="dot" style="background-color: #E1E1E1;"></span>
+					
+														</label>
+													</div>
+												</li>
+											
+										</ul>
+									</div>
+								
+								
+					
+								
+					
+							
+								
+								<div class="widget widget-collapsible">
+									<h3 class="widget-title">Matère<span style="height: 10px;" class="toggle-btn"></span></h3>
+									<ul class="widget-body filter-items">
+										 
+										<li>
+											<input type="checkbox" name="size_exist" id="value-Cuir" value="Cuir" class="custom-checkbox" onchange="this.form.submit()">
+											<label class="form-control-label" for="value-Cuir">Cuir</label>
+										</li>
+										 
+									</ul>
+								</div>
+								
+								<div class="widget widget-collapsible">
+									<h3 class="widget-title">Taille<span style="height: 10px;" class="toggle-btn"></span></h3>
+									<ul class="widget-body filter-items">
+										 
+										<li>
+											<input type="checkbox" name="size_exist" id="value-32" value="32" class="custom-checkbox" onchange="this.form.submit()">
+											<label class="form-control-label" for="value-32">32</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-34" value="34" class="custom-checkbox" onchange="this.form.submit()">
+											<label class="form-control-label" for="value-34">34</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-36" value="36" class="custom-checkbox" onchange="this.form.submit()">
+											<label class="form-control-label" for="value-36">36</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-38" value="38" class="custom-checkbox" onchange="this.form.submit()">
+											<label class="form-control-label" for="value-38">38</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-40" value="40" class="custom-checkbox" onchange="this.form.submit()">
+											<label class="form-control-label" for="value-40">40</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-42" value="42" class="custom-checkbox" onchange="this.form.submit()">
+											<label class="form-control-label" for="value-42">42</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-XS" value="XS" class="custom-checkbox" onchange="this.form.submit()">
+											<label class="form-control-label" for="value-XS">XS</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-S" value="S" class="custom-checkbox" onchange="this.form.submit()">
+											<label class="form-control-label" for="value-S">S</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-M" value="M" class="custom-checkbox" onchange="this.form.submit()">
+											<label class="form-control-label" for="value-M">M</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-L" value="L" class="custom-checkbox" onchange="this.form.submit()">
+											<label class="form-control-label" for="value-L">L</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-XL" value="XL" class="custom-checkbox" onchange="this.form.submit()">
+											<label class="form-control-label" for="value-XL">XL</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-2XL" value="2XL" class="custom-checkbox" onchange="this.form.submit()">
+											<label class="form-control-label" for="value-2XL">2XL</label>
+										</li>
+										 
+									</ul>
+								</div>
+								
+							
+					
+								
+								
+					
+						
+					
 							</div>
-						</div>
-
-						<div class="filter-color p-t-22 p-b-50 bo3">
-							<div class="m-text15 p-b-12">
-								Color
-							</div>
-
-							<ul class="flex-w">
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter1" type="checkbox" name="color-filter1">
-									<label class="color-filter color-filter1" for="color-filter1"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter2" type="checkbox" name="color-filter2">
-									<label class="color-filter color-filter2" for="color-filter2"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter3" type="checkbox" name="color-filter3">
-									<label class="color-filter color-filter3" for="color-filter3"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter4" type="checkbox" name="color-filter4">
-									<label class="color-filter color-filter4" for="color-filter4"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter5" type="checkbox" name="color-filter5">
-									<label class="color-filter color-filter5" for="color-filter5"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter6" type="checkbox" name="color-filter6">
-									<label class="color-filter color-filter6" for="color-filter6"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter7" type="checkbox" name="color-filter7">
-									<label class="color-filter color-filter7" for="color-filter7"></label>
-								</li>
-							</ul>
-						</div>
-
-						<div class="search-product pos-relative bo4 of-hidden">
-							<input class="s-text7 size6 p-l-23 p-r-50" type="text" name="search-product" placeholder="Search Products...">
-
-							<button class="flex-c-m size5 ab-r-m color2 color0-hov trans-0-4">
-								<i class="fs-12 fa fa-search" aria-hidden="true"></i>
-							</button>
-						</div>
-					</div>
+						</form>
+					</aside>
 				</div>
 
 				<div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
 					<!--  -->
 					<div class="flex-sb-m flex-w p-b-35">
-						<div class="flex-w">
-						
-							<div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10" >
-								<select class="selection-2" name="sorting">
-									<option>Default Sorting</option>
-									<option>Popularity</option>
-									<option>Price: low to high</option>
-									<option>Price: high to low</option>
-								</select>
-							</div>
-
-							<div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
-								<select class="selection-2" name="sorting">
-									<option>Price</option>
-									<option>$0.00 - $50.00</option>
-									<option>$50.00 - $100.00</option>
-									<option>$100.00 - $150.00</option>
-									<option>$150.00 - $200.00</option>
-									<option>$200.00+</option>
-
-								</select>
-							</div>
-						</div>
+						 
 
 						<span class="s-text8 p-t-5 p-b-5">
-							Showing 1–12 of 16 results
+							Showing {{object_list|length}} of 9 results
 						</span>
 					</div>
 
 					<!-- Product -->
-					<div class="row">
-						{% for item in object_list %}
-						<div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-							<!-- Block2 -->
-							<div class="block2">
-								<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-									<img src="{{ item.image.url }}" alt="IMG-PRODUCT" 
-								style="height: 360px;">
-
-									<div class="block2-overlay trans-0-4">
-										<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-											<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-											<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-										</a>
-
-										<div class="block2-btn-addcart w-size1 trans-0-4">
-											<!-- Button -->
-											<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-												Add to Cart
-											</button>
+					<div class="row cols-2 cols-sm-3 product-wrapper">
+						{% for product in object_list %}
+						<div class="product product-classic">
+							<figure class="product-media">
+								<a href="/product/{{product.slug}}">
+									
+										<img src="{{product.image.url}}" loading="lazy" alt="Product image" width="300" height="338">
+									
+								</a>
+								<div class="product-action-vertical">
+									
+										 
+						
+						
+						<a id="wishHeart" hx-get="/fr/wishlistadd/42996" hx-target="this" hx-swap="outerHTML" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait"><img src="/static/images/VSC.svg"></a>
+						 	
+								</div>
+								
+										<div class="product-action  justify-content-end">
+											{% if  product.article_id|filtered_and_length:"," > 1 %}
+				<div class="product-color__badge--wheel img">
+					<div class="color-options">
+						<div>
+							
+							<span class="color-option"></span>
+							
+							<span class="color-option"></span>
+							 
+							 
+							
+					</div>
+					<span class="color-variant-count">
+						{% if  product.article_id|filtered_and_length:"," > 1 %}
+							{{product.article_id|filtered_and_length:","}}
+						{% endif %}
+							 
+					</span></div>
+				</div>
+				 
+			{% endif %}
+											
 										</div>
+								
+								<div class="product-label-group">
+									
+										
+										<label class="product-label label-top">{{product.get_label_display}}</label>
+										 
+								</div>  
+							</figure>
+							<div class="product-details">
+								<h3 class="product-name">
+									<a href="/{{product.slug}}">{{product.title}}</a>
+								</h3>
+								<div class="product-price d-flex justify-content-between">
+									<div>
+										
+										{% if product.price > product.discount_price %}
+										<del class="old-price old-price-block">&nbsp;{{product.price}} DA</del>
+										 &nbsp; 
+										<ins class="new-price price-block">{{product.discount_price}}DA</ins>
+										{% else %}
+
+										<ins class="new-price price-block">{{product.price}}DA</ins>
+										{% endif %}
 									</div>
+									
 								</div>
-
-								<div class="block2-txt p-t-20">
-									<a href="{{item.get_absolute_url}}" class="block2-name dis-block s-text3 p-b-5">
-										{{item.title}}
-									</a>
-
-									<span class="block2-price m-text6 p-r-5">
-										${{item.price}}
-									</span>
-								</div>
+								
+						
 							</div>
 						</div>
 						{% endfor %}
@@ -235,6 +530,55 @@
 			</div>
 		</div>
 	</section>
+
+	<script>
+		var search_page=window.location.search.replaceAll("?","").split("&")
+		window.onload = function(){
+
+			$("input[name=price_range]").on("click",function(e){
+				e.preventDefault() ;
+				var range = $(this).next(0).text().replaceAll(" ","").toLowerCase().replaceAll("dzd","").split("-")
+				if(!range[0].includes("+")){
+					$("input[name=start_price]")[0].value = range[0]
+					$("input[name=end_price]")[0].value = range[1]
+				}else{
+					$("input[name=start_price]")[0].value = range[0].replace("+","")
+				}
+
+				$(".price-btn-f")[0].click()
+				
+			})
+
+
+			search_page.forEach(element => {
+				var keyval =element.split("=")
+				var key = keyval[0]
+				var val = keyval[1]
+				if(key == "gender" || key == "price_range" ){
+					$(`input[name=${key}][value=${val}]`).prop("checked",true)
+				 
+					$(`input[name=${key}][value=${val}]`).on("click",function() {
+						// Toggle the checked state of the checkbox
+						$(this).prop("checked", !$(this).prop("checked"));
+					});
+				}
+				if(key == "atribute" ){
+					$("#value-"+val).prop("checked",true)
+
+				}
+
+				if(key=="start_price" || key=="end_price"){
+
+					
+					$(`input[name=${key}]`).each(function(){
+						$(this).val(val)
+					})
+				}
+				
+			});
+			
+		}
+	 </script>
 
 
 		{% endblock content %}

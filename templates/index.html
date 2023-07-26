@@ -2,8 +2,10 @@
 {% load static %}
 {% load category_template_tags %}
 {% load slide_template_tags %}
+{% load custom_filters %}
 {% block content %}
 <style>
+
 	/*[ Block2 ]
 ///////////////////////////////////////////////////////////
 */
@@ -67,6 +69,7 @@
 			<div class="slick1">
 
 				{% slides %}
+				
 
 				<!-- <div class="item-slick1 item2-slick1" style="background-image: url({% static 'images/master-slide-03.webp' %});">-->
 <!--					<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">-->
@@ -88,7 +91,110 @@
 			</div>
 		</div>
 	</section>
+	<section class="banner-group  pt-11 ">
+		<div class="container">
+			
+			<div class="row">
+				
+					<div class="col-md-6 mb-4" style="padding: 20px;" >
+						<div class="banner banner-fixed overlay-dark appear-animate fadeIn appear-animation-visible" style="background-color: rgb(239, 240, 244); animation-duration: 1.2s;">
+							<a role="button">
+								<figure>
+									<img src="{% static 'images/rev.png' %}" alt="banner" loading="lazy">
+								</figure>
+							</a>
+						</div>
+					</div>
+				
+					<div class="col-md-6 mb-4"  style="padding: 20px;">
+						<div class="banner banner-fixed overlay-dark appear-animate fadeIn appear-animation-visible" style="background-color: rgb(239, 240, 244); animation-duration: 1.2s;">
+							<a role="button">
+								<figure>
+									<img src="{% static 'images\bekini.png' %}" alt="banner" loading="lazy">
+								</figure>
+							</a>
+						</div>
+					</div>
+				
+			</div>
 
+			<div class="categories owl-carousel owl-nav-full owl-theme appear-animate mb-4 owl-loaded owl-drag fadeInUpShorter appear-animation-visible" data-animation-options="{'name': 'fadeInUpShorter', 'delay': '.4s'}" data-owl-options="{
+				'items': 3,
+				'margin': 20,
+				'dots': false,
+				'autoplay': true,
+				'responsive': {
+					'0': {
+						'items': 1
+					},
+					'576': {
+						'items': 2
+					},
+					'992': {
+						'items': 3
+					}
+				}
+			}" style="animation-duration: 1.2s;">
+			
+			
+			<div class="owl-stage-outer"><div class="owl-stage"></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i class="d-icon-angle-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="d-icon-angle-right"></i></button></div><div class="owl-dots disabled"></div></div>
+		</div>
+	</section>
+	<section class="container mb-8">
+		<br>
+		<h2 class="title with-link appear-animate mb-5 text-center fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;margin-left: 10px;text-transform: uppercase;">Catégorie</h2> 
+	   <div class="owl-carousel owl-theme owl-nav-inner mb-8 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
+		   'nav': false,
+		   'loop':false
+		   'dots': true,
+		   'margin': 20,
+		   'responsive': {
+			   '0': {
+				   'items': 2
+			   },
+			   '576': {
+				   'items': 4
+			   },
+			   '768': {
+				   'items': 4
+			   },
+			   '992': {
+				   'items': 5
+			   },
+			   '1200': {
+				   'items': 8
+			   }
+		   }
+	   }" style="animation-duration: 1.2s;">
+ 
+	<div class="owl-stage-outer">
+		<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 809px;">
+			{% for category in category %}
+			<div class="owl-item category{% if forloop.counter <= 4 %} active{% endif %}" style="width: 182.2px; margin-right: 20px;">
+				<div class="category-wrap mb-4 ">
+							   <div class="category category-default1 category-absolute">
+								   <a href="/category/{{category.slug}}">
+									   <div class="container" style="width:auto;">
+										   <figure>
+											   <img class="circular-category-image" src={{category.image.url}} alt="Category" loading="lazy">
+										   </figure>
+									   </div>
+									   <p style="text-align: center; "> {{category.title}} </p>
+									</a>
+									<p><a href="/produits/?category=2"></a></p>
+								</div>
+				</div>
+			</div>
+			{% endfor %}
+			
+		
+		</div>
+	</div>
+				<div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i class="d-icon-angle-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="d-icon-angle-right"></i></button></div><div class="owl-dots disabled"><button role="button" class="owl-dot active"><span></span></button></div></div>
+   </section>
+	
+
+	
 	<!-- Category start -->
 	<style>
 		.hov1{
@@ -96,12 +202,13 @@
 			color: black !important;
 			
 		}
+		 
 	</style>
-	<section class="banner bgwhite p-t-40 p-b-40">
+	<!-- <section class="banner bgwhite p-t-40 p-b-40">
 		<div class="container">
-			<div class="row">
+			<div class="row"> -->
 
-				{% categories_div %}
+			 
 
 <!--				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">-->
 <!--					-->
@@ -128,9 +235,9 @@
 
 
 
-			</div>
+			<!-- </div>
 		</div>
-	</section>
+	</section> -->
 
 	<!-- New Product -->
 	<style>
@@ -139,76 +246,7 @@
 			padding-bottom: 2px;
 		}
 	</style>
-	<section class="newproduct bgwhite p-t-45 p-b-105">
-		<div class="container">
-			<div class="sec-title p-b-60">
-				<h3 class="m-text5 t-center">
-					Featured Products
-				</h3>
-			</div>
-
-			<!-- Slide2 -->
-			<div class="wrap-slick2">
-				<div class="slick2">
-
-					{% for item in object_list %}
-					
-					<div class="item-slick2 p-l-15 p-r-15">
-						<!-- Block2 -->
-						<div class="block2">
-							
-							<div class="block2-img wrap-pic-w of-hidden pos-relative block2-label{{item.get_label_display}}">
-								<a href="{{item.get_absolute_url}}">
-								<img src="{{ item.image.url }}" alt="IMG-PRODUCT" 
-								style="height: 370px; width:100%; "></a>
-							   
-
-								<!-- <div class="block2-overlay trans-0-4">
-									<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-										<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-										<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-									</a>
-	
-									
-								</div> -->
-							</div>
-							
-
-							<div class="block2-txt p-t-20">
-								<a href="{{item.get_absolute_url}}" class="block2-name dis-block s-text3 p-b-5" style="color: black;">
-									{{ item.title }}
-								</a>
-
-								{% if item.discount_price %}
-								<span class="block2-oldprice m-text7 p-r-5" style="color: black;">
-									${{ item.price }}
-								</span>
-
-								<span class="block2-newprice m-text8 p-r-5">
-									${{ item.discount_price }}
-								</span>
-								{% else %}
-								<span class="block2-price m-text6 p-r-5" style="color: black;">
-									${{ item.price }}
-								</span>
-								{% endif %}
-								
-
-								
-							</div>
-							
-						</div>
-					</div>
-				
-					{% endfor %}
-
-					
-				
-				</div>
-			</div>
-
-		</div>
-	</section>
+	 
 
 	<!-- ------------------Banner2  start ------------------------>
 	<style>
@@ -242,19 +280,29 @@
 	
 		}
 	</style>
-	<section class="banner2 bg5 p-t-55 p-b-55">
-		<h4 style="font-weight: 500;">Season's Essentials</h4>
+	<section class="banner2 bg5">
+		
+		<h4 class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" style="text-transform: uppercase;">Season's Essentials</h4>
 		<div class="">
-			<div class="row">
-				<div class="col-sm-10 col-md-8 col-lg-6 m-l-r-auto p-t-15 p-b-15">
-					<div class="pos-relative">
-						<img src="https://static.nike.com/a/images/f_auto/dpr_2.0/h_700,c_limit/c85699cb-2813-4acd-8822-c3344fe07f17/nike-just-do-it.jpg" alt="IMG-BANNER" class="ban_img">
-
-						<div class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
+			<div class="row" style="height: 500px;">
+				<div style="height: 430px;padding-right: 5px;"   class="essential col-sm-10 col-md-8 col-lg-3 m-l-r-auto p-t-15 p-b-15">
+					<div style="height: 430px;" class="pos-relative">
+						<img style="height: 430px;" src="https://static.nike.com/a/images/f_auto/dpr_2.0/h_700,c_limit/c85699cb-2813-4acd-8822-c3344fe07f17/nike-just-do-it.jpg" alt="IMG-BANNER" class="ban_img">
+						<div style="position: absolute;
+						width: 50px;
+						height: 50px;
+						top: 10px;
+						left: 10px;
+						font-family: Montserrat-Bold;
+						font-size: 22px;
+						color: white;
+						line-height: 1.2;">homewear</div>
+						<div style="height: 430px;" class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
 							<br><br><br><br><br>
 							<br><br><br><br><br>
-							<span class="m-text9 p-t-45 fs-20-sm">
-								Bold, Brights Looks
+							<span class="m-text9 p-t-240  fs-20-sm">
+								<span style="font-size: 23px;">à partir <br> de</span> 
+								<span style="font-weight: bolder;">1990</span><sup>DA</sup>
 							</span>
 
 							<br>
@@ -271,9 +319,9 @@
 					</div>
 				</div>
 
-				<div class="col-sm-10 col-md-8 col-lg-6 m-l-r-auto p-t-15 p-b-15">
-					<div class="pos-relative">
-						<img src="https://static.nike.com/a/images/f_auto/dpr_2.0/h_700,c_limit/3d8a771b-0fd0-49b0-a9ad-1c688b192bf9/nike-just-do-it.jpg"  alt="IMG-BANNER" class="ban_img">
+				<div style="height: 430px;padding-left: 5px;padding-right: 5px;"   class="essential col-sm-10 col-md-8 col-lg-3 m-l-r-auto p-t-15 p-b-15">
+					<div style="height: 430px;" class="pos-relative">
+						<img style="height: 430px;" src="https://static.nike.com/a/images/f_auto/dpr_2.0/h_700,c_limit/3d8a771b-0fd0-49b0-a9ad-1c688b192bf9/nike-just-do-it.jpg"  alt="IMG-BANNER" class="ban_img">
 
 						<div class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
 							<br><br><br><br><br>
@@ -295,7 +343,54 @@
 						</div>
 					</div>
 				</div>
+				<div style="height: 430px; padding-left: 5px;padding-right: 5px;"   class="essential col-sm-10 col-md-8 col-lg-3 m-l-r-auto p-t-15 p-b-15">
+					<div style="height: 430px;" class="pos-relative">
+						<img style="height: 430px;" src="https://static.nike.com/a/images/f_auto/dpr_2.0/h_700,c_limit/c85699cb-2813-4acd-8822-c3344fe07f17/nike-just-do-it.jpg" alt="IMG-BANNER" class="ban_img">
 
+						<div style="height: 430px;" class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
+							<br><br><br><br><br>
+							<br><br><br><br><br>
+							<span class="m-text9 p-t-45 fs-20-sm">
+								Bold, Brights Looks
+							</span>
+
+							<br>
+							
+
+								<div class="wrap-btn-slide1 w-size1 animated" data-appear="slideInUp">
+						
+							<a href="/shop/" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite  trans-0-4">
+								Shop Now
+							</a>
+						</div>
+
+						</div>
+					</div>
+				</div>
+				<div style="height: 430px;padding-left: 5px;"   class="essential col-sm-10 col-md-8 col-lg-3 m-l-r-auto p-t-15 p-b-15">
+					<div style="height: 430px;" class="pos-relative">
+						<img style="height: 430px;" src="https://static.nike.com/a/images/f_auto/dpr_2.0/h_700,c_limit/3d8a771b-0fd0-49b0-a9ad-1c688b192bf9/nike-just-do-it.jpg"  alt="IMG-BANNER" class="ban_img">
+
+						<div class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
+							<br><br><br><br><br>
+							<br><br><br><br><br>
+							<span class="m-text9 p-t-45 fs-20-sm">
+								Stay Active
+							</span>
+
+							<br>
+							
+
+								<div class="wrap-btn-slide1 w-size1 animated" data-appear="slideInUp">
+						
+							<a href="/shop/" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite  trans-0-4">
+								Shop Now
+							</a>
+						</div>
+
+						</div>
+					</div>
+				</div>
 			
 			</div>
 		</div>
@@ -312,106 +407,20 @@
 	}
 </style>
 <br><br>
-<section class="slide1">
-
-	
-	<div class="wrap-slick2">
-		<div class="slick1">
-			
-		
-	
-			
-
-			<div class="item-slick1 item2-slick1" style="background-image: url('https://static.nike.com/a/images/f_auto/dpr_2.0/w_1407,c_limit/a01665bf-08e7-4d5d-8fb6-841382e3f900/nike-just-do-it.jpg');">
-					<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
-						<span class="caption1-slide1 m-text1 t-center   m-b-15" data-appear="rollIn">
-							Nike ZoomX Vaporfly NEXT%
-						</span>
-						<h2 class="caption2-slide1 xl-text1 t-center   m-b-37" data-appear="lightSpeedIn">
-							FAST IS BACK
-						</h2>
-						<div class="wrap-btn-slide1 w-size1 " data-appear="slideInUp">
-							
-							<a href="/shop/" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
-								Shop Now
-							</a>
-						</div>
-					</div>
-				</div>
-
-		</div>
-	</div>
-</section>
+ 
 
 <!-- ------------------Banner4  end ------------------------>
 
 	<!-- ------------------Banner3  start ------------------------>
 
-	<section class="banner2 bg5 p-t-55 p-b-55">
-		<h4 style="font-weight: 500;">Training's Essentials</h4>
-		<div class="">
-			<div class="row">
-				<div class="col-sm-10 col-md-8 col-lg-6 m-l-r-auto p-t-15 p-b-15">
-					<div class="pos-relative">
-						<img src="https://static.nike.com/a/images/f_auto/dpr_2.0/h_700,c_limit/24fb4f53-ba07-46fa-934e-bcb35b0cc021/nike-just-do-it.jpg" alt="IMG-BANNER" class="ban_img">
 
-						<div class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
-							<br><br><br><br><br>
-							<br><br><br><br><br>
-							<span class="m-text9 p-t-45 fs-20-sm">
-								SuperRe Go
-							</span>
-
-							<br>
-							
-
-								<div class="wrap-btn-slide1 w-size1 animated" data-appear="slideInUp">
-						
-							<a href="/shop/" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite  trans-0-4">
-								Shop Now
-							</a>
-						</div>
-
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-10 col-md-8 col-lg-6 m-l-r-auto p-t-15 p-b-15">
-					<div class="pos-relative">
-						<img src="https://static.nike.com/a/images/f_auto/dpr_2.0/h_700,c_limit/f33275db-0cbb-406a-8ac9-430ff07433b7/nike-just-do-it.jpg"  alt="IMG-BANNER" class="ban_img">
-
-						<div class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
-							<br><br><br><br><br>
-							<br><br><br><br><br>
-							<span class="m-text9 p-t-45 fs-20-sm" style="color: black;">
-								Bras and Leggings
-							</span>
-
-							<br>
-							
-
-								<div class="wrap-btn-slide2 w-size1 animated" data-appear="slideInUp">
-						
-							<a href="/shop/" class="flex-c-m size2 bo-rad-23 s-text2  trans-0-4" style="background-color: black; color:white;">
-								Shop Now
-							</a>
-						</div>
-
-						</div>
-					</div>
-				</div>
-
-			
-			</div>
-		</div>
-	</section>
 	<!-- ------------------Banner3  end ------------------------>
 
 	<!-- ------------------Banner5  start ------------------------>
 
-	<section class="banner2 bg5 p-t-55 p-b-55">
-		<h4 style="font-weight: 500;">More Products</h4>
-		<div class="">
+	<!-- <section class="banner2 bg5 p-t-55 p-b-55">
+		<h4 class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" style="text-transform: uppercase;">More Products</h4>
+		 <div class="">
 			<div class="row">
 				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto p-t-15 p-b-15">
 					<div class="pos-relative">
@@ -485,8 +494,412 @@
 				</div>
 			
 			</div>
+		</div> 
+		<div class="owl-stage-outer">
+			<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); 
+			transition: all 3s ease 0s; width: 5814px;">
+			
+			 
+			<div class="owl-item active" style="width: 247px !important; margin-right: 10px;">
+				<div class="product product-classic">
+<figure class="product-media">
+<a href="/fr/produits/manteau-noir-oversize-en-laine353692861/">
+	
+		<img src="media/banner-02.webp" loading="lazy" alt="Manteau Noir  Oversize en Laine  image" width="300" height="338">
+	
+</a>
+<div class="product-action-vertical">
+	
+		 
+
+
+<a id="wishHeart" hx-get="/fr/wishlistadd/873" hx-target="this" hx-swap="outerHTML" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait"><img src="/static/images/VSC.svg"></a>
+
+
+	 
+	
+		
+			
+		
+</div>
+
+		<div class="product-action  justify-content-end">
+			<div class="product-color-qt">
+				<div class="product-color__badge--wheel img"><img src="/static/images/color.png"></div>
+				<div class="text-color-block">
+					<p style="margin:0"> 1</p>
+				</div>
+			</div>
 		</div>
+
+<div class="product-label-group">
+	
+		
+		<label class="product-label label-top">Nouveau</label>
+	 
+</div>  
+</figure>
+<div class="product-details">
+<h3 class="product-name">
+	<a href="/fr/produits/manteau-noir-oversize-en-laine353692861/">Manteau Noir  Oversize en Laine </a>
+</h3>
+<div class="product-price d-flex justify-content-between">
+	<div>
+		
+		
+		<del class="old-price old-price-block">5&nbsp;700 DA</del>
+		 &nbsp; 
+		<ins class="new-price price-block">4&nbsp;900    DA</ins>
+	</div>
+	
+</div>
+
+
+</div>
+</div>
+			</div> 
+			
+			<div class="owl-item active" style="width: 247px !important; margin-right: 20px;">
+				<div class="product product-classic">
+<figure class="product-media">
+<a href="/fr/produits/manteau-noir-oversize-en-laine353692861/">
+	
+		<img src="media/banner-02.webp" loading="lazy" alt="Manteau Noir  Oversize en Laine  image" width="300" height="338">
+	
+</a>
+<div class="product-action-vertical">
+	
+		 
+
+
+<a id="wishHeart" hx-get="/fr/wishlistadd/873" hx-target="this" hx-swap="outerHTML" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait"><img src="/static/images/VSC.svg"></a>
+
+
+	 
+	
+		
+			
+		
+</div>
+
+		<div class="product-action  justify-content-end">
+			<div class="product-color-qt">
+				<div class="product-color__badge--wheel img"><img src="/static/images/color.png"></div>
+				<div class="text-color-block">
+					<p style="margin:0"> 1</p>
+				</div>
+			</div>
+		</div>
+
+<div class="product-label-group">
+	
+		
+		<label class="product-label label-top">Nouveau</label>
+	 
+</div>  
+</figure>
+<div class="product-details">
+<h3 class="product-name">
+	<a href="/fr/produits/manteau-noir-oversize-en-laine353692861/">Manteau Noir  Oversize en Laine </a>
+</h3>
+<div class="product-price d-flex justify-content-between">
+	<div>
+		
+		
+		<del class="old-price old-price-block">5&nbsp;700 DA</del>
+		 &nbsp; 
+		<ins class="new-price price-block">4&nbsp;900    DA</ins>
+	</div>
+	
+</div>
+
+
+</div>
+</div>
+			</div> 
+			 
+			 
+			 
+			 
+			 
+		 
+			 
+
+</div>
+
+		</div>
+	</section> -->
+	<section class="container  ">
+		<script>
+	$(function() {
+  // Owl Carousel
+  var owl = $(".owl-carousel");
+  owl.owlCarousel({
+    items: 4,
+    margin: 0,
+    loop: true,
+    nav: true
+  });
+});
+		</script>
+		<h2 style="padding-left: 10px;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">NOUVEAUTÉS</h2>
+		<div class="owl-carousel owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
+			'nav': true,
+			'dots': true,
+			'margin': 10,
+			'responsive': {
+				'0': {
+					'items': 4
+				},
+				'576': {
+					'items': 4
+				},
+				'768': {
+					'items': 4
+				},
+				'992': {
+					'items': 4
+				},
+				'1200': {
+					'items': 5
+				}
+			}
+		}" style="animation-duration: 1.2s;">
+			
+ 	
+		<div class="owl-stage-outer">
+			<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); 
+			transition: all 3s ease 0s; width: 5814px;">
+			
+			  
+			{% for new_item in new_items %}
+			
+			<div class="owl-item new_item{% if forloop.counter <= 4 %} active{% endif %}" style="width: 247px !important; margin-right: 20px;">
+				<div class="product product-classic">
+				<figure class="product-media">
+				<a href="/product/{{new_item.slug}}">
+					
+						<img style="width: 100%; height: 100%;" src={{new_item.image.url}} loading="lazy" alt="Manteau Noir  Oversize en Laine  image" width="300" height="338">
+					
+				</a>
+			<div class="product-action-vertical">
+	 
+			<a id="wishHeart" hx-get="/fr/wishlistadd/873" hx-target="this" hx-swap="outerHTML" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+				<img src="/static/images/VSC.svg">
+			</a>		
+			</div>
+
+		<div class="product-action  justify-content-end">
+			{% if  new_item.article_id|filtered_and_length:"," > 1 %}
+				<div class="product-color__badge--wheel img">
+					<div class="color-options">
+						<div>
+							
+							<span class="color-option"></span>
+							
+							<span class="color-option"></span>
+							 
+							 
+							
+					</div>
+					<span class="color-variant-count">
+						{% if  new_item.article_id|filtered_and_length:"," > 1 %}
+							{{new_item.article_id|filtered_and_length:","}}
+						{% endif %}
+							 
+					</span></div>
+				</div>
+				 
+			{% endif %}
+		</div>
+
+<div class="product-label-group">
+	
+		
+		<label class="product-label label-top">{{new_item.get_label_display }}</label>
+	 
+</div>  
+</figure>
+<div class="product-details">
+<h3 class="product-name">
+	<a href="/product/{{new_item.slug}}">{{new_item.title}} </a>
+</h3>
+<div class="product-price d-flex justify-content-between">
+	<div>
+		
+		{% if new_item.price > new_item.discount_price %}
+		<del class="old-price old-price-block">&nbsp;{{new_item.price}} DA</del>
+		 &nbsp; 
+		<ins class="new-price price-block">{{new_item.discount_price}}DA</ins>
+		{% else %}
+
+		<ins class="new-price price-block">{{new_item.price}}DA</ins>
+{% endif %}
+	</div>
+	
+</div>
+
+
+</div>
+</div>
+			</div> 
+			{% endfor %}
+			 
+			 
+			 
+			 
+			 
+		 
+			 
+
+</div>
+
+		</div>
+		 
 	</section>
+	<section class="container  ">
+		<script>
+	$(function() {
+  // Owl Carousel
+  var owl = $(".owl-carousel");
+  owl.owlCarousel({
+    items: 4,
+    margin: 0,
+    loop: true,
+    nav: true
+  });
+});
+		</script>
+		{% if most_sale %}
+		<h2 style="padding-left: 10px;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">PRODUITS LES PLUS VENDUS</h2>
+		{% endif %}
+		<div class="owl-carousel owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
+			'nav': true,
+			'dots': true,
+			'loop':false,
+			'margin': 10,
+			'responsive': {
+				'0': {
+					'items': 4
+				},
+				'576': {
+					'items': 4
+				},
+				'768': {
+					'items': 4
+				},
+				'992': {
+					'items': 4
+				},
+				'1200': {
+					'items': 5
+				}
+			}
+		}" style="animation-duration: 1.2s;">
+			
+ 	
+		<div class="owl-stage-outer">
+			<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); 
+			transition: all 3s ease 0s; width: 5814px;">
+			
+			{% for new_item in most_sale %}
+			
+			<div class="owl-item new_item{% if forloop.counter <= 4 %} active{% endif %}" style="width: 247px !important; margin-right: 20px;">
+				<div class="product product-classic">
+				<figure class="product-media">
+				<a href="/product/{{new_item.slug}}">
+					
+						<img style="width: 100%; height: 100%;" src={{new_item.image.url}} loading="lazy" alt="Manteau Noir  Oversize en Laine  image" width="300" height="338">
+					
+				</a>
+			<div class="product-action-vertical">
+	 
+			<a id="wishHeart" hx-get="/fr/wishlistadd/873" hx-target="this" hx-swap="outerHTML" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+				<img src="/static/images/VSC.svg">
+			</a>		
+			</div>
+
+		<div class="product-action  justify-content-end">
+			{% if  new_item.article_id|filtered_and_length:"," > 1 %}
+				<div class="product-color__badge--wheel img">
+					<div class="color-options">
+						<div>
+							
+							<span class="color-option"></span>
+							
+							<span class="color-option"></span>
+							 
+							 
+							
+					</div>
+					<span class="color-variant-count">
+						{% if  new_item.article_id|filtered_and_length:"," > 1 %}
+							{{new_item.article_id|filtered_and_length:","}}
+						{% endif %}
+							 
+					</span></div>
+				</div>
+				 
+			{% endif %}
+		</div>
+
+<div class="product-label-group">
+	
+		
+		<label class="product-label label-top">{{new_item.get_label_display }}</label>
+	 
+</div>  
+</figure>
+<div class="product-details">
+<h3 class="product-name">
+	<a href="/product/{{new_item.slug}}">{{new_item.title}} </a>
+</h3>
+<div class="product-price d-flex justify-content-between">
+	<div>
+		
+		{% if new_item.price > new_item.discount_price %}
+										<del class="old-price old-price-block">&nbsp;{{new_item.price}} DA</del>
+										 &nbsp; 
+										<ins class="new-price price-block">{{new_item.discount_price}}DA</ins>
+										{% else %}
+
+										<ins class="new-price price-block">{{new_item.price}}DA</ins>
+		{% endif %}
+	</div>
+	
+</div>
+
+
+</div>
+</div>
+			</div> 
+			{% endfor %}
+			 
+			 
+			 
+			 
+		 
+			 
+
+</div>
+
+		</div>
+		 
+	</section>
+<script>
+	const dots = document.getElementsByClassName("owl-dot");
+Array.from(dots).forEach((ele) => {
+  ele.addEventListener("click", function(e) {
+	const siblings = Array.from(ele.parentNode.children);
+    siblings.forEach((sibling) => {
+      sibling.classList.remove("active");
+    });
+    
+    // Add the class to the clicked element
+    ele.classList.add("active");
+  });
+});
+</script>
 	<!-- ------------------Banner2  start ------------------------>
 
 
@@ -494,36 +907,50 @@
 	
 
 	<!-- Shipping -->
-	<section class="shipping bgwhite p-t-62 p-b-46">
-		<div class="flex-w p-l-15 p-r-15">
-			<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1">
-				<h4 class="m-text12 t-center">
-					Free Delivery Worldwide
-				</h4>
-
-				<a href="#" class="s-text11 t-center">
-					Click here for more info
-				</a>
-			</div>
-
-			<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 bo2 respon2">
-				<h4 class="m-text12 t-center">
-					30 Days Return
+	 
+	<section class="shipping bgwhite p-t-62 p-b-20">
+		<div  class="flex-w p-l-15 p-r-15">
+			<div  style="display: flex;flex-direction: row;" class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1">
+				<div style="margin-left: 26px;">			
+					<i style="scale: 3.1;" class="icon-box-icon d-icon-truck"></i>
+				</div>
+				<div style="margin-left: 40px;"><h4 class="m-text12 t-center">
+					Livraison
 				</h4>
 
 				<span class="s-text11 t-center">
-					Simply return it within 30 days for an exchange.
-				</span>
+					Livraison Gratuite pour achat de 8000 DA et plus
+				</span></div>
+				 
+
+				 
 			</div>
 
-			<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1">
-				<h4 class="m-text12 t-center">
-					Store Opening
+
+			
+			<div style="display: flex;flex-direction: row;" class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 bo2 respon2">
+				<div style="margin-left: 26px;">			
+					<i style="scale: 2.6;" class="icon-box-icon d-icon-service"></i>
+				</div>
+				<div style="margin-left: 40px;"><h4 class="m-text12 t-center">
+					Service
 				</h4>
 
 				<span class="s-text11 t-center">
-					Shop open from Monday to Sunday
-				</span>
+					Service client 24/7
+				</span></div>
+			</div>
+			 
+			<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1"  style="display: flex;flex-direction: row;">
+				<div style="margin-left: 26px;">				<i class="icon-box-icon d-icon-secure" style="scale: 2.6;"></i>
+				</div>
+				<div style="margin-left: 40px;"><h4 class="m-text12 t-center">
+					Paiement
+				</h4>
+
+				<span class="s-text11 t-center">
+					Paiement sécurisé 100%
+				</span></div>
 			</div>
 		</div>
 	</section>

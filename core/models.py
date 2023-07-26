@@ -3,6 +3,10 @@ from django.db import models
 from django.db.models import Sum
 from django.shortcuts import reverse
 from django_countries.fields import CountryField
+from django.core.validators import MaxValueValidator
+from multiupload.fields import MultiImageField
+
+
 
 # Create your models here.
 CATEGORY_CHOICES = (
@@ -17,6 +21,14 @@ LABEL_CHOICES = (
     ('N', 'new'),
     ('P', 'promotion')
 )
+
+LABEL_CHOICES_GENDER=(
+    ('M', 'MALE'),
+    ('F', 'FEMALE'),
+    ('M-F', 'MALE-FEMALE'),
+    ('E', 'ENFANTS')
+)
+
 
 ADDRESS_CHOICES = (
     ('B', 'Billing'),
@@ -34,12 +46,16 @@ class Slide(models.Model):
     def __str__(self):
         return "{} - {}".format(self.caption1, self.caption2)
 
+
+
+
 class Category(models.Model):
     title = models.CharField(max_length=100)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     description = models.TextField()
     image = models.ImageField()
     is_active = models.BooleanField(default=True)
+     
 
     def __str__(self):
         return self.title
@@ -49,6 +65,9 @@ class Category(models.Model):
             'slug': self.slug
         })
 
+class ExcelFile(models.Model):
+    name = models.CharField(max_length=100)
+    file = models.FileField(upload_to='excel_files/')
 
 class Item(models.Model):
     title = models.CharField(max_length=100)
@@ -56,15 +75,48 @@ class Item(models.Model):
     discount_price = models.FloatField(blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     label = models.CharField(choices=LABEL_CHOICES, max_length=1)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True,max_length=100)
+    article_id=models.CharField(max_length=50)
     stock_no = models.CharField(max_length=10)
-    description_short = models.CharField(max_length=50)
+    description_short = models.CharField(max_length=100)
     description_long = models.TextField()
+    details = models.CharField(max_length=1500,default="{'color':'black'}")
+    tags=models.TextField()
+    rating = models.FloatField(blank=True, null=True, 
+    validators=[MaxValueValidator(limit_value=5.0)],
+        default=0.0)
+    gender=models.CharField(choices=LABEL_CHOICES_GENDER, max_length=3,default="M")
+    color_exist= models.CharField(max_length=250,default="",blank=True,null=True)
+    color_not_exist= models.CharField(max_length=250,default="",blank=True, null=True)
+    size_exist= models.CharField(max_length=250,default="34,36,38,40,42",blank=True,null=True)
+    size_not_exist= models.CharField(max_length=250, default="",blank=True,null=True)
+    wishlist_num = models.FloatField(blank=True, null=True,default=0.0)
+    opinion_num = models.FloatField(blank=True, null=True,default=0.0)
     image = models.ImageField()
+    
+    shipping= models.CharField(max_length=250)
+    has_coupon = models.BooleanField(default=False)
+    coupon_code = models.CharField(max_length=10, blank=True, null=True)
+    price_after_coupon= models.FloatField(blank=True, null=True)
+    show_coupon = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
+        self.color  = []
         return self.title
+    
+    def set_has_coupon(self, value):
+        self.has_coupon = value
+        if value:
+            # If has_coupon is True, set a default value for coupon_code
+            self.coupon_code = 'DEFAULT_COUPON_CODE'
+        else:
+            # If has_coupon is False, set coupon_code to None
+            self.coupon_code = None
+
+    def save(self, *args, **kwargs):
+        # You can add more logic here before saving the instance
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("core:product", kwargs={
@@ -81,6 +133,26 @@ class Item(models.Model):
             'slug': self.slug
         })
 
+     
+
+   
+ 
+
+
+class ImageItem(models.Model):
+    item= models.ForeignKey(Item, on_delete=models.CASCADE)
+    slug = models.SlugField( ) 
+    image= models.ImageField(upload_to="products/")
+
+    def get_absolute_url(self):
+        return reverse("core:imageitem", kwargs={
+            'slug': self.slug
+        })
+
+
+    def __str__(self):
+        return self.item.title
+    
 
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -194,3 +266,5 @@ class Refund(models.Model):
 
     def __str__(self):
         return f"{self.pk}"
+
+

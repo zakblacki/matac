@@ -1980,11 +1980,12 @@ li.sale-noti > a {
 */
 
 .wrap-slick3-dots {
-  width: 14.5%;
+  width: 18%;
 }
 
 .slick3 {
-  width: 80.64%;
+  width:78%;
+  height: 448px;
 }
 
 .slick3-dots li {
@@ -2347,3 +2348,9 @@ input.num-product::-webkit-inner-spin-button {
 }
 
 
+
+.owl-item{
+  padding-right: 10px;
+  padding-left: 10px;
+  
+}

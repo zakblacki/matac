@@ -180,6 +180,7 @@
 
     $('.js-toggle-dropdown-content').on('click', function(){
         $(this).toggleClass('show-dropdown-content');
+        console.log(this.children[0].classList.toggle("display-none"))
         $(this).parent().find('.dropdown-content').slideToggle('fast');
     });
 

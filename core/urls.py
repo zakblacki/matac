@@ -13,11 +13,13 @@ from .views import (
     RequestRefundView,
     CategoryView
 )
+from .views import *
 
 app_name = 'core'
 
 urlpatterns = [
-    path('', HomeView.as_view(), name='home'),
+    # path('', HomeView.as_view(), name='home'),
+    path('', index, name='home'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('category/<slug>/', CategoryView.as_view(), name='category'),
     path('product/<slug>/', ItemDetailView.as_view(), name='product'),
@@ -31,3 +33,6 @@ urlpatterns = [
     path('payment/<payment_option>/', PaymentView.as_view(), name='payment'),
     path('request-refund/', RequestRefundView.as_view(), name='request-refund')
 ]
+
+handler404 = 'core.views.custom_page_not_found_view'
+handler500 = 'core.views.custom_server_error_view'
