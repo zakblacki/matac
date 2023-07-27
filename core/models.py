@@ -51,7 +51,7 @@ class Slide(models.Model):
 
 class Category(models.Model):
     title = models.CharField(max_length=100)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True,max_length=190)
     description = models.TextField()
     image = models.ImageField()
     is_active = models.BooleanField(default=True)
@@ -75,7 +75,7 @@ class Item(models.Model):
     discount_price = models.FloatField(blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     label = models.CharField(choices=LABEL_CHOICES, max_length=1)
-    slug = models.SlugField(unique=True,max_length=100)
+    slug = models.SlugField(unique=True,max_length=190)
     article_id=models.CharField(max_length=50)
     stock_no = models.CharField(max_length=10)
     description_short = models.CharField(max_length=100)
@@ -141,7 +141,7 @@ class Item(models.Model):
 
 class ImageItem(models.Model):
     item= models.ForeignKey(Item, on_delete=models.CASCADE)
-    slug = models.SlugField( ) 
+    slug = models.SlugField(max_length=190 ) 
     image= models.ImageField(upload_to="products/")
 
     def get_absolute_url(self):
