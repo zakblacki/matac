@@ -60,8 +60,7 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-import dj_database_url
-WSGI_APPLICATION = "demo.wsgi.application"
+WSGI_APPLICATION = "demo.wsgi"
 # static files (CSS, JS, Image)
 
 STATIC_URL = '/static/'
@@ -72,7 +71,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
 
 DATABASES = {
     "default": {
-       dj_database_url.parse(os.environ.get("DATABASE_URL"))
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, 'db.sqlite3')
     }
 }
 
