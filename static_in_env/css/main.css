@@ -582,8 +582,9 @@ iframe {
 
 /* ------------------------------------ */
 .topbar-child2 {
-  position: absolute;
-  height: 100%;
+  align-self: end;
+  height: 70%;
+  width: 50%;
   top: 0;
   right: 0;
   display: -webkit-box;
@@ -616,6 +617,7 @@ iframe {
   -o-transition: all 0.3s;
   -moz-transition: all 0.3s;
   transition: all 0.3s;
+  overflow: hidden !important;
 }
 
 .fixed-header .wrap_header {
@@ -629,7 +631,7 @@ iframe {
   display: block;
   position: absolute;
   left: 52px;
-  top: 50%;
+  top: 65%;
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
@@ -638,7 +640,7 @@ iframe {
 }
 
 .logo img {
-  max-height: 27px;
+  max-height: 85px;
 }
 
 
@@ -743,7 +745,7 @@ li.sale-noti > a {
 /* ------------------------------------ */
 .header-icons {
   display: -webkit-box;
-  display: -webkit-flex;
+  /* display: -webkit-flex;
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
@@ -755,7 +757,14 @@ li.sale-noti > a {
   -moz-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   -o-transform: translateY(-50%);
-  transform: translateY(-50%);
+  transform: translateY(-50%); */
+   
+width: 107px;
+padding: 5px;
+align-self: end;
+right: 28px;
+position: absolute;
+ 
 }
 
 .header-wrapicon1,
@@ -829,19 +838,22 @@ li.sale-noti > a {
   -moz-transition: all 0.3s;
   
   transform-origin: top right;
-  -webkit-transform: scale(0);
+  /* -webkit-transform: scale(0);
   -moz-transform: scale(0);
   -ms-transform: scale(0);
   -o-transform: scale(0);
-  transform: scale(0);
+  transform: scale(0); */
+  transform: scale(1);
+  right: -390px;
 }
 
 .show-header-dropdown {
-  -webkit-transform: scale(1);
+  /* -webkit-transform: scale(1);
   -moz-transform: scale(1);
   -ms-transform: scale(1);
   -o-transform: scale(1);
-  transform: scale(1);
+  transform: scale(1); */
+  right:-36px;
 }
 
 .fixed-header .header-cart {
@@ -935,7 +947,7 @@ li.sale-noti > a {
   line-height: 1.3;
   text-align: right;
   padding-top: 15px;
-  padding-bottom: 25px;
+  padding-bottom: 70px;
   padding-right: 3px;
 }
 /* ------------------------------------ */

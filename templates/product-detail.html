@@ -343,8 +343,9 @@ itemLinks.forEach(itemLink => {
 											<input type="number" name="quantity" class="quantity form-control" value="1" required="">
 										<button class="btn-num-update-product-up d-icon-plus"></button>
 									</div>
-									
-									<button type="submit" class="btn-product btn-cart"><i class="d-icon-bag" style="color:#fff;"></i>Ajouter Au Panier</button> 
+									<a style="width: 76%;" href="/add-to-cart/{{object.slug}}">
+										<button style="width: 100%;" type="submit" class="btn-product btn-cart"><i class="d-icon-bag" style="color:#fff;"></i>Ajouter Au Panier</button> 
+									</a>
 									
 									<a class="sticky-wishlist-th d-md-none d-lg-block d-xl-block  d-xs-none" id="wishHeart" hx-get="/fr/wishlistadd_two/852" hx-target="this" hx-swap="outerHTML"><img src="/static/images/VSC.svg"></a>
 									
@@ -375,7 +376,7 @@ itemLinks.forEach(itemLink => {
 					<div class="sticky-content-wrapper" style="height: 67px;">
 						<div   class="sticky-content  product-sticky-content navWrap fixed" 
 							style="padding-top: 4px;opacity: 0;  height: 67px;top: -67px; margin-top: 0px; z-index: 1060;">
-							<form id="addToCartForm" action="/fr/cart/add/836/" method="POST">
+							 
 							<input type="hidden" name="csrfmiddlewaretoken" value="AVg2LaTGIt7mBFL7aXM68glmYxpnptul1hepXqZ0c8RwmGFt8WR0enfQubiNYq9O">
 							<div class="container">  
 								<div class="sticky-product-details d-sm-block">
@@ -429,15 +430,15 @@ itemLinks.forEach(itemLink => {
 												</div> 
 												
 											<input type="number" style="display: none;" name="quantity" class="quantity form-control display-none" value="1" required="">
-												
+												<a href="/add-to-cart/{{object.slug}}">
 													<button type="submit" class="btn-product btn-cart sticky-bag"><i class="d-icon-bag" style="color:#fff;"></i>Ajouter Au Panier</button>
-												
+												</a>
 											<a class="sticky-wishlist-th" id="wishHeart" hx-get="/fr/wishlistadd_two/836" hx-target="this" hx-swap="outerHTML"><img src="/static/images/VSC.svg"></a>
 										</div>
 									</div>
 								</div>
 							</div>
-							</form>
+						 
 						</div>
 					</div>
 				<br>

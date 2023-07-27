@@ -83,8 +83,20 @@
 </script>
 
 <script src="{% static 'js/main.js' %}"></script>
-<script src="{% static 'js/main2.js' %}"></script>
+<script src="{% static 'js/main2.js' %}"></script> 
+<script src="{% static 'js/perfect-scrollbar.js' %}"></script>
+<script src="{% static 'js/perfect-scrollbar.js.map' %}"></script>
 <script>
+ const container =document.querySelector(".header-cart-wrapitem");
+  
+ const pss = new
+PerfectScrollbar(container, {
+wheelSpeed: 2,
+wheelPropagation: true,
+minScrollbarLength: 20
+});
+pss.update();
+
   $(document).ready(function() {
  
  $(".owl-carousel").owlCarousel();
@@ -92,3 +104,31 @@
 });
 </script>
 
+<script>
+  console.log(document.querySelector("input[name=search]").value)
+  document.querySelector("input[name=search]").addEventListener("keyup",()=>{
+									// Fetch data from the API
+                var inputval=document.querySelector("input[name=search]").value.toLowerCase()
+                document.querySelector(".search_list").classList.add("dis-none")
+      
+      
+                fetch("/items/" ).then(response => response.json()) // Parse the response as JSON
+            .then(data => {
+              document.querySelector(".search_list_q").children[0].innerHTML=""
+                // Process the data
+                for(index in data){
+                  var title = data[index]["title"].toLowerCase();
+                  var slug = data[index]["slug"];
+                  if( title.includes(inputval)){
+                    console.log(true)
+                    var appendedele =`<a title="${title}" href="/product/${slug}"><li>${title}</li></a>`
+                    document.querySelector(".search_list_q").children[0].innerHTML += appendedele
+                  }
+                }
+                
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+								})
+</script>

@@ -13,8 +13,8 @@ from django.http import HttpResponseRedirect
 import ast
 from django.db.models import Q
 from django.forms.models import model_to_dict
-
-
+from .serializers import *
+from rest_framework import generics
 # Create your views here.
 import random
 import string
@@ -63,7 +63,7 @@ class PaymentView(View):
         try:
             charge = stripe.Charge.create(
                 amount=amount,  # cents
-                currency="usd",
+                currency="dzd",
                 source=token
             )
             # create the payment
@@ -129,11 +129,13 @@ class HomeView(ListView):
     context_object_name = 'items'
 
 def index(request):
+    
     context={
         "items":Item.objects.filter(is_active=True),
         "category":Category.objects.filter(is_active=True),
         "new_items":Item.objects.filter(label="N"),
-        "most_sale":Item.objects.filter(label="S")
+        "most_sale":Item.objects.filter(label="S"),
+         
         
     }
 
@@ -142,8 +144,10 @@ def index(request):
 
 class OrderSummaryView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
+        
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
+             
             context = {
                 'object': order
             }
@@ -280,11 +284,9 @@ class ItemDetailView(DetailView):
         # Get all comments related to the post
         return context
 
-
-# class CategoryView(DetailView):
-#     model = Category
-#     template_name = "category.html"
-
+class ItemListView(generics.ListAPIView):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
 class CategoryView(View):
     def get(self, *args, **kwargs):
         category = Category.objects.get(slug=self.kwargs['slug'])
@@ -496,6 +498,7 @@ def remove_from_cart(request, slug):
                 ordered=False
             )[0]
             order.items.remove(order_item)
+            order_item.delete()
             messages.info(request, "Item was removed from your cart.")
             return redirect("core:order-summary")
         else:
@@ -527,8 +530,11 @@ def remove_single_item_from_cart(request, slug):
             if order_item.quantity > 1:
                 order_item.quantity -= 1
                 order_item.save()
+              
             else:
+                order_item.delete()
                 order.items.remove(order_item)
+               
             messages.info(request, "This item qty was updated.")
             return redirect("core:order-summary")
         else:

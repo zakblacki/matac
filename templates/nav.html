@@ -16,39 +16,164 @@
 		<!-- Header desktop -->
 		<div class="container-menu-header">
 			<div class="topbar">
-				<div class="topbar-social">
-					<a href="#" class="topbar-social-item fab fa-facebook"></a>
-					<a href="#" class="topbar-social-item fab fa-instagram"></a>
-					<a href="#" class="topbar-social-item fab fa-pinterest-p"></a>
-					<a href="#" class="topbar-social-item fab fa-twitter"></a>
-					<a href="#" class="topbar-social-item fab fa-youtube"></a>
+				 
+
+				 
+				<a href="/" class="logo">
+					<img src="{% static 'images/matacor.png' %}" alt="">
+				</a>
+				<div class="topbar-child2" style="position: relative;
+				background: #fbf5f5;
+				border-radius:6px 6px 0 0;
+				 ">
+					<div style="width: 100%;height: 100%;">
+						<input placeholder="Rechercher par mot clés..." name="search" type="text" style="
+						border-radius: 6px;
+						padding: 11px !important;
+						font-size: 14px;
+						color: #333;
+						background-color: #fbf5f5;
+						outline: none;
+						width: 100%;
+						height: 100%;
+						">
+						
+ 				<i class="fa-solid fa-magnifying-glass" style="
+				 position: absolute;
+				 right: 15px;
+				 top: 11px;
+				 cursor: pointer;
+				 scale: 1.7;
+				 color: #f27a1a;"></i>
+					</div>
+					<div class="suggestions dis-none">
+						
+						<div class="search_list">
+							<span>Recent Search</span>
+							<ul style="width: 100%;padding: 0;">
+								<li>fff</li>
+								<li>dddf</li>
+								<li>dfd</li>
+								<li>dfdd</li>
+								<li>sdds</li>
+							</ul>
+						</div>
+						<div class="search_list_q">
+							<ul style="width: 100%;padding: 0;">
+								
+								 
+							</ul>
+						</div>
+						<div class="populaire">
+							<span>Populaire Search</span>
+							<div class="pop-search">
+								<div class="pop-sea">
+									sssff
+								</div>
+								 
+							</div>
+						</div>
+						<div class="special-cat">
+							<span>
+								special categories for you
+							</span>
+							<div class="spec-cat">
+								<div class="cat">
+									sssff
+								</div>
+							</div>
+						</div>
+					</div>
+					<script>
+						
+						window.addEventListener("click",function(e){
+							classes_list=document.querySelector(".suggestions").classList
+							 
+							 
+							
+							ele=document.querySelector("input[name=search]")
+							if(e.target == ele && classes_list.contains("dis-none") ){
+								classes_list.remove("dis-none")
+								
+
+							}else{
+								classes_list.add("dis-none")
+							}
+							 
+
+							 
+							
+						})
+						
+						
+						
+					</script>
 				</div>
+				<div class="header-icons">
+					<a href="#" class="header-wrapicon1 dis-block">
+						<img src="{% static 'images/icons/icon-header-01.png' %}" class="header-icon1" alt="ICON">
+					</a>
 
-				<span class="topbar-child1">
-					Free shipping for standard order over 20000 DA
-				</span>
+					<span class="linedivide1"></span>
 
-				<div class="topbar-child2">
-					<span class="topbar-email">
-						<a href="https://github.com/zinmyoswe">
-						flow-in@gmail.com
-					    </a>
-					</span>
+					<div class="header-wrapicon2">
+						<img src="{% static 'images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
+						<span class="header-icons-noti">0</span>
 
-					<div class="topbar-language rs1-select2">
-						<select class="selection-1" name="time">
-							<option>USD</option>
-							<option>EUR</option>
-						</select>
+						<!-- Header cart noti -->
+						<div class="header-cart header-dropdown" style="overflow: hidden;">
+							<ul class="header-cart-wrapitem">
+								{% if request.user.is_authenticated %}
+								{% orders request.user as orders_cart %}
+								{% for order in orders_cart.order %}
+								 
+									<li class="header-cart-item">
+										<div class="header-cart-item-img">
+											<img src="{{order.item.image.url}}" alt="IMG">
+										</div>
+
+										<div class="header-cart-item-txt">
+											<a href="#" class="header-cart-item-name">
+												{{order.item.title}}
+											</a>
+
+											<span class="header-cart-item-info">
+												{{order.quantity}} x {{order.item.price}} DZD
+											</span>
+										</div>
+									</li>
+								
+								{% endfor %}
+								{% endif %}
+							</ul>
+
+							<div class="header-cart-total">
+								Total:  {{orders_cart.total}}DZD
+							</div>
+
+							<div class="header-cart-buttons">
+								<div class="header-cart-wrapbtn">
+									<!-- Button -->
+									<a href="cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+										View Cart
+									</a>
+								</div>
+
+								<div class="header-cart-wrapbtn">
+									<!-- Button -->
+									<a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+										Check Out
+									</a>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="wrap_header">
 				<!-- Logo -->
-				<a href="/" class="logo">
-					<p style="color: black; "><b style="font-size: 22px;">M</b>atacor SHOP</p>
-				</a>
+				
 
 				<!-- Menu -->
 				<div class="wrap_menu">
@@ -63,8 +188,8 @@
 								<a href="/shop/">Shop</a>
 							</li>
 
-							{% categories %}
-
+							<!-- {% categories %} -->
+							{%  genders %}
 							{% if request.user.is_authenticated %}
 							<li>
 								<a href="{% url 'core:order-summary' %}">Cart<span class="badge badge-dark">{{ request.user|cart_item_count }}</span></a>
@@ -86,91 +211,7 @@
 				</div>
 
 				<!-- Header Icon -->
-				<div class="header-icons">
-					<a href="#" class="header-wrapicon1 dis-block">
-						<img src="{% static 'images/icons/icon-header-01.png' %}" class="header-icon1" alt="ICON">
-					</a>
-
-					<span class="linedivide1"></span>
-
-					<div class="header-wrapicon2">
-						<img src="{% static 'images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
-						<span class="header-icons-noti">0</span>
-
-						<!-- Header cart noti -->
-						<div class="header-cart header-dropdown">
-							<ul class="header-cart-wrapitem">
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="{% static 'images/item-cart-01.jpg' %}" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="#" class="header-cart-item-name">
-											White Shirt With Pleat Detail Back
-										</a>
-
-										<span class="header-cart-item-info">
-											1 x $19.00
-										</span>
-									</div>
-								</li>
-
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="{% static 'images/item-cart-02.jpg' %}" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="#" class="header-cart-item-name">
-											Converse All Star Hi Black Canvas
-										</a>
-
-										<span class="header-cart-item-info">
-											1 x $39.00
-										</span>
-									</div>
-								</li>
-
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="{% static 'images/item-cart-03.jpg' %}" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="#" class="header-cart-item-name">
-											Nixon Porter Leather Watch In Tan
-										</a>
-
-										<span class="header-cart-item-info">
-											1 x $17.00
-										</span>
-									</div>
-								</li>
-							</ul>
-
-							<div class="header-cart-total">
-								Total: $75.00
-							</div>
-
-							<div class="header-cart-buttons">
-								<div class="header-cart-wrapbtn">
-									<!-- Button -->
-									<a href="cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-										View Cart
-									</a>
-								</div>
-
-								<div class="header-cart-wrapbtn">
-									<!-- Button -->
-									<a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-										Check Out
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				
 			</div>
 		</div>
 
@@ -312,6 +353,7 @@
 							<a href="#" class="topbar-social-item fa fa-youtube-play"></a>
 						</div>
 					</li>
+					
 
 					<li class="item-menu-mobile">
 						<a href="/">Home</a>
@@ -345,3 +387,5 @@
 			</nav>
 		</div>
 	</header>
+
+	 

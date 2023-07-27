@@ -11,7 +11,8 @@ from .views import (
     PaymentView,
     AddCouponView,
     RequestRefundView,
-    CategoryView
+    CategoryView,
+    ItemListView
 )
 from .views import *
 
@@ -31,7 +32,8 @@ urlpatterns = [
     path('remove-item-from-cart/<slug>/', remove_single_item_from_cart,
          name='remove-single-item-from-cart'),
     path('payment/<payment_option>/', PaymentView.as_view(), name='payment'),
-    path('request-refund/', RequestRefundView.as_view(), name='request-refund')
+    path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
+    path('items/', ItemListView.as_view(), name='item-retrieve-update-destroy'),
 ]
 
 handler404 = 'core.views.custom_page_not_found_view'

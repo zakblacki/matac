@@ -1,9 +1,57 @@
 from django import template
 from django.utils.safestring import mark_safe
 
-from core.models import Category
+from core.models import Category , Item , OrderItem
 
 register = template.Library()
+
+
+
+
+@register.simple_tag
+def orders(user_ath):
+    context={}
+    if user_ath:
+        total=0
+        for order in OrderItem.objects.filter(user=user_ath):
+            total += order.item.price * order.quantity
+        context["total"] = total
+        context["order"]= OrderItem.objects.filter(user=user_ath)
+        return context
+    else:
+        return context
+    
+
+
+@register.simple_tag
+def genders():
+    available_items = Item.objects.filter(is_active=True)
+    unique_genders = set()
+    uniq_categ=[]
+    
+    obj ={}
+
+    # Iterate over available items and add their genders to the set
+    for item in available_items:
+        uniq_categ=[]
+        unique_genders.add(item.get_gender_display())
+        category = Item.objects.filter(gender=item.gender)
+        for item in category:
+            keyy=item.get_gender_display()
+            uniq_categ.append(item.category.title)
+            obj[keyy]=set(uniq_categ)
+            
+
+    # Count the number of unique genders
+    num_unique_genders = len(unique_genders)
+    items_li=""
+    
+    for gender  in unique_genders :
+        
+        items_li += """<li><a href="">{}</a></li>""".format(gender)
+
+     
+    return mark_safe(items_li)
 
 
 @register.simple_tag

@@ -5,7 +5,7 @@ ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 DEBUG = True
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     'django_countries',
     'core',
     'mathfilters',
-    
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -60,6 +60,7 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+WSGI_APPLICATION = "demo.wsgi.application"
 # static files (CSS, JS, Image)
 
 STATIC_URL = '/static/'
