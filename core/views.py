@@ -278,7 +278,7 @@ class ItemDetailView(DetailView):
             
          
         else:
-            context["relate_pros"] =  Item.objects.filter(category__name__icontains=self.object.category).exclude(pk=self.object.pk) 
+            context["relate_pros"] =  Item.objects.filter(category=self.object.category).exclude(pk=self.object.pk) 
 
            
          
