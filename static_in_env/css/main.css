@@ -1335,8 +1335,27 @@ position: absolute;
   margin-left: 320px;
 }
 
+.mobile_cart{
+  display: none;
+}
 @media (max-width: 992px){
+  .product-form select{
+    width: 74px !important;
+  }
 
+  .mobile_cart{
+    display: block !important;
+  }
+
+  .mobile_cart .btn-cart{
+    max-width: 34.2rem;
+    display: flex;
+    width: 107% !important;
+    background: #222;
+    color: #fff;
+    letter-spacing: 0.2px;
+    border-radius: 5px;
+  }
   .sticky-content .container{
     display: flex !important;
   padding: 25px !important;
@@ -1372,7 +1391,7 @@ position: absolute;
 
   .sticky_div a .btn-product{
     padding: 5px;  
-    min-width: 10rem !important;
+    min-width: 12rem !important;
     font-size: 9px;
     height: 35px;
   }
