@@ -1352,6 +1352,10 @@ position: absolute;
 
   .wrap-slick2 .slick2 .slick-list .slick-track div{
     width: 190px !important;
+    margin-right: 10px !important;
+  }
+  .product-sticky-content.fixed .product-form{
+    margin-right: 320px;
   }
 
   .product-details{
