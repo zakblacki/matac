@@ -6954,6 +6954,12 @@ input[type=radio]~label::after {
   height: 100% !important;
 }
 @media (max-width:991px) {
+  .header-search.hs-simple input.form-control{
+    margin: auto !important;
+  }
+  .header-search.hs-simple .btn-search{
+    right: 237px !important;
+  }
   .wrap-slick3.flex-sb.flex-w{
     justify-content: center;
   }
