@@ -1437,7 +1437,9 @@ position: absolute;
     max-width: none;
   }
    
-
+  .row {
+    padding: 5px !important;
+  }
   .owl-drag{
     overflow: hidden;
   }
@@ -1449,7 +1451,7 @@ position: absolute;
     width: 190px !important;
   }
   .ab-t-l{
-    top: -30px !important;
+    top: -60px !important;
   }
   .banner2.bg5{
     min-height: 110vh;
@@ -1476,8 +1478,8 @@ position: absolute;
     height: 50vh !important;
   padding-right: 5px;
   overflow: hidden;
-  width: 46%;
-  margin-bottom: 10px;
+  width: 50%;
+  margin-bottom:  0px;
   }
   .pos-relative{
     height: 100%;
