@@ -8,6 +8,32 @@ PAYMENT_CHOICES = (
 )
 
 
+class FormInput(forms.Form):
+    recu_img = forms.ImageField(widget=forms.FileInput(attrs={
+        
+        'class': 'form-control',
+        "hidden":"true",
+        "id":"inputFile",
+        "accept":"image/*" ,
+        "onchange":"readUrl(this)"
+    }))
+    address = forms.CharField(required=False, widget=forms.TextInput(attrs={
+        'placeholder': 'Apartment or suite',
+        'class': 'form-control'
+    }))
+    email =  forms.EmailField(widget=forms.EmailInput(attrs={
+        'class': 'form-control'
+    }))
+    phone =  forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        "pattern":"^(?:0|\(?\+213\)?\s?|00213\s?)[1-79](?:[\.\-\s]?\d\d){4}$"
+    }))
+    fullname =  forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        
+    }))
+     
+
 class CheckoutForm(forms.Form):
     street_address = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': '1234 Main St',

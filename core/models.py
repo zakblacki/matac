@@ -159,6 +159,7 @@ class OrderItem(models.Model):
                              on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    size = models.CharField(max_length=5)
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
@@ -194,12 +195,13 @@ class Order(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
-    shipping_address = models.ForeignKey(
-        'BillingAddress', related_name='shipping_address', on_delete=models.SET_NULL, blank=True, null=True)
-    billing_address = models.ForeignKey(
-        'BillingAddress', related_name='billing_address', on_delete=models.SET_NULL, blank=True, null=True)
-    payment = models.ForeignKey(
-        'Payment', on_delete=models.SET_NULL, blank=True, null=True)
+    total_amount= models.IntegerField(default=1)
+    recui_image=image= models.ImageField(upload_to="orders_recu/",default="images/default.png")
+    phone_number=models.CharField(max_length=10)
+    shipping_address = models.CharField(max_length=50)
+    shipping_type= models.CharField(max_length=50)
+    wilaya_ship=models.CharField(max_length=50)
+    commun_ship=models.CharField(max_length=50)
     coupon = models.ForeignKey(
         'Coupon', on_delete=models.SET_NULL, blank=True, null=True)
     being_delivered = models.BooleanField(default=False)

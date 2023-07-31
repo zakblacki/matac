@@ -37,6 +37,124 @@
 	<section class="bgwhite p-t-55 p-b-65">
 		<div class="container">
 			<div class="row">
+				<div class="filter_phone" style="display: none;">
+				<form action="." method="get">
+					<div class="filter_all">
+						<div class="filter_type widget widget-collapsible">
+							<h3 class="widget-title"> Catégories 
+								<span style="height: 10px;" class="toggle-btn">-</span></h3>
+							<ul class="widget-body filter-items slided">
+								
+								
+									<li>
+										<input type="radio" class="custom-checkbox" id="cat-1" value="F" name="gender" onchange="this.form.submit()">
+										<label class="form-control-label " for="cat-1">FEMME</label>
+									</li>
+								
+									<li>
+										<input type="radio" class="custom-checkbox" id="cat-24" value="M" name="gender" onchange="this.form.submit()">
+										<label class="form-control-label " for="cat-24">HOMME </label>
+									</li>
+								
+									 
+								
+							</ul>   
+						</div>
+						<div class="filter_type widget widget-collapsible">
+							<h3 class="widget-title" >Prix 
+								<span style="height: 10px;" class="toggle-btn">-</span></h3>
+											<ul class="slided widget-body filter-items">
+													<li style="display:flex;">
+														<input style="padding: 8px !important;" type="number" class="form-control price-input" name="start_price" placeholder="de">
+															<span class="price-devider"> &nbsp; - &nbsp;</span>
+														<input style="padding: 8px !important;" type="number" class="form-control price-input" name="end_price" placeholder="à">
+														<button style="scale: 1.6;
+														padding-bottom: 16px;
+														padding-right: 12px;" class="price-btn-f" type="submit">
+															<i class="fa-solid fa-magnifying-glass"></i>
+															</button>
+													</li>
+													
+													<li>
+														<input id="rangeOne" type="radio" class="custom-checkbox" name="price_range" value="range_one" onchange="this.form.submit()">
+														<label for="rangeOne" class="form-control-label">0 DZD - 700 DZD</label>
+													</li>
+													<li>
+														<input id="rangeTwo" type="radio" class="custom-checkbox" name="price_range" value="range_two" onchange="this.form.submit()">
+														<label for="rangeTwo" class="form-control-label">700 DZD - 1400 DZD</label>
+													</li>
+													<li>
+														<input id="rangeThree" type="radio" class="custom-checkbox" name="price_range" value="range_three" onchange="this.form.submit()">
+														<label for="rangeThree" class="form-control-label">1400 DZD - 4200 DZD</label>
+													</li>
+													<li>
+														<input id="rangeFour" type="radio" class="custom-checkbox" name="price_range" value="range_four" onchange="this.form.submit()">
+														<label for="rangeFour" class="form-control-label"> + 4200 DZD </label>
+													</li>
+													  
+											</ul>
+	
+						</div>
+						<div class="filter_type widget widget-collapsible">
+							<h3 class="widget-title">Taille
+								<span style="height: 10px;" class="toggle-btn">-</span></h3>
+							<ul class="slided widget-body filter-items">
+								 
+								<li>
+									<input type="checkbox" name="size_exist" id="value-32" value="32" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-32">32</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-34" value="34" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-34">34</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-36" value="36" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-36">36</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-38" value="38" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-38">38</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-40" value="40" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-40">40</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-42" value="42" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-42">42</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-XS" value="XS" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-XS">XS</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-S" value="S" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-S">S</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-M" value="M" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-M">M</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-L" value="L" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-L">L</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-XL" value="XL" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-XL">XL</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-2XL" value="2XL" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-2XL">2XL</label>
+								</li>
+								 
+							</ul>
+						</div>
+						 
+					</div>
+				</form>
+				</div>
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
 					<aside style="padding-left: 8px !important;" 
 					class="col-lg-3 sidebar sidebar-fixed shop-sidebar 
@@ -56,11 +174,13 @@
 									</button>
 									
 									
-									<a style="margin-left: 95px !important;" href="/fr/produits/" class="clear-all text-primary pb-3 clear-all"><i class="fas fa-times"></i></a>
+								 <i class="fas fa-times" style="margin-left: 95px !important;"></i> 
 								</div>
 								<div class="widget widget-collapsible">
-									<h3 class="widget-title"> Catégories<span style="height: 10px;" class="toggle-btn"></span></h3>
-									<ul class="widget-body filter-items">
+									<h3 class="widget-title"> Catégories 
+										<span style="height: 10px;" 
+										class="toggle-btn">-</span></h3>
+									<ul class="slided widget-body filter-items">
 										
 										
 											<li>
@@ -78,9 +198,11 @@
 									</ul>   
 								</div>
 					
-									<div class="widget widget-collapsible">
-										<h3 class="widget-title">Prix<span style="height: 10px;" class="toggle-btn"></span></h3>
-										<ul class="widget-body filter-items">
+									<div class="widget widget-collapsible" style="overflow: hidden;">
+										<h3 class="widget-title">Prix  
+											<span style="height: 10px;"
+											 class="toggle-btn">-</span></h3>
+										<ul class="slided widget-body filter-items">
 												<li style="display:flex;">
 													<input style="padding: 8px !important;" type="number" class="form-control price-input" name="start_price" placeholder="de">
 														<span class="price-devider"> &nbsp; - &nbsp;</span>
@@ -114,8 +236,10 @@
 								
 								
 									<div class="widget widget-collapsible">
-										<h3 class="widget-title">Couleur<span style="height: 10px;" class="toggle-btn"></span></h3>
-										<ul class="widget-body d-inline-block">
+										<h3 class="widget-title">Couleur
+											<span style="height: 10px;" 
+											class="toggle-btn">-</span></h3>
+										<ul class="slided widget-body  ">
 											
 												<li class="colours float-left">
 													<div class="d-inline-block text-center dot-wrapper">
@@ -336,8 +460,10 @@
 							
 								
 								<div class="widget widget-collapsible">
-									<h3 class="widget-title">Matère<span style="height: 10px;" class="toggle-btn"></span></h3>
-									<ul class="widget-body filter-items">
+									<h3 class="widget-title">Matère
+										<span style="height: 10px;" 
+										class="toggle-btn">-</span></h3>
+									<ul class="slided widget-body filter-items">
 										 
 										<li>
 											<input type="checkbox" name="size_exist" id="value-Cuir" value="Cuir" class="custom-checkbox" onchange="this.form.submit()">
@@ -348,8 +474,10 @@
 								</div>
 								
 								<div class="widget widget-collapsible">
-									<h3 class="widget-title">Taille<span style="height: 10px;" class="toggle-btn"></span></h3>
-									<ul class="widget-body filter-items">
+									<h3 class="widget-title">Taille
+										<span style="height: 10px;"
+										 class="toggle-btn">-</span></h3>
+									<ul class="slided widget-body filter-items">
 										 
 										<li>
 											<input type="checkbox" name="size_exist" id="value-32" value="32" class="custom-checkbox" onchange="this.form.submit()">
@@ -593,6 +721,35 @@
 			});
 			
 		}
+
+
+		document.querySelector(".fa-times").addEventListener("click",function(e){
+			e.preventDefault()
+			 
+			var parent_show = $(".row")[0].children[1]
+			$(parent_show).hide()
+		})
+
+		var butnsslide= document.querySelectorAll(".widget-title")
+		Array.from(butnsslide).forEach(ele=>{
+			ele.addEventListener("click",function(){
+				var ulsib =this.nextElementSibling
+				var ulsibcheck =ulsib.classList.contains("widget-body")
+				ulsib.classList.toggle("slided")
+				var hiddenelecheck = ulsib.classList.contains("slided")
+				if( ulsibcheck && !hiddenelecheck){
+					$(ulsib).animate({
+						height:"0%"
+					},600).hide(600)
+					this.children[0].textContent = "+"
+				}else{
+					$(ulsib).animate({
+						height:"100%"
+					},600).show(600)
+					this.children[0].textContent = "-"
+				}
+			})
+		})
 	 </script>
 
 		{% endblock content %}

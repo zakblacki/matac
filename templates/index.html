@@ -296,7 +296,7 @@
 						font-family: Montserrat-Bold;
 						font-size: 22px;
 						color: white;
-						line-height: 1.2;">homewear</div>
+						line-height: 1.2;" class="title-ess">homewear</div>
 						<div style="height: 430px;" class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
 							<br><br><br><br><br>
 							<br><br><br><br><br>
@@ -772,7 +772,6 @@
 		</script>
 		{% if most_sale %}
 		<h2 style="padding-left: 10px;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">PRODUITS LES PLUS VENDUS</h2>
-		{% endif %}
 		<div class="owl-carousel owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
 			'nav': true,
 			'dots': true,
@@ -802,6 +801,8 @@
 			<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); 
 			transition: all 3s ease 0s; width: 5814px;">
 			
+		{% endif %}
+		
 			{% for new_item in most_sale %}
 			
 			<div class="owl-item new_item{% if forloop.counter <= 4 %} active{% endif %}" style="width: 247px !important; margin-right: 20px;">

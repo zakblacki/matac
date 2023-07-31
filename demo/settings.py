@@ -6,7 +6,7 @@ ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 DEBUG = os.getenv('DEBUG','True') == 'True'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY =os.getenv('SECRET_KEY', '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj') 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS',"127.0.0.1;localhost").split(",")
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS',"127.0.0.1,localhost").split(",")
  
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -137,3 +137,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 STRIPE_PUBLIC_KEY = 'pk_test_lX3r6OMjOU2yzFsNSHq6belT00EY82kZmH'
 STRIPE_SECRET_KEY = 'sk_test_tn0CTDaIJHUJyAqhsf39cfsC00LNjsqDnb'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+SITE_ID=1
+SILENCED_SYSTEM_CHECKS = ['models.E006','admin.E108']
+ 
+ 

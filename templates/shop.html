@@ -36,6 +36,132 @@
 	<section class="bgwhite p-t-55 p-b-65">
 		<div class="container">
 			<div class="row">
+				<div class="header-search hs-simple" style="z-index: 9;">
+					<form action="" class="input-wrapper">
+						<input type="text" class="form-control" name="search" autocomplete="off" placeholder="Rechercher par mot clés..." required="">
+						<button class="btn btn-search" type="submit">
+							<i class="d-icon-search"></i>
+						</button>
+					</form>
+				</div>
+				<div class="filter_phone" style="display: none;">
+					<form action="." method="get">
+						<div class="filter_all">
+							<div class="filter_type widget widget-collapsible">
+								<h3 class="widget-title"> Catégories 
+									<span style="height: 10px;" class="toggle-btn">-</span></h3>
+								<ul class="widget-body filter-items slided">
+									
+									
+										<li>
+											<input type="radio" class="custom-checkbox" id="cat-1" value="F" name="gender" onchange="this.form.submit()">
+											<label class="form-control-label " for="cat-1">FEMME</label>
+										</li>
+									
+										<li>
+											<input type="radio" class="custom-checkbox" id="cat-24" value="M" name="gender" onchange="this.form.submit()">
+											<label class="form-control-label " for="cat-24">HOMME </label>
+										</li>
+									
+										 
+									
+								</ul>   
+							</div>
+							<div class="filter_type widget widget-collapsible">
+								<h3 class="widget-title" >Prix 
+									<span style="height: 10px;" class="toggle-btn">-</span></h3>
+												<ul class="slided widget-body filter-items">
+														<li style="display:flex;">
+															<input style="padding: 8px !important;" type="number" class="form-control price-input" name="start_price" placeholder="de">
+																<span class="price-devider"> &nbsp; - &nbsp;</span>
+															<input style="padding: 8px !important;" type="number" class="form-control price-input" name="end_price" placeholder="à">
+															<button style="scale: 1.6;
+															padding-bottom: 16px;
+															padding-right: 12px;" class="price-btn-f" type="submit">
+																<i class="fa-solid fa-magnifying-glass"></i>
+																</button>
+														</li>
+														
+														<li>
+															<input id="rangeOne" type="radio" class="custom-checkbox" name="price_range" value="range_one" onchange="this.form.submit()">
+															<label for="rangeOne" class="form-control-label">0 DZD - 700 DZD</label>
+														</li>
+														<li>
+															<input id="rangeTwo" type="radio" class="custom-checkbox" name="price_range" value="range_two" onchange="this.form.submit()">
+															<label for="rangeTwo" class="form-control-label">700 DZD - 1400 DZD</label>
+														</li>
+														<li>
+															<input id="rangeThree" type="radio" class="custom-checkbox" name="price_range" value="range_three" onchange="this.form.submit()">
+															<label for="rangeThree" class="form-control-label">1400 DZD - 4200 DZD</label>
+														</li>
+														<li>
+															<input id="rangeFour" type="radio" class="custom-checkbox" name="price_range" value="range_four" onchange="this.form.submit()">
+															<label for="rangeFour" class="form-control-label"> + 4200 DZD </label>
+														</li>
+														  
+												</ul>
+		
+							</div>
+							<div class="filter_type widget widget-collapsible">
+								<h3 class="widget-title">Taille
+									<span style="height: 10px;" class="toggle-btn">-</span></h3>
+								<ul class="slided widget-body filter-items">
+									 
+									<li>
+										<input type="checkbox" name="size_exist" id="value-32" value="32" class="custom-checkbox" onchange="this.form.submit()">
+										<label class="form-control-label" for="value-32">32</label>
+									</li>
+									<li>
+										<input type="checkbox" name="size_exist" id="value-34" value="34" class="custom-checkbox" onchange="this.form.submit()">
+										<label class="form-control-label" for="value-34">34</label>
+									</li>
+									<li>
+										<input type="checkbox" name="size_exist" id="value-36" value="36" class="custom-checkbox" onchange="this.form.submit()">
+										<label class="form-control-label" for="value-36">36</label>
+									</li>
+									<li>
+										<input type="checkbox" name="size_exist" id="value-38" value="38" class="custom-checkbox" onchange="this.form.submit()">
+										<label class="form-control-label" for="value-38">38</label>
+									</li>
+									<li>
+										<input type="checkbox" name="size_exist" id="value-40" value="40" class="custom-checkbox" onchange="this.form.submit()">
+										<label class="form-control-label" for="value-40">40</label>
+									</li>
+									<li>
+										<input type="checkbox" name="size_exist" id="value-42" value="42" class="custom-checkbox" onchange="this.form.submit()">
+										<label class="form-control-label" for="value-42">42</label>
+									</li>
+									<li>
+										<input type="checkbox" name="size_exist" id="value-XS" value="XS" class="custom-checkbox" onchange="this.form.submit()">
+										<label class="form-control-label" for="value-XS">XS</label>
+									</li>
+									<li>
+										<input type="checkbox" name="size_exist" id="value-S" value="S" class="custom-checkbox" onchange="this.form.submit()">
+										<label class="form-control-label" for="value-S">S</label>
+									</li>
+									<li>
+										<input type="checkbox" name="size_exist" id="value-M" value="M" class="custom-checkbox" onchange="this.form.submit()">
+										<label class="form-control-label" for="value-M">M</label>
+									</li>
+									<li>
+										<input type="checkbox" name="size_exist" id="value-L" value="L" class="custom-checkbox" onchange="this.form.submit()">
+										<label class="form-control-label" for="value-L">L</label>
+									</li>
+									<li>
+										<input type="checkbox" name="size_exist" id="value-XL" value="XL" class="custom-checkbox" onchange="this.form.submit()">
+										<label class="form-control-label" for="value-XL">XL</label>
+									</li>
+									<li>
+										<input type="checkbox" name="size_exist" id="value-2XL" value="2XL" class="custom-checkbox" onchange="this.form.submit()">
+										<label class="form-control-label" for="value-2XL">2XL</label>
+									</li>
+									 
+								</ul>
+							</div>
+							 
+						</div>
+					</form>
+					</div>
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
 					<aside style="padding-left: 8px !important;" 
 					class="col-lg-3 sidebar sidebar-fixed shop-sidebar 
@@ -531,54 +657,6 @@
 		</div>
 	</section>
 
-	<script>
-		var search_page=window.location.search.replaceAll("?","").split("&")
-		window.onload = function(){
-
-			$("input[name=price_range]").on("click",function(e){
-				e.preventDefault() ;
-				var range = $(this).next(0).text().replaceAll(" ","").toLowerCase().replaceAll("dzd","").split("-")
-				if(!range[0].includes("+")){
-					$("input[name=start_price]")[0].value = range[0]
-					$("input[name=end_price]")[0].value = range[1]
-				}else{
-					$("input[name=start_price]")[0].value = range[0].replace("+","")
-				}
-
-				$(".price-btn-f")[0].click()
-				
-			})
-
-
-			search_page.forEach(element => {
-				var keyval =element.split("=")
-				var key = keyval[0]
-				var val = keyval[1]
-				if(key == "gender" || key == "price_range" ){
-					$(`input[name=${key}][value=${val}]`).prop("checked",true)
-				 
-					$(`input[name=${key}][value=${val}]`).on("click",function() {
-						// Toggle the checked state of the checkbox
-						$(this).prop("checked", !$(this).prop("checked"));
-					});
-				}
-				if(key == "atribute" ){
-					$("#value-"+val).prop("checked",true)
-
-				}
-
-				if(key=="start_price" || key=="end_price"){
-
-					
-					$(`input[name=${key}]`).each(function(){
-						$(this).val(val)
-					})
-				}
-				
-			});
-			
-		}
-	 </script>
 
 
 		{% endblock content %}

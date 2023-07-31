@@ -343,8 +343,8 @@ itemLinks.forEach(itemLink => {
 											<input type="number" name="quantity" class="quantity form-control" value="1" required="">
 										<button class="btn-num-update-product-up d-icon-plus"></button>
 									</div>
-									<a style="width: 76%;" href="/add-to-cart/{{object.slug}}">
-										<button style="width: 100%;" type="submit" class="btn-product btn-cart"><i class="d-icon-bag" style="color:#fff;"></i>Ajouter Au Panier</button> 
+									<a id="submit_to" style="width: 76%;" href="/add-to-cart/{{object.slug}}?name=dd">
+										<button  style="width: 100%;" type="submit" class="btn-product btn-cart"><i class="d-icon-bag" style="color:#fff;"></i>Ajouter Au Panier</button> 
 									</a>
 									
 									<a class="sticky-wishlist-th d-md-none d-lg-block d-xl-block  d-xs-none" id="wishHeart" hx-get="/fr/wishlistadd_two/852" hx-target="this" hx-swap="outerHTML"><img src="/static/images/VSC.svg"></a>
@@ -403,7 +403,7 @@ itemLinks.forEach(itemLink => {
 								</div>
 								<div class="product-form product-qty">
 									<div class="product-form-group">
-										<div class="product-form product-size" style="margin-left:55rem;padding-right: 10px;">
+										<div class="product-form product-size sticky_div" style="margin-left:55rem;padding-right: 10px;">
 											
 												<div class="product-form product-size d-flex justify-content-end" style="margin-right: 8px;">
 													<div class="select-box sticky-selct-box">
@@ -840,7 +840,15 @@ document.addEventListener("DOMContentLoaded", function() {
 							}) 
 });
 
- 
+
+		document.getElementById("submit_to").addEventListener("click",function(e){
+			e.preventDefault()
+			var targetsize= document.querySelector(".variant-input:checked").nextElementSibling.textContent.trim()
+			document.getElementById("submit_to").href = this.href.replace("name=dd","name="+targetsize)
+			  
+			 window.location = document.getElementById("submit_to").href
+		})
+		
 	</script>
 	
 

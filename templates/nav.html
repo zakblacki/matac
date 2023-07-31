@@ -27,9 +27,11 @@
 				border-radius:6px 6px 0 0;
 				 ">
 					<div style="width: 100%;height: 100%;">
-						<input placeholder="Rechercher par mot clés..." name="search" type="text" style="
+						<form action="/shop">
+							<input placeholder="Rechercher par mot clés..." 
+							name="search" type="text" style="
 						border-radius: 6px;
-						padding: 11px !important;
+						padding: 6px !important;
 						font-size: 14px;
 						color: #333;
 						background-color: #fbf5f5;
@@ -37,6 +39,7 @@
 						width: 100%;
 						height: 100%;
 						">
+						</form>
 						
  				<i class="fa-solid fa-magnifying-glass" style="
 				 position: absolute;
@@ -45,6 +48,12 @@
 				 cursor: pointer;
 				 scale: 1.7;
 				 color: #f27a1a;"></i>
+
+				 <script>
+					document.querySelector(".fa-magnifying-glass").addEventListener("click",function(){
+						document.querySelector(".fa-magnifying-glass").previousElementSibling.submit()
+					})
+				 </script>
 					</div>
 					<div class="suggestions dis-none">
 						
@@ -218,8 +227,8 @@
 		<!-- Header Mobile -->
 		<div class="wrap_header_mobile">
 			<!-- Logo moblie -->
-			<a href="index.html" class="logo-mobile">
-				<img src="{% static 'images/icons/logo.png' %}" alt="IMG-LOGO">
+			<a href="/" class="logo-mobile">
+				<img src="{% static 'images/matacor.png' %}" alt="IMG-LOGO">
 			</a>
 
 			<!-- Button show menu -->
@@ -237,59 +246,34 @@
 						<span class="header-icons-noti">0</span>
 
 						<!-- Header cart noti -->
-						<div class="header-cart header-dropdown">
+						<div   class="header-cart header-dropdown mobile" style="display: none;">
 							<ul class="header-cart-wrapitem">
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="{% static 'images/item-cart-01.jpg' %}" alt="IMG">
-									</div>
+								{% if request.user.is_authenticated %}
+								{% orders request.user as orders_cart %}
+								{% for order in orders_cart.order %}
+								 
+									<li class="header-cart-item">
+										<div class="header-cart-item-img">
+											<img src="{{order.item.image.url}}" alt="IMG">
+										</div>
 
-									<div class="header-cart-item-txt">
-										<a href="#" class="header-cart-item-name">
-											White Shirt With Pleat Detail Back
-										</a>
+										<div class="header-cart-item-txt">
+											<a href="#" class="header-cart-item-name">
+												{{order.item.title}}
+											</a>
 
-										<span class="header-cart-item-info">
-											1 x $19.00
-										</span>
-									</div>
-								</li>
-
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="{% static 'images/item-cart-02.jpg' %}" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="#" class="header-cart-item-name">
-											Converse All Star Hi Black Canvas
-										</a>
-
-										<span class="header-cart-item-info">
-											1 x $39.00
-										</span>
-									</div>
-								</li>
-
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="{% static 'images/item-cart-03.jpg' %}" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="#" class="header-cart-item-name">
-											Nixon Porter Leather Watch In Tan
-										</a>
-
-										<span class="header-cart-item-info">
-											1 x $17.00
-										</span>
-									</div>
-								</li>
+											<span class="header-cart-item-info">
+												{{order.quantity}} x {{order.item.price}} DZD
+											</span>
+										</div>
+									</li>
+								
+								{% endfor %}
+								{% endif %}
 							</ul>
 
 							<div class="header-cart-total">
-								Total: $75.00
+								Total: {{orders_cart.total}}DZD
 							</div>
 
 							<div class="header-cart-buttons">
@@ -323,16 +307,12 @@
 		<div class="wrap-side-menu" >
 			<nav class="side-menu">
 				<ul class="main-menu">
-					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
-						<span class="topbar-child1">
-							Free shipping for standard order over 20000 DA
-						</span>
-					</li>
+					 
 
 					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
 						<div class="topbar-child2-mobile">
 							<span class="topbar-email">
-								fashe@example.com
+								flow-in@example.com
 							</span>
 
 							<div class="topbar-language rs1-select2">

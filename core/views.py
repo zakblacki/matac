@@ -7,7 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, View
 from django.shortcuts import redirect
 from django.utils import timezone
-from .forms import CheckoutForm, CouponForm, RefundForm
+from .forms import CheckoutForm, CouponForm, RefundForm, FormInput
 from .models import *
 from django.http import HttpResponseRedirect
 import ast
@@ -41,85 +41,15 @@ def create_ref_code():
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=20))
 
 
+ 
+
 class PaymentView(View):
-    def get(self, *args, **kwargs):
-        # order
-        order = Order.objects.get(user=self.request.user, ordered=False)
-        if order.billing_address:
-            context = {
-                'order': order,
-                'DISPLAY_COUPON_FORM': False
-            }
-            return render(self.request, "payment.html", context)
-        else:
-            messages.warning(
-                self.request, "u have not added a billing address")
-            return redirect("core:checkout")
-
+     
     def post(self, *args, **kwargs):
-        order = Order.objects.get(user=self.request.user, ordered=False)
-        token = self.request.POST.get('stripeToken')
-        amount = int(order.get_total() * 100)
-        try:
-            charge = stripe.Charge.create(
-                amount=amount,  # cents
-                currency="dzd",
-                source=token
-            )
-            # create the payment
-            payment = Payment()
-            payment.stripe_charge_id = charge['id']
-            payment.user = self.request.user
-            payment.amount = order.get_total()
-            payment.save()
-
-            # assign the payment to the order
-            order.ordered = True
-            order.payment = payment
-            # TODO : assign ref code
-            order.ref_code = create_ref_code()
-            order.save()
-
-            messages.success(self.request, "Order was successful")
-            return redirect("/")
-
-        except stripe.error.CardError as e:
-            # Since it's a decline, stripe.error.CardError will be caught
-            body = e.json_body
-            err = body.get('error', {})
-            messages.error(self.request, f"{err.get('message')}")
-            return redirect("/")
-
-        except stripe.error.RateLimitError as e:
-            # Too many requests made to the API too quickly
-            messages.error(self.request, "RateLimitError")
-            return redirect("/")
-
-        except stripe.error.InvalidRequestError as e:
-            # Invalid parameters were supplied to Stripe's API
-            messages.error(self.request, "Invalid parameters")
-            return redirect("/")
-
-        except stripe.error.AuthenticationError as e:
-            # Authentication with Stripe's API failed
-            # (maybe you changed API keys recently)
-            messages.error(self.request, "Not Authentication")
-            return redirect("/")
-
-        except stripe.error.APIConnectionError as e:
-            # Network communication with Stripe failed
-            messages.error(self.request, "Network Error")
-            return redirect("/")
-
-        except stripe.error.StripeError as e:
-            # Display a very generic error to the user, and maybe send
-            # yourself an email
-            messages.error(self.request, "Something went wrong")
-            return redirect("/")
-
-        except Exception as e:
-            # send an email to ourselves
-            messages.error(self.request, "Serious Error occured")
+        form = FormInput(self.request.POST or None)
+        
+        if form.is_valid():
+         
             return redirect("/")
 
 
@@ -145,17 +75,73 @@ def index(request):
 class OrderSummaryView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         
-        try:
-            order = Order.objects.get(user=self.request.user, ordered=False)
-             
-            context = {
-                'object': order
-            }
-            return render(self.request, 'order_summary.html', context)
-        except ObjectDoesNotExist:
-            messages.error(self.request, "You do not have an active order")
+        if len(OrderItem.objects.filter(user=self.request.user, ordered=False)) !=0:
+            try:
+                order = OrderItem.objects.filter(user=self.request.user, ordered=False)
+                
+                context = {
+                    'object': order,
+                    "form":FormInput()
+                }
+                return render(self.request, 'order_summary.html', context)
+            except ObjectDoesNotExist:
+                messages.error(self.request, "You do not have an active order")
+                return redirect("/")
+        else:
             return redirect("/")
 
+    def post(self, *args, **kwargs):
+        form = FormInput(self.request.POST,self.request.FILES)
+        
+        
+        if form.is_valid():
+            
+        
+            phone=form.cleaned_data.get("phone") 
+            email=form.cleaned_data.get("email")
+            address=form.cleaned_data.get("address")
+            fullname=form.cleaned_data.get("fullname")
+            img=form.cleaned_data.get("recu_img")
+            
+            print("success")
+        
+            order = Order.objects.get(user=self.request.user, ordered=False)
+         
+            amount = int(order.get_total() * 100)
+            try:
+                
+                
+                order.ref_code = create_ref_code()
+                order.ordered = True
+                    
+                    
+                for item_ordered in order.items.all():
+                    item_ordered.ordered = True
+                    item_ordered.save()   
+                
+                order.total_amount=order.get_total()
+                order.phone_number=phone
+                order.shipping_address = address
+                order.recui_image = img
+                
+                
+                order.save()
+
+                
+
+                messages.success(self.request, "Order was successful")
+                return redirect("/")
+
+        
+                # Display a very generic error to the user, and maybe send
+                # yourself an email
+                messages.error(self.request, "Something went wrong")
+                return redirect("/")
+
+            except  :
+                # send an email to ourselves
+                messages.error(self.request, "Serious Error occured")
+        return redirect("/")
 
 class ShopView(ListView):
     model = Item
@@ -163,6 +149,7 @@ class ShopView(ListView):
     template_name = "shop.html"
     def get(self, *args, **kwargs):    
         try:
+            
             
         
             # Check if the lookup is a valid field in the model
@@ -176,6 +163,8 @@ class ShopView(ListView):
                 combined_query2=Q()
                 combined_query3=Q()
                 combined_query5=Q()
+                query_srch=Q()
+                 
                 
                 for get_key, get_val in self.request.GET.items():
                     model_instance = Item()
@@ -199,6 +188,16 @@ class ShopView(ListView):
                         
                             combined_query5 |= Q(**{lookup: get_val})
                     else:
+                        
+                        if get_key == "search":
+                            print("search yes")
+                            if get_val != "" :
+                                print(get_val)
+                                query_srch |= Q(title__icontains=get_val)
+                        else:
+                            pass
+                            
+                            
                     
                         
                         if "start" in get_key and get_val != '' :
@@ -219,8 +218,11 @@ class ShopView(ListView):
                             combined_query3 |=combined_query1 & combined_query2
                             
                     
-                
-                comb_final = combined_query & combined_query5 & combined_query3
+                if query_srch :
+                    
+                    comb_final = query_srch & combined_query & combined_query5 & combined_query3
+                else:
+                    comb_final = combined_query & combined_query5 & combined_query3
                 item= Item.objects.filter(comb_final,is_active=True)
              
             else:
@@ -392,44 +394,57 @@ class CheckoutView(View):
             return redirect("core:checkout")
 
     def post(self, *args, **kwargs):
-        form = CheckoutForm(self.request.POST or None)
-        try:
+        form = FormInput(self.request.POST or None)
+        
+        if form.is_valid():
+            
+        
+            phone=form.cleaned_data.get("phone") 
+            email=form.cleaned_data.get("email")
+            address=form.cleaned_data.get("address")
+            fullname=form.cleaned_data.get("fullname")
+            img=form.cleaned_data.get("recu_img")
+            
+            print("success")
+        
             order = Order.objects.get(user=self.request.user, ordered=False)
-             
-            if form.is_valid():
-                street_address = form.cleaned_data.get('street_address')
-                apartment_address = form.cleaned_data.get('apartment_address')
-                country = form.cleaned_data.get('country')
-                zip = form.cleaned_data.get('zip')
-                # add functionality for these fields
-                # same_shipping_address = form.cleaned_data.get(
-                #     'same_shipping_address')
-                # save_info = form.cleaned_data.get('save_info')
-                payment_option = form.cleaned_data.get('payment_option')
-                billing_address = BillingAddress(
-                    user=self.request.user,
-                    street_address=street_address,
-                    apartment_address=apartment_address,
-                    country=country,
-                    zip=zip,
-                    address_type='B'
-                )
-                billing_address.save()
-                order.billing_address = billing_address
+         
+            amount = int(order.get_total() * 100)
+            try:
+                
+                
+                order.ref_code = create_ref_code()
+                order.ordered = True
+                    
+                    
+                for item_ordered in order.items.all():
+                    item_ordered.ordered = True
+                    item_ordered.save()   
+                
+                order.total_amount=order.get_total()
+                order.phone_number=phone
+                order.shipping_address = address
+                order.recui_image = img
+                
+                
                 order.save()
 
-                # add redirect to the selected payment option
-                if payment_option == 'S':
-                    return redirect('core:payment', payment_option='stripe')
-                elif payment_option == 'P':
-                    return redirect('core:payment', payment_option='paypal')
-                else:
-                    messages.warning(
-                        self.request, "Invalid payment option select")
-                    return redirect('core:checkout')
-        except ObjectDoesNotExist:
-            messages.error(self.request, "You do not have an active order")
-            return redirect("core:order-summary")
+                
+
+                messages.success(self.request, "Order was successful")
+                return redirect("/")
+
+        
+                # Display a very generic error to the user, and maybe send
+                # yourself an email
+                messages.error(self.request, "Something went wrong")
+                return redirect("/")
+
+            except  :
+                # send an email to ourselves
+                messages.error(self.request, "Serious Error occured")
+        return redirect("/")
+
 
 
 # def home(request):
@@ -456,10 +471,16 @@ class CheckoutView(View):
 @login_required
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
+     
+    size= request.GET["search"]
+    print(size)
+    
+    
     order_item, created = OrderItem.objects.get_or_create(
         item=item,
         user=request.user,
-        ordered=False
+        ordered=False,
+        size=size
     )
     order_qs = Order.objects.filter(user=request.user, ordered=False)
     if order_qs.exists():
@@ -484,6 +505,7 @@ def add_to_cart(request, slug):
 
 @login_required
 def remove_from_cart(request, slug):
+    size=request.GET["search"]
     item = get_object_or_404(Item, slug=slug)
     order_qs = Order.objects.filter(
         user=request.user,
@@ -495,7 +517,8 @@ def remove_from_cart(request, slug):
             order_item = OrderItem.objects.filter(
                 item=item,
                 user=request.user,
-                ordered=False
+                ordered=False,
+                size=size
             )[0]
             order.items.remove(order_item)
             order_item.delete()
@@ -514,6 +537,7 @@ def remove_from_cart(request, slug):
 
 @login_required
 def remove_single_item_from_cart(request, slug):
+    size=request.GET["search"]
     item = get_object_or_404(Item, slug=slug)
     order_qs = Order.objects.filter(
         user=request.user,
@@ -525,7 +549,8 @@ def remove_single_item_from_cart(request, slug):
             order_item = OrderItem.objects.filter(
                 item=item,
                 user=request.user,
-                ordered=False
+                ordered=False,
+                size=size
             )[0]
             if order_item.quantity > 1:
                 order_item.quantity -= 1

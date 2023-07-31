@@ -87,6 +87,34 @@
 <script src="{% static 'js/perfect-scrollbar.js' %}"></script>
 <script src="{% static 'js/perfect-scrollbar.js.map' %}"></script>
 <script>
+ 
+document.querySelector(".header-icons-mobile .header-wrapicon2 img").addEventListener("click",function(){
+  var contain_class=$('.header-cart.header-dropdown')[1].classList.contains("show-header-dropdown") 
+  var boolimg = this.classList.toggle("boolimg")
+  if(contain_class){
+    console.log(true)
+     $('.header-cart.header-dropdown.mobile').show().animate({
+      right: '-90px' // Adjust the target position as needed
+  }, 500);
+    
+  }else{
+     
+    
+       
+    $('.header-cart.header-dropdown.mobile').animate({
+    right:  '-390px'// Adjust the target position as needed
+     
+  }, 300).hide(501);
+    
+    
+    
+  }
+
+})
+
+
+
+
  const container =document.querySelector(".header-cart-wrapitem");
   
  const pss = new
@@ -131,4 +159,111 @@ pss.update();
                 console.error('Error fetching data:', error);
             });
 								})
+
+
+
+    //category and shop
+
+    document.querySelector(".fa-times").addEventListener("click",function(e){
+			e.preventDefault()
+			 
+			var parent_show = $(".row")[0].children[1]
+			$(parent_show).hide()
+		})
+
+		var butnsslide= document.querySelectorAll(".widget-title")
+		Array.from(butnsslide).forEach(ele=>{
+			ele.addEventListener("click",function(){
+				var ulsib =this.nextElementSibling
+				var ulsibcheck =ulsib.classList.contains("widget-body")
+				ulsib.classList.toggle("slided")
+				var hiddenelecheck = ulsib.classList.contains("slided")
+				if( ulsibcheck && !hiddenelecheck){
+					$(ulsib).animate({
+						height:"0%"
+					},600).hide(600)
+					this.children[0].textContent = "+"
+				}else{
+					$(ulsib).animate({
+						height:"100%"
+					},600).show(600)
+					this.children[0].textContent = "-"
+				}
+			})
+		})
+    
 </script>
+
+//category filter
+
+<script>
+  var search_page=window.location.search.replaceAll("?","").split("&")
+  window.onload = function(){
+    
+    $("input[name=price_range]").on("click",function(e){
+      
+      e.preventDefault() ;
+      var range = $(this).next(0).text().replaceAll(" ","").toLowerCase().replaceAll("dzd","").split("-")
+      
+      if(!range[0].includes("+")){
+        $("input[name=start_price]")[0].value = range[0]
+        $("input[name=start_price]")[1].value = range[0]
+
+        $("input[name=end_price]")[0].value = range[1]
+        $("input[name=end_price]")[1].value = range[1]
+      }else{
+        $("input[name=start_price]")[0].value = range[0].replace("+","")
+        $("input[name=start_price]")[1].value = range[0].replace("+","")
+
+         
+      }
+
+      $(".price-btn-f")[0].click()
+      $(".price-btn-f")[1].click()
+      
+    })
+
+
+    search_page.forEach(element => {
+      var keyval =element.split("=")
+      var key = keyval[0]
+      var val = keyval[1]
+     
+      if(key == "gender" || key == "price_range" ){
+       
+         $($(`input[name=${key}][value=${val}]`)[0]).prop("checked",true)
+         $($(`input[name=${key}][value=${val}]`)[1]).prop("checked",true)
+          
+        Array.from(document.querySelectorAll(`input[name=${key}][value=${val}]`)).forEach(function(el){
+          
+          $(el).on("click",function() {
+          // Toggle the checked state of the checkbox
+          $(this).prop("checked", !$(this).prop("checked"));
+        });
+         
+        })
+      }
+      if(key == "size_exist" ){
+        
+         
+        Array.from(document.querySelectorAll("#value-"+val)).forEach(function(el){
+          $(el).prop("checked",true)
+           
+        })
+         
+      }
+
+      if(key=="start_price" || key=="end_price"){
+
+        
+        $(`input[name=${key}]`).each(function(){
+          $(this).val(val)
+           
+        })
+      }
+      
+    });
+    
+  }
+ </script>
+<script src="{% static 'js/cities.js' %}"></script>

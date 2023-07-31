@@ -246,9 +246,9 @@ input {
   .header-search.hs-simple {
     flex: 1;
     margin-right: -5rem;
-    max-width: 50rem;
+    max-width: 28rem;
     position: absolute;
-    right: -10px
+    margin-right: 11px
   }
 }
 
@@ -259,6 +259,14 @@ input {
   background-color: #fff;
   color: #999;
   margin-right: 50px;
+}
+
+.header-search.hs-simple input.form-control{
+  padding-left: 39px !important;
+}
+
+.header-search.hs-simple input::placeholder{
+  padding-left: 0px !important;
 }
 
 .header-search.hs-simple .btn-search {
@@ -2916,12 +2924,7 @@ h3 {
   opacity: .6
 }
 
-.toggle-btn::before {
-  content: "\f054";
-  display: block;
-  font-family: "Font Awesome 5 Free";
-  transition: transform .5s
-}
+ 
 
 .show>a .toggle-btn::before {
   transform: rotate(630deg)
@@ -6947,7 +6950,60 @@ input[type=radio]~label::after {
   flex: 1 1 0
 }
 
+.btn-num-update-quantity-up,.btn-num-update-quantity-down {
+  height: 100% !important;
+}
 @media (max-width:991px) {
+  .wrap-slick3.flex-sb.flex-w{
+    justify-content: center;
+  }
+  .container .product-form.product-qty .product-form-group{
+    margin-top: 8px;
+    margin-left: -5px;
+  }
+  .btns_check{
+    display: grid;
+  }
+  .btn.float-right{
+    font-size: 1.05rem;
+  }
+  .btn.btn-warning.float-right.ml-2{
+    margin-bottom: 10px;
+  }
+  tbody,thead{
+    display: block;
+    width: 100%;
+    font-size: 10px;
+  }
+  .table thead th{
+    border: none;
+  }
+  .table thead tr{
+    display: flex;
+    justify-content: flex-start;
+  }
+  .table .qty{
+    display: flex;
+    align-items: center;
+  }
+  .table td, .table thead th {
+    padding: 14px !important;
+  }
+  .table .tdimg img{
+    width: 100% !important;
+  }
+  .table .tdimg{
+    padding: 0px !important;
+     
+  padding-top: 13px !important;
+  }
+  .shipping.bgwhite div .respon1 ,.shipping.bgwhite div .respon2{
+    height: 18vh;
+  }
+  .shipping.bgwhite div .respon1 div,.shipping.bgwhite div .respon2 div{
+    margin: auto;
+    text-align: center;
+  }
   .toolbox .sidebar-fixed {
     margin-right: 0
   }
@@ -8286,6 +8342,10 @@ input[type=radio]~label::after {
   font-weight: 400
 }
 
+.page-content .container .row .col-lg-8.col-md-12.pr-lg-4{
+  padding: 35px !important;
+}
+
 @media (max-width:575px) {
   .comments ul ul {
     margin-left: 3rem
@@ -8837,6 +8897,7 @@ aside+div .product-single .product-details {
 }
 
 @media (max-width:991px) {
+
   .icon-box i::before {
     font-size: 3.5rem
   }
@@ -9075,14 +9136,7 @@ aside+div .product-single .product-details {
   opacity: 1
 }
 
-.widget-collapsible .toggle-btn::after,
-.widget-collapsible .toggle-btn::before {
-  content: "";
-  position: absolute;
-  border-top: 2px solid #666;
-  width: 10px;
-  transition: transform .3s
-}
+ 
 
 .widget-collapsible>.collapsed .toggle-btn::before {
   transform: rotate(90deg)
@@ -10550,12 +10604,7 @@ aside+div .product-single .product-details {
       opacity: .6
     }
 
-    .toggle-btn::before {
-      content: "\f054";
-      display: block;
-      transition: transform .5s
-    }
-
+  
     .show>a .toggle-btn::before {
       transform: rotate(630deg)
     }
@@ -14041,4 +14090,48 @@ border-bottom: 1px solid beige;
 
 .table td,.table thead th{
   padding: 18px;
+}
+#coupon_code{
+  height: 55px;
+}
+@media (max-width: 991px){
+  .summary.mb-4 .btn-success{
+    display: block !important;
+  }
+
+   .bgwhite .container .row .col-sm-6.col-lg-3{
+    display: none;
+   }
+
+   .filter_phone{
+    display: block !important;
+   }
+   .filter_all{
+    padding: 10px;
+   }
+}
+
+
+.recu-cap img{
+  width: 20px;
+  height: 20px;
+}
+.recu-cap{
+  margin-top: 10px;
+
+}
+
+.recu-cap:hover{
+  border-color: #a8c26e;
+  background-color: #a8c26e;
+color: #fff;
+}
+
+#inputFile{
+  display: none !important;
+}
+
+
+.summary.mb-4 .btn-success{
+  display: none;
 }

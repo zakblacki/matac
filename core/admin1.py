@@ -13,7 +13,7 @@ from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils.text import slugify
- 
+
 
 def make_refund_accepted(modeladmin, request, queryset):
     queryset.update(refund_requested=False, refund_granted=True)
@@ -30,15 +30,15 @@ class OrderAdmin(admin.ModelAdmin):
                     'refund_requested',
                     'refund_granted',
                     'shipping_address',
-                    'billing_address',
-                    'payment',
+                    
+                    
                     'coupon'
                     ]
     list_display_links = [
         'user',
         'shipping_address',
-        'billing_address',
-        'payment',
+        
+        
         'coupon'
     ]
     list_filter = ['user',
@@ -144,8 +144,8 @@ class ExcelFileAdmin(admin.ModelAdmin):
             image_src = sheet["J" + str(index)].value
             
             if sheet["J" + str(index)].value :
-                image_src ="https://cdn.dsmcdn.com"+ sheet["C" + str(index)].value.split(",")[0].replace("\\","/").replace(" ","")
-                image_folder = image_src.split("/")[-3]
+                image_src = sheet["J" + str(index)].value.split(",")[0].replace("\\","/").replace(" ","")
+                image_folder = image_src.split("/")[-2]
                 
                 local_image_path = image_src 
                 # Replace this with the actual path of the image on your computer
@@ -166,24 +166,18 @@ class ExcelFileAdmin(admin.ModelAdmin):
                 filename = os.path.basename(local_image_path)
                 image_path = os.path.join(media_root,media_root1, filename)
                  
-                print('request image file ..')
+
                 # Copy the image file to the media_root directory
-                response=requests.get(local_image_path)
-                print("requested..")
-                if response.status_code == 200 :
-                    print("responsed..")
-                    with open(image_path, 'wb') as dest_file:
-                        print("opened..")
-                        dest_file.write(response.content)
+                if os.path.exists(local_image_path) :
+                    with open(local_image_path, 'rb') as src_file, open(image_path, 'wb') as dest_file:
+                        dest_file.write(src_file.read())
                       
 
               
 
                          
-                print('check ..',os.path.exists(image_path))
-                print('----',image_path)
-                if categoryName and os.path.exists(image_path):
-                    print('creted cat ..')
+                
+                if categoryName and os.path.exists(local_image_path):
                     doesexist = Category.objects.filter(title=categoryName)
                     if len(doesexist) > 0:
                         categoryName=doesexist.first().title
@@ -192,11 +186,11 @@ class ExcelFileAdmin(admin.ModelAdmin):
                             title=categoryName,
                             slug=slugify(categoryName),
                             description=categoryName,
-                            image=os.path.join('images',media_root1, filename).replace("/workspace/media_root","")
+                            image=os.path.join('images',media_root1, filename)
                         )
 
 
-                if sheet["J" + str(index)].value and os.path.exists(image_path):
+                if sheet["J" + str(index)].value and os.path.exists(local_image_path):
                     if name:
 
                         slug = slugify(name)
@@ -225,7 +219,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
                             description_short=json.loads(details),
                             description_long=json.loads(details),
                             tags=json.loads(details),
-                            image=image_path.replace("/workspace/media_root",""),
+                            image=os.path.join('images',media_root1, filename),
                             rating=rating,
                             color_exist="M,S",
                             color_not_exist="F",
@@ -239,9 +233,9 @@ class ExcelFileAdmin(admin.ModelAdmin):
                         )
                         
                        
-                        for image_url in sheet["C" + str(index)].value.split(",")[1:]:
-                            image_src = "https://cdn.dsmcdn.com"+ image_url.replace("\\","/").replace(" ","")
-                            image_folder = image_src.split("/")[-3]
+                        for image_url in sheet["J" + str(index)].value.split(",")[1:]:
+                            image_src = image_url.replace("\\","/").replace(" ","")
+                            image_folder = image_src.split("/")[-2]
                                 
                             local_image_path = image_src 
                             # Replace this with the actual path of the image on your computer
@@ -265,18 +259,14 @@ class ExcelFileAdmin(admin.ModelAdmin):
                             slug_ex=itemnow.slug
                                 
                             # Copy the image file to the media_root directory
-                            if not os.path.exists(image_path)  :
+                            if os.path.exists(local_image_path)  :
                                 ImageItem.objects.create(
                                     item=Item.objects.filter(slug=slug_ex).first(),
                                     slug=slug_ex,
-                                    image=image_path.replace("/workspace/media_root","") 
+                                    image=os.path.join('images',media_root1, filename)
                                 )
-                                response = requests.get(local_image_path)
-                                if response.status_code == 200:
-                                    
-                                    with open(image_path, 'wb') as dest_file:
-                                        print("opened..")
-                                        dest_file.write(response.content)
+                                with open(local_image_path, 'rb') as src_file, open(image_path, 'wb') as dest_file:
+                                    dest_file.write(src_file.read())
                                      
 
                                 
@@ -389,3 +379,6 @@ admin.site.register(Payment)
 admin.site.register(Coupon)
 admin.site.register(Refund)
 admin.site.register(BillingAddress, AddressAdmin)
+
+
+
