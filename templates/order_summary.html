@@ -125,7 +125,6 @@ padding: 16px;">
                       <td class="product-quantity ">
                          
                           
-                          <input type="hidden" name="csrfmiddlewaretoken" value="y6v0I4Yd2Y1ms7v8pnszMFie6cxIbmWVZstnUk4xwDLwd8punmxtSMcICQq8KjBo">
                           <div class="input-group">
                           <a data-size="{{order_item.size}}" href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}">
                             <button   data-size="{{order_item.size}}"  class="btn-num-update-quantity-down d-icon-minus"></button>
@@ -309,7 +308,7 @@ CHIKH ASMA (MATACOR) </p>
       e.preventDefault()
       var sizetarget_ =el.dataset.size
       var lastSlashIndex = el.href.lastIndexOf('/');
-      el.href=el.href.slice(0, lastSlashIndex) + '?name='+sizetarget_
+      el.href=el.href.slice(0, lastSlashIndex) + '?search='+sizetarget_
       window.location =   el.href
     })
   })
@@ -319,7 +318,7 @@ CHIKH ASMA (MATACOR) </p>
       e.preventDefault()
       var sizetarget_ =el.dataset.size
       var lastSlashIndex = el.parentElement.href.lastIndexOf('/');
-      el.parentElement.href=el.parentElement.href.slice(0, lastSlashIndex) + '?name='+sizetarget_
+      el.parentElement.href=el.parentElement.href.slice(0, lastSlashIndex) + '?search='+sizetarget_
        window.location =   el.parentElement.href
     })
   })
@@ -329,7 +328,7 @@ CHIKH ASMA (MATACOR) </p>
       e.preventDefault()
       var sizetarget_ =el.dataset.size
       const lastSlashIndex = el.parentElement.href.lastIndexOf('/');
-      el.parentElement.href=el.parentElement.href.slice(0, lastSlashIndex) + '?name='+sizetarget_
+      el.parentElement.href=el.parentElement.href.slice(0, lastSlashIndex) + '?search='+sizetarget_
       window.location =   el.parentElement.href
     })
   })

@@ -1336,7 +1336,7 @@ position: absolute;
 }
 
 .mobile_cart{
-  display: none;
+  display: none !important;
 }
 @media (max-width: 992px){
   .product-form select{
