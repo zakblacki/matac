@@ -352,33 +352,20 @@ min-height: 110vh;">
 		<!-- Menu Mobile -->
 		<div class="wrap-side-menu" >
 			<nav class="side-menu">
-				<ul class="main-menu">
+				<ul class="main-menu ">
 					 
 
-					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
-						<div class="topbar-child2-mobile">
-							<span class="topbar-email">
-								flow-in@example.com
-							</span>
-
-							<div class="topbar-language rs1-select2">
-								<select class="selection-1" name="time">
-									<option>USD</option>
-									<option>EUR</option>
-								</select>
-							</div>
-						</div>
+					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8 mobile-menu-container"
+					style="transform: translate(0);">
+						<form action="/shop"   class="input-wrapper">
+ 								<input style="height: 100%;" type="text" class="form-control" name="search" autocomplete="off" placeholder="Rechercher par mot clés..." required="">
+								<button class="btn btn-search" type="submit">
+									<i class="d-icon-search"></i>
+								</button>
+							</form>
 					</li>
 
-					<li class="item-topbar-mobile p-l-10">
-						<div class="topbar-social-mobile">
-							<a href="#" class="topbar-social-item fa fa-facebook"></a>
-							<a href="#" class="topbar-social-item fa fa-instagram"></a>
-							<a href="#" class="topbar-social-item fa fa-pinterest-p"></a>
-							<a href="#" class="topbar-social-item fa fa-snapchat-ghost"></a>
-							<a href="#" class="topbar-social-item fa fa-youtube-play"></a>
-						</div>
-					</li>
+					 
 					
 
 					<li class="item-menu-mobile">
@@ -393,11 +380,17 @@ min-height: 110vh;">
 
 					{% if request.user.is_authenticated %}
 					<li class="item-menu-mobile">
-						<a href="{% url 'core:order-summary' %}">Cart<span class="badge badge-dark">{{ request.user|cart_item_count }}</span></a>
+						<a href="{% url 'core:order-summary' %}">Checkout<span class="badge badge-dark">{{ request.user|cart_item_count }}</span></a>
 					</li>
+					{% if user.is_athenticated %}
 					<li class="item-menu-mobile">
-						<a href="{% url 'account_logout' %}">Logout</a>
+						<a href="/login">Logout</a>
 					</li>
+					{% else %}
+					<li class="item-menu-mobile">
+						<a href="/login">Login</a>
+					</li>
+					{% endif %}
 					{% else %}
 					<li class="item-menu-mobile">
 						<a href="#">Login</a>
@@ -414,4 +407,8 @@ min-height: 110vh;">
 		</div>
 	</header>
 
-	 
+	 <script>
+		document.getElementsByClassName("btn-close")[1].addEventListener("click",function(e){
+  e.preventDefault(); document.getElementsByClassName("header-wrapicon2")[1].children[0].click()
+}) 
+	 </script>

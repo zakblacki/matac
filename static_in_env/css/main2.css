@@ -12672,6 +12672,19 @@ ul.megamenu {
 }
 
 @media (max-width:992px) {
+
+  .mobile-menu-container{
+    box-shadow: none !important;
+  }
+  .side-menu .main-menu > li{
+    color: #222;
+    position: relative;
+    border-bottom: 1px solid #2e3237;
+    background: transparent;
+  }
+  .side-menu .main-menu > li > a{
+    color: #222 !important;
+  }
   .cart-dropdown.type2 .cart-count {
     right: -6px;
     top: -5px
