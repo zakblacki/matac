@@ -6963,7 +6963,16 @@ input[type=radio]~label::after {
     margin: auto !important;
   }
   .header-search.hs-simple .btn-search{
-    left: 0px !important;
+    left: -10px !important;
+  }
+  .header-icons-mobile{
+    margin-right: 7px !important;
+  }
+  .linedivide2{
+    margin-right: -3px !important;
+  }
+  #coupon_code{
+    pad: 5px !important;
   }
   .wrap-slick3.flex-sb.flex-w{
     justify-content: center;

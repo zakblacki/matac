@@ -174,9 +174,15 @@ pss.update();
 		var butnsslide= document.querySelectorAll(".widget-title")
 		Array.from(butnsslide).forEach(ele=>{
 			ele.addEventListener("click",function(){
+        
 				var ulsib =this.nextElementSibling
+        
 				var ulsibcheck =ulsib.classList.contains("widget-body")
-				ulsib.classList.toggle("slided")
+        
+				if(window.location.pathname.includes("shop")){
+          
+          ulsib.classList.toggle("slided")
+        }
 				var hiddenelecheck = ulsib.classList.contains("slided")
 				if( ulsibcheck && !hiddenelecheck){
 					$(ulsib).animate({
@@ -194,7 +200,7 @@ pss.update();
     
 </script>
 
-//category filter
+
 
 <script>
   var search_page=window.location.search.replaceAll("?","").split("&")

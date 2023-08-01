@@ -19,7 +19,8 @@ from rest_framework import generics
 import random
 import string
 import stripe
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login , logout
+
 from django.contrib.auth.forms import UserCreationForm
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -143,6 +144,9 @@ def wishlist_add_view(request,slug):
         return redirect("/login")
      
 
+def logout_view(request):
+    logout(request)
+    return redirect('/')
 
 def wishlist_view(request):
      
@@ -154,13 +158,15 @@ def wishlist_view(request):
         if request.user.is_authenticated:
             
             user_wish=WishList.objects.filter(user=request.user).first()
-            if user_wish.items.all():
+            if len(user_wish.items.all())>0:
                 context["wishlists"]=user_wish.items.all()
+                return render(request, 'wishlist.html' ,context)
             else:
-                pass
+                return redirect("/")
+        else:
+            return redirect("/")
         
-        
-        return render(request, 'wishlist.html' ,context)
+            
     except:
     
         return redirect("/")

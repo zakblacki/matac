@@ -523,15 +523,96 @@ itemLinks.forEach(itemLink => {
 					Related Products
 				</h3>
 			</div>
+			<div class="owl-carousel owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
+				'nav': true,
+				'dots': true,
+				'margin': 10,
+				'responsive': {
+					'0': {
+						'items': 4
+					},
+					'576': {
+						'items': 4
+					},
+					'768': {
+						'items': 4
+					},
+					'992': {
+						'items': 4
+					},
+					'1200': {
+						'items': 5
+					}
+				}
+			}" style="animation-duration: 1.2s;">
+				
+		 
+			<div class="owl-stage-outer">
+				<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); 
+				transition: all 3s ease 0s; width: 5814px;">
+			{% for new_item in relate_pros %}
+			
+			<div class="owl-item new_item{% if forloop.counter <= 4 %} active{% endif %}" style="width: 247px !important; margin-right: 20px;">
+				<div class="product product-classic">
+				<figure class="product-media">
+				<a href="/product/{{new_item.slug}}">
+					
+						<img style="width: 100%; height: 100%;" src={{new_item.image.url}} loading="lazy" alt="Manteau Noir  Oversize en Laine  image" width="300" height="338">
+					
+				</a>
+			<div class="product-action-vertical">
+	 
+			<a id="wishHeart" hx-get="/fr/wishlistadd/873" hx-target="this" hx-swap="outerHTML" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+				<img src="/static/images/VSC.svg">
+			</a>		
+			</div>
 
+		 
+
+<div class="product-label-group">
+	
+		
+		<label class="product-label label-top">{{new_item.get_label_display }}</label>
+	 
+</div>  
+</figure>
+<div class="product-details">
+<h3 class="product-name">
+	<a href="/product/{{new_item.slug}}">{{new_item.title}} </a>
+</h3>
+<div class="product-price d-flex justify-content-between">
+	<div>
+		
+		{% if new_item.price > new_item.discount_price %}
+		<del class="old-price old-price-block">&nbsp;{{new_item.price}} DA</del>
+		 &nbsp; 
+		<ins class="new-price price-block">{{new_item.discount_price}}DA</ins>
+		{% else %}
+
+		<ins class="new-price price-block">{{new_item.price}}DA</ins>
+{% endif %}
+	</div>
+	
+</div>
+
+
+</div>
+</div>
+			</div> 
+			{% endfor %}
+
+
+				</div>
+			</div>
+			
 			<!-- Slide2 -->
-			<div class="wrap-slick2">
+			<!-- <div class="wrap-slick2">
 				<div class="slick2">
 
-					{%for rel_pro in relate_pros %}
+					  {%for rel_pro in relate_pros %}
 					
 					<div class="item-slick2 p-l-15 p-r-15">
-						<!-- Block2 -->
+						 
 						<div class="block2">
 							<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
 								<img src="{{rel_pro.image.url}}" alt="IMG-PRODUCT">
@@ -543,7 +624,7 @@ itemLinks.forEach(itemLink => {
 									</a>
 
 									<div class="block2-btn-addcart w-size1 trans-0-4">
-										<!-- Button -->
+									 
 										<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
 											Add to Cart
 										</button>
@@ -564,9 +645,9 @@ itemLinks.forEach(itemLink => {
 					</div>
 
 
-					{% endfor %}
+					{% endfor %}  
 				</div>
-			</div>
+			</div> -->
 
 		</div>
 	</section>
