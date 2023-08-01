@@ -132,8 +132,18 @@
 						<span class="header-icons-noti">0</span>
 
 						<!-- Header cart noti -->
-						<div class="header-cart header-dropdown" style="overflow: hidden;">
+						<div class="header-cart header-dropdown" style="overflow: hidden;
+						top: -16px;
+min-height: 110vh;">
 							<ul class="header-cart-wrapitem">
+								<div class="cart-header" style="display: flex;
+								align-items: center;
+								justify-content: space-between;
+								border-bottom: 1px solid #e1e1e1;
+								padding-bottom: 1.3rem;">
+									<h4 class="cart-title">Panier</h4>
+									<a href="#" class="btn btn-dark btn-link btn-icon-right btn-close">fermer<i class="d-icon-arrow-right"></i><span class="sr-only">Panier</span></a>
+								</div>
 								{% if request.user.is_authenticated %}
 								{% orders request.user as orders_cart %}
 								{% for order in orders_cart.order %}
@@ -154,29 +164,34 @@
 										</div>
 									</li>
 								
-								{% endfor %}
-								{% endif %}
+									{% empty %}
+									<p style="font-size: 1.4rem;
+									font-weight: 700;
+									color: #222;
+									letter-spacing: -.0428em;
+									line-height: 1;
+									padding: 14px;
+									padding-left: 14px;
+									padding-left: 0;
+									" class="mt-2">aucun Produit trouver</p>
+									
+									<div class="cart-action">
+										<a style="width: 100%;" href="/shop" class="btn btn-dark"><span>Aller au Shopping</span></a>
+									</div>
+									{% endfor %}
+								 
 							</ul>
-
+							{% if orders_cart.total != 0 %}
 							<div class="header-cart-total">
-								Total:  {{orders_cart.total}}DZD
+								Total: {{orders_cart.total}}DZD
 							</div>
-
-							<div class="header-cart-buttons">
-								<div class="header-cart-wrapbtn">
-									<!-- Button -->
-									<a href="cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-										View Cart
-									</a>
-								</div>
-
-								<div class="header-cart-wrapbtn">
-									<!-- Button -->
-									<a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-										Check Out
-									</a>
-								</div>
+							<div class="cart-action">
+								<a style="width: 100%;" href="/shop" class="btn btn-dark"><span>Checkout</span></a>
 							</div>
+							{% endif %}
+							 
+
+							{% endif %}	 
 						</div>
 					</div>
 				</div>
@@ -249,7 +264,16 @@
 
 						<!-- Header cart noti -->
 						<div   class="header-cart header-dropdown mobile" style="display: none;">
+							
 							<ul class="header-cart-wrapitem">
+								<div class="cart-header" style="display: flex;
+								align-items: center;
+								justify-content: space-between;
+								border-bottom: 1px solid #e1e1e1;
+								padding-bottom: 1.3rem;">
+									<h4 class="cart-title">Panier</h4>
+									<a href="#" class="btn btn-dark btn-link btn-icon-right btn-close">fermer<i class="d-icon-arrow-right"></i><span class="sr-only">Panier</span></a>
+								</div>
 								{% if request.user.is_authenticated %}
 								{% orders request.user as orders_cart %}
 								{% for order in orders_cart.order %}
@@ -269,30 +293,50 @@
 											</span>
 										</div>
 									</li>
+								{% empty %}
+								<p style="font-size: 1.4rem;
+								font-weight: 700;
+								color: #222;
+								letter-spacing: -.0428em;
+								line-height: 1;
+								padding: 14px;
+								padding-left: 14px;
+								padding-left: 0;
+								" class="mt-2">aucun Produit trouver</p>
 								
+								<div class="cart-action">
+									<a style="width: 100%;" href="/shop" class="btn btn-dark"><span>Aller au Shopping</span></a>
+								</div>
 								{% endfor %}
-								{% endif %}
+
+								
 							</ul>
 
+							{% if orders_cart.total != 0 %}
 							<div class="header-cart-total">
 								Total: {{orders_cart.total}}DZD
 							</div>
+							<div class="cart-action">
+								<a style="width: 100%;" href="/shop" class="btn btn-dark"><span>Checkout</span></a>
+							</div>
+							{% endif %}
 
-							<div class="header-cart-buttons">
+							<!-- <div class="header-cart-buttons">
 								<div class="header-cart-wrapbtn">
-									<!-- Button -->
+									 
 									<a href="cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
 										View Cart
 									</a>
 								</div>
 
 								<div class="header-cart-wrapbtn">
-									<!-- Button -->
+									 
 									<a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
 										Check Out
 									</a>
 								</div>
-							</div>
+							</div> -->
+							{% endif %}
 						</div>
 					</div>
 				</div>
