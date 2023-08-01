@@ -1339,6 +1339,7 @@ position: absolute;
   display: none !important;
 }
 @media (max-width: 992px){
+  
   .product-form select{
     width: 74px !important;
   }
@@ -1387,6 +1388,7 @@ position: absolute;
   .product-details{
     width: 100% !important;
     padding: 10px;
+    margin-top: 20px;
   }
 
   .sticky_div a .btn-product{
@@ -1451,7 +1453,7 @@ position: absolute;
     width: 190px !important;
   }
   .ab-t-l{
-    top: -60px !important;
+    top: -180px !important;
   }
   .banner2.bg5{
     min-height: 110vh;
@@ -1475,11 +1477,12 @@ position: absolute;
     font-size: 15px;
   }
   .essential {
-    height: 50vh !important;
+    height: 55vh !important;
   padding-right: 5px;
   overflow: hidden;
   width: 50%;
   margin-bottom:  0px;
+  padding: 5px !important;
   }
   .pos-relative{
     height: 100%;
