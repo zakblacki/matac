@@ -7,7 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, View
 from django.shortcuts import redirect
 from django.utils import timezone
-from .forms import CheckoutForm, CouponForm, RefundForm, FormInput
+from .forms import *
 from .models import *
 from django.http import HttpResponseRedirect
 import ast
@@ -19,6 +19,8 @@ from rest_framework import generics
 import random
 import string
 import stripe
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import UserCreationForm
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 from django import template
@@ -58,6 +60,113 @@ class HomeView(ListView):
     queryset = Item.objects.filter(is_active=True)
     context_object_name = 'items'
 
+
+
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = User.objects.filter(email=email).first()
+            if user is not None:
+                user = authenticate(username=user.username, password=password)
+                if user is not None:
+                    login(request, user)
+                    return redirect('/')  # Redirect to the home page after successful login
+            # Add an error message here if login fails
+            pass
+    else:
+        form = LoginForm()
+        
+    return render(request, 'login.html', {'form': form})
+
+
+def register_view(request):
+     
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            
+          
+            
+            if form.cleaned_data['password1'] == form.cleaned_data['password2']:
+                user = form.save(commit=False)
+                
+                user.set_password(form.cleaned_data['password1'])
+                user.save()
+                return redirect('core:login_')
+            else:
+                
+                return redirect('core:register_')
+         
+            
+    else:
+        form = RegistrationForm()
+
+    return render(request, 'register.html', {'form': form})
+
+
+
+def wishlist_add_view(request,slug):
+    item = get_object_or_404(Item, slug=slug)
+    
+    
+    if request.user.is_authenticated:
+        if item:
+            user_wish = WishList.objects.filter(user=request.user)
+            if user_wish.first():
+                user_wish =user_wish.first()
+                if item in user_wish.items.all():
+                    
+                    user_wish.items.remove(item)
+                else:
+                    user_wish.items.add(item)
+                    
+                 
+            else:
+                WishList.objects.create(
+                    user= request.user,
+                     
+                )
+                WishList.objects.get(
+                    user= request.user,
+                ).items.add(item)
+             
+                
+        else:
+            return redirect("wishlist")
+        
+        return redirect(f"/product/{slug}/")
+    else:
+        return redirect("/login")
+     
+
+
+def wishlist_view(request):
+     
+    
+ 
+    
+    context={}
+    try:
+        if request.user.is_authenticated:
+            
+            user_wish=WishList.objects.filter(user=request.user).first()
+            if user_wish.items.all():
+                context["wishlists"]=user_wish.items.all()
+            else:
+                pass
+        
+        
+        return render(request, 'wishlist.html' ,context)
+    except:
+    
+        return redirect("/")
+
+
+
 def index(request):
     
     context={
@@ -65,7 +174,7 @@ def index(request):
         "category":Category.objects.filter(is_active=True),
         "new_items":Item.objects.filter(label="N"),
         "most_sale":Item.objects.filter(label="S"),
-         
+        "essentials":Essential.objects.filter(is_active=True),
         
     }
 
@@ -252,7 +361,19 @@ class ItemDetailView(DetailView):
         context['images'] =ImageItem.objects.filter(slug=self.object.slug) 
         context["details"] = ast.literal_eval(self.object.details)
         context["colors_item"] = Item.objects.filter(article_id=self.object.article_id)
-
+        
+        if  self.request.user.is_authenticated:
+            try:
+                if self.object in WishList.objects.get(user=self.request.user).items.all():
+                
+                    context["whished"]=True
+                else:
+                    context["whished"]=False
+            except:
+                pass
+        else:
+            context["whished"]=None
+        
         relateditems = Item.objects.filter(category=self.object.category).exclude(pk=self.object.pk)
         if len(relateditems) < 5 :
             objecttags=self.object.title.split(" ")
@@ -473,7 +594,7 @@ def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
      
     size= request.GET["search"]
-    print(size)
+ 
     
     
     order_item, created = OrderItem.objects.get_or_create(

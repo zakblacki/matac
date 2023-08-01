@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="page-content mt-6 pb-2 mb-10">
+    <div class="container">
+        <div class="row">
+            
+        </div>
+        <div class="login-popup mt-3">
+            <div class="form-box">
+                <div class="tab tab-nav-simple tab-nav-boxed form-tab">
+                    <ul class="nav nav-tabs nav-fill align-items-center border-no justify-content-center mb-5" role="tablist">
+                        <li class="nav-item">
+                            <span class="nav-link active border-no lh-1 ls-normal">Se connecter</span>
+                        </li>
+                        <li class="delimiter">OU</li>
+                        <li class="nav-item">
+                            <a class=" border-no lh-1 ls-normal" href="/register/">S'inscrir</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="" id="signin">
+                            <form action="/login/" method="POST">
+                                {% csrf_token %}
+                                <div class="form-group mb-3">
+                                {{form.email}}           
+                                </div>
+                                <div class="form-group">
+                                  {{form.password}}
+                                </div>
+                                <div class="form-footer">
+                                    <a href="#" class="lost-link">J'ai oublier mon mot de pass</a>
+                                </div>
+                                <button class="btn btn-dark btn-block btn-rounded" type="submit">Se connecter</button>
+                            </form>
+                            
+                          
+                            
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

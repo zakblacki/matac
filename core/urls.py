@@ -34,6 +34,10 @@ urlpatterns = [
     path('payment/ccp', PaymentView.as_view(), name='payment'),
     path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
     path('items/', ItemListView.as_view(), name='item-retrieve-update-destroy'),
+    path('login/', login_view, name='login_'),
+    path('register/', register_view, name='register_'),
+    path('wishlist/', wishlist_view, name='wishlist'),
+    path('wishlist-add/<slug>/', wishlist_add_view, name='wishlist-add'),
 ]
 
 handler404 = 'core.views.custom_page_not_found_view'

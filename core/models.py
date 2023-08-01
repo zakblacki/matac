@@ -6,7 +6,7 @@ from django_countries.fields import CountryField
 from django.core.validators import MaxValueValidator
 from multiupload.fields import MultiImageField
 
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 CATEGORY_CHOICES = (
@@ -45,6 +45,22 @@ class Slide(models.Model):
 
     def __str__(self):
         return "{} - {}".format(self.caption1, self.caption2)
+
+
+
+class Essential(models.Model):
+    model_type=models.CharField(max_length=150)
+    line1 = models.CharField(max_length=100)
+    line2 = models.CharField(max_length=100)
+    price= models.IntegerField()
+    button_text= models.CharField(max_length=100)
+    link = models.CharField(max_length=100)
+    image = models.ImageField(help_text="Size: 1920x570")
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return "{} - {}".format(self.line1, self.price)
+
 
 
 
@@ -277,3 +293,9 @@ class Refund(models.Model):
         return f"{self.pk}"
 
 
+
+
+
+class WishList(models.Model):
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    items=  models.ManyToManyField(Item)

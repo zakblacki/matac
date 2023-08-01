@@ -1,13 +1,32 @@
 from django import forms
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
 
 PAYMENT_CHOICES = (
     ('S', 'Stripe'),
     ('P', 'PayPal')
 )
 
+class LoginForm(forms.Form):
+    email = forms.EmailField(max_length=150, widget=forms.TextInput(attrs={'placeholder': 'Email Address', 'class': 'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'}))
 
+class RegistrationForm(UserCreationForm):
+    email = forms.EmailField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Email', 'class': 'form-control'}))
+    username = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Full name', 'class': 'form-control'}))
+    phone_number = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'placeholder': 'phone number', 'class': 'form-control'}))
+    address = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Address', 'class': 'form-control'}))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'}) )
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password', 'class': 'form-control'})   )
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'phone_number', 'address', 'password1', 'password2']
+        
+        
 class FormInput(forms.Form):
     recu_img = forms.ImageField(widget=forms.FileInput(attrs={
         

@@ -1,0 +1,63 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{%  block content %}
+
+<div class="page-content mt-6 pb-2 mb-10">
+    <div class="container">
+        <div class="login-popup">
+            
+            <div class="form-box">
+                <div class="tab tab-nav-simple tab-nav-boxed form-tab">
+                    <ul class="nav nav-tabs nav-fill align-items-center border-no justify-content-center mb-5" role="tablist">
+                        <li class="nav-item">
+                            <span class="nav-link active border-no lh-1 ls-normal">S'inscrir</span>
+                        </li>
+                        <li class="delimiter">OU</li>
+                        <li class="nav-item">
+                            <a class="border-no lh-1 ls-normal" href="/login/">Se connecter</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="" id="signin">
+                            <form  method="post">
+                                {% csrf_token %}
+                                 <div class="form-group mb-3">
+                                    {{form.username}}
+                                </div>
+                                <div class="form-group mb-3">
+                                    {{form.phone_number}}                                </div>
+                                <div class="form-group mb-3">
+                                    {{form.email}}                                </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    {{form.address}}                                </div>
+                                </div>
+                                <div class="form-group">
+                                    {{form.password1}}                                </div>
+                                </div>
+                                <div class="form-group">
+                                    {{form.password2}}                                </div>
+                                </div>
+                                <button class="btn btn-dark btn-block btn-rounded" type="submit">Je Valide</button>
+                            </form>
+                            {% if form.errors %}
+        <p>There are some errors in the form:</p>
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

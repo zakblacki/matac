@@ -285,9 +285,12 @@
 		<h4 class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" style="text-transform: uppercase;">Season's Essentials</h4>
 		<div class="">
 			<div class="row" style="height: 500px;">
+				
+				
+				{% for essential in essentials %}
 				<div style="height: 430px;padding-right: 5px;"   class="essential col-sm-10 col-md-8 col-lg-3 m-l-r-auto p-t-15 p-b-15">
 					<div style="height: 430px;" class="pos-relative">
-						<img style="height: 430px;" src="https://static.nike.com/a/images/f_auto/dpr_2.0/h_700,c_limit/c85699cb-2813-4acd-8822-c3344fe07f17/nike-just-do-it.jpg" alt="IMG-BANNER" class="ban_img">
+						<img style="height: 430px;" src="{{essential.image.url}}" alt="IMG-BANNER" class="ban_img">
 						<div style="position: absolute;
 						width: 50px;
 						height: 50px;
@@ -296,13 +299,13 @@
 						font-family: Montserrat-Bold;
 						font-size: 22px;
 						color: white;
-						line-height: 1.2;" class="title-ess">homewear</div>
+						line-height: 1.2;" class="title-ess">{{essential.model_type}}</div>
 						<div style="height: 430px;" class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
 							<br><br><br><br><br>
 							<br><br><br><br><br>
 							<span class="m-text9 p-t-100  fs-20-sm">
-								<span style="font-size: 23px;">à partir <br> de</span> 
-								<span style="font-weight: bolder;">1990</span><sup>DA</sup>
+								<span style="font-size: 23px;">{{essential.line1}} <br> {{essential.line2}}</span> 
+								<span style="font-weight: bolder;">{{essential.price}}</span><sup>DA</sup>
 							</span>
 
 							<br>
@@ -310,90 +313,17 @@
 
 								<div class="wrap-btn-slide1 w-size1 animated" data-appear="slideInUp">
 						
-							<a href="/shop/" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite  trans-0-4">
-								Shop Now
+							<a href="{{essential.link}}" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite  trans-0-4">
+								{{essential.button_text}}
 							</a>
 						</div>
 
 						</div>
 					</div>
 				</div>
-
-				<div style="height: 430px;padding-left: 5px;padding-right: 5px;"   class="essential col-sm-10 col-md-8 col-lg-3 m-l-r-auto p-t-15 p-b-15">
-					<div style="height: 430px;" class="pos-relative">
-						<img style="height: 430px;" src="https://static.nike.com/a/images/f_auto/dpr_2.0/h_700,c_limit/3d8a771b-0fd0-49b0-a9ad-1c688b192bf9/nike-just-do-it.jpg"  alt="IMG-BANNER" class="ban_img">
-
-						<div class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
-							<br><br><br><br><br>
-							<br><br><br><br><br>
-							<span class="m-text9 p-t-100  fs-20-sm">
-								<span style="font-size: 23px;">à partir <br> de</span> 
-								<span style="font-weight: bolder;">1990</span><sup>DA</sup>
-							</span>
-
-							<br>
-							
-
-								<div class="wrap-btn-slide1 w-size1 animated" data-appear="slideInUp">
-						
-							<a href="/shop/" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite  trans-0-4">
-								Shop Now
-							</a>
-						</div>
-
-						</div>
-					</div>
-				</div>
-				<div style="height: 430px; padding-left: 5px;padding-right: 5px;"   class="essential col-sm-10 col-md-8 col-lg-3 m-l-r-auto p-t-15 p-b-15">
-					<div style="height: 430px;" class="pos-relative">
-						<img style="height: 430px;" src="https://static.nike.com/a/images/f_auto/dpr_2.0/h_700,c_limit/c85699cb-2813-4acd-8822-c3344fe07f17/nike-just-do-it.jpg" alt="IMG-BANNER" class="ban_img">
-
-						<div style="height: 430px;" class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
-							<br><br><br><br><br>
-							<br><br><br><br><br>
-							<span class="m-text9 p-t-100  fs-20-sm">
-								<span style="font-size: 23px;">à partir <br> de</span> 
-								<span style="font-weight: bolder;">1990</span><sup>DA</sup>
-							</span>
-
-							<br>
-							
-
-								<div class="wrap-btn-slide1 w-size1 animated" data-appear="slideInUp">
-						
-							<a href="/shop/" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite  trans-0-4">
-								Shop Now
-							</a>
-						</div>
-
-						</div>
-					</div>
-				</div>
-				<div style="height: 430px;padding-left: 5px;"   class="essential col-sm-10 col-md-8 col-lg-3 m-l-r-auto p-t-15 p-b-15">
-					<div style="height: 430px;" class="pos-relative">
-						<img style="height: 430px;" src="https://static.nike.com/a/images/f_auto/dpr_2.0/h_700,c_limit/3d8a771b-0fd0-49b0-a9ad-1c688b192bf9/nike-just-do-it.jpg"  alt="IMG-BANNER" class="ban_img">
-
-						<div class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
-							<br><br><br><br><br>
-							<br><br><br><br><br>
-							<span class="m-text9 p-t-100  fs-20-sm">
-								<span style="font-size: 23px;">à partir <br> de</span> 
-								<span style="font-weight: bolder;">1990</span><sup>DA</sup>
-							</span>
-
-							<br>
-							
-
-								<div class="wrap-btn-slide1 w-size1 animated" data-appear="slideInUp">
-						
-							<a href="/shop/" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite  trans-0-4">
-								Shop Now
-							</a>
-						</div>
-
-						</div>
-					</div>
-				</div>
+				{% endfor %}
+				 
+				 
 			
 			</div>
 		</div>

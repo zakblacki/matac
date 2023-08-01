@@ -347,7 +347,17 @@ itemLinks.forEach(itemLink => {
 										<button  style="width: 100%;" type="submit" class="btn-product btn-cart"><i class="d-icon-bag" style="color:#fff;"></i>Ajouter Au Panier</button> 
 									</a>
 									
-									<a class="sticky-wishlist-th d-md-none d-lg-block d-xl-block  d-xs-none" id="wishHeart" hx-get="/fr/wishlistadd_two/852" hx-target="this" hx-swap="outerHTML"><img src="/static/images/VSC.svg"></a>
+								<a class="sticky-wishlist-th d-md-none d-lg-block d-xl-block  d-xs-none" 
+									id="wishHeart" 
+									href="/wishlist-add/{{object.slug}}">
+									 
+									{% if whished %}
+									<img src="/static/images/PSC.svg">
+									{% else %}
+									<img src="/static/images/VSC.svg">
+
+									{% endif %}
+								</a>
 									
 									
 								 </div> 
@@ -358,7 +368,10 @@ itemLinks.forEach(itemLink => {
 																<button style="width: 100%;" type="submit" class="btn-product btn-cart"><i class="d-icon-bag" style="color:#fff;"></i>Ajouter Au Panier</button> 
 															</a>
 						
-						<a class="sticky-wishlist-th d-md-none d-lg-block d-xl-block  d-xs-none" id="wishHeart" hx-get="/fr/wishlistadd_two/852" hx-target="this" hx-swap="outerHTML" style="display: block !important;height: 100%;height: 40px;"><img src="/static/images/VSC.svg" style="height: 100%;"></a>
+						<a class="sticky-wishlist-th d-md-none d-lg-block d-xl-block  d-xs-none" id="wishHeart" 
+						href="/wishlist-add/{{object.slug}}" 
+						style="display: block !important;height: 100%;height: 40px;">
+						<img src="/static/images/VSC.svg" style="height: 100%;"></a>
 						
 						</div>
 						<hr class="product-divider  mb-3 hr-product">
@@ -440,7 +453,9 @@ itemLinks.forEach(itemLink => {
 												<a id="submit_to" href="/add-to-cart/{{object.slug}}?name=dd">
 													<button type="submit" class="btn-product btn-cart sticky-bag"><i class="d-icon-bag" style="color:#fff;"></i>Ajouter Au Panier</button>
 												</a>
-											<a class="sticky-wishlist-th" id="wishHeart" hx-get="/fr/wishlistadd_two/836" hx-target="this" hx-swap="outerHTML"><img src="/static/images/VSC.svg"></a>
+											<a class="sticky-wishlist-th" id="wishHeart"
+											 href="/wishlist-add/{{object.slug}}" 
+											 ><img src="/static/images/VSC.svg"></a>
 										</div>
 									</div>
 								</div>

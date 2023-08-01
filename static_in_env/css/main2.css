@@ -1607,7 +1607,8 @@ h4 {
 .shop-table td {
   padding: 1.5rem 1rem 1.5rem 0;
   border-top: 1px solid #e1e1e1;
-  font-size: 1.4rem
+  font-size: 1.4rem;
+  padding: 10px;
 }
 
 .shop-table th {
