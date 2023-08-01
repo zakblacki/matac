@@ -1346,6 +1346,8 @@ position: absolute;
 
   .mobile_cart{
     display: block !important;
+    display: flex !important;
+    justify-content: space-around !important;
   }
 
   .mobile_cart .btn-cart{
