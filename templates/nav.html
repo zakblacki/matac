@@ -15,14 +15,37 @@
 <header class="header1">
 		<!-- Header desktop -->
 		<div class="container-menu-header">
-			<div class="topbar">
+			<div class="topbar" style="height: 92px;">
 				 
 
-				 
+				<div class="header-left" style="margin-top: auto;">
+                    <a href="#" class="mobile-menu-toggle">
+                        <i class="d-icon-bars2"></i>
+                    </a>
+                    
+                    
+                    <div class="tab tab-menu" style="width: -moz-available;padding-left: 10px;">
+                        <ul class="nav nav-tabs" role="tablist" style="width: 40%">
+                            
+							<li class="nav-item">
+								<a class="nav-link active" href="/shop">ALL</a>
+							</li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/shop/?gender=F">FEMME</a>
+                                </li>
+                            
+                                <li class="nav-item">
+                                    <a class="nav-link " href="/shop/?gender=M">HOMME</a>
+                                </li>
+                             
+                            
+                        </ul>
+                    </div>
+                <div></div></div>
 				<a href="/" class="logo">
 					<img src="{% static 'images/matacor.png' %}" alt="">
 				</a>
-				<div class="topbar-child2" style="position: relative;
+				<!-- <div class="topbar-child2" style="position: relative;
 				background: #fbf5f5;
 				border-radius:6px 6px 0 0;
 				 ">
@@ -117,30 +140,73 @@
 						
 						
 					</script>
-				</div>
-				<div class="header-icons">
+				</div> -->
+
+
+
+				<div class="header-icons" style="width: 26%;">
 
 					 
 					{% if user.is_authenticated %}
 					<a href="/logout" class="header-wrapicon1 dis-block">
-						<img src="{% static 'images/icons/icon-header-01.png' %}" class="header-icon1" alt="ICON">
+						<img src="{% static 'images/logout.png' %}" class="header-icon1" alt="ICON">
 					</a>
+					<a href="/logout" class="wishlist d-block">
+                        <p class="account-text  d-none d-lg-block d-xl-none"
+						style="height: 100%;
+						margin-top: 0px;
+						font-size: 13px;
+						padding: 4px;
+						font-weight: bolder;
+						color: #222;"
+						>Logout</p>
+                    </a>
 					{% else %}
 					<a href="/login" class="header-wrapicon1 dis-block">
-						<img src="{% static 'images/icons/icon-header-01.png' %}" class="header-icon1" alt="ICON">
+						<img src="{% static 'images/user.png' %}" class="header-icon1" alt="ICON">
 					</a>
+					<a href="/login" class="wishlist d-block">
+                        <p class="account-text  d-none d-lg-block d-xl-none"
+						style="height: 100%;
+						margin-top: 0px;
+						font-size: 13px;
+						padding: 4px;
+						font-weight: bolder;
+						color: #222;"
+						>Login</p>
+                    </a>
 					{% endif %}
 
-					<span class="linedivide1"></span>
+					<span class="linedivide1" style="margin-left: 7px;
+					margin-right: 5px;"></span>
+					<a href="/wishlist" class="header-wrapicon1 dis-block">
+						<img style="scale: 1.6;" src="{% static 'images/VSC.svg' %}" class="header-icon1" alt="ICON">
+					</a>
+					<a   class="wishlist d-block">
+                        <p class="account-text  d-none d-lg-block d-xl-none"
+						style="height: 100%;
+						margin-top: 0px;
+						font-size: 13px;
+						padding: 4px;
+						font-weight: bolder;
+						color: #222;"
+						>Wishlist</p>
+                    </a>
+					 <span class="linedivide1" style="margin-left: 7px;
+					margin-right: 5px;"></span>
 
-					<div class="header-wrapicon2">
-						<img src="{% static 'images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
-						<span class="header-icons-noti">0</span>
-
+					<div class="header-wrapicon2" style="display: flex;">
+						
+						<img src="{% static 'images/shopping.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
+						<span class="header-icons-noti"
+						style="top: -5px;
+						left: 14px;">0</span>
+						
 						<!-- Header cart noti -->
 						<div class="header-cart header-dropdown" style="overflow: hidden;
-						top: -16px;
-min-height: 110vh;">
+						top: -3px;
+min-height: 110vh;
+position: fixed;">
 							<ul class="header-cart-wrapitem">
 								<div class="cart-header" style="display: flex;
 								align-items: center;
@@ -199,7 +265,20 @@ min-height: 110vh;">
 
 							{% endif %}	 
 						</div>
+						<a   class="wishlist d-block"
+						>
+							<p class="account-text  d-none d-lg-block d-xl-none"
+							style="height: 100%;
+						margin-top: 0px;
+						font-size: 13px;
+						padding: 4px;
+						font-weight: bolder;
+						color: #222;
+						"
+						>Account</p>
+						</a>
 					</div>
+					
 				</div>
 			</div>
 
@@ -208,7 +287,7 @@ min-height: 110vh;">
 				
 
 				<!-- Menu -->
-				<div class="wrap_menu">
+				<!-- <div class="wrap_menu">
 					<nav class="menu">
 						<ul class="main_menu">
 							<li>
@@ -220,7 +299,7 @@ min-height: 110vh;">
 								<a href="/shop/">Shop</a>
 							</li>
 
-							<!-- {% categories %} -->
+							  {% categories %} 
 							{%  genders %}
 							{% if request.user.is_authenticated %}
 							<li>
@@ -240,10 +319,132 @@ min-height: 110vh;">
 							{% endif %}
 						</ul>
 					</nav>
-				</div>
+				</div> -->
 
 				<!-- Header Icon -->
-				
+				<nav class="main-nav" style="width: 100%;">
+					<ul class="menu" style="padding: 10px;">
+						
+						
+							<li class="submenu">
+								<a class="subcat-name" href="#" role="button">Vêtements  </a>
+								<ul class="megamenu" aria-labelledby="navbarDropdown">
+									<div class="row ">
+										<div class="col-lg-3">
+											<ul class="two-column">
+												
+													<li class="mega-sub-cat"><a href="/produits/?category=2">Pantalon</a></li>
+												
+													<li class="mega-sub-cat"><a href="/produits/?category=4">Manteau</a></li>
+												
+													<li class="mega-sub-cat"><a href="/produits/?category=9">Robes de chambre</a></li>
+												
+													<li class="mega-sub-cat"><a href="/produits/?category=7">Pull et tricot</a></li>
+												
+													<li class="mega-sub-cat"><a href="/produits/?category=10">Blazers</a></li>
+												
+													<li class="mega-sub-cat"><a href="/produits/?category=3">Robe</a></li>
+												
+													<li class="mega-sub-cat"><a href="/produits/?category=11">Chemises</a></li>
+												
+													<li class="mega-sub-cat"><a href="/produits/?category=13">Blouses</a></li>
+												
+													<li class="mega-sub-cat"><a href="/produits/?category=6">Salopettes et Combinaisons</a></li>
+												
+													<li class="mega-sub-cat"><a href="/produits/?category=12">Jupes</a></li>
+												
+													<li class="mega-sub-cat"><a href="/produits/?category=15">Body</a></li>
+												
+													<li class="mega-sub-cat"><a href="/produits/?category=14">Sweatshirt</a></li>
+												
+													<li class="mega-sub-cat"><a href="/produits/?category=8">Jeans</a></li>
+												
+											</ul>
+										</div>
+										
+										
+										
+										
+									</div>
+								</ul>
+							</li>
+						
+						
+						
+						<li>
+							<a class="subcat-name" href="/produits/?category=16" role="button">Collections </a>
+						</li>
+						
+						
+						
+						<li>
+							<a class="subcat-name" href="/produits/?category=17" role="button">Edits </a>
+						</li>
+						
+						
+						
+							<li class="submenu">
+								<a class="subcat-name" href="#" role="button">Lingerie et Pyjama  </a>
+								<ul class="megamenu" aria-labelledby="navbarDropdown">
+									<div class="row ">
+										<div class="col-lg-3">
+											<ul class="two-column">
+												
+													<li class="mega-sub-cat"><a href="/produits/?category=26">Pyjamas</a></li>
+												
+											</ul>
+										</div>
+										
+										
+										
+										
+									</div>
+								</ul>
+							</li>
+						
+						
+						
+						<li>
+							<a class="subcat-name" href="/produits/?category=19" role="button">Printemps </a>
+						</li>
+						
+						
+						
+						<li>
+							<a class="subcat-name" href="/produits/?category=20" role="button">Hidjab </a>
+						</li>
+						
+						
+						
+						<li>
+							<a class="subcat-name" href="/produits/?category=21" role="button">Chaussures </a>
+						</li>
+						
+						
+						
+						<li>
+							<a class="subcat-name" href="/produits/?category=22" role="button">Accessoires </a>
+						</li>
+						
+						
+						
+						<li>
+							<a class="subcat-name" href="/produits/?category=23" role="button">Promo </a>
+						</li>
+						
+						
+						
+
+						<div class="header-search hs-simple">
+							<form action="/fr/produits/" class="input-wrapper">
+								<input type="text" class="form-control" name="query" autocomplete="off" placeholder="&nbsp; &nbsp; &nbsp; &nbsp; Rechercher par mot clés..." required="">
+								<button class="btn btn-search" type="submit">
+									<i class="d-icon-search"></i>
+								</button>
+							</form>
+						</div>
+					</ul>
+				</nav>
 			</div>
 		</div>
 
@@ -258,33 +459,33 @@ min-height: 110vh;">
 			<div class="btn-show-menu">
 				<div class="btn-show-menu">
 	
-					<div class="header-icons-mobile">
-									<a href="/wishlist" class="header-wrapicon1 dis-block">
-										<img style="scale: 1.6;" src="{% static 'images/VSC.svg' %}" class="header-icon1" alt="ICON">
-									</a>
 				
-									 
-				
-									 
 								</div>
 					
 					
 								<!-- Header Icon mobile -->
 								<div class="header-icons-mobile">
-									{% if user.is_athenticated %}
+									{% if user.is_authenticated %}
 									<a href="/logout" class="header-wrapicon1 dis-block">
-										<img src="{% static 'images/icons/icon-header-01.png' %}" class="header-icon1" alt="ICON">
+										<img src="{% static 'images/logout.png' %}" class="header-icon1" alt="ICON">
 									</a>
 									{% else %}
 									<a href="/login" class="header-wrapicon1 dis-block">
-										<img src="{% static 'images/icons/icon-header-01.png' %}" class="header-icon1" alt="ICON">
+										<img src="{% static 'images/user.png' %}" class="header-icon1" alt="ICON">
 									</a>
 									{% endif %}
 				
 									<span class="linedivide2"></span>
-				
+									<div class="header-icons-mobile">
+										<a href="/wishlist" class="header-wrapicon1 dis-block">
+											<img style="scale: 1.6;" src="{% static 'images/VSC.svg' %}" class="header-icon1" alt="ICON">
+										</a>
+					
+										 
+										<span class="linedivide2"></span>
+										 
 									<div class="header-wrapicon2">
-										<img src="{% static 'images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
+										<img src="{% static 'images/shopping.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
 										<span class="header-icons-noti">0</span>
 				
 										<!-- Header cart noti -->

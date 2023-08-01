@@ -3,13 +3,22 @@
 
 
 {% block content %}
-
-<div class="page-content pt-10 pb-10 mb-2">
+<nav class="breadcrumb-nav">
     <div class="container">
+        <ul style="background: transparent !important;padding: 12px;" class="breadcrumb">
+            <li><a href="demo1.html"><i class="d-icon-home"></i></a></li>
+            <li>Wishlist</li>
+        </ul>
+    </div>
+</nav>
+<div class="page-content pt-10 pb-10 mb-2">
+
+    <div class="container">
+       
         <table class="shop-table wishlist-table mt-2 mb-4">
             <thead>
                 <tr>
-                    <th class="product-name"><span>Produit</span></th>
+                    <th style="padding: 12px;" class="product-name"><span>Produit</span></th>
                     <th></th>
                     <th class="product-price"><span>Prix</span></th>
                     <th class="product-stock-status"><span>état</span></th>
@@ -43,7 +52,7 @@
                             </td> 
                             <td class="product-remove">
                                 <div>
-                                    <a href="/wishlist-add/{{wish.slug}}" class="remove" title="Remove this product"><i class="fas fa-times"></i></a>
+                                    <a href="/wishlist-add/{{wish.slug}}" class="remove" title="Remove this product"><i class="fas fa-trash"></i></a>
                                 </div>
                             </td>
                             
