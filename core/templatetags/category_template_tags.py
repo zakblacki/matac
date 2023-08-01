@@ -78,7 +78,7 @@ def categories():
             # items_li += """<li><a href="/category/{}">{}</a></li>""".format(i.slug, i.title)
             items_li += """ <li class="submenu">
 						<a class="subcat-name" href="{}" role="button">{}</a>
-						<ul class="megamenu" aria-labelledby="navbarDropdown" style="">
+						<ul class="megamenu" aria-labelledby="navbarDropdown" style="display:block">
 							<div class="row " style="visibility: visible;">
 								<div class="col-lg-3">
 									<ul class="two-column">""".format(i.slug, i.title)

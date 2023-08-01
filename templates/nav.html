@@ -578,6 +578,12 @@ position: fixed;">
 							
 						})
 						})
+
+						Array.from($(".subcat-name")).forEach(ele=>{
+						ele.addEventListener("mouseout",function(){
+							ele.nextElementSibling.style.display="none"
+						})
+})
 					</script>
 					{% if request.user.is_authenticated %}
 					<li class="item-menu-mobile">
