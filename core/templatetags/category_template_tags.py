@@ -65,14 +65,14 @@ def genders():
 def categories():
     items_li = ""
     try:
-        items = Category.objects.filter(is_active=True).order_by('title')
+        items = Category.objects.filter(is_active=True).order_by('title')[0:9]
     
         if items:
             for i in items:
                 items_li += """<li><a href="/category/{}">{}</a></li>""".format(i.slug, i.title)
     except:
         pass   
-    return mark_safe(items_li)
+    return mark_safe(items_li )
 
 @register.simple_tag
 def categories_mobile():
