@@ -203,7 +203,7 @@
 						left: 14px;">
 					{% if request.user.is_authenticated %}
 					{% orders request.user as orders_cart %}
-					{{orders_cart|length}}
+					{{orders_cart.order|length}}
 				 
 					{% else %}
 					0
@@ -290,7 +290,7 @@ position: fixed;">
 				</div>
 			</div>
 
-			<div class="wrap_header">
+			<div class="wrap_header" style="overflow: visible !important;">
 				<!-- Logo -->
 				
 
@@ -333,28 +333,9 @@ position: fixed;">
 				<nav class="main-nav" style="width: 100%;">
 					<ul class="menu" style="padding: 10px;">
 						
+						   
+						  {% categories %}  
 						 
-						
-						 
-						
-						
-						 
-						
-						
-						 
-						
-						
-					 
-						
-						
-						 
-						
-						 
-						
-						
-						
-						 {% categories %}
-						
 						 
 						
 						
@@ -413,7 +394,7 @@ position: fixed;">
 										<span class="header-icons-noti">
 											{% if request.user.is_authenticated %}
 											{% orders request.user as orders_cart %}
-											{{orders_cart|length}}
+											{{orders_cart.order|length}}
 										 
 											{% else %}
 											0
@@ -569,17 +550,35 @@ position: fixed;">
 
 					 
 					
-
+<!-- 
 					<li class="item-menu-mobile">
 						<a href="/">Home</a>
 					</li>
 
 					<li class="item-menu-mobile">
 						<a href="/shop">Shop</a>
-					</li>
+					</li> -->
 
 					{% categories_mobile %}
 
+					 
+							 
+
+					<script>
+						Array.from(document.querySelectorAll("#menu_tel")).forEach(ele=>{
+						ele.addEventListener("click",function(e){ e.preventDefault()
+							ele.classList.toggle("active_catg")
+							if(ele.classList.contains("active_catg")){
+								$(ele.nextElementSibling).hide(300)
+								ele.children[0].style.transform = "rotate(180deg)"
+							}else{
+								$(ele.nextElementSibling).show(300)
+								ele.children[0].style.transform = "rotate(0deg)"
+							}
+							
+						})
+						})
+					</script>
 					{% if request.user.is_authenticated %}
 					<li class="item-menu-mobile">
 						<a href="{% url 'core:order-summary' %}">Checkout<span class="badge badge-dark">{{ request.user|cart_item_count }}</span></a>

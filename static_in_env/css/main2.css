@@ -6955,6 +6955,16 @@ input[type=radio]~label::after {
   flex: 1 1 0
 }
 
+
+
+ 
+.submenu:hover ul.megamenu ,.submenu:hover .megamenu{
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+.mt-2{
+  padding-top:20px !important
+}
 .btn-num-update-quantity-up,.btn-num-update-quantity-down {
   height: 100% !important;
 }
@@ -12645,7 +12655,7 @@ ul.megamenu {
   transition: .25s;
   opacity: 0;
   visibility: hidden;
-  margin-top: 20px;
+  margin-top:  0px;
   border-radius: 0 0 10px 10px;
   z-index: 999;
   border: 1px solid #ececec;
@@ -14127,7 +14137,21 @@ border-bottom: 1px solid beige;
 #coupon_code{
   height: 55px;
 }
+
+.mega-sub-cat{
+  min-width: 300px;
+}
+.megamenu .row .col-lg-3 .two-column{
+  display: inline;
+
+}
+
+.megamenu .row .col-lg-3 .two-column li{
+  border-bottom: 1px solid #2222221c;
+  
+}
 @media (max-width: 991px){
+  
   .summary.mb-4 .btn-success{
     display: block !important;
   }

@@ -299,3 +299,11 @@ class Refund(models.Model):
 class WishList(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE)
     items=  models.ManyToManyField(Item)
+
+class TopCategory(models.Model):
+    title=models.CharField(max_length=20)
+    items=  models.ManyToManyField(Category)
+    slug = models.SlugField(unique=True,max_length=190)
+    
+    def __str__(self):
+        return "{} - category".format(self.title)
