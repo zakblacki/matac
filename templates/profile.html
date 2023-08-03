@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+<main class="main account">
+    <nav class="breadcrumb-nav">
+        <div class="container">
+            <ul class="breadcrumb" style="background: white;
+           
+            padding: 25px;">
+                <li><a href="demo1.html"><i class="d-icon-home"></i></a></li>
+                <li>Profile</li>
+            </ul>
+        </div>
+    </nav>
+    <div class="page-content mt-4 mb-10 pb-6">
+        <div class="container">
+            <h2 class="title title-center mb-10">Mon Profile</h2>
+            <div class="row">
+                
+            </div>
+            <div class="tab tab-vertical gutter-lg">
+                <ul class="nav nav-tabs mb-4 col-lg-3 col-md-4" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#orders">Mes Commandes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#account">Mes informations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="logout-link" href="/logout/">Se déconnecter</a>
+                    </li>
+                </ul>
+                <div class="tab-content col-lg-9 col-md-8">
+                    <div class="tab-pane active in" id="dashboard">
+                        <p class="mb-0">
+                            Hello <span></span>
+                        </p>
+                        <p class="mb-8">
+                            Depuis votre Dashboard vous pouvez voir vos <a href="#orders" class="link-to-tab text-primary">Commandes recentes</a>, Modifier vos informations de commande et de livraison,<br>Modifier votre mot de passe
+                        </p>
+                        <a href="shop.html" class="btn btn-dark btn-rounded">Aller a la boutique<i class="d-icon-arrow-right"></i></a>
+                    </div>
+                    <div class="tab-pane" id="orders">
+                        <p>Pas de commande pour le moment</p><a href="/" class="btn btn-outline-primary-2">
+                                        <span>Accueil</span>
+                                        <i class="icon-long-arrow-right"></i>
+                                    </a><table class="order-table">
+                            <thead>
+                                <tr>
+                                    <th class="pl-2">N° Commande</th>
+                                    <th>Date</th>
+                                    <th>État</th>
+                                    <th>Total</th>
+                                    <th class="pr-2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                              
+									{% for order in orders %}
+                                    <tr>
+                                        <td class="order-number"><a href="#"># {{order.id}}</a></td>
+                                        <td class="order-date"><time>{{order.ordered_date}}</time></td>
+                                        <td class="order-status"><span>
+
+                                            {%if order.received%} 
+                                                received
+
+                                            {% elif order.being_delivered %}
+
+                                                delivered
+                                            {% else %}
+                                            waiting
+                                            {% endif %}
+                                        </span></td>
+                                        <td class="order-total"><span>{{order.total_amount}} DA</span></td>
+                                        <td class="order-action">
+                                            
+                                            <a href="/confirm_order/{{request.user}}/{{order.id}}/" class="btn btn-primary btn-link btn-underline">Voir</a>
+                                        </td>
+                                    </tr>
+                                
+                                    {% endfor %}
+                                    
+                                
+                            </tbody>
+                        </table>
+                        <br>
+                        <h6>NB: Veuillez soumettre un reçu de paiement pour confirmer votre commande.*</h6>
+                    </div>
+                    <div class="tab-pane" id="account">
+                        <form action="." class="form" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="Ji3ewSESYBfEdcOt9z6jqdwmjPK0Z17szsW8DWbjgIXuDThV3m8LUUndJaFbH1Nb">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Nom &amp; prénom</label>
+                                    <input type="text" value="{{request.user.username}}" name="first_name" class="form-control" maxlength="150" id="id_first_name">
+                                </div>
+                                
+                                <div class="col-sm-6">
+                                    <label>Téléphone </label>
+                                    
+                                        <input type="phone" class="form-control" name="phone" required="" pattern="^(?:0|\(?\+213\)?\s?|00213\s?)[1-79](?:[\.\-\s]?\d\d){4}$">
+                                    
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Courriel</label>
+                                    <input type="email" value="{{request.user.email}}" name="email" class="form-control" maxlength="254" id="id_email">
+                                </div>
+                                    <div class="col-sm-6">
+                                    <label for="id_picture">Photo</label>
+                                      <input type="file" id="id_picture" name="picture">
+
+                                
+                                </div>
+                            </div>
+
+                            <label>Adresse</label>
+                            <input type="text" name="address" class="form-control" maxlength="250" id="id_address">
+                             <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                            <!-- <a href="/fr/password_change/" class="btn btn-underline">Changer mon mot de passe</a> -->
+                        </form>
+                         
+                                
+                            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}

@@ -36,14 +36,7 @@
 	<section class="bgwhite p-t-55 p-b-65">
 		<div class="container">
 			<div class="row">
-				<div class="header-search hs-simple" style="z-index: 9;">
-					<form action="" class="input-wrapper">
-						<input type="text" class="form-control" name="search" autocomplete="off" placeholder="Rechercher par mot clés..." required="">
-						<button class="btn btn-search" type="submit">
-							<i class="d-icon-search"></i>
-						</button>
-					</form>
-				</div>
+			 
 				<div class="filter_phone" style="display: none;">
 					<form action="." method="get">
 						<div class="filter_all">
@@ -161,7 +154,36 @@
 							 
 						</div>
 					</form>
+				</div>
+
+				<div class="toptoptop" style="display: flex;justify-content: space-around;">
+					<div class="flex-sb-m flex-w p-b-35">
+						 
+
+						<span style="user-select: none;" class="filtertoptop s-text8 p-t-5 p-b-5">
+							Show filtering <span><img style="opacity: 0.6; scale: 0.7; transform: rotate(0deg);" src="/static/images/chev.png" alt=""></span>
+						</span>
 					</div>
+					<div class="flex-sb-m flex-w p-b-35">
+						 
+	
+						<span class="s-text8 p-t-5 p-b-5">
+							Showing {{object_list|length}} of results
+						</span>
+					</div>
+					<div class="header-search hs-simple filt" style="z-index: 9;">
+						<form action="" class="input-wrapper">
+							 <select name="filter" id="filtertop">
+								<option value="">filter</option>
+								<option value="-date_added">new</option>
+								<option value="price">lowest price</option>
+								<option value="-wishlist_num">most sales</option>
+								<option value="-rating">rated</option>
+							 </select>
+						</form>
+					</div>
+				</div>
+
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
 					<aside style="padding-left: 8px !important;" 
 					class="col-lg-3 sidebar sidebar-fixed shop-sidebar 
@@ -541,14 +563,10 @@
 				</div>
 
 				<div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
-					<!--  -->
-					<div class="flex-sb-m flex-w p-b-35">
-						 
-
-						<span class="s-text8 p-t-5 p-b-5">
-							Showing {{object_list|length}} of results
-						</span>
-					</div>
+					
+					 
+					
+					 
 
 					<!-- Product -->
 					<div class="row cols-2 cols-sm-3 product-wrapper">

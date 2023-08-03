@@ -39,6 +39,8 @@ urlpatterns = [
     path('register/', register_view, name='register_'),
     path('wishlist/', wishlist_view, name='wishlist'),
     path('wishlist-add/<slug>/', wishlist_add_view, name='wishlist-add'),
+    path('profile/', profile, name='profile'),
+    path('confirm_order/<slug>/<slug1>/', confirmorder, name='confirmorder')
 ]
 
 handler404 = 'core.views.custom_page_not_found_view'

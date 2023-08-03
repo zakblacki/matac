@@ -22,37 +22,6 @@ def make_refund_accepted(modeladmin, request, queryset):
 make_refund_accepted.short_description = 'Update orders to refund granted'
 
 
-class OrderAdmin(admin.ModelAdmin):
-    list_display = ['user',
-                    'ordered',
-                    'being_delivered',
-                    'received',
-                    'refund_requested',
-                    'refund_granted',
-                    'shipping_address',
-                    'billing_address',
-                    'payment',
-                    'coupon'
-                    ]
-    list_display_links = [
-        'user',
-        'shipping_address',
-        'billing_address',
-        'payment',
-        'coupon'
-    ]
-    list_filter = ['user',
-                   'ordered',
-                   'being_delivered',
-                   'received',
-                   'refund_requested',
-                   'refund_granted']
-    search_fields = [
-        'user__username',
-        'ref_code'
-    ]
-    actions = [make_refund_accepted]
-
 
 class AddressAdmin(admin.ModelAdmin):
     list_display = [
@@ -378,14 +347,15 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 
-
+admin.site.register(GenderCategory)
 admin.site.register(ImageItem)
+admin.site.register(Banner_category)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Slide)
 admin.site.register(Essential)
 admin.site.register(OrderItem)
-admin.site.register(Order, OrderAdmin)
+admin.site.register(Order)
 admin.site.register(Coupon)
 admin.site.register(WishList)
 admin.site.register(TopCategory)

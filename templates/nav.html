@@ -24,8 +24,9 @@
                     </a>
                     
                     
-                    <div class="tab tab-menu" style="width: -moz-available;padding-left: 10px;">
-                        <ul class="nav nav-tabs" role="tablist" style="width: 40%">
+                    <div class="tab tab-menu" style="min-width: 715px;padding-left: 10px;">
+                        <ul class="nav nav-tabs" role="tablist" style="width: 40%;display: flex;
+						justify-content: space-evenly;">
                             
 							<li class="nav-item">
 								<a class="nav-link active" href="/shop">ALL</a>
@@ -148,10 +149,10 @@
 
 					 
 					{% if user.is_authenticated %}
-					<a href="/logout" class="header-wrapicon1 dis-block">
-						<img src="{% static 'images/logout.png' %}" class="header-icon1" alt="ICON">
+					<a href="/profile" class="header-wrapicon1 dis-block">
+						<img src="{% static 'images/user.png' %}" class="header-icon1" alt="ICON">
 					</a>
-					<a href="/logout" class="wishlist d-block">
+					<a href="/profile" class="wishlist d-block">
                         <p class="account-text  d-none d-lg-block d-xl-none"
 						style="height: 100%;
 						margin-top: 0px;
@@ -159,7 +160,7 @@
 						padding: 4px;
 						font-weight: bolder;
 						color: #222;"
-						>Logout</p>
+						>Account</p>
                     </a>
 					{% else %}
 					<a href="/login" class="header-wrapicon1 dis-block">
@@ -283,7 +284,7 @@ position: fixed;">
 						font-weight: bolder;
 						color: #222;
 						"
-						>Account</p>
+						>Cart</p>
 						</a>
 					</div>
 					
@@ -334,15 +335,38 @@ position: fixed;">
 					<ul class="menu" style="padding: 10px;">
 						
 						   
+						
 						  {% categories %}  
 						 
-						 
-						
+						   
+						 <script>
+							var submenus = document.querySelectorAll(".submenu") ;
+						  submenus.forEach(ele=>{
+							ele.addEventListener("mouseenter",function(){
+							  $(ele).children()[1].style.display ="block"
+							  console.log("entered")
+							});
+							ele.addEventListener("mouseleave",function(){
+								$(ele).children()[1].style.display ="block"
+								setTimeout(() => {
+									
+									
+									$(ele).children()[1].addEventListener("mouseenter",function(){
+										$(ele).children()[1].style.display ="block"
+									})
+									$(ele).children()[1].addEventListener("mouseleave",function(){
+										$(ele).children()[1].style.display ="none"
+									})
+									$(ele).children()[1].style.display ="none"
+								}, 500);
+							}); 
+						  })
+						 </script>
 						
 
 						<div class="header-search hs-simple">
-							<form action="/fr/produits/" class="input-wrapper">
-								<input type="text" class="form-control" name="query" autocomplete="off" placeholder="&nbsp; &nbsp; &nbsp; &nbsp; Rechercher par mot clés..." required="">
+							<form action="/shop/" class="input-wrapper">
+								<input type="text" class="form-control" name="search" autocomplete="off" placeholder="&nbsp; &nbsp; &nbsp; &nbsp; Rechercher par mot clés..." required="">
 								<button class="btn btn-search" type="submit">
 									<i class="d-icon-search"></i>
 								</button>
@@ -355,6 +379,11 @@ position: fixed;">
 
 		<!-- Header Mobile -->
 		<div class="wrap_header_mobile">
+			<div style="margin-left: -25px;" class="btn-show-menu-mobile hamburger hamburger--squeeze">
+				<span class="hamburger-box">
+					<span style="left: 30px;" class="hamburger-inner"></span>
+				</span>
+			</div>
 			<!-- Logo moblie -->
 			<a href="/" class="logo-mobile">
 				<img src="{% static 'images/matacor.png' %}" alt="IMG-LOGO">
@@ -372,7 +401,7 @@ position: fixed;">
 								<div class="header-icons-mobile">
 									{% if request.user.is_authenticated %}
 									<a href="/logout" class="header-wrapicon1 dis-block">
-										<img src="{% static 'images/logout.png' %}" class="header-icon1" alt="ICON">
+										<img src="{% static 'images/user.png' %}" class="header-icon1" alt="ICON">
 									</a>
 									{% else %}
 									<a href="/login" class="header-wrapicon1 dis-block">
@@ -524,18 +553,23 @@ position: fixed;">
 					</div>
 				</div>
 
-				<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
-					<span class="hamburger-box">
-						<span class="hamburger-inner"></span>
-					</span>
-				</div>
+				
 			</div>
 		</div>
-
+		<div class="header-search  mobileone d-sm-none  d-md-none d-lg-none d-xl-none d-xs-block" style="/*! border: 1px solid; */height: 32px;left: 70px;top: 93px;width: 230px;">
+                        
+                        
+			<form action="/shop" class="input-wrapper">
+ 				<button class="btn btn-search-mobile" type="submit">
+					<i class="d-icon-search"></i> 
+				</button>
+				<input type="text" class="search-input" name="search" autocomplete="off" required="" style="border-bottom: 1px solid #222 !important;">
+			</form>
+		</div>
 		<!-- Menu Mobile -->
 		<div class="wrap-side-menu" >
 			<nav class="side-menu">
-				<ul class="main-menu ">
+				<ul class="main-menu " style="padding-left: 10px !important;">
 					 
 
 					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8 mobile-menu-container"
@@ -558,7 +592,15 @@ position: fixed;">
 					<li class="item-menu-mobile">
 						<a href="/shop">Shop</a>
 					</li> -->
-
+					<ul class="nav nav-tabs nav-fill" role="tablist">
+                    
+                        <!-- <li class="nav-item" style="width: 100px;">
+                            <a class="nav-link active"  style="text-decoration: none;">FEMME</a>
+                        </li> -->
+                    
+                        {% categories_mobile1 %}
+                     
+                </ul>
 					{% categories_mobile %}
 
 					 
@@ -591,11 +633,14 @@ position: fixed;">
 					</li>
 					{% if user.is_athenticated %}
 					<li class="item-menu-mobile">
-						<a href="/login">Logout</a>
+						<a href="/login">Account</a>
 					</li>
 					{% else %}
 					<li class="item-menu-mobile">
 						<a href="/login">Login</a>
+					</li>
+					<li class="item-menu-mobile">
+						<a href="/register">Register</a>
 					</li>
 					{% endif %}
 					{% else %}

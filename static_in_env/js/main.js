@@ -115,8 +115,39 @@
     /*[ Show menu mobile ]
     ===========================================================*/
     $('.btn-show-menu-mobile').on('click', function(){
+
+        $(".overlay_div").on("click",function(){
+            $(".btn-show-menu-mobile").removeClass('is-active')
+            $('.wrap-side-menu').animate({
+                left: -390+"px"
+            },450).hide();;
+            $(".overlay_div").hide()
+            $('body').animate({
+                left :  0+"px"
+            },250);
+        })
         $(this).toggleClass('is-active');
-        $('.wrap-side-menu').slideToggle();
+        // $('.wrap-side-menu').slideToggle();
+        if(this.classList.contains("is-active")){
+            $('.wrap-side-menu').animate({
+                left : 0+"px"
+            },300).show( );
+            $(".overlay_div").show()
+            $('body').animate({
+                left : 290+"px"
+            },250);
+           
+        }else{
+            $('.wrap-side-menu').animate({
+                left: -390+"px"
+            },450).hide();;
+            $(".overlay_div").hide()
+            $('body').animate({
+                left :  0+"px"
+            },250);
+             
+        }
+        
     });
 
     var arrowMainMenu = $('.arrow-main-menu');

@@ -87,15 +87,31 @@
 <script src="{% static 'js/perfect-scrollbar.js' %}"></script>
 <script src="{% static 'js/perfect-scrollbar.js.map' %}"></script>
 <script>
- 
+
+
+ Array.from(document.querySelectorAll(".gutter-lg .nav-tabs .nav-item .nav-link")).forEach(ele=>{
+  ele.addEventListener("click",function(e){
+    e.preventDefault()
+    var last = ele.href.split("/").length;
+    var idhref=ele.href.split("/")[last-1];$(idhref).siblings().removeClass("active in");   $(idhref).addClass("active in");                                                                        })
+}) 
+
+
+
 document.querySelector(".header-icons-mobile .header-wrapicon2 img").addEventListener("click",function(){
   var contain_class=$('.header-cart.header-dropdown')[1].classList.contains("show-header-dropdown") 
   var boolimg = this.classList.toggle("boolimg")
   if(contain_class){
-    console.log(true)
-     $('.header-cart.header-dropdown.mobile').show().animate({
+    if(window.outerWidth<1040){
+      $('.header-cart.header-dropdown.mobile').show().animate({
+      right: '-1px' // Adjust the target position as needed
+  }, 500);
+    }else{
+      $('.header-cart.header-dropdown.mobile').show().animate({
       right: '-90px' // Adjust the target position as needed
   }, 500);
+    }
+     
     
   }else{
      
@@ -201,8 +217,42 @@ pss.update();
 </script>
 
 
-
 <script>
+  $(".filter-actions .fa-times").on("click",function(){
+  $($(this).parents()[4]).hide(500)
+})
+
+document.getElementById("filtertop").addEventListener("change",function(){
+  var valselctd=this.value 
+	window.location = window.location.pathname + "?filter="+valselctd
+	})
+
+$(".filtertoptop").on("click",function(){
+
+  this.classList.toggle("activetopfilter")
+  if(this.classList.contains("activetopfilter")){
+    this.children[0].children[0].style.transform = "rotate(180deg)"
+   
+    $($(".filter-actions .fa-times").parents()[4]).hide(500)
+    // document.querySelector(".col-lg-9").style.padding = "17px !important;"
+    setTimeout(() => {
+      document.querySelector(".col-lg-9").style.flex = "content" 
+      document.querySelector(".col-lg-9").style.paddingLeft = 17 + "px" 
+    document.querySelector(".col-lg-9").style.maxWidth = "100%" 
+    }, 500);
+  }else{
+    this.children[0].children[0].style.transform = "rotate(0deg)"
+    $($(".filter-actions .fa-times").parents()[4]).show(500)
+    document.querySelector(".col-lg-9").style.flex = "1 100%" 
+    document.querySelector(".col-lg-9").style.maxWidth = "75%" 
+    document.querySelector(".col-lg-9").style.paddingRight = 17 + "px" 
+  }
+  
+})
+
+
+
+
   var search_page=window.location.search.replaceAll("?","").split("&")
   window.onload = function(){
     

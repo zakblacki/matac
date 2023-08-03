@@ -208,7 +208,7 @@ class OrderSummaryView(LoginRequiredMixin, View):
     def post(self, *args, **kwargs):
         form = FormInput(self.request.POST,self.request.FILES)
         
-        
+        print("posts  none")
         if form.is_valid():
             
         
@@ -216,9 +216,9 @@ class OrderSummaryView(LoginRequiredMixin, View):
             email=form.cleaned_data.get("email")
             address=form.cleaned_data.get("address")
             fullname=form.cleaned_data.get("fullname")
-            img=form.cleaned_data.get("recu_img")
             
-            print("success")
+            
+           
         
             order = Order.objects.get(user=self.request.user, ordered=False)
          
@@ -237,7 +237,9 @@ class OrderSummaryView(LoginRequiredMixin, View):
                 order.total_amount=order.get_total()
                 order.phone_number=phone
                 order.shipping_address = address
-                order.recui_image = img
+                if form.cleaned_data.get("recu_img"):
+                    img=form.cleaned_data.get("recu_img")
+                    order.recui_image = img
                 
                 
                 order.save()
@@ -245,7 +247,7 @@ class OrderSummaryView(LoginRequiredMixin, View):
                 
 
                 messages.success(self.request, "Order was successful")
-                return redirect("/")
+                return redirect("/confirm_order/{}/{}/".format(self.request.user,order.id))
 
         
                 # Display a very generic error to the user, and maybe send
@@ -262,7 +264,9 @@ class ShopView(ListView):
     model = Item
     paginate_by = 9
     template_name = "shop.html"
-    def get(self, *args, **kwargs):    
+    
+    def get(self, *args, **kwargs):  
+        filtermeth=""  
         try:
             
             
@@ -305,7 +309,7 @@ class ShopView(ListView):
                     else:
                         
                         if get_key == "search":
-                            print("search yes")
+                            
                             if get_val != "" :
                                 print(get_val)
                                 query_srch |= Q(title__icontains=get_val)
@@ -327,7 +331,9 @@ class ShopView(ListView):
                             max_price_query = Q(price__lte=float(get_val))
                             
                             combined_query2= max_price_query
-                            
+                        
+                        if "filter" == get_key:
+                            filtermeth=get_val   
                         
                         if combined_query1 and combined_query2:
                             combined_query3 |=combined_query1 & combined_query2
@@ -339,7 +345,13 @@ class ShopView(ListView):
                 else:
                     comb_final = combined_query & combined_query5 & combined_query3
                 item= Item.objects.filter(comb_final,is_active=True)
-             
+
+                if filtermeth:
+                     
+                    
+                    item =Item.objects.filter(comb_final,is_active=True).order_by(filtermeth)
+                else:
+                    pass
             else:
                 item = Item.objects.filter( is_active=True)
                  
@@ -352,6 +364,50 @@ class ShopView(ListView):
              
         }
         return render(self.request, "shop.html", context)             
+
+
+
+@login_required
+def profile(request):
+    context={}
+    
+    ordered= Order.objects.filter(user=request.user)
+    context["orders"]=ordered
+    
+    return render(request,"profile.html",context)
+
+@login_required
+def confirmorder(request,slug,slug1):
+    context={}
+    print(slug,request.user)
+    
+    ordertar= None
+    context={}
+    
+    if str(slug.replace(" ","")) == str(request.user):
+        print("yesss user")
+        ordertar=get_object_or_404(Order, id=int(slug1))
+        print(ordertar)
+        context["target"]=ordertar
+        
+    if request.method == "POST":
+         
+        context["form"]=UploadImg(request.POST,request.FILES)
+        if context["form"].is_valid():
+            
+             
+            
+             
+            ordertar.recui_image = request.FILES.get("recu_img")
+            ordertar.save()
+            print(request.FILES.get("recu_img"))
+            # ordertar.recui_image = img
+            # ordertar.save()
+    else:
+        context["form"]=UploadImg()
+     
+    
+    return render(request,"confirm_order.html",context)
 
 
 class ItemDetailView(DetailView):
@@ -420,6 +476,27 @@ class CategoryView(View):
     def get(self, *args, **kwargs):
         category = Category.objects.get(slug=self.kwargs['slug'])
         combined_query = Q()
+        filtermeth=""
+        bannertarg=[]
+        banners=[]
+        # print(category)
+        for cattg in TopCategory.objects.filter(items__title=category):
+            if len(Banner_category.objects.filter(category__title=cattg.title))>0:
+                if category in cattg.items.all():
+                    
+                    for itmc in Banner_category.objects.filter(category__title=cattg.title):
+                        banners.append(itmc)
+                    print(banners)
+                # bannertarg=Banner_category.objects.filter(category__title=cattg.title)
+                # print(bannertarg )
+                # banners=bannertarg
+                # print(cattg.title)
+            # for catt in TopCategory.objects.filter(items__title=category):
+                
+            #     print(Banner_category.objects.filter(category__title=catt.title))
+                
+           
+                
         try:
             
         
@@ -472,15 +549,22 @@ class CategoryView(View):
                             
                             combined_query2= max_price_query
                             
-                        
+                        if "filter" == get_key:
+                            filtermeth=get_val
                         if combined_query1 and combined_query2:
                             combined_query3 |=combined_query1 & combined_query2
                             
-                    
+                
+                        
                 combined_cat = Q(category__exact=category)
                 comb_final =combined_cat & combined_query & combined_query5 & combined_query3
                 item= Item.objects.filter(comb_final,is_active=True)
-             
+                if filtermeth:
+                     
+                    
+                    item =Item.objects.filter(comb_final,is_active=True).order_by(filtermeth)
+                else:
+                    pass
             else:
                 item = Item.objects.filter(category=category, is_active=True)
                  
@@ -498,7 +582,7 @@ class CategoryView(View):
             'category_title': category,
             'category_description': category.description,
             'category_image': category.image.url,
-             
+             'banners':banners
         }
         return render(self.request, "category.html", context)
 

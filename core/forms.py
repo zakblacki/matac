@@ -3,6 +3,7 @@ from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+ 
 
 
 PAYMENT_CHOICES = (
@@ -27,14 +28,26 @@ class RegistrationForm(UserCreationForm):
         fields = ['username', 'email', 'phone_number', 'address', 'password1', 'password2']
         
         
+
+class UploadImg(forms.Form):
+    recu_img = forms.ImageField(required=False,widget=forms.FileInput(attrs={
+         
+        "id":"id_voucher",
+        "accept":"image/*" ,
+         
+    }))
+     
+       
+    
 class FormInput(forms.Form):
-    recu_img = forms.ImageField(widget=forms.FileInput(attrs={
+    recu_img = forms.ImageField(required=False,widget=forms.FileInput(attrs={
         
         'class': 'form-control',
         "hidden":"true",
         "id":"inputFile",
         "accept":"image/*" ,
-        "onchange":"readUrl(this)"
+        "onchange":"readUrl(this)",
+         
     }))
     address = forms.CharField(required=False, widget=forms.TextInput(attrs={
         'placeholder': 'Apartment or suite',

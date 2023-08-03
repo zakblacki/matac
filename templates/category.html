@@ -35,6 +35,84 @@
 
 	<!-- Content page -->
 	<section class="bgwhite p-t-55 p-b-65">
+
+		<div class="page-content mb-10 pb-3">
+			
+			
+			<section class="pt-6 mt-10">
+				<div class="container">
+					
+					<div class="owl-carousel owl-theme owl-loaded owl-drag" style="width: 100%;" data-owl-options="{
+						'nav': false,
+						'dots': true,
+						'margin': 10,
+						'responsive': {
+							'0': {
+								'items': 1
+							},
+							'480': {
+								'items': 2
+							},
+							'768': {
+								'items': 3
+							},
+							'992': {
+								'items': 4,
+								'dots': false
+							}
+						}
+					}"> 
+					
+					 	
+						
+					<div class="owl-stage-outer">
+						<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1011px;">
+							
+							{% for banner in banners %}
+							<div class="owl-item active" style="width: 252.75px  !important ; margin-right: 20px;">
+								<div class="category category-absolute category-classic">
+									<a href="{{banner.banner_link}}">
+										<figure class="category-media">
+											
+											<img src="{{banner.banner_image.url}}" alt="pants" loading="lazy">
+										</figure>
+									</a>
+								</div>
+							</div>
+							{% endfor %}
+							 
+						</div>
+					</div>
+					<div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i class="d-icon-angle-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="d-icon-angle-right"></i></button></div><div class="owl-dots disabled"></div></div>
+				</div>
+			</section>
+			<script>
+				$(document).ready(function(){
+				  $(".owl-carousel").owlCarousel({
+					items: 4, // Display 4 items in a line
+					loop: false,
+					margin: 10,
+					nav: true,
+					dots: false,
+					responsive: {
+					  0: {
+						items: 1 // Display 1 item on smaller screens
+					  },
+					  600: {
+						items: 2 // Display 2 items on screens wider than 600px
+					  },
+					  1000: {
+						items: 4 // Display 4 items on screens wider than 1000px
+					  }
+					}
+				  });
+				});
+			  </script>
+		
+		
+	</div>
+
+
 		<div class="container">
 			<div class="row">
 				
@@ -156,13 +234,33 @@
 					</div>
 				</form>
 				</div>
-				<div class="header-search hs-simple" style="z-index: 9;">
-					<form action="" class="input-wrapper">
-						<input type="text" class="form-control" name="search" autocomplete="off" placeholder="Rechercher par mot clés..." required="">
-						<button class="btn btn-search" type="submit">
-							<i class="d-icon-search"></i>
-						</button>
-					</form>
+				<div class="toptoptop" style="display: flex;justify-content: space-around;">
+					<div class="flex-sb-m flex-w p-b-35">
+						 
+
+						<span style="user-select: none;" class="filtertoptop s-text8 p-t-5 p-b-5">
+							Show filtering <span><img style="opacity: 0.6;
+								scale: 0.7;" src="{% static 'images/chev.png' %}" alt=""></span>
+						</span>
+					</div>
+					<div class="flex-sb-m flex-w p-b-35">
+						 
+	
+						<span class="s-text8 p-t-5 p-b-5">
+							Showing {{object_list|length}} of results
+						</span>
+					</div>
+					<div class="header-search hs-simple filt" style="z-index: 9;">
+						<form action="" class="input-wrapper">
+							 <select name="filter" id="filtertop">
+								<option value="">filter</option>
+								<option value="-date_added">new</option>
+								<option value="price">lowest price</option>
+								<option value="-wishlist_num">most sales</option>
+								<option value="-rating">rated</option>
+							 </select>
+						</form>
+					</div>
 				</div>
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
 					<aside style="padding-left: 8px !important;" 
@@ -554,13 +652,7 @@
 
 				<div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
 					<!--  -->
-					<div class="flex-sb-m flex-w p-b-35">
-						 
-
-						<span class="s-text8 p-t-5 p-b-5">
-							Showing {{object_list|length}} of results
-						</span>
-					</div>
+					
 
 					<!-- Product -->
 					<div class="row cols-2 cols-sm-3 product-wrapper">

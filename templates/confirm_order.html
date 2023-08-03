@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load mathfilters %}
+
+
+{% block content %}
+
+<main class="main order" style="padding: 15px;">
+    <div class="page-content pt-7 pb-10 mb-10">
+        <div class="step-by pr-4 pl-4">
+            <h3 class="title title-simple title-step"><a href="/order-summary/">1. Panier</a></h3>
+            <h3 class="title title-simple title-step active"><a href="#">2. Commande</a></h3>
+        </div>
+        <div class="container mt-8">
+            
+
+            <div class="order-results">
+                <div class="overview-item">
+                    <span>Commande N°:</span>
+                    <strong># {{target.id}}</strong>
+                </div>
+                <div class="overview-item">
+                    <span>État:</span>
+                    <strong>
+
+                        {%if target.received%} 
+                        received
+
+                    {% elif target.being_delivered %}
+
+                        delivered
+                    {% else %}
+                    waiting
+                    {% endif %}
+                    </strong>
+                </div>
+                <div class="overview-item">
+                    <span>Reçu:</span>
+                <a href="#confirmer">
+                
+                    <strong> {%if target.recui_image%} 
+                        Sent
+
+                     
+                    {% else %}
+                    waiting
+                    {% endif %} </strong>
+                
+                </a>
+                </div>
+                <div class="overview-item">
+                    <span>Date:</span>
+                    <strong>{{target.ordered_date}}</strong>
+                </div>
+                    <div class="overview-item">
+                        <span>Téléphone:</span>
+                        <strong>{{target.phone_number}}</strong>
+                    </div>
+                <div class="overview-item">
+                    <span>Total:</span>
+                    <strong>{{target.total_amount}} DA</strong>
+                </div>
+                <div class="overview-item">
+                    <span>Mode de paiement:</span>
+                
+                    <strong>Reçu de Paiement</strong>
+                
+                </div>
+            </div>
+            
+
+            <h2 class="title title-simple text-left pt-4 font-weight-bold text-uppercase">Details de commande</h2>
+            <div class="order-details">
+                <table class="order-details-table">
+                    <thead>
+                        <tr class="summary-subtotal">
+                            <td><h3 class="summary-subtitle">Produits</h3></td>
+                            <td><h3 class="summary-subtitle">Quatité</h3></td>
+                            <td> <h3 class="summary-subtitle">Prix</h3></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for item in target.items.all %}
+                        
+                            <tr>
+                                <td class="product-name">{{item.item.title}}</td>
+                                <td class="product-name">{{item.quantity}}</td>
+                                <td class="product-name">{{item.quantity|mul:item.item.price}} DA</td>
+                            </tr>
+                        
+                        {% endfor %}
+                        
+                        <tr class="summary-subtotal">
+                            <td>
+                                <h4 class="summary-subtitle">Sous-Total:</h4>
+                            </td>
+                                <td class="product-name"></td>
+
+                            <td class="summary-subtotal-price">{{target.total_amount}} DA</td>
+                        </tr>
+                        <tr class="summary-subtotal">
+                            <td>
+                                <h4 class="summary-subtitle">Livraison:</h4>
+                            </td>
+                            
+                                <td class="product-name"></td>
+                                <td class="summary-subtotal-price">900,00  DA</td>
+                                
+                        </tr>
+                        <tr class="summary-subtotal">
+                            <td>
+                                <h4 class="summary-subtitle">Mode de paiement:</h4>
+                            </td>
+                                <td class="product-name"></td>
+
+                            
+                                <td class="summary-subtotal-price">Reçu de Paiement</td>
+                            
+                        </tr>
+                        <tr class="summary-subtotal">
+                            <td>
+                                <h4 class="summary-subtitle">Total:</h4>
+                            </td>
+                                <td class="product-name"></td>
+
+                            <td>
+                                <p class="summary-total-price">{{target.total_amount}} DA</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h2 class="title title-simple text-left pt-10 mb-2">Adresse de Livraison</h2>
+            <div class="address-info pb-8 mb-6">
+                <p class="address-detail pb-2">
+                    
+                        {{target.shipping_address}}<br>
+                    
+                    
+                        {{target.commun_ship}}<br>
+                    
+                    
+                        {{target.wilaya_ship}}, <br>
+                    
+                    
+                        {{target.phone_number}}<br>
+                    
+                    
+                        sale@fs.com<br>
+                    
+                </p>
+                <p class="email">En cas de probleme veuillez contacter notre support au</p>
+            </div>
+            <div class="address-info pb-8 mb-6" id="confirmer">
+                
+                <a data-lightbox="photo" href="{{target.recui_image.url}}" alt="reçu de paiment" style="height:150px; width:auto;">
+                    <img src="{{target.recui_image.url}}" alt="reçu de paiment" style="height:150px; width:auto;">
+                </a>
+                <div class="order-results">
+                    <form action="/confirm_order/{{request.user}}/{{target.id}}/" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{form.recu_img}}
+                        <button type="submit" class="confirm-img-btn">modifier</button>
+                    </form>
+                </div> 
+                    <h6>NB: Votre commande est en cours de confirmation.*</h6>
+
+                
+            </div>
+            <a href="/fr/" class="btn btn-icon-left btn-dark btn-back btn-rounded btn-md mb-4"><i class="d-icon-arrow-left"></i> Retourner a l'acceuil</a>
+        </div>
+    </div>
+</main>
+
+{% endblock content %}

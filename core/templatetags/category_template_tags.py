@@ -1,7 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 
-from core.models import Category , Item , OrderItem, Order, TopCategory
+from core.models import Category , Item , OrderItem, Order, TopCategory,GenderCategory
 
 register = template.Library()
 
@@ -78,7 +78,7 @@ def categories():
             # items_li += """<li><a href="/category/{}">{}</a></li>""".format(i.slug, i.title)
             items_li += """ <li class="submenu">
 						<a class="subcat-name" href="{}" role="button">{}</a>
-						<ul class="megamenu" aria-labelledby="navbarDropdown" style="display:block">
+						<ul class="megamenu" aria-labelledby="navbarDropdown" >
 							<div class="row " style="visibility: visible;">
 								<div class="col-lg-3">
 									<ul class="two-column">""".format(i.slug, i.title)
@@ -118,13 +118,13 @@ def categories_mobile():
 							<img style="height: 15px;
 							position: absolute;
 							top: 15px;
-							right: 30px;" src="static/images/chev.png" alt="">
+                            opacity:0.8;
+							right: 5px;" src="/static/images/chev.png" alt="">
 					</a>
 						<ul>""".format(i.title)
             for itm in i.items.all():
                     
-                items_li += """<li style="padding-top: 5px;
-                                padding-bottom: 5px;">
+                items_li += """<li style="padding:10px;">
 								<a href="/category/{}"> 	
 								<img sty class="icon-category" src="{}" alt="Category" loading="lazy">
 									{}
@@ -139,6 +139,31 @@ def categories_mobile():
             items_li += """<li><a href="/category/{}">{}</a></li>""".format(i.slug, i.title)
     
     return mark_safe(items_li )
+
+
+
+
+
+@register.simple_tag
+def categories_mobile1():
+    items_li = ""
+    items =GenderCategory.objects.all()
+    
+        
+        
+    for i in items:
+       items_li += """
+        <li class="nav-item" style="width: 100px;">
+                            <a class="nav-link"   style="text-decoration: none;">{}</a>
+                        </li>
+       """.format(i.title)
+            
+        
+        
+         
+    return mark_safe(items_li )
+
+
 
 
 @register.simple_tag

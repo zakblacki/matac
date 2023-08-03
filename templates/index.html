@@ -192,7 +192,28 @@
 	</div>
 				<div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i class="d-icon-angle-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="d-icon-angle-right"></i></button></div><div class="owl-dots disabled"><button role="button" class="owl-dot active"><span></span></button></div></div>
    </section>
-	
+   <script>
+	$(document).ready(function(){
+	  $(".owl-carousel").owlCarousel({
+		items: 4, // Display 4 items in a line
+		loop: false,
+		margin: 10,
+		nav: true,
+		dots: true,
+		responsive: {
+		  0: {
+			items: 1 // Display 1 item on smaller screens
+		  },
+		  600: {
+			items: 2 // Display 2 items on screens wider than 600px
+		  },
+		  1000: {
+			items: 4 // Display 4 items on screens wider than 1000px
+		  }
+		}
+	  });
+	});
+  </script>
 
 	
 	<!-- Category start -->

@@ -212,7 +212,7 @@ class Order(models.Model):
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
     total_amount= models.IntegerField(default=1)
-    recui_image=image= models.ImageField(upload_to="orders_recu/",default="images/default.png")
+    recui_image=  models.ImageField(upload_to="orders_recu/",default="images/default.png",blank=True,null=True)
     phone_number=models.CharField(max_length=10)
     shipping_address = models.CharField(max_length=50)
     shipping_type= models.CharField(max_length=50)
@@ -300,10 +300,31 @@ class WishList(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE)
     items=  models.ManyToManyField(Item)
 
+
 class TopCategory(models.Model):
     title=models.CharField(max_length=20)
     items=  models.ManyToManyField(Category)
     slug = models.SlugField(unique=True,max_length=190)
     
     def __str__(self):
-        return "{} - category".format(self.title)
+        return "{} - category".format(self.title) 
+
+
+class GenderCategory(models.Model):
+    title=models.CharField(max_length=20)
+    categories=  models.ManyToManyField(TopCategory)
+
+    def __str__(self):
+        return "{} - gender category".format(self.title)
+    
+    
+    
+
+
+class Banner_category(models.Model):
+    banner_image=models.ImageField(upload_to="banner_imgs")
+    banner_link = models.CharField(max_length=500)
+    category=  models.ForeignKey(TopCategory,on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.category.title

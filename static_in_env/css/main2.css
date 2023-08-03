@@ -1922,7 +1922,7 @@ a:hover {
 .order .overview-item strong {
   color: #222;
   font-weight: 600;
-  font-size: 2rem
+  font-size: 1.5rem
 }
 
 .footer .widget-title,
@@ -6958,11 +6958,12 @@ input[type=radio]~label::after {
 
 
  
-.submenu:hover ul.megamenu ,.submenu:hover .megamenu{
+/* .submenu:hover ul.megamenu ,.submenu:hover .megamenu{
   visibility: visible !important;
   opacity: 1 !important;
   display: block !important;
-}
+} */
+
 .mt-2{
   padding-top:20px !important
 }
@@ -9276,11 +9277,32 @@ aside+div .product-single .product-details {
   position: relative
 }
 
+
+#filtertop{
+  width: 100%;
+  padding: 4px;
+  text-align: center;
+  background: white;
+  outline: none;
+  border: 1px solid #888;
+  color: #888;
+}
+
+*{
+  
+    font-family: 'Roboto Condensed', sans-serif !important;
+  
+}
+.header-search.hs-simple.filt{
+  margin: 0 !important;
+position: relative !important;
+max-width: 100px !important;
+}
 .nav-tabs {
   display: flex;
   flex-wrap: wrap;
   border-bottom: 1px solid #ebebeb;
-  width: 300px
+  width: 95%
 }
 
 .nav-link {
@@ -9298,7 +9320,7 @@ aside+div .product-single .product-details {
 }
 
 .nav-item:not(:last-child) {
-  margin-right: 2.5rem
+  margin-right: 0rem
 }
 
 .tab-content>.tab-pane {
@@ -12640,12 +12662,17 @@ ul.megamenu {
   margin-left: -1px
 }
 
-.submenu.show ul.megamenu {
-  opacity: 1;
-  visibility: visible;
-  margin-top: 0
-}
 
+.overlay_div{
+  position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #222222bf;
+    z-index: 99999;
+    display: none;
+
+}
 ul.megamenu {
   left: 0;
   top: 100%;
@@ -12654,8 +12681,9 @@ ul.megamenu {
   padding: 35px 25px 35px 35px;
   -webkit-transition: .25s;
   transition: .25s;
-  opacity: 0;
-  visibility: hidden;
+  
+  display: none;
+  position: absolute;
   
   margin-top:  0px;
   border-radius: 0 0 10px 10px;
@@ -12664,6 +12692,9 @@ ul.megamenu {
   -webkit-box-shadow: 5px 5px 15px rgba(0, 0, 0, .05);
   box-shadow: 5px 5px 15px rgba(0, 0, 0, .05)
 }
+
+
+ 
 
 .subcat-name.active {
   border-bottom: 2px solid #000
@@ -12694,13 +12725,17 @@ ul.megamenu {
 
 @media (max-width:992px) {
 
+  .input-wrapper .btn-search .d-icon-search{
+    margin-left:-80px;
+  }
+
   .mobile-menu-container{
     box-shadow: none !important;
   }
   .side-menu .main-menu > li{
     color: #222;
     position: relative;
-    border-bottom: 1px solid #2e3237;
+    border-bottom: 1px solid #2e323761;
     background: transparent;
   }
   .side-menu .main-menu > li > a{
