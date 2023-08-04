@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load mathfilters %}
+{% load custom_filters %}
 {% block content %}
 
 	<!-- breadcrumb -->
@@ -306,7 +307,7 @@ itemLinks.forEach(itemLink => {
 													)
  												}
 
-												if(sizes_not != "" && sizes_not != "None"){
+												if(sizes_not != "" && sizes_not != "None" && sizes_not != "nan"){
 													for(var append_size1=0; append_size1 < splitedsizenot.length;append_size1++){
 													document.write(
 														`<div class="d-inline-block text-center dot-wrapper taille__wrapper mr-2 mr-lg-0 barred">
@@ -499,12 +500,32 @@ itemLinks.forEach(itemLink => {
 							{{object.description_long}}
 						</p> -->
 						<ul class="detail-attr-container">
-							{% for key, val in details.items %}
+							<!-- {% for key, val in details.items %}
 							<li class="detail-attr-item">
 								<span>{{key}}</span> 
 								<span><b>{{val}}</b></span>
 							</li>
+							{% endfor %} -->
+
+						{% with parsed_details=details|parse_json  %}
+							{% for key, value in parsed_details.items %}
+							 
+									 
+									{% if value != nan %}
+										<li  class="detail-attr-item">
+											<span>{{key}}</span> 
+											<span><b id="{{ key|slugify }}">{{value}}</b></span>
+										</li>
+										<script>
+											var element = document.getElementById("{{ key|slugify }}");
+											if (element.innerHTML == "nan") {
+												console.log(element.parentElement.parentElement.remove())
+											}
+										</script>
+									{% endif %}
+							 
 							{% endfor %}
+						{% endwith %}
 						</ul>
 					</div>
 				</div>
@@ -561,7 +582,28 @@ itemLinks.forEach(itemLink => {
 				}
 			}" style="animation-duration: 1.2s;">
 				
-		 
+			<script>
+				$(document).ready(function(){
+				  $(".owl-carousel").owlCarousel({
+					items: 4, // Display 4 items in a line
+					loop: false,
+					margin: 10,
+					nav: true,
+					dots: false,
+					responsive: {
+					  0: {
+						items: 1 // Display 1 item on smaller screens
+					  },
+					  600: {
+						items: 2 // Display 2 items on screens wider than 600px
+					  },
+					  1000: {
+						items: 4 // Display 4 items on screens wider than 1000px
+					  }
+					}
+				  });
+				});
+			  </script>
 			<div class="owl-stage-outer">
 				<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); 
 				transition: all 3s ease 0s; width: 5814px;">

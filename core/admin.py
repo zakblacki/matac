@@ -1,6 +1,7 @@
 from django.contrib import admin
 import os 
 import requests
+import pandas as pd
 from .models import *
 import time
 import re
@@ -59,61 +60,62 @@ class ExcelFileAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         obj_file_name= obj.file
-        workbook = load_workbook(obj_file_name, read_only=True)
-        sheet = workbook.active
+        df = pd.read_excel(obj_file_name, sheet_name='Sheet1', engine='openpyxl')
 
-        num_columns = sheet.max_column
-        num_rows = sheet.max_row
+        
 
-        for index, value in enumerate(range(num_rows), start=2):
-            id = sheet["A" + str(index)].value
-            name = sheet["B" + str(index)].value
-            images = sheet["C" + str(index)].value
-            brand_name = sheet["D" + str(index)].value
-            brand_id = sheet["E" + str(index)].value
-            product_Group_Id = sheet["F" + str(index)].value
-            sellingPrice = sheet["I" + str(index)].value
-            discountPrice = sheet["G" + str(index)].value
-            image_src = sheet["J" + str(index)].value
+        for index, row in df.iterrows():
+            id = row["id"]
+            name =row["nom d'article"]
+            # images = sheet["E" + str(index)]
+            brand_name = row["brand_name"]
+            brand_id = row['brand_id']
+            # product_Group_Id = sheet["F" + str(index)]
+            sellingPrice = row['prix']
+            discountPrice = row['prix reduction']
+            image_src = row['images_prod']
            
 
-            article_id = sheet["K" + str(index)].value
-            sizes = sheet["L" + str(index)].value
+            article_id = row['code produit']
+            sizes = row['sizes_exist']
             if sizes:
-                sizes = ast.literal_eval(sizes)
+                sizes = sizes
+            else:
+                sizes="not"
             
-            sizes_not_exist = sheet["R" + str(index)].value
+            sizes_not_exist = row['sizes_not_exist']
             if sizes_not_exist:
-                sizes_not_exist = ast.literal_eval(sizes_not_exist)
+                sizes_not_exist =  sizes_not_exist
+            else:
+                sizes_not_exist="not"
                 
 
 
-            categoryName = sheet["N" + str(index)].value
-            sameDayShipping = sheet["P" + str(index)].value
-            description = sheet["Q" + str(index)].value
+            categoryName = row["category_name"]
             
-            delivery = sheet["S" + str(index)].value
-            rating = sheet["T" + str(index)].value
+            description = row["details d'article"]
+            
+            delivery = row["delivery"]
+            rating = row["rating"]
             if rating:
                 rating = float(rating)
             else:
                 rating = 0
-            stock = sheet["U" + str(index)].value
+            stock = row["stock"]
 
             # Use regular expression to extract only the numbers
             if stock:
-                numbers_only = re.sub(r'\D', '', stock)
-                stock = numbers_only
+                pass
                 
             else:
                 stock = 0
 
 
-            details = sheet["V" + str(index)].value
-            image_src = sheet["J" + str(index)].value
+            details = row['product_details_attr']
+            image_src = row['images_prod']
             
-            if sheet["J" + str(index)].value :
-                image_src ="https://cdn.dsmcdn.com"+ sheet["C" + str(index)].value.split(",")[0].replace("\\","/").replace(" ","")
+            if row["images_prod"] :
+                image_src ="https://cdn.dsmcdn.com"+ row["images_prod"].split(",")[0].replace("\\","/").replace(" ","")
                 image_folder = image_src.split("/")[-3]
                 
                 local_image_path = image_src 
@@ -165,7 +167,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
                         )
 
 
-                if sheet["J" + str(index)].value and os.path.exists(image_path):
+                if row['images_prod'] and os.path.exists(image_path):
                     if name:
 
                         slug = slugify(name)
@@ -189,17 +191,17 @@ class ExcelFileAdmin(admin.ModelAdmin):
                             label="N",
                             article_id=article_id,
                             stock_no=stock,
-                            details=json.loads(details),
+                            details= details ,
                             gender="F",
-                            description_short=json.loads(details),
-                            description_long=json.loads(details),
-                            tags=json.loads(details),
+                            description_short=description,
+                            description_long=description,
+                            tags= details ,
                             image=image_path.replace("/workspace/media_root",""),
                             rating=rating,
                             color_exist="M,S",
                             color_not_exist="F",
-                            size_exist=",".join(sizes),
-                            size_not_exist=",".join(sizes_not_exist),
+                            size_exist=sizes,
+                            size_not_exist=sizes_not_exist,
                             wishlist_num=0,
                             opinion_num=0,
                             shipping="2 days",
@@ -207,11 +209,11 @@ class ExcelFileAdmin(admin.ModelAdmin):
 
                         )
                         
-                       
-                        for image_url in sheet["C" + str(index)].value.split(",")[1:]:
-                            image_src = "https://cdn.dsmcdn.com"+ image_url.replace("\\","/").replace(" ","")
+                        
+                        for image_url in  row['images_prod'].split(",")[1:]:
+                            image_src = "https://cdn.dsmcdn.com"+ image_url.replace(" ","")
                             image_folder = image_src.split("/")[-3]
-                                
+                            print("loopin imgs")
                             local_image_path = image_src 
                             # Replace this with the actual path of the image on your computer
 
@@ -233,19 +235,22 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                 
                             slug_ex=itemnow.slug
                                 
+                            print("keeping..")
                             # Copy the image file to the media_root directory
-                            if not os.path.exists(image_path)  :
-                                ImageItem.objects.create(
-                                    item=Item.objects.filter(slug=slug_ex).first(),
-                                    slug=slug_ex,
-                                    image=image_path.replace("/workspace/media_root","") 
-                                )
-                                response = requests.get(local_image_path)
-                                if response.status_code == 200:
-                                    
-                                    with open(image_path, 'wb') as dest_file:
-                                        print("opened..")
-                                        dest_file.write(response.content)
+                            
+                            ImageItem.objects.create(
+                                item=Item.objects.filter(slug=slug_ex).first(),
+                                slug=slug_ex,
+                                image=image_path.replace("/workspace/media_root","") 
+                            )
+                            print("img item created")
+                            response = requests.get(local_image_path)
+                            if response.status_code == 200:
+                                print("dwnloding img item ..")
+                                with open(image_path, 'wb') as dest_file:
+                                    print("opened..")
+                                    dest_file.write(response.content)
+                                    print("dwnloded img item ..")
                                      
 
                                 

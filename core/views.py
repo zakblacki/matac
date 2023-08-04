@@ -421,7 +421,9 @@ class ItemDetailView(DetailView):
         
         # Add additional data to the context
         context['images'] =ImageItem.objects.filter(slug=self.object.slug) 
-        context["details"] = ast.literal_eval(self.object.details)
+        context["details"] =  self.object.details 
+        
+        print(self.object.details)
         context["colors_item"] = Item.objects.filter(article_id=self.object.article_id)
         
         if  self.request.user.is_authenticated:
