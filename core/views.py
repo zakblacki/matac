@@ -175,13 +175,19 @@ def wishlist_view(request):
 
 def index(request):
     
+    if request.user.is_authenticated:
+        wishlist =WishList.objects.get(user=request.user).items.all()
+    else:
+        wishlist=[]
+        
+    
     context={
         "items":Item.objects.filter(is_active=True),
         "category":Category.objects.filter(is_active=True),
         "new_items":Item.objects.filter(label="N"),
         "most_sale":Item.objects.filter(label="S"),
         "essentials":Essential.objects.filter(is_active=True),
-        "wishedlist":WishList.objects.get(user=request.user).items.all()
+        "wishedlist":wishlist
     }
 
     return render(request, 'index.html',context) 

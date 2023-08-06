@@ -85,6 +85,15 @@ class ExcelFile(models.Model):
     name = models.CharField(max_length=100)
     file = models.FileField(upload_to='excel_files/')
 
+
+class ExcelFileWithImages(models.Model):
+    name = models.CharField(max_length=100)
+    file = models.FileField(upload_to='excel_files/')
+    images= models.ImageField(upload_to="products_items/")
+
+
+
+
 class Item(models.Model):
     id_item= models.CharField(max_length=50,default="0")
     title = models.CharField(max_length=100)
