@@ -13,22 +13,102 @@ function imageZoom(imgID){
 
 	lens.style.backgroundSize = (img.width * ratio) + 'px ' + (img.height * ratio) + 'px';
    
+	img.addEventListener("touchmove", handleTouchMove);
+	lens.addEventListener("touchmove", handleTouchMove);
+
+	img.addEventListener("touchend", function(){
+		lens.style.display = "none"
+	});
+	lens.addEventListener("touchend", function(){
+		lens.style.display = "none"
+	});
+ 
+	 
+
+	 
+	 
 
 	img.addEventListener("mousemove", moveLens)
 	lens.addEventListener("mousemove", moveLens)
-	img.addEventListener("touchmove", moveLens)
-     
+	
+
+
+	function handleTouchMove(event) {
+		console.log("oho")
+		event.preventDefault();
+	
+		const rect = img.getBoundingClientRect();
+		const x = event.touches[0].clientX - rect.left;
+		const y = event.touches[0].clientY - rect.top;
+	
+		const lensSize = lens.clientWidth; // Assuming the lens is a perfect circle
+	
+		const imageWidth = img.clientWidth;
+		const imageHeight = img.clientHeight;
+	
+		const ratioX = imageWidth / lensSize;
+		const ratioY = imageHeight / lensSize;
+	
+		const backgroundPositionX = -(x * 3 );
+		const backgroundPositionY = -(y * 3 );
+	
+		lens.style.backgroundImage = `url( ${img.src} )`;
+		lens.style.backgroundSize = `${imageWidth * 3}px ${imageHeight * 3}px`;
+		lens.style.backgroundPosition = `${backgroundPositionX}px ${backgroundPositionY}px`;
+	
+		lens.style.left = `${x - lensSize / 2}px`;
+		lens.style.top = `${y - lensSize / 2}px`;
+	  }
+	  
     lens.addEventListener("mouseleave", function () {
         // Hide the element
         this.style.display = "none";
-        console.log("fg")
+        
       });
+	  
+	  let offsetX, offsetY;
+
+	  // Function to update the div's position
+	  function updatePosition(x, y) {
+		lens.style.transform = `translate(${x}px, ${y}px)`;
+	  }
+	//   img.addEventListener("touchstart",function (e) {
+		
+    //     // Hide the element
+        
+		
+	// 	const touch = e.touches[0];
+		 
+	// 	offsetX = touch.clientX - lens.getBoundingClientRect().left;
+	// 	offsetY = touch.clientY - lens.getBoundingClientRect().top;
+        
+    //   });
+
+	//   lens.addEventListener("touchmove", function(e) {
+		
+		 
+	// 	const touch = e.touches[0];
+		
+	// 	const x = touch.clientX - offsetX;
+	// 	const y = touch.clientY - offsetY;
+		
+	// 	updatePosition(x, y);
+		
+	//   });
+	//   img.addEventListener("touchend", function () {
+		 
+    //     // Hide the element
+         
+	// 	lens.style.display = "none";
+        
+    //   });
+
 	function moveLens(){
        
         lens.style.display = "block";
 
          
-        console.log("move")
+        
 		/*
         Function sets sets position of lens over image and background image of lens
         1 - Get cursor position
@@ -87,14 +167,14 @@ function imageZoom(imgID){
 
         let e = window.event
         let bounds = img.getBoundingClientRect()
-
+		
         //console.log('e:', e)
         //console.log('bounds:', bounds)
         let x = e.pageX - bounds.left
 		let y = e.pageY - bounds.top
 		x = x - window.pageXOffset;
 		y = y - window.pageYOffset;
-		
+		 
 		return {'x':x, 'y':y}
 	}
 

@@ -140,12 +140,13 @@ class ExcelFileAdmin(admin.ModelAdmin):
                 print('request image file ..')
                 # Copy the image file to the media_root directory
                 response=requests.get(local_image_path)
-                print("requested..")
+                 
                 if response.status_code == 200 :
-                    print("responsed..")
+                     
                     with open(image_path, 'wb') as dest_file:
                         print("opened..")
                         dest_file.write(response.content)
+                        
                       
 
               
