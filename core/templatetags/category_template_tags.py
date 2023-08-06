@@ -105,7 +105,7 @@ def categories():
 					</li>"""
         
         else:   
-            items_li += """<li><a href="/category/{}">{}</a></li>""".format(i.slug, i.title)
+            items_li += """<li><a href="{}">{}</a></li>""".format(i.slug, i.title)
     
     return mark_safe(items_li )
 

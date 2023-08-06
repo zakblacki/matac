@@ -14,7 +14,7 @@ from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils.text import slugify
- 
+import io
 
 def make_refund_accepted(modeladmin, request, queryset):
     queryset.update(refund_requested=False, refund_granted=True)
@@ -94,6 +94,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
             categoryName = row["category_name"]
             
             description = row["details d'article"]
+            idxn=row["id"]
             
             delivery = row["delivery"]
             rating = row["rating"]
@@ -137,25 +138,33 @@ class ExcelFileAdmin(admin.ModelAdmin):
                 filename = os.path.basename(local_image_path)
                 image_path = os.path.join(media_root,media_root1, filename)
                  
-                print('request image file ..')
+                 
                 # Copy the image file to the media_root directory
                 response=requests.get(local_image_path)
                  
                 if response.status_code == 200 :
                      
-                    with open(image_path, 'wb') as dest_file:
-                        print("opened..")
-                        dest_file.write(response.content)
+                    # with open(image_path, 'wb') as dest_file:
+                         
+                    #     dest_file.write(response.content)
+                    image_data = response.content
+                    image = Image.open(io.BytesIO(image_data))
+                    rgba_image = image.convert("RGBA")
+
+                    # Create a file path for saving the WebP image
+                    webp_file_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+
+                    # Save the RGBA image as WebP
+                    rgba_image.save(webp_file_path, "WEBP")
                         
                       
 
               
 
                          
-                print('check ..',os.path.exists(image_path))
-                print('----',image_path)
-                if categoryName and os.path.exists(image_path):
-                    print('creted cat ..')
+                 
+                if categoryName and os.path.exists(os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")):
+                     
                     doesexist = Category.objects.filter(title=categoryName)
                     if len(doesexist) > 0:
                         categoryName=doesexist.first().title
@@ -164,11 +173,11 @@ class ExcelFileAdmin(admin.ModelAdmin):
                             title=categoryName,
                             slug=slugify(categoryName),
                             description=categoryName,
-                            image=os.path.join('images',media_root1, filename).replace("/workspace/media_root","")
+                            image=os.path.join('images',media_root1,  f"{filename.split('.')[0]}.webp").replace("/workspace/media_root","")
                         )
 
 
-                if row['images_prod'] and os.path.exists(image_path):
+                if row['images_prod'] and os.path.exists(os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")):
                     if name:
 
                         slug = slugify(name)
@@ -181,78 +190,91 @@ class ExcelFileAdmin(admin.ModelAdmin):
                             new_slug = f"{slug}-{ random_number }"
                             
                         
-                        
-                        
-                        itemnow = Item.objects.create(
-                            title=name,
-                            slug=  new_slug,
-                            price=sellingPrice,
-                            discount_price=discountPrice,
-                            category=Category.objects.filter(title=categoryName).first(),
-                            label="N",
-                            article_id=article_id,
-                            stock_no=stock,
-                            details= details ,
-                            gender="F",
-                            description_short=description,
-                            description_long=description,
-                            tags= details ,
-                            image=image_path.replace("/workspace/media_root",""),
-                            rating=rating,
-                            color_exist="M,S",
-                            color_not_exist="F",
-                            size_exist=sizes,
-                            size_not_exist=sizes_not_exist,
-                            wishlist_num=0,
-                            opinion_num=0,
-                            shipping="2 days",
+                        doesexist11 = Item.objects.filter(id_item = idxn)
+                        imagepathitem = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+                        if len(doesexist11) == 0:
+                            itemnow = Item.objects.create(
+                                id_item=idxn,
+                                title=name,
+                                slug=  new_slug,
+                                price=sellingPrice,
+                                discount_price=discountPrice,
+                                category=Category.objects.filter(title=categoryName).first(),
+                                label="N",
+                                article_id=article_id,
+                                stock_no=stock,
+                                details= details ,
+                                gender="F",
+                                description_short=description,
+                                description_long=description,
+                                tags= details ,
+                                image=imagepathitem.replace("/workspace/media_root",""),
+                                rating=rating,
+                                color_exist="M,S",
+                                color_not_exist="F",
+                                size_exist=sizes,
+                                size_not_exist=sizes_not_exist,
+                                wishlist_num=0,
+                                opinion_num=0,
+                                shipping="2 days",
 
 
-                        )
-                        
-                        
-                        for image_url in  row['images_prod'].split(",")[1:]:
-                            image_src = "https://cdn.dsmcdn.com"+ image_url.replace(" ","")
-                            image_folder = image_src.split("/")[-3]
-                            print("loopin imgs " , image_src)
-                            local_image_path = image_src 
-                            # Replace this with the actual path of the image on your computer
-
-                            # Construct the path to the media_root directory
-                            media_root = os.path.join(settings.MEDIA_ROOT, 'images')
-                            # Construct the path to the media_root directory
-                            media_root1 = os.path.join(settings.MEDIA_ROOT, image_folder)
-
-                            # Create the 'images' directory if it doesn't exist
-                            if not os.path.exists(media_root):
-                                os.makedirs(media_root)
-                                
-                            if not os.path.exists(media_root1):
-                                os.makedirs(media_root1)
-
-                            # Get the image filename from the local path
-                            filename = os.path.basename(local_image_path)
-                            image_path = os.path.join(media_root,media_root1, filename)
-                                
-                            slug_ex=itemnow.slug
-                                
-                            print("keeping..")
-                            # Copy the image file to the media_root directory
-                            
-                            ImageItem.objects.create(
-                                item=Item.objects.filter(slug=slug_ex).first(),
-                                slug=slug_ex,
-                                image=image_path.replace("/workspace/media_root","") 
                             )
-                            print("img item created")
-                            response = requests.get(local_image_path)
-                            if response.status_code == 200:
-                                print("dwnloding img item ..")
-                                with open(image_path, 'wb') as dest_file:
-                                    print("opened..")
-                                    dest_file.write(response.content)
-                                    print("dwnloded img item ..")
+                            
+                        
+                            for image_url in  row['images_prod'].split(",")[1:]:
+                                image_src = "https://cdn.dsmcdn.com"+ image_url.replace(" ","")
+                                image_folder = image_src.split("/")[-3]
+                                
+                                local_image_path = image_src 
+                                # Replace this with the actual path of the image on your computer
+
+                                # Construct the path to the media_root directory
+                                media_root = os.path.join(settings.MEDIA_ROOT, 'images')
+                                # Construct the path to the media_root directory
+                                media_root1 = os.path.join(settings.MEDIA_ROOT, image_folder)
+
+                                # Create the 'images' directory if it doesn't exist
+                                if not os.path.exists(media_root):
+                                    os.makedirs(media_root)
+                                    
+                                if not os.path.exists(media_root1):
+                                    os.makedirs(media_root1)
+
+                                # Get the image filename from the local path
+                                filename = os.path.basename(local_image_path)
+                                image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+                                    
+                                slug_ex=itemnow.slug
+                                    
+                                 
+                                # Copy the image file to the media_root directory
+                                
+                                ImageItem.objects.create(
+                                    item=Item.objects.filter(slug=slug_ex).first(),
+                                    slug=slug_ex,
+                                    image=image_path.replace("/workspace/media_root","") 
+                                )
+                                 
+                                response = requests.get(local_image_path)
+                                if response.status_code == 200:
                                      
+                                    # with open(image_path, 'wb') as dest_file:
+                                      
+                                         
+                                    #     dest_file.write(response.content)
+                                        
+                                    image_data = response.content
+                                    image = Image.open(io.BytesIO(image_data))
+                                    rgba_image = image.convert("RGBA")
+
+                                    # Create a file path for saving the WebP image
+                                    webp_file_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+
+                                    # Save the RGBA image as WebP
+                                    rgba_image.save(webp_file_path, "WEBP")
+                                     
+                                        
 
                                 
               

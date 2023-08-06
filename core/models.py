@@ -86,6 +86,7 @@ class ExcelFile(models.Model):
     file = models.FileField(upload_to='excel_files/')
 
 class Item(models.Model):
+    id_item= models.CharField(max_length=50,default="0")
     title = models.CharField(max_length=100)
     price = models.FloatField()
     discount_price = models.FloatField(blank=True, null=True)
