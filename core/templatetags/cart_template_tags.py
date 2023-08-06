@@ -6,11 +6,16 @@ register = template.Library()
 
 @register.filter
 def cart_item_count(user):
-    if user.is_authenticated:
-        try:
-            qs = Order.objects.filter(user=user, ordered=False)
-            if qs.exists():
-                return qs[0].items.count()
-        except:
-            
+   
+    try:
+        qs = Order.objects.filter(user=user, ordered=False)
+        if qs.exists():
+            print("000000000")
+            return qs[0].items.count()
+        else:
+            print("ddddddddd")
             return 0
+    except:
+        print("ggggggg")
+        return 0
+    

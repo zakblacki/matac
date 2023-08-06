@@ -117,29 +117,34 @@
 					</div>
 				
 			</div>
-
-			<div class="categories owl-carousel owl-nav-full owl-theme appear-animate mb-4 owl-loaded owl-drag fadeInUpShorter appear-animation-visible" data-animation-options="{'name': 'fadeInUpShorter', 'delay': '.4s'}" data-owl-options="{
-				'items': 3,
-				'margin': 20,
-				'dots': false,
-				'autoplay': true,
-				'responsive': {
-					'0': {
-						'items': 1
-					},
-					'576': {
-						'items': 2
-					},
-					'992': {
-						'items': 3
-					}
-				}
-			}" style="animation-duration: 1.2s;">
+ 
 			
-			
-			<div class="owl-stage-outer"><div class="owl-stage"></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i class="d-icon-angle-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="d-icon-angle-right"></i></button></div><div class="owl-dots disabled"></div></div>
-		</div>
+			 
+			 
 	</section>
+	
+	<script>
+		$(document).ready(function(){
+		  $(".owl-carousel").owlCarousel({
+			items: 4, // Display 4 items in a line
+			loop: false,
+			margin: 10,
+			nav: true,
+			dots: true,
+			responsive: {
+			  0: {
+				items: 4 // Display 1 item on smaller screens
+			  },
+			  600: {
+				items: 4 // Display 2 items on screens wider than 600px
+			  },
+			  1000: {
+				items: 4 // Display 4 items on screens wider than 1000px
+			  }
+			}
+		  });
+		});
+	  </script>
 	<section class="container mb-8">
 		<br>
 		<h2 class="title with-link appear-animate mb-5 text-center fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;margin-left: 10px;text-transform: uppercase;">Catégorie</h2> 
@@ -147,10 +152,10 @@
 		   'nav': false,
 		   'loop':false
 		   'dots': true,
-		   'margin': 20,
+		   'margin': 0,
 		   'responsive': {
 			   '0': {
-				   'items': 2
+				   'items': 4
 			   },
 			   '576': {
 				   'items': 4
@@ -159,10 +164,10 @@
 				   'items': 4
 			   },
 			   '992': {
-				   'items': 5
+				   'items': 4
 			   },
 			   '1200': {
-				   'items': 8
+				   'items': 4
 			   }
 		   }
 	   }" style="animation-duration: 1.2s;">
@@ -192,30 +197,11 @@
 		
 		</div>
 	</div>
-				<div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i class="d-icon-angle-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="d-icon-angle-right"></i></button></div><div class="owl-dots disabled"><button role="button" class="owl-dot active"><span></span></button></div></div>
+	<div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i class="d-icon-angle-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="d-icon-angle-right"></i></button></div><div class="owl-dots disabled"><button role="button" class="owl-dot active"><span></span></button></div></div>
    </section>
-   <script>
-	$(document).ready(function(){
-	  $(".owl-carousel").owlCarousel({
-		items: 4, // Display 4 items in a line
-		loop: false,
-		margin: 10,
-		nav: true,
-		dots: true,
-		responsive: {
-		  0: {
-			items: 1 // Display 1 item on smaller screens
-		  },
-		  600: {
-			items: 2 // Display 2 items on screens wider than 600px
-		  },
-		  1000: {
-			items: 4 // Display 4 items on screens wider than 1000px
-		  }
-		}
-	  });
-	});
-  </script>
+   
+ 
+
 
 	
 	<!-- Category start -->
@@ -588,153 +574,145 @@
 		</div>
 	</section> -->
 	<section class="container  ">
-		<script>
-	$(function() {
-  // Owl Carousel
-  var owl = $(".owl-carousel");
-  owl.owlCarousel({
-    items: 4,
-    margin: 0,
-    loop: true,
-    nav: true
-  });
-});
-		</script>
+		
 		<h2 style="padding-left: 10px;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">NOUVEAUTÉS</h2>
-		<div class="owl-carousel owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
-			'nav': true,
-			'dots': true,
-			'margin': 10,
-			'responsive': {
-				'0': {
-					'items': 4
-				},
-				'576': {
-					'items': 4
-				},
-				'768': {
-					'items': 4
-				},
-				'992': {
-					'items': 4
-				},
-				'1200': {
-					'items': 5
-				}
+	<div class="owl-carousel owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}"   style="animation-duration: 1.2s;" data-owl-options="{
+		'nav': true,
+		'dots': true,
+		'loop':false,
+		'margin':0,
+		'responsive': {
+			'0': {
+				'items': 2
+			},
+			'576': {
+				'items': 2
+			},
+			'768': {
+				'items': 2
+			},
+			'992': {
+				'items': 4
+			},
+			'1200': {
+				'items': 4
 			}
-		}" style="animation-duration: 1.2s;">
-			
- 	
+		}
+	}">
+
 		<div class="owl-stage-outer">
-			<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); 
-			transition: all 3s ease 0s; width: 5814px;">
-			
-			  
-			{% for new_item in new_items %}
-			
-			<div class="owl-item new_item{% if forloop.counter <= 4 %} active{% endif %}" style="width: 247px !important; margin-right: 20px;">
-				<div class="product product-classic">
-				<figure class="product-media">
-				<a href="/product/{{new_item.slug}}">
-					
-						<img style="width: 100%; height: 100%;" src={{new_item.image.url}} loading="lazy" alt="Manteau Noir  Oversize en Laine  image" width="300" height="338">
-					
-				</a>
-			<div class="product-action-vertical">
-	 
-				{% if new_item in wishedlist %}
-				<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-					<img src="/static/images/PSC.svg">
-				</a>
+		<div class="owl-stage"  >
 				
-				{% else %}
-				<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-					<img src="/static/images/VSC.svg">
-				</a>
-				{% endif %}	
-			</div>
-
-		<div class="product-action  justify-content-end">
-			{% if  new_item.article_id|filtered_and_length:"," > 1 %}
-				<div class="product-color__badge--wheel img">
-					<div class="color-options">
-						<div>
-							
-							<span class="color-option"></span>
-							
-							<span class="color-option"></span>
-							 
-							 
-							
+		{% for new_item in new_items %}
+				
+		<div class="owl-item new_item{% if forloop.counter <= 4 %} active{% endif %}"  >
+			<div class="product product-classic">
+				<figure class="product-media">
+					<a href="/product/{{new_item.slug}}">
+						
+							<img style="width: 100%; height: 100%;" src={{new_item.image.url}} loading="lazy" alt="Manteau Noir  Oversize en Laine  image" width="300" height="338">
+						
+					</a>
+				
+					<div class="product-action-vertical">
+			
+						{% if new_item in wishedlist %}
+						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+							<img src="/static/images/PSC.svg">
+						</a>
+						
+						{% else %}
+						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+							<img src="/static/images/VSC.svg">
+						</a>
+						{% endif %}	
 					</div>
-					<span class="color-variant-count">
+
+					<div class="product-action  justify-content-end">
 						{% if  new_item.article_id|filtered_and_length:"," > 1 %}
-							{{new_item.article_id|filtered_and_length:","}}
+							<div class="product-color__badge--wheel img">
+								<div class="color-options">
+									<div>
+										
+										<span class="color-option"></span>
+										
+										<span class="color-option"></span>
+										
+										
+										
+								</div>
+								<span class="color-variant-count">
+									{% if  new_item.article_id|filtered_and_length:"," > 1 %}
+										{{new_item.article_id|filtered_and_length:","}}
+									{% endif %}
+										
+								</span></div>
+							</div>
+							
 						{% endif %}
-							 
-					</span></div>
+					</div>
+
+					<div class="product-label-group">
+						
+							
+							<label class="product-label label-top">{{new_item.get_label_display }}</label>
+						
+					</div>  
+				</figure>
+				<div class="product-details">
+					<h3 class="product-name">
+						<a href="/product/{{new_item.slug}}">{{new_item.title}} </a>
+					</h3>
+					<div class="product-price d-flex justify-content-between">
+					<div>
+					{% if new_item.price > new_item.discount_price %}
+					<del class="old-price old-price-block">&nbsp;{{new_item.price}} DA</del>
+					&nbsp; 
+					<ins class="new-price price-block">{{new_item.discount_price}}DA</ins>
+					{% else %}
+					<ins class="new-price price-block">{{new_item.price}}DA</ins>
+					{% endif %}
+					</div>
+		
+					</div>
 				</div>
-				 
-			{% endif %}
+			</div>
+		</div> 
+		{% endfor %}
+				
 		</div>
-
-<div class="product-label-group">
-	
-		
-		<label class="product-label label-top">{{new_item.get_label_display }}</label>
-	 
-</div>  
-</figure>
-<div class="product-details">
-<h3 class="product-name">
-	<a href="/product/{{new_item.slug}}">{{new_item.title}} </a>
-</h3>
-<div class="product-price d-flex justify-content-between">
-	<div>
-		
-		{% if new_item.price > new_item.discount_price %}
-		<del class="old-price old-price-block">&nbsp;{{new_item.price}} DA</del>
-		 &nbsp; 
-		<ins class="new-price price-block">{{new_item.discount_price}}DA</ins>
-		{% else %}
-
-		<ins class="new-price price-block">{{new_item.price}}DA</ins>
-{% endif %}
+		</div>
 	</div>
-	
-</div>
-
-
-</div>
-</div>
-			</div> 
-			{% endfor %}
-			 
-			 
-			 
-			 
-			 
-		 
-			 
-
-</div>
-
-		</div>
-		 
 	</section>
+
+
+	<script>
+		$(function() {
+	  // Owl Carousel
+	  var owl = $(".owl-carousel");
+	  owl.owlCarousel({
+		items: 4,
+		margin: 0,
+		loop: true,
+		nav: true,
+		responsive: {
+				  0: {
+					items: 2 // Display 1 item on smaller screens
+				  },
+				  600: {
+					items: 2 // Display 2 items on screens wider than 600px
+				  },
+				  1000: {
+					items: 4 // Display 4 items on screens wider than 1000px
+				  }
+				}
+	  });
+	});
+			</script>
+
+
 	<section class="container  ">
-		<script>
-	$(function() {
-  // Owl Carousel
-  var owl = $(".owl-carousel");
-  owl.owlCarousel({
-    items: 4,
-    margin: 0,
-    loop: true,
-    nav: true
-  });
-});
-		</script>
+		
 		{% if most_sale %}
 		<h2 style="padding-left: 10px;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">PRODUITS LES PLUS VENDUS</h2>
 		<div class="owl-carousel owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
@@ -744,19 +722,19 @@
 			'margin': 10,
 			'responsive': {
 				'0': {
-					'items': 4
+					'items': 2
 				},
 				'576': {
-					'items': 4
+					'items': 2
 				},
 				'768': {
-					'items': 4
+					'items': 2
 				},
 				'992': {
 					'items': 4
 				},
 				'1200': {
-					'items': 5
+					'items': 4
 				}
 			}
 		}" style="animation-duration: 1.2s;">
@@ -858,7 +836,18 @@
 </div>
 
 		</div>
-		 
+		<script>
+			$(function() {
+		  // Owl Carousel
+		  var owl = $(".owl-carousel");
+		  owl.owlCarousel({
+			items: 4,
+			margin: 0,
+			loop: true,
+			nav: true
+		  });
+		});
+				</script>
 	</section>
 <script>
 	const dots = document.getElementsByClassName("owl-dot");

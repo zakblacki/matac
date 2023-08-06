@@ -565,7 +565,7 @@ position: fixed;">
 				
 			</div>
 		</div>
-		<div class="header-search  mobileone d-sm-none  d-md-none d-lg-none d-xl-none d-xs-block" style="/*! border: 1px solid; */height: 32px;left: 70px;top: 93px;width: 230px;">
+		<div class="header-search  mobileone d-sm-none  d-md-none d-lg-none d-xl-none d-xs-block" style="/*! border: 1px solid; */height: 32px;left: 67px;top: 93px;width: 230px;">
                         
                         
 			<form action="/shop" class="input-wrapper">
@@ -641,28 +641,36 @@ position: fixed;">
 					{% if request.user.is_authenticated %}
 					<li class="item-menu-mobile">
 					 
-						<a href="{% url 'core:order-summary' %}">Checkout<span class="badge badge-dark">{{ request.user|cart_item_count }}</span></a>
+						<a href="{% url 'core:order-summary' %}">Checkout
+							<span class="badge badge-dark">
+								{% if request.user.is_authenticated %}
+								{{ request.user|cart_item_count }}
+
+								{% else %}
+								0
+								{% endif %}
+							</span>
+						</a>
 						 
 					</li>
-					{% if request.user.is_authenticated  %}
-					<li class="item-menu-mobile">
-						<a href="/profile">My Account</a>
-					</li>
+						{% if request.user.is_authenticated  %}
+						<li class="item-menu-mobile">
+							<a href="/profile">My Account</a>
+						</li>
+						{% else %}
+						<li class="item-menu-mobile">
+							<a href="/login">Login</a>
+						</li>
+						<li class="item-menu-mobile">
+							<a href="/register">Register</a>
+						</li>
+						{% endif %}
 					{% else %}
 					<li class="item-menu-mobile">
 						<a href="/login">Login</a>
 					</li>
-					<li class="item-menu-mobile">
+					<li>
 						<a href="/register">Register</a>
-					</li>
-					{% endif %}
-					{% else %}
-					<li class="item-menu-mobile">
-						<a href="#">Login</a>
-						<ul class="sub-menu">
-							<li><a href="{% url 'account_login' %}">Login</a></li>
-							<li><a href="{% url 'account_signup' %}">SignUp</a></li>
-						</ul>
 						<i class="arrow-main-menu fa fa-angle-right" aria-hidden="true"></i>
 					</li>
 					{% endif %}
