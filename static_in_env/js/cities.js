@@ -12,7 +12,7 @@ function getJSONData() {
         for(data in jsonData){
             var wilaya = jsonData[data]
             
-            document.getElementById("wilayaId").innerHTML += `<option value="${wilaya["id"]}" data-relai="600,00" data-home="900,00" data-id="1">${wilaya["name"]}</option>`
+            document.getElementById("wilayaId").innerHTML += `<option data-valu="${wilaya['name']}" value="${wilaya["id"]}" data-relai="600,00" data-home="900,00" data-id="1">${wilaya["name"]}</option>`
             // Do something with the JSON data here
         }
         
@@ -44,7 +44,7 @@ function getJSONData() {
             jsonData.filter((obj) =>{
               if( this.value == obj["wilaya_id"]){
                 
-                document.getElementById("Commune").innerHTML += `<option value="${obj["id"]}" data-relai="600,00" data-home="900,00" data-id="1">${obj["name"]}</option>`
+                document.getElementById("Commune").innerHTML += `<option data-valu="${obj['name']}" value="${obj["id"]}" data-relai="600,00" data-home="900,00" data-id="1">${obj["name"]}</option>`
               }
               
             });
@@ -55,4 +55,5 @@ function getJSONData() {
       .catch(error => console.error("Error fetching JSON data.", error));
       
   })
+
 

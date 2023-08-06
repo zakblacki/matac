@@ -105,7 +105,7 @@
                             </td>
                             
                                 <td class="product-name"></td>
-                                <td class="summary-subtotal-price">900,00  DA</td>
+                                <td class="summary-subtotal-price">{{target.shipping_price}}  DA</td>
                                 
                         </tr>
                         <tr class="summary-subtotal">
@@ -154,9 +154,11 @@
             </div>
             <div class="address-info pb-8 mb-6" id="confirmer">
                 
+                {% if  target.recui_image%}
                 <a data-lightbox="photo" href="{{target.recui_image.url}}" alt="reçu de paiment" style="height:150px; width:auto;">
                     <img src="{{target.recui_image.url}}" alt="reçu de paiment" style="height:150px; width:auto;">
                 </a>
+                {% endif %}
                 <div class="order-results">
                     <form action="/confirm_order/{{request.user}}/{{target.id}}/" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}

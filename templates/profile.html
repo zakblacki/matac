@@ -11,7 +11,7 @@
             <ul class="breadcrumb" style="background: white;
            
             padding: 25px;">
-                <li><a href="demo1.html"><i class="d-icon-home"></i></a></li>
+                <li><a href="/"><i class="d-icon-home"></i></a></li>
                 <li>Profile</li>
             </ul>
         </div>
@@ -40,60 +40,68 @@
                 <div class="tab-content col-lg-9 col-md-8">
                     <div class="tab-pane active in" id="dashboard">
                         <p class="mb-0">
-                            Hello <span></span>
+                            Hello {{request.user.username}}<span></span>
                         </p>
                         <p class="mb-8">
                             Depuis votre Dashboard vous pouvez voir vos <a href="#orders" class="link-to-tab text-primary">Commandes recentes</a>, Modifier vos informations de commande et de livraison,<br>Modifier votre mot de passe
                         </p>
-                        <a href="shop.html" class="btn btn-dark btn-rounded">Aller a la boutique<i class="d-icon-arrow-right"></i></a>
+                        <a href="/shop " class="btn btn-dark btn-rounded">Aller a la boutique<i class="d-icon-arrow-right"></i></a>
                     </div>
                     <div class="tab-pane" id="orders">
-                        <p>Pas de commande pour le moment</p><a href="/" class="btn btn-outline-primary-2">
+                        {% if leng  == 0  %}
+
+                        <p>Pas de commande pour le moment</p>
+                        <a href="/" class="btn btn-outline-primary-2">
                                         <span>Accueil</span>
                                         <i class="icon-long-arrow-right"></i>
-                                    </a><table class="order-table">
-                            <thead>
-                                <tr>
-                                    <th class="pl-2">N° Commande</th>
-                                    <th>Date</th>
-                                    <th>État</th>
-                                    <th>Total</th>
-                                    <th class="pr-2">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                              
-									{% for order in orders %}
+                        </a>
+                        {% else %}
+                            <table class="order-table">
+                                <thead>
                                     <tr>
-                                        <td class="order-number"><a href="#"># {{order.id}}</a></td>
-                                        <td class="order-date"><time>{{order.ordered_date}}</time></td>
-                                        <td class="order-status"><span>
-
-                                            {%if order.received%} 
-                                                received
-
-                                            {% elif order.being_delivered %}
-
-                                                delivered
-                                            {% else %}
-                                            waiting
-                                            {% endif %}
-                                        </span></td>
-                                        <td class="order-total"><span>{{order.total_amount}} DA</span></td>
-                                        <td class="order-action">
-                                            
-                                            <a href="/confirm_order/{{request.user}}/{{order.id}}/" class="btn btn-primary btn-link btn-underline">Voir</a>
-                                        </td>
+                                        <th class="pl-2">N° Commande</th>
+                                        <th>Date</th>
+                                        <th>État</th>
+                                        <th>Total</th>
+                                        <th class="pr-2">Actions</th>
                                     </tr>
-                                
-                                    {% endfor %}
+                                </thead>
+                                <tbody>
                                     
                                 
-                            </tbody>
-                        </table>
-                        <br>
-                        <h6>NB: Veuillez soumettre un reçu de paiement pour confirmer votre commande.*</h6>
+                                        {% for order in orders %}
+                                        <tr>
+                                            <td class="order-number"><a href="#"># {{order.id}}</a></td>
+                                            <td class="order-date"><time>{{order.ordered_date}}</time></td>
+                                            <td class="order-status"><span>
+
+                                                {%if order.received%} 
+                                                    received
+
+                                                {% elif order.being_delivered %}
+
+                                                    delivered
+                                                {% else %}
+                                                waiting
+                                                {% endif %}
+                                            </span></td>
+                                            <td class="order-total"><span>{{order.total_amount}} DA</span></td>
+                                            <td class="order-action">
+                                                
+                                                <a href="/confirm_order/{{request.user}}/{{order.id}}/" class="btn btn-primary btn-link btn-underline">Voir</a>
+                                            </td>
+                                        </tr>
+                                    
+                                        {% endfor %}
+                                        
+                                    
+                                </tbody>
+                            </table>
+                            
+                            <br>
+                            <h6>NB: Veuillez soumettre un reçu de paiement pour confirmer votre commande.*</h6>
+                        
+                        {% endif %}
                     </div>
                     <div class="tab-pane" id="account">
                         <form action="." class="form" method="post" enctype="multipart/form-data">

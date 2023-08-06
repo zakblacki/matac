@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<button class="filter-button" data-filter-type="category">Category</button>
+<button class="filter-button" data-filter-type="price">Price</button>
+<button class="filter-button" data-filter-type="gender">Gender</button>
+
+<!-- Container to display filtered items -->
+<div id="filtered-items"></div>
+
+<!-- Include jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Your JavaScript code -->
+<script>
+$(document).ready(function() {
+    $(".filter-button").click(function() {
+        var filterType = $(this).data("filter-type");
+        $.ajax({
+            url: `/get_filtered_items/?filter=${filterType}`,
+            type: "GET",
+            success: function(data) {
+                // Update the #filtered-items container with new data
+                $("#filtered-items").html(data);
+            }
+        });
+    });
+});
+</script>
+{% endblock content %}

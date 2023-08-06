@@ -60,7 +60,16 @@ def genders():
      
     
 
-
+@register.simple_tag
+def gendercat():
+    try:
+        items = GenderCategory.objects.all()
+    except:
+        items=[]
+    return  items
+    
+    
+    
 @register.simple_tag
 def categories():
     

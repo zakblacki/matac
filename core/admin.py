@@ -60,7 +60,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         obj_file_name= obj.file
-        df = pd.read_excel(obj_file_name, sheet_name='Sheet1', engine='openpyxl')
+        df = pd.read_excel(obj_file_name,  engine='openpyxl')
 
         
 
@@ -213,7 +213,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
                         for image_url in  row['images_prod'].split(",")[1:]:
                             image_src = "https://cdn.dsmcdn.com"+ image_url.replace(" ","")
                             image_folder = image_src.split("/")[-3]
-                            print("loopin imgs")
+                            print("loopin imgs " , image_src)
                             local_image_path = image_src 
                             # Replace this with the actual path of the image on your computer
 
@@ -364,3 +364,4 @@ admin.site.register(Order)
 admin.site.register(Coupon)
 admin.site.register(WishList)
 admin.site.register(TopCategory)
+admin.site.register(ShopHeader)

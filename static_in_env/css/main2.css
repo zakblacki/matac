@@ -4058,9 +4058,31 @@ a {
 
   .order-action,
   thead th:last-child {
-    display: none
+    display: block;
+    
+  }
+  .order-action{
+  min-height: 74px;
+  }
+  .account thead th:first-of-type{
+    width: 103px;
+  }
+  .account thead th:last-of-type{
+    display: flex;
+justify-content: right;
+  }
+  .account thead th:nth-last-of-type(2){
+    text-align: right;
+  }
+  .account thead th {
+    padding: 1.5rem 0;
+    font-size: 12px;
   }
 
+  .account thead tr{
+    width: 100%;
+  display: table;
+  }
   .btn {
     font-size: 1.2rem
   }
@@ -6971,6 +6993,9 @@ input[type=radio]~label::after {
   height: 100% !important;
 }
 @media (max-width:991px) {
+  .badge-dark{
+    margin-left: 5px;
+  }
   .header-search.hs-simple input.form-control{
     margin: auto !important;
   }
@@ -9280,7 +9305,7 @@ aside+div .product-single .product-details {
 
 #filtertop{
   width: 100%;
-  padding: 4px;
+  padding: 7px;
   text-align: center;
   background: white;
   outline: none;
@@ -12663,7 +12688,28 @@ ul.megamenu {
 }
 
 
+
 .overlay_div{
+  position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #222222bf;
+    z-index: 99999;
+    display: none;
+
+}
+.overlay_div12{
+  position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #222222bf;
+    z-index: 99999;
+    display: none;
+
+}
+.overlay_div112{
   position: fixed;
     top: 0;
     width: 100%;
@@ -12723,7 +12769,25 @@ ul.megamenu {
   font-family: 'Roboto Condensed', sans-serif
 }
 
+.filtermob{
+  display: none ;
+}
 @media (max-width:992px) {
+  .filtermob{
+    display: block ;
+    position: fixed;
+    top: -6px;
+    left: 420px;
+    height: 105%;
+    padding: 20px;
+    width: 339px;
+    border-top: 3px solid #e6e6e6;
+    background-color: white;
+    -webkit-box-shadow: 0 3px 5px 0px rgba(0, 0, 0, 0.1);
+    transform-origin: top right;
+    transition: .5s all ease-in !important;
+    z-index: 99999;
+  }
 
   .input-wrapper .btn-search .d-icon-search{
     margin-left:-80px;
@@ -14192,7 +14256,63 @@ min-width: 154px;
 font-size: 14px !important;
 line-height: 0;
 }
+
+
+.phonefilter_tri{
+  display: none;
+
+}
+
+.filtertrifixed{
+  display: none;
+}
 @media (max-width: 991px){
+
+  .phonefilter_tri{
+    display: block;
+    width: 92%;
+    border: 1px solid;
+    display: flex;
+    justify-content: space-between;
+    height: 45px;
+    margin: auto;
+    padding: 5px;
+    margin-bottom: 10px;
+border: 1px solid #8888881f;
+  }
+  .filterphone1{
+    border-right: 1px solid #222;
+  }
+  .filterphone1,.filterphone2{
+    width: 49.5%;
+    height: 100%;
+    line-height: 34px;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+  .filterphone1 img,.filterphone2 img{
+    
+    height: 60% !important;
+  }
+
+
+  .filtertrifixed{
+    width: 100%;
+    height: 45%;
+    position: fixed;
+    bottom: -1px;
+    background: #fff;
+    display: none;
+  }
+
+  .filterphone1,.filterphone2{
+    font-size: 13px;
+    font-weight: bold;
+    color: #222;
+  }
+  .toptoptop div:nth-of-type(1),.toptoptop div:nth-of-type(3){
+    display: none !important;
+  }
   
   .summary.mb-4 .btn-success{
     display: block !important;
@@ -14203,7 +14323,7 @@ line-height: 0;
    }
 
    .filter_phone{
-    display: block !important;
+    display: none !important;
    }
    .filter_all{
     padding: 10px;

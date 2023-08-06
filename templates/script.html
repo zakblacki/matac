@@ -220,6 +220,11 @@ pss.update();
 <script>
   $(".filter-actions .fa-times").on("click",function(){
   $($(this).parents()[4]).hide(500)
+  setTimeout(() => {
+    document.querySelector(".col-lg-9").style.flex = "content" 
+      document.querySelector(".col-lg-9").style.paddingLeft = 17 + "px" 
+    document.querySelector(".col-lg-9").style.maxWidth = "100%" 
+  }, 500);
 })
 
 document.getElementById("filtertop").addEventListener("change",function(){
@@ -285,7 +290,8 @@ $(".filtertoptop").on("click",function(){
       var key = keyval[0]
       var val = keyval[1]
      
-      if(key == "gender" || key == "price_range" ){
+      if(key == "gender" || key == "price_range" || key == "brand" ){
+        
        
          $($(`input[name=${key}][value=${val}]`)[0]).prop("checked",true)
          $($(`input[name=${key}][value=${val}]`)[1]).prop("checked",true)

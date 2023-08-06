@@ -5,7 +5,7 @@ from django.shortcuts import reverse
 from django_countries.fields import CountryField
 from django.core.validators import MaxValueValidator
 from multiupload.fields import MultiImageField
-
+import datetime
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -116,7 +116,7 @@ class Item(models.Model):
     price_after_coupon= models.FloatField(blank=True, null=True)
     show_coupon = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-
+    date_added= models.DateTimeField(  default=datetime.datetime.now())
     def __str__(self):
         self.color  = []
         return self.title
@@ -175,7 +175,7 @@ class OrderItem(models.Model):
                              on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    size = models.CharField(max_length=5)
+    size = models.CharField(max_length=5, default="")
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
@@ -212,12 +212,13 @@ class Order(models.Model):
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
     total_amount= models.IntegerField(default=1)
-    recui_image=  models.ImageField(upload_to="orders_recu/",default="images/default.png",blank=True,null=True)
-    phone_number=models.CharField(max_length=10)
-    shipping_address = models.CharField(max_length=50)
-    shipping_type= models.CharField(max_length=50)
-    wilaya_ship=models.CharField(max_length=50)
-    commun_ship=models.CharField(max_length=50)
+    recui_image=  models.ImageField(upload_to="orders_recu/",default="",blank=True,null=True)
+    phone_number=models.CharField(max_length=10, default="")
+    shipping_address = models.CharField(max_length=50,default="")
+    shipping_type= models.CharField(max_length=50,default="")
+    wilaya_ship=models.CharField(max_length=50, default="")
+    commun_ship=models.CharField(max_length=50 , default="")
+    shipping_price= models.CharField(max_length=10 , default="")
     coupon = models.ForeignKey(
         'Coupon', on_delete=models.SET_NULL, blank=True, null=True)
     being_delivered = models.BooleanField(default=False)
@@ -304,7 +305,7 @@ class WishList(models.Model):
 class TopCategory(models.Model):
     title=models.CharField(max_length=20)
     items=  models.ManyToManyField(Category)
-    slug = models.SlugField(unique=True,max_length=190)
+    slug = models.CharField( max_length=190)
     
     def __str__(self):
         return "{} - category".format(self.title) 
@@ -313,6 +314,7 @@ class TopCategory(models.Model):
 class GenderCategory(models.Model):
     title=models.CharField(max_length=20)
     categories=  models.ManyToManyField(TopCategory)
+    slug=models.CharField(max_length=190)
 
     def __str__(self):
         return "{} - gender category".format(self.title)
@@ -328,3 +330,22 @@ class Banner_category(models.Model):
     
     def __str__(self):
         return self.category.title
+    
+
+class ShopHeader(models.Model):
+    shop_header_image=models.ImageField(upload_to="shop_imgs")
+    main_title = models.CharField(max_length=50)
+    second_title = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.main_title
+    
+
+class Matacor_info(models.Model):
+    email=models.ImageField(upload_to="shop_imgs")
+    phone_number = models.CharField(max_length=50)
+    ccp = models.CharField(max_length=50)
+    name_owner = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.main_title

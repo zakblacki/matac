@@ -169,6 +169,7 @@
  
 	<div class="owl-stage-outer">
 		<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 809px;">
+			 
 			{% for category in category %}
 			<div class="owl-item category{% if forloop.counter <= 4 %} active{% endif %}" style="width: 182.2px; margin-right: 20px;">
 				<div class="category-wrap mb-4 ">
@@ -186,6 +187,7 @@
 				</div>
 			</div>
 			{% endfor %}
+			 
 			
 		
 		</div>
@@ -301,6 +303,7 @@
 	
 		}
 	</style>
+	{% if essentials %}
 	<section class="banner2 bg5">
 		
 		<h4 class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" style="text-transform: uppercase;">Season's Essentials</h4>
@@ -349,6 +352,7 @@
 			</div>
 		</div>
 	</section>
+	{% endif %}
 	<!-- ------------------Banner2  start ------------------------>
 
 	<!-- ------------------Banner4  start ------------------------>
@@ -638,9 +642,16 @@
 				</a>
 			<div class="product-action-vertical">
 	 
-			<a id="wishHeart" hx-get="/fr/wishlistadd/873" hx-target="this" hx-swap="outerHTML" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-				<img src="/static/images/VSC.svg">
-			</a>		
+				{% if new_item in wishedlist %}
+				<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+					<img src="/static/images/PSC.svg">
+				</a>
+				
+				{% else %}
+				<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+					<img src="/static/images/VSC.svg">
+				</a>
+				{% endif %}	
 			</div>
 
 		<div class="product-action  justify-content-end">
@@ -769,9 +780,17 @@
 				</a>
 			<div class="product-action-vertical">
 	 
-			<a id="wishHeart" hx-get="/fr/wishlistadd/873" hx-target="this" hx-swap="outerHTML" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+			{% if new_item in wishedlist %}
+			<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+				<img src="/static/images/PSC.svg">
+			</a>
+			
+			{% else %}
+			<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
 				<img src="/static/images/VSC.svg">
-			</a>		
+			</a>
+			{% endif %}
+					
 			</div>
 
 		<div class="product-action  justify-content-end">

@@ -2,6 +2,7 @@
 {% load static %}
 {% load category_template_tags %}
 {% load custom_filters %}
+{% load mathfilters %}
 {% block content %}
 <style type="text/css">
 	.selection-2{
@@ -22,14 +23,37 @@
 </style>
 
 	<!-- Title Page -->
-	<section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url(/static/images/heading-pages-02.jpg)	;">
+	{% if header %}
+	<section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" 
+	style="margin-top: 17px;background-image: url({{ header.shop_header_image.url}})	;">
 		<h2 class="l-text2 t-center">
+			 
+			{{header.main_title}}
+			 
+
+		 
+			 
+		</h2>
+		<p class="m-text13 t-center">
+			{{header.second_title}}
+		</p>
+	</section>
+
+	{% else %}
+
+	<section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" 
+	style="background-image: url(/static/images/heading-pages-02.jpg)	;">
+		<h2 class="l-text2 t-center">
+			 
+
 			Shop
+			 
 		</h2>
 		<p class="m-text13 t-center">
 			All categories
 		</p>
 	</section>
+	{% endif %}
 
 
 	<!-- Content page -->
@@ -40,8 +64,9 @@
 				<div class="filter_phone" style="display: none;">
 					<form action="." method="get">
 						<div class="filter_all">
+						 
 							<div class="filter_type widget widget-collapsible">
-								<h3 class="widget-title"> Catégories 
+								<h3 class="widget-title"> Gender 
 									<span style="height: 10px;" class="toggle-btn">-</span></h3>
 								<ul class="widget-body filter-items slided">
 									
@@ -183,6 +208,19 @@
 						</form>
 					</div>
 				</div>
+				<div class="phonefilter_tri">
+					<div class="filterphone1">
+						<img src="{% static 'images/filtrer.png' %}" alt="">
+						<span>Filtres</span>
+					</div>
+					<div class="filterphone2">
+						<span>Trier par</span>
+						<img src="{% static 'images/trier.png' %}" alt="">
+
+					</div>
+
+
+			</div>
 
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
 					<aside style="padding-left: 8px !important;" 
@@ -205,8 +243,29 @@
 									
 									<a style="margin-left: 95px !important;" href="/fr/produits/" class="clear-all text-primary pb-3 clear-all"><i class="fas fa-times"></i></a>
 								</div>
+
+								<div class="filter_type widget widget-collapsible">
+									<h3 class="widget-title"> Brand 
+										<span style="height: 10px;" class="toggle-btn">-</span></h3>
+									<form action="." method="get">
+										<ul class="widget-body filter-items slided">
+										
+										
+											{% for category in categories %}
+										
+											<li>
+												<input type="radio" class="custom-checkbox" id="cat-{{forloop.counter|mul:100}}" value="{{category.title}}" name="brand"  onchange="this.form.submit()">
+												<label class="form-control-label " for="cat-{{forloop.counter|mul:100 }}">{{category.title}} </label>
+											</li>
+											
+											{% endfor %}
+											 
+										
+									</ul>   
+									</form>
+								</div>
 								<div class="widget widget-collapsible">
-									<h3 class="widget-title"> Catégories<span style="height: 10px;" class="toggle-btn"></span></h3>
+									<h3 class="widget-title"> Gender<span style="height: 10px;" class="toggle-btn"></span></h3>
 									<ul class="widget-body filter-items">
 										
 										
@@ -674,6 +733,249 @@
 			</div>
 		</div>
 	</section>
+	<div class="filtertrifixed" style="z-index: 9999999;">
+		<form action="" class="input-wrapper">
+			 <!-- <select name="filter" id="filtertop">
+				 
+				<option value="price">lowest price</option>
+				<option value="-wishlist_num">most sales</option>
+				<option value="-rating">rated</option>
+
+			 </select> -->
+			 <ul class="widget-body filter-items slided">
+								
+				<li style="text-align: center;
+				font-size: 20px;
+				margin: 0;
+				padding: 7px;">
+					 
+					<label class="form-control-label " for="cat-1">Trier</label>
+				</li>			
+				<li>
+					<input type="radio" class="custom-checkbox" id="cat-121" value="-date_added" name="filter" onchange="this.form.submit()">
+					<label class="form-control-label " for="cat-121">newest</label>
+				</li>
+			
+				<li>
+					<input type="radio" class="custom-checkbox" id="cat-224" value="price" name="filter" onchange="this.form.submit()">
+					<label class="form-control-label " for="cat-224">lowest price </label>
+				</li>
+				<li>
+					<input type="radio" class="custom-checkbox" id="cat-1251" value="-wishlist_num" name="filter" onchange="this.form.submit()">
+					<label class="form-control-label " for="cat-1251">most noted</label>
+				</li>
+			
+				<li>
+					<input type="radio" class="custom-checkbox" id="cat-2445" value="-rating" name="filter" onchange="this.form.submit()">
+					<label class="form-control-label " for="cat-2445">most rated </label>
+				</li>
+			
+				 
+			
+			</ul>   
+		</form>
+		 
+	</div>
+	<div class=" mobile filtermob" >
+											
+		<ul class="header-cart-wrapitem" style="min-height: 100%;">
+			<div class="cart-header filterheader" style="display: flex;
+			align-items: center;
+			justify-content: space-between;
+			border-bottom: 1px solid #e1e1e1;
+			padding-bottom: 1.3rem;">
+				<h4 class="cart-title">Filtrer</h4>
+				<a href="#" class="btn btn-dark btn-link btn-icon-right btn-close">fermer<i class="d-icon-arrow-right"></i><span class="sr-only">Panier</span></a>
+			</div>
+			
+
+
+
+			
+
+			
+			<div class="filter_phone" style="display: block !important;">
+				<form action="." method="get">
+					<div class="filter_all">
+						<div class="filter_type widget widget-collapsible">
+							<h3 class="widget-title"> Brand 
+								<span style="height: 10px;" class="toggle-btn">+</span></h3>
+							<form action="." method="get">
+								<ul class="widget-body filter-items" style="height: 0; display: none;">
+								
+								
+									{% for category in categories %}
+								
+									<li>
+										<input type="radio" class="custom-checkbox" id="cat-{{forloop.counter|mul:100}}" value="{{category.title}}" name="brand"  onchange="this.form.submit()">
+										<label class="form-control-label " for="cat-{{forloop.counter|mul:100 }}">{{category.title}} </label>
+									</li>
+									
+									{% endfor %}
+									 
+								
+							</ul>   
+							</form>
+						</div>
+						<div class="filter_type widget widget-collapsible">
+							<h3 class="widget-title"> Gender 
+								<span style="height: 10px;" class="toggle-btn">+</span></h3>
+							<ul  class="widget-body filter-items" style="height: 0; display: none;">
+								
+								
+									<li>
+										<input type="radio" class="custom-checkbox" id="cat-1" value="F" name="gender" onchange="this.form.submit()">
+										<label class="form-control-label " for="cat-1">FEMME</label>
+									</li>
+								
+									<li>
+										<input type="radio" class="custom-checkbox" id="cat-24" value="M" name="gender" onchange="this.form.submit()">
+										<label class="form-control-label " for="cat-24">HOMME </label>
+									</li>
+								
+									 
+								
+							</ul>   
+						</div>
+						<div class="filter_type widget widget-collapsible">
+							<h3 class="widget-title" >Prix 
+								<span style="height: 10px;" class="toggle-btn">+</span></h3>
+											<ul class=" widget-body filter-items" style="height: 0; display: none;">
+													<li style="display:flex;">
+														<input style="padding: 8px !important;" type="number" class="form-control price-input" name="start_price" placeholder="de">
+															<span class="price-devider"> &nbsp; - &nbsp;</span>
+														<input style="padding: 8px !important;" type="number" class="form-control price-input" name="end_price" placeholder="à">
+														<button style="scale: 1.6;
+														padding-bottom: 16px;
+														padding-right: 12px;" class="price-btn-f" type="submit">
+															<i class="fa-solid fa-magnifying-glass"></i>
+															</button>
+													</li>
+													
+													<li>
+														<input id="rangeOne" type="radio" class="custom-checkbox" name="price_range" value="range_one" onchange="this.form.submit()">
+														<label for="rangeOne" class="form-control-label">0 DZD - 700 DZD</label>
+													</li>
+													<li>
+														<input id="rangeTwo" type="radio" class="custom-checkbox" name="price_range" value="range_two" onchange="this.form.submit()">
+														<label for="rangeTwo" class="form-control-label">700 DZD - 1400 DZD</label>
+													</li>
+													<li>
+														<input id="rangeThree" type="radio" class="custom-checkbox" name="price_range" value="range_three" onchange="this.form.submit()">
+														<label for="rangeThree" class="form-control-label">1400 DZD - 4200 DZD</label>
+													</li>
+													<li>
+														<input id="rangeFour" type="radio" class="custom-checkbox" name="price_range" value="range_four" onchange="this.form.submit()">
+														<label for="rangeFour" class="form-control-label"> + 4200 DZD </label>
+													</li>
+													  
+											</ul>
+	
+						</div>
+						<div class="filter_type widget widget-collapsible">
+							<h3 class="widget-title">Taille
+								<span style="height: 10px;" class="toggle-btn">+</span></h3>
+							<ul style="height: 0; display: none;" class=" widget-body filter-items">
+								 
+								<li>
+									<input type="checkbox" name="size_exist" id="value-32" value="32" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-32">32</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-34" value="34" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-34">34</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-36" value="36" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-36">36</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-38" value="38" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-38">38</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-40" value="40" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-40">40</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-42" value="42" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-42">42</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-XS" value="XS" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-XS">XS</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-S" value="S" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-S">S</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-M" value="M" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-M">M</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-L" value="L" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-L">L</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-XL" value="XL" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-XL">XL</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-2XL" value="2XL" class="custom-checkbox" onchange="this.form.submit()">
+									<label class="form-control-label" for="value-2XL">2XL</label>
+								</li>
+								 
+							</ul>
+						</div>
+						 
+					</div>
+				</form>
+			</div>
+			
+			<div class="cart-action">
+				<a style="width: 100%;" href="" class="btn btn-dark"><span>Filtrer</span></a>
+			</div>
+			
+
+			
+		</ul>
+
+	 
+
+</div>
+	<script>
+		$(".filterphone1").on("click",function(){
+		$(".filtermob").css({"left":74})
+		document.querySelector(".overlay_div112").style.display="block"
+		})
+		$(".filterheader a").on("click",function(){
+		$(".filtermob").css({"left":420})
+		document.querySelector(".overlay_div112").style.display="none"
+		})
+		$(".overlay_div112").on("click",function(){
+			$(".filtermob").css({"left":420})
+			this.style.display="none"
+		})
+
+
+		
+
+
+		$(".filterphone2").on("click",function(){
+  $(this).toggleClass("trie_phone");
+  $(".filtertrifixed").slideToggle()
+  document.querySelector(".overlay_div12").style.display="block"
+  
+	})
+
+	$(".overlay_div12").on("click",function(){
+    
+	$(".filtertrifixed").slideToggle()
+	this.style.display="none"
+   
+	})
+	</script>
 
 
 

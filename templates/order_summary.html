@@ -190,6 +190,10 @@ padding: 16px;">
                     {{form.address}}
                      
                  </div>
+                 {{form.wilayaship}}
+                 {{form.communship}}
+                 {{form.delivery_type}}
+                 {{form.delivery_price}}
                 <h2 class="title title-simple text-uppercase text-left">information additionnel</h2>
                 <textarea class="form-control pb-2 pt-2 mb-0" cols="30" rows="5" placeholder="Notes de commande  (Optionel)"></textarea>
                 <br>
@@ -299,6 +303,58 @@ CHIKH ASMA (MATACOR) </p>
  
 
 <script>
+
+document.getElementById("id_delivery").addEventListener("change",function(){
+  document.querySelector("input[name=delivery_type]").value = this.value
+  fetch('../static/js/Wilaya_Of_Algeria.json', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => response.json())
+      .then(jsonData => {
+         
+          
+            var wilaya_id = document.getElementById("wilayaId").value
+            var typedel = document.getElementById("id_delivery").value
+            document.querySelector("input[name=delivery_price]").value = jsonData[wilaya_id-1][typedel]
+            document.getElementById("deliveryCost").innerHTML  =  jsonData[wilaya_id-1][typedel]
+            // Do something with the JSON data here
+         
+        
+      })
+      .catch(error => console.error("Error fetching JSON data.", error));
+  })
+
+document.getElementById("wilayaId").addEventListener("change",function(){
+  document.querySelector("input[name=wilayaship]").value = this.options[this.selectedIndex].dataset.valu
+  fetch('../static/js/Wilaya_Of_Algeria.json', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => response.json())
+      .then(jsonData => {
+         
+          
+            var wilaya_id = document.getElementById("wilayaId").value
+            var typedel = document.getElementById("id_delivery").value
+        
+            document.getElementById("deliveryCost").innerHTML  =  jsonData[wilaya_id-1][typedel]
+            document.querySelector("input[name=delivery_price]").value = jsonData[wilaya_id-1][typedel]
+            // Do something with the JSON data here
+         
+        
+      })
+      .catch(error => console.error("Error fetching JSON data.", error));
+  })
+
+
+document.getElementById("Commune").addEventListener("change",function(){
+    document.querySelector("input[name=communship]").value = this.options[this.selectedIndex].dataset.valu;
+  })
+
+
   var oo =document.querySelectorAll(".btn-num-update-quantity-up")
   var ooo =document.querySelectorAll(".removedel") 
   var oooo =document.querySelectorAll(".btn-num-update-quantity-down") 

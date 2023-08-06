@@ -64,6 +64,22 @@ class FormInput(forms.Form):
         'class': 'form-control',
         
     }))
+    wilayaship=forms.CharField(required=False,widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'style':"display:none !important"
+    }))
+    communship=forms.CharField(required=False,widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'style':"display:none !important"
+    }))
+    delivery_type=forms.CharField(required=False,widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'style':"display:none !important"
+    }))
+    delivery_price=forms.CharField(required=False,widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'style':"display:none !important"
+    }))
      
 
 class CheckoutForm(forms.Form):

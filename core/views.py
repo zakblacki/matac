@@ -181,12 +181,13 @@ def index(request):
         "new_items":Item.objects.filter(label="N"),
         "most_sale":Item.objects.filter(label="S"),
         "essentials":Essential.objects.filter(is_active=True),
-        
+        "wishedlist":WishList.objects.get(user=request.user).items.all()
     }
 
     return render(request, 'index.html',context) 
 
 
+ 
 class OrderSummaryView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         
@@ -210,13 +211,19 @@ class OrderSummaryView(LoginRequiredMixin, View):
         
         print("posts  none")
         if form.is_valid():
+            print(form.cleaned_data)
             
         
             phone=form.cleaned_data.get("phone") 
             email=form.cleaned_data.get("email")
             address=form.cleaned_data.get("address")
             fullname=form.cleaned_data.get("fullname")
-            
+            wilaya=form.cleaned_data.get("wilayaship")
+            commun=form.cleaned_data.get("communship")
+            deliverytype=form.cleaned_data.get("delivery_type")
+            deliveryprice=form.cleaned_data.get("delivery_price")
+             
+                
             
            
         
@@ -224,6 +231,10 @@ class OrderSummaryView(LoginRequiredMixin, View):
          
             amount = int(order.get_total() * 100)
             try:
+                order.commun_ship = commun
+                order.wilaya_ship = wilaya
+                order.shipping_type = deliverytype
+                order.shipping_price= deliveryprice
                 
                 
                 order.ref_code = create_ref_code()
@@ -267,6 +278,7 @@ class ShopView(ListView):
     
     def get(self, *args, **kwargs):  
         filtermeth=""  
+        brand_qry=Q()
         try:
             
             
@@ -283,6 +295,7 @@ class ShopView(ListView):
                 combined_query3=Q()
                 combined_query5=Q()
                 query_srch=Q()
+                
                  
                 
                 for get_key, get_val in self.request.GET.items():
@@ -338,12 +351,21 @@ class ShopView(ListView):
                         if combined_query1 and combined_query2:
                             combined_query3 |=combined_query1 & combined_query2
                             
+                        if "brand" == get_key:
+                            brand_qry |=Q(category__title=get_val)
+                            print("branded ",brand_qry )
+                            combined_query3 |= brand_qry
+                            
                     
                 if query_srch :
                     
                     comb_final = query_srch & combined_query & combined_query5 & combined_query3
                 else:
                     comb_final = combined_query & combined_query5 & combined_query3
+                
+                if brand_qry:
+                    comb_final = comb_final & brand_qry
+                
                 item= Item.objects.filter(comb_final,is_active=True)
 
                 if filtermeth:
@@ -360,7 +382,8 @@ class ShopView(ListView):
             item = Item.objects.filter( is_active=True)
         context = {
             'object_list': item,
-             
+             'categories':Category.objects.all(),
+             'header':ShopHeader.objects.first()
              
         }
         return render(self.request, "shop.html", context)             
@@ -373,6 +396,7 @@ def profile(request):
     
     ordered= Order.objects.filter(user=request.user)
     context["orders"]=ordered
+    context["leng"]=len(ordered)
     
     return render(request,"profile.html",context)
 
@@ -409,7 +433,7 @@ def confirmorder(request,slug,slug1):
     
     return render(request,"confirm_order.html",context)
 
-
+import ast
 class ItemDetailView(DetailView):
     model = Item
 
@@ -421,7 +445,8 @@ class ItemDetailView(DetailView):
         
         # Add additional data to the context
         context['images'] =ImageItem.objects.filter(slug=self.object.slug) 
-        context["details"] =  self.object.details 
+        context["details"] =   ast.literal_eval(self.object.details)
+        print(context["details"])
         
         print(self.object.details)
         context["colors_item"] = Item.objects.filter(article_id=self.object.article_id)
@@ -481,6 +506,7 @@ class CategoryView(View):
         filtermeth=""
         bannertarg=[]
         banners=[]
+        brand_qry=Q()
         # print(category)
         for cattg in TopCategory.objects.filter(items__title=category):
             if len(Banner_category.objects.filter(category__title=cattg.title))>0:
@@ -513,6 +539,7 @@ class CategoryView(View):
                 combined_query2=Q()
                 combined_query3=Q()
                 combined_query5=Q()
+                
                 
                 for get_key, get_val in self.request.GET.items():
                     model_instance = Item()
@@ -553,13 +580,25 @@ class CategoryView(View):
                             
                         if "filter" == get_key:
                             filtermeth=get_val
+                            
+                       
+                             
+                            
                         if combined_query1 and combined_query2:
                             combined_query3 |=combined_query1 & combined_query2
                             
+                        
+                            
+                            
+                            
                 
                         
-                combined_cat = Q(category__exact=category)
-                comb_final =combined_cat & combined_query & combined_query5 & combined_query3
+                combined_cat = Q(category__title=category.title)
+                
+                
+                comb_final  =   combined_query & combined_query5 & combined_query3 & combined_cat
+                 
+                print("fff ",combined_cat)
                 item= Item.objects.filter(comb_final,is_active=True)
                 if filtermeth:
                      
@@ -584,7 +623,8 @@ class CategoryView(View):
             'category_title': category,
             'category_description': category.description,
             'category_image': category.image.url,
-             'banners':banners
+             'banners':banners,
+             'categories':Category.objects.all()
         }
         return render(self.request, "category.html", context)
 
@@ -616,6 +656,7 @@ class CheckoutView(View):
             email=form.cleaned_data.get("email")
             address=form.cleaned_data.get("address")
             fullname=form.cleaned_data.get("fullname")
+             
             img=form.cleaned_data.get("recu_img")
             
             print("success")
@@ -628,6 +669,7 @@ class CheckoutView(View):
                 
                 order.ref_code = create_ref_code()
                 order.ordered = True
+                 
                     
                     
                 for item_ordered in order.items.all():
@@ -848,3 +890,34 @@ class RequestRefundView(View):
                 return redirect("core:request-refund")
 
 
+
+from django.http import JsonResponse
+def testt(request):
+    # Render your main index template here
+    return render(request, "testt.html")
+
+
+
+def get_filtered_items_by_type(filter_type):
+    if filter_type == "category":
+        # Filter items by category and serialize them
+        filtered_items = Category.objects.filter(title="selected_category").values()
+    elif filter_type == "price":
+        # Filter items by price and serialize them
+        filtered_items = Item.objects.filter(price__lte=selected_price).values()
+    elif filter_type == "gender":
+        # Filter items by gender and serialize them
+        filtered_items = Item.objects.filter(gender="selected_gender").values()
+    else:
+        filtered_items = []
+
+    return list(filtered_items)
+def get_filtered_items(request):
+    
+    filter_type = request.GET.get("filter")
+    
+    # Retrieve and filter items based on the selected filter_type
+    # Return the filtered items as JSON data
+    filtered_items = get_filtered_items_by_type(filter_type)
+    
+    return JsonResponse(filtered_items, safe=False)

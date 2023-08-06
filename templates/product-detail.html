@@ -34,7 +34,9 @@
 					<div class="product-thumbs-wrap breadcrumb-lg d-none d-lg-block d-xl-none">
 						<div class="product-thumbs " style="top: 0px;" >
 
-							  
+							<div class="product-thumb ">
+								<img src="{{ object.image.url }}" loading="lazy" alt="product thumbnail" width="109" height="122">
+							</div>
 							{% for image in images %}
 							<div class="product-thumb ">
 								<img src="{{ image.image.url }}" loading="lazy" alt="product thumbnail" width="109" height="122">
@@ -507,8 +509,8 @@ itemLinks.forEach(itemLink => {
 							</li>
 							{% endfor %} -->
 
-						{% with parsed_details=details|parse_json  %}
-							{% for key, value in parsed_details.items %}
+						 
+							{% for key, value in details.items %}
 							 
 									 
 									{% if value != nan %}
@@ -525,7 +527,7 @@ itemLinks.forEach(itemLink => {
 									{% endif %}
 							 
 							{% endfor %}
-						{% endwith %}
+						 
 						</ul>
 					</div>
 				</div>
