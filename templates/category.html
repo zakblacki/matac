@@ -39,7 +39,7 @@
 
 		<div class="page-content mb-10 pb-3">
 			
-			
+			{% if banners %}
 			<section class="pt-6 mt-10">
 				<div class="container">
 					
@@ -97,7 +97,7 @@
 					dots: false,
 					responsive: {
 					  0: {
-						items: 1 // Display 1 item on smaller screens
+						items: 2 // Display 1 item on smaller screens
 					  },
 					  600: {
 						items: 2 // Display 2 items on screens wider than 600px
@@ -109,7 +109,7 @@
 				  });
 				});
 			  </script>
-		
+		{% endif %}
 		
 	</div>
 
