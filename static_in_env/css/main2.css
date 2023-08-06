@@ -9313,10 +9313,14 @@ aside+div .product-single .product-details {
   color: #888;
 }
 
-*{
+/* *{
   
     font-family: 'Roboto Condensed', sans-serif !important;
   
+} */
+
+.fa-classic, .fa-regular, .fa-solid, .far, .fas {
+  font-family: "Font Awesome 6 Free" !important;
 }
 .header-search.hs-simple.filt{
   margin: 0 !important;
