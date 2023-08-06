@@ -289,29 +289,10 @@ class ExcelFileAdmin(admin.ModelAdmin):
 
 
 
+from django import forms
 
 
-@admin.register(ExcelFileWithImages)
-class ExcelFileWithImages(admin.ModelAdmin):
-    list_display = ('name', 'file')
-
-    temp_dir = os.path.join(settings.MEDIA_ROOT, 'temp_images')
-    os.makedirs(temp_dir, exist_ok=True)
-
-     
-
-
-    def save_model(self, request, obj, form, change):
-        obj_file_name= obj.file
-        df = pd.read_excel(obj_file_name,  engine='openpyxl')
-
-        
-        for image in request.FILES.getlist('images'):
-            image_instance = ExcelFileWithImages.objects.create(name=obj.name, file=obj.file, images=image)      
-                
-
-            
-        super().save_model(request, obj, form, change)
+ 
  
 class ItemAdmin(admin.ModelAdmin):
     list_display = [

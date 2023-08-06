@@ -116,7 +116,10 @@ def wishlist_add_view(request,slug):
     
     if request.user.is_authenticated:
         if item:
-            user_wish = WishList.objects.filter(user=request.user)
+            try:
+                user_wish = WishList.objects.filter(user=request.user)
+            except:
+                user_wish=[]
             if user_wish.first():
                 user_wish =user_wish.first()
                 if item in user_wish.items.all():
@@ -156,8 +159,10 @@ def wishlist_view(request):
     context={}
     try:
         if request.user.is_authenticated:
-            
-            user_wish=WishList.objects.filter(user=request.user).first()
+            try:
+                user_wish=WishList.objects.filter(user=request.user).first()
+            except:
+                user_wish=[]
             if len(user_wish.items.all())>0:
                 context["wishlists"]=user_wish.items.all()
                 return render(request, 'wishlist.html' ,context)
@@ -175,9 +180,9 @@ def wishlist_view(request):
 
 def index(request):
     
-    if request.user.is_authenticated:
+    try:
         wishlist =WishList.objects.get(user=request.user).items.all()
-    else:
+    except:
         wishlist=[]
         
     
