@@ -12773,6 +12773,9 @@ ul.megamenu {
   display: none ;
 }
 @media (max-width:992px) {
+  .product-media{
+    height: 300px ;
+  }
   .filtermob{
     display: block ;
     position: fixed;
