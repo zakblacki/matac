@@ -86,11 +86,7 @@ class ExcelFile(models.Model):
     file = models.FileField(upload_to='excel_files/')
 
 
-class ExcelFileWithImages(models.Model):
-    name = models.CharField(max_length=100)
-    file = models.FileField(upload_to='excel_files/')
-    images= models.ImageField(upload_to="products_items/")
-
+ 
 
 
 
