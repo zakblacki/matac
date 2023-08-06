@@ -220,9 +220,9 @@ class OrderSummaryView(LoginRequiredMixin, View):
     def post(self, *args, **kwargs):
         form = FormInput(self.request.POST,self.request.FILES)
         
-        print("posts  none")
+        
         if form.is_valid():
-            print(form.cleaned_data)
+             
             
         
             phone=form.cleaned_data.get("phone") 
@@ -335,7 +335,7 @@ class ShopView(ListView):
                         if get_key == "search":
                             
                             if get_val != "" :
-                                print(get_val)
+                                
                                 query_srch |= Q(title__icontains=get_val)
                         else:
                             pass
@@ -364,7 +364,7 @@ class ShopView(ListView):
                             
                         if "brand" == get_key:
                             brand_qry |=Q(category__title=get_val)
-                            print("branded ",brand_qry )
+                           
                             combined_query3 |= brand_qry
                             
                     
@@ -414,15 +414,15 @@ def profile(request):
 @login_required
 def confirmorder(request,slug,slug1):
     context={}
-    print(slug,request.user)
+     
     
     ordertar= None
     context={}
     
     if str(slug.replace(" ","")) == str(request.user):
-        print("yesss user")
+      
         ordertar=get_object_or_404(Order, id=int(slug1))
-        print(ordertar)
+        
         context["target"]=ordertar
         
     if request.method == "POST":
@@ -435,7 +435,6 @@ def confirmorder(request,slug,slug1):
              
             ordertar.recui_image = request.FILES.get("recu_img")
             ordertar.save()
-            print(request.FILES.get("recu_img"))
             # ordertar.recui_image = img
             # ordertar.save()
     else:
@@ -457,9 +456,9 @@ class ItemDetailView(DetailView):
         # Add additional data to the context
         context['images'] =ImageItem.objects.filter(slug=self.object.slug) 
         context["details"] =   ast.literal_eval(self.object.details)
-        print(context["details"])
         
-        print(self.object.details)
+        
+        
         context["colors_item"] = Item.objects.filter(article_id=self.object.article_id)
         
         if  self.request.user.is_authenticated:
@@ -518,21 +517,20 @@ class CategoryView(View):
         bannertarg=[]
         banners=[]
         brand_qry=Q()
-        # print(category)
+       
         for cattg in TopCategory.objects.filter(items__title=category):
             if len(Banner_category.objects.filter(category__title=cattg.title))>0:
                 if category in cattg.items.all():
                     
                     for itmc in Banner_category.objects.filter(category__title=cattg.title):
                         banners.append(itmc)
-                    print(banners)
+                    
                 # bannertarg=Banner_category.objects.filter(category__title=cattg.title)
-                # print(bannertarg )
+                 
                 # banners=bannertarg
-                # print(cattg.title)
+                
             # for catt in TopCategory.objects.filter(items__title=category):
                 
-            #     print(Banner_category.objects.filter(category__title=catt.title))
                 
            
                 
@@ -609,7 +607,7 @@ class CategoryView(View):
                 
                 comb_final  =   combined_query & combined_query5 & combined_query3 & combined_cat
                  
-                print("fff ",combined_cat)
+                
                 item= Item.objects.filter(comb_final,is_active=True)
                 if filtermeth:
                      
@@ -670,8 +668,7 @@ class CheckoutView(View):
              
             img=form.cleaned_data.get("recu_img")
             
-            print("success")
-        
+         
             order = Order.objects.get(user=self.request.user, ordered=False)
          
             amount = int(order.get_total() * 100)
