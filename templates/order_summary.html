@@ -205,9 +205,13 @@ padding: 16px;">
               </button>
               <button type="submit" class="d-none d d-lg-block btn btn-success btn-block btn-rounded btn-checkout mt-3">Valider ma commande</button>
   
-              <p class="font-weight-bold"> NB: votre commande sera validée une fois le reçu de paiement envoyé.  </p>
-                <p class="font-weight-bold"> Numero du ccp: 0300000974-72 N° compte : 0300000974-72
-CHIKH ASMA (MATACOR) </p>
+              <p class="font-weight-bold"> 
+                NB: votre commande sera validée une fois le reçu de paiement envoyé.  
+              </p>
+                <p class="font-weight-bold"> 
+                  Numero du ccp: {{contact.ccp}}
+                {{contact.name_owner}}
+                </p>
               </div>
             <script>
               function readUrl(input) {
@@ -217,13 +221,14 @@ CHIKH ASMA (MATACOR) </p>
       let imgData = e.target.result;
       let imgName = input.files[0].name;
       input.setAttribute("data-title", imgName);
-      console.log(e.target.result);
+     
     };
     reader.readAsDataURL(input.files[0]);
   }
 }
             </script>
-          </form></div>
+          </form>
+        </div>
           <aside class="col-lg-4 sticky-sidebar-wrapper">
             <div class="sticky-sidebar" data-sticky-options="{'bottom': 20}">
               <div class="summary mb-4">
@@ -287,7 +292,12 @@ CHIKH ASMA (MATACOR) </p>
                     </td>												
                   </tr>
                 </tbody></table>
-                <button type="submit" class="btn btn-success btn-block btn-rounded btn-checkout">Valider ma commande</button>
+                <button  type="submit" class="btnwithoutform btn btn-success btn-block btn-rounded btn-checkout">Valider ma commande</button>
+                <script>
+                  $(".btnwithoutform").on("click",function(){
+                    $("#order_form").submit()
+                  })
+                </script>
               </div>
               <div class="cart-actions mb-6 pt-4">
                 <a href="/shop" class="btn btn-block btn-dark btn-md btn-rounded btn-icon-left ml-4 mr-4 mb-4"><i class="d-icon-arrow-left"></i>Retourner à la boutique</a>

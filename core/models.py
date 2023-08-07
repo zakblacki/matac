@@ -348,10 +348,10 @@ class ShopHeader(models.Model):
     
 
 class Matacor_info(models.Model):
-    email=models.ImageField(upload_to="shop_imgs")
+    email=models.EmailField()
     phone_number = models.CharField(max_length=50)
     ccp = models.CharField(max_length=50)
     name_owner = models.CharField(max_length=50)
     
     def __str__(self):
-        return self.main_title
+        return self.name_owner

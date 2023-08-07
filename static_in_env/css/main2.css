@@ -12777,6 +12777,16 @@ ul.megamenu {
   display: none ;
 }
 @media (max-width:992px) {
+  #id_voucher{
+    max-width: 45%;
+  }
+  thead .summary-subtotal{
+    display: inline-table;
+    min-width: 360px;
+  }
+  tr .product-name{
+    min-width: 64px !important;
+  }
   .header-cart-wrapitem{
     width: 90%;
   }
@@ -14363,4 +14373,11 @@ color: #fff;
 
 .summary.mb-4 .btn-success{
   display: none;
+}
+
+
+@media (max-width:992px) {
+  .taille__wrapper {
+    display: inline !important;
+  }
 }

@@ -367,7 +367,7 @@ itemLinks.forEach(itemLink => {
 							</div>							
 					</form>
 					<div class="mobile_cart"  >
-						<a id="submit_to" style="width: 76%;" href="/add-to-cart/cok-renkli-cizgili-atlet-sort-dokuma-pijama-takm?name=dd">
+						<a id="submit_to" style="width: 76%;" href="/add-to-cart/{{object.slug}}?name=dd">
 																<button style="width: 100%;" type="submit" class="btn-product btn-cart"><i class="d-icon-bag" style="color:#fff;"></i>Ajouter Au Panier</button> 
 															</a>
 						
@@ -594,7 +594,7 @@ itemLinks.forEach(itemLink => {
 					dots: false,
 					responsive: {
 					  0: {
-						items: 1 // Display 1 item on smaller screens
+						items: 2 // Display 1 item on smaller screens
 					  },
 					  600: {
 						items: 2 // Display 2 items on screens wider than 600px

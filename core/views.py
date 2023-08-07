@@ -208,7 +208,8 @@ class OrderSummaryView(LoginRequiredMixin, View):
                 
                 context = {
                     'object': order,
-                    "form":FormInput()
+                    "form":FormInput(),
+                    "contact":Matacor_info.objects.first()
                 }
                 return render(self.request, 'order_summary.html', context)
             except ObjectDoesNotExist:
@@ -249,12 +250,10 @@ class OrderSummaryView(LoginRequiredMixin, View):
                 
                 
                 order.ref_code = create_ref_code()
-                order.ordered = True
+                
                     
                     
-                for item_ordered in order.items.all():
-                    item_ordered.ordered = True
-                    item_ordered.save()   
+                  
                 
                 order.total_amount=order.get_total()
                 order.phone_number=phone
@@ -262,6 +261,10 @@ class OrderSummaryView(LoginRequiredMixin, View):
                 if form.cleaned_data.get("recu_img"):
                     img=form.cleaned_data.get("recu_img")
                     order.recui_image = img
+                    order.ordered = True
+                    for item_ordered in order.items.all():
+                        item_ordered.ordered = True
+                        item_ordered.save() 
                 
                 
                 order.save()
@@ -419,6 +422,8 @@ def confirmorder(request,slug,slug1):
     ordertar= None
     context={}
     
+    context["contact"]=Matacor_info.objects.first()
+    
     if str(slug.replace(" ","")) == str(request.user):
       
         ordertar=get_object_or_404(Order, id=int(slug1))
@@ -434,6 +439,11 @@ def confirmorder(request,slug,slug1):
             
              
             ordertar.recui_image = request.FILES.get("recu_img")
+            ordertar.ordered=True
+            for item_ordered in ordertar.items.all():
+                item_ordered.ordered = True
+                item_ordered.save()  
+            
             ordertar.save()
             # ordertar.recui_image = img
             # ordertar.save()
@@ -676,18 +686,24 @@ class CheckoutView(View):
                 
                 
                 order.ref_code = create_ref_code()
-                order.ordered = True
+                
                  
                     
                     
-                for item_ordered in order.items.all():
-                    item_ordered.ordered = True
-                    item_ordered.save()   
+                 
                 
                 order.total_amount=order.get_total()
                 order.phone_number=phone
                 order.shipping_address = address
-                order.recui_image = img
+                if img:
+                    for item_ordered in order.items.all():
+                        item_ordered.ordered = True
+                        item_ordered.save()  
+                    order.ordered = True
+                    order.recui_image = img
+                
+                     
+                
                 
                 
                 order.save()
