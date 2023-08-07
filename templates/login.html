@@ -19,27 +19,25 @@
                             <a class=" border-no lh-1 ls-normal" href="/register/">S'inscrir</a>
                         </li>
                     </ul>
-                    <div class="tab-content">
-                        <div class="" id="signin">
-                            <form action="/login/" method="POST">
-                                {% csrf_token %}
-                                <div class="form-group mb-3">
-                                {{form.email}}           
-                                </div>
-                                <div class="form-group">
-                                  {{form.password}}
-                                </div>
-                                <div class="form-footer">
-                                    <a href="#" class="lost-link">J'ai oublier mon mot de pass</a>
-                                </div>
-                                <button class="btn btn-dark btn-block btn-rounded" type="submit">Se connecter</button>
-                            </form>
-                            
-                          
-                            
 
-                        </div>
-                    </div>
+                <div class="tab-content">
+                    <div class="" id="signin">
+                        <form action="/login/" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group mb-3">
+                            {{form.email}}           
+                            </div>
+                            <div class="form-group">
+                              {{form.password}}
+                            </div>
+                            <div class="form-footer">
+                                <a href="#" class="lost-link">J'ai oublier mon mot de pass</a>
+                            </div>
+                            <button class="btn btn-dark btn-block btn-rounded" type="submit">Se connecter</button>
+                        </form>
+                    </div>            
+                </div>
+
                 </div>
             </div>
         </div>

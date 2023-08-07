@@ -139,7 +139,7 @@
 				items: 4 // Display 2 items on screens wider than 600px
 			  },
 			  1000: {
-				items: 4 // Display 4 items on screens wider than 1000px
+				items:5 // Display 4 items on screens wider than 1000px
 			  }
 			}
 		  });
@@ -573,10 +573,11 @@
 
 		</div>
 	</section> -->
+	{% if new_items %}
 	<section class="container  ">
 		
 		<h2 style="padding-left: 10px;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">NOUVEAUTÉS</h2>
-	<div class="owl-carousel owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}"   style="animation-duration: 1.2s;" data-owl-options="{
+	<div class="owl-carousel1 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}"   style="animation-duration: 1.2s;" data-owl-options="{
 		'nav': true,
 		'dots': true,
 		'loop':false,
@@ -592,14 +593,14 @@
 				'items': 2
 			},
 			'992': {
-				'items': 4
+				'items': 2
 			},
 			'1200': {
 				'items': 4
 			}
 		}
 	}">
-
+	
 		<div class="owl-stage-outer">
 		<div class="owl-stage"  >
 				
@@ -684,12 +685,10 @@
 		</div>
 	</div>
 	</section>
-
-
 	<script>
 		$(function() {
 	  // Owl Carousel
-	  var owl = $(".owl-carousel");
+	  var owl = $(".owl-carousel1");
 	  owl.owlCarousel({
 		items: 4,
 		margin: 0,
@@ -710,12 +709,14 @@
 	});
 			</script>
 
+	{% endif %}
 
+	{% if most_sale %}
 	<section class="container  ">
 		
-		{% if most_sale %}
+		
 		<h2 style="padding-left: 10px;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">PRODUITS LES PLUS VENDUS</h2>
-		<div class="owl-carousel owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
+		<div class="owl-carousel2 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
 			'nav': true,
 			'dots': true,
 			'loop':false,
@@ -730,9 +731,7 @@
 				'768': {
 					'items': 2
 				},
-				'992': {
-					'items': 4
-				},
+				 
 				'1200': {
 					'items': 4
 				}
@@ -744,7 +743,7 @@
 			<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); 
 			transition: all 3s ease 0s; width: 5814px;">
 			
-		{% endif %}
+		
 		
 			{% for new_item in most_sale %}
 			
@@ -833,36 +832,51 @@
 		 
 			 
 
-</div>
+			</div>
 
 		</div>
-		<script>
-			$(function() {
-		  // Owl Carousel
-		  var owl = $(".owl-carousel");
-		  owl.owlCarousel({
-			items: 4,
-			margin: 0,
-			loop: true,
-			nav: true
-		  });
-		});
-				</script>
+		
 	</section>
-<script>
-	const dots = document.getElementsByClassName("owl-dot");
-Array.from(dots).forEach((ele) => {
-  ele.addEventListener("click", function(e) {
-	const siblings = Array.from(ele.parentNode.children);
-    siblings.forEach((sibling) => {
-      sibling.classList.remove("active");
-    });
-    
-    // Add the class to the clicked element
-    ele.classList.add("active");
-  });
-});
-</script>
+	<script>
+		$(function() {
+	  // Owl Carousel
+	  var owl = $(".owl-carousel2");
+	  owl.owlCarousel({
+		items: 4,
+		margin: 0,
+		loop: true,
+		nav: true,
+		responsive: {
+			  0: {
+				items: 2 // Display 1 item on smaller screens
+			  },
+			  600: {
+				items: 2 // Display 2 items on screens wider than 600px
+			  },
+			  1000: {
+				items: 4 // Display 4 items on screens wider than 1000px
+			  }
+			}
+	  });
+	});
+			</script>
+	{% endif %}
+	<script>
+		const dots = document.getElementsByClassName("owl-dot");
+	Array.from(dots).forEach((ele) => {
+	ele.addEventListener("click", function(e) {
+		const siblings = Array.from(ele.parentNode.children);
+		siblings.forEach((sibling) => {
+		sibling.classList.remove("active");
+		});
+		
+		// Add the class to the clicked element
+		ele.classList.add("active");
+	});
+	});
+	</script>
+
+
 	<!-- ------------------Banner2  start ------------------------>
 
 
@@ -871,53 +885,7 @@ Array.from(dots).forEach((ele) => {
 
 	<!-- Shipping -->
 	 
-	<section class="shipping bgwhite p-t-62 p-b-20">
-		<div  class="flex-w p-l-15 p-r-15">
-			<div  style="display: flex;flex-direction: row;" class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1">
-				<div style="margin-left: 26px;">			
-					<i style="scale: 3.1;" class="icon-box-icon d-icon-truck"></i>
-				</div>
-				<div style="margin-left: 40px;"><h4 class="m-text12 t-center">
-					Livraison
-				</h4>
-
-				<span class="s-text11 t-center">
-					Livraison Gratuite pour achat de 8000 DA et plus
-				</span></div>
-				 
-
-				 
-			</div>
-
-
-			
-			<div style="display: flex;flex-direction: row;" class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 bo2 respon2">
-				<div style="margin-left: 26px;">			
-					<i style="scale: 2.6;" class="icon-box-icon d-icon-service"></i>
-				</div>
-				<div style="margin-left: 40px;"><h4 class="m-text12 t-center">
-					Service
-				</h4>
-
-				<span class="s-text11 t-center">
-					Service client 24/7
-				</span></div>
-			</div>
-			 
-			<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1"  style="display: flex;flex-direction: row;">
-				<div style="margin-left: 26px;">				<i class="icon-box-icon d-icon-secure" style="scale: 2.6;"></i>
-				</div>
-				<div style="margin-left: 40px;"><h4 class="m-text12 t-center">
-					Paiement
-				</h4>
-
-				<span class="s-text11 t-center">
-					Paiement sécurisé 100%
-				</span></div>
-			</div>
-		</div>
-	</section>
-
+	
 
 
 
