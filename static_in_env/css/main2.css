@@ -14380,4 +14380,33 @@ color: #fff;
   .taille__wrapper {
     display: inline !important;
   }
+  .order-details{
+    overflow: hidden;
+  }
+  .order-details-table thead .summary-subtotal td:first-of-type{
+    max-width: 200px;
+    width: 150px;
+  
+    text-align: center;
+  }
+
+  .order-details-table thead .summary-subtotal td:nth-of-type(2){
+    max-width: 70px;
+    width: 60px;
+  }
+  .order-details-table thead .summary-subtotal td:last-of-type{
+    width: 141px;
+  }
+
+  .order-details-table tbody tr td:first-of-type{
+    max-width: 151px;
+    
+    width: 150px;
+  }
+  .order-details-table tbody tr td:nth-of-type(2){
+    text-align: center;
+  }
+  .order-details-table tbody tr td:last-of-type{
+    text-align: center;
+  }
 }
