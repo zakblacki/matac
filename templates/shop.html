@@ -715,19 +715,19 @@
 
 				<br>
 				<!-- Pagination -->
-				{% if is_paginated %}
+				{% if object_list.has_previous or object_list.has_next %}
 				<div class="pagination flex-m flex-w p-t-26">
-					{% if page_obj.has_previous %}
-					<a class="page-link" href="?page={{ page_obj.previous_page_number}}" aria-label="Previous">
+					{% if object_list.has_previous %}
+					<a class="page-link" href="?page={{ object_list.previous_page_number}}" aria-label="Previous">
 						<span aria-hidden="true">&laquo;</span>
 						<span class="sr-only">Previous</span>
 					</a>
 					{% endif %}
-					<a href="?page={{ page_obj.number }}" class="item-pagination flex-c-m trans-0-4 active-pagination">{{page_obj.number}}</a>
+					<a href="?page={{ object_list.number }}" class="item-pagination flex-c-m trans-0-4 active-pagination">{{object_list.number}}</a>
 					
 					
-					{% if page_obj.has_next %}
-					<a class="page-link" href="?page={{ page_obj.next_page_number}}" aria-label="Next">
+					{% if object_list.has_next %}
+					<a class="page-link" href="?page={{ object_list.next_page_number}}" aria-label="Next">
 							<span aria-hidden="true">&raquo;</span>
 							<span class="sr-only">Next</span>
 						</a>

@@ -125,7 +125,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
                 # Construct the path to the media_root directory
                 media_root = os.path.join(settings.MEDIA_ROOT, 'images')
                 # Construct the path to the media_root directory
-                media_root1 = os.path.join(settings.MEDIA_ROOT, image_folder)
+                media_root1 = os.path.join(settings.MEDIA_ROOT,"images_upload_product", image_folder)
 
                 # Create the 'images' directory if it doesn't exist
                 if not os.path.exists(media_root):
@@ -136,26 +136,26 @@ class ExcelFileAdmin(admin.ModelAdmin):
 
                 # Get the image filename from the local path
                 filename = os.path.basename(local_image_path)
-                image_path = os.path.join(media_root,media_root1, filename)
-                 
+                image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+               
                  
                 # Copy the image file to the media_root directory
-                response=requests.get(local_image_path)
+                # response=requests.get(local_image_path)
                  
-                if response.status_code == 200 :
+                # if response.status_code == 200 :
                      
-                    # with open(image_path, 'wb') as dest_file:
+                #     # with open(image_path, 'wb') as dest_file:
                          
-                    #     dest_file.write(response.content)
-                    image_data = response.content
-                    image = Image.open(io.BytesIO(image_data))
-                    rgba_image = image.convert("RGBA")
+                #     #     dest_file.write(response.content)
+                #     image_data = response.content
+                #     image = Image.open(io.BytesIO(image_data))
+                #     rgba_image = image.convert("RGBA")
 
-                    # Create a file path for saving the WebP image
-                    webp_file_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+                #     # Create a file path for saving the WebP image
+                #     webp_file_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
 
-                    # Save the RGBA image as WebP
-                    rgba_image.save(webp_file_path, "WEBP")
+                #     # Save the RGBA image as WebP
+                #     rgba_image.save(webp_file_path, "WEBP")
                         
                       
 
@@ -163,7 +163,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
 
                          
                  
-                if categoryName and os.path.exists(os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")):
+                if categoryName:
                      
                     doesexist = Category.objects.filter(title=categoryName)
                     if len(doesexist) > 0:
@@ -173,11 +173,11 @@ class ExcelFileAdmin(admin.ModelAdmin):
                             title=categoryName,
                             slug=slugify(categoryName),
                             description=categoryName,
-                            image=os.path.join('images',media_root1,  f"{filename.split('.')[0]}.webp").replace("/workspace/media_root","")
+                            image=image_path.replace("/workspace/media_root","") 
                         )
 
 
-                if row['images_prod'] and os.path.exists(os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")):
+                if row['images_prod'] :
                     if name:
 
                         slug = slugify(name)
@@ -191,7 +191,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
                             
                         
                         doesexist11 = Item.objects.filter(id_item = idxn)
-                        imagepathitem = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+                        imagepathitem = os.path.join(media_root,"images_upload_product",media_root1, f"{filename.split('.')[0]}.webp")
                         if len(doesexist11) == 0:
                             itemnow = Item.objects.create(
                                 id_item=idxn,
@@ -229,22 +229,17 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                 local_image_path = image_src 
                                 # Replace this with the actual path of the image on your computer
 
-                                # Construct the path to the media_root directory
-                                media_root = os.path.join(settings.MEDIA_ROOT, 'images')
-                                # Construct the path to the media_root directory
-                                media_root1 = os.path.join(settings.MEDIA_ROOT, image_folder)
+                                
 
                                 # Create the 'images' directory if it doesn't exist
-                                if not os.path.exists(media_root):
-                                    os.makedirs(media_root)
-                                    
-                                if not os.path.exists(media_root1):
-                                    os.makedirs(media_root1)
+                                 
 
                                 # Get the image filename from the local path
                                 filename = os.path.basename(local_image_path)
                                 image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
-                                    
+                                
+                                 
+                                # image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
                                 slug_ex=itemnow.slug
                                     
                                  
@@ -256,23 +251,23 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                     image=image_path.replace("/workspace/media_root","") 
                                 )
                                  
-                                response = requests.get(local_image_path)
-                                if response.status_code == 200:
+                                # response = requests.get(local_image_path)
+                                # if response.status_code == 200:
                                      
-                                    # with open(image_path, 'wb') as dest_file:
+                                #     # with open(image_path, 'wb') as dest_file:
                                       
                                          
-                                    #     dest_file.write(response.content)
+                                #     #     dest_file.write(response.content)
                                         
-                                    image_data = response.content
-                                    image = Image.open(io.BytesIO(image_data))
-                                    rgba_image = image.convert("RGBA")
+                                #     image_data = response.content
+                                #     image = Image.open(io.BytesIO(image_data))
+                                #     rgba_image = image.convert("RGBA")
 
-                                    # Create a file path for saving the WebP image
-                                    webp_file_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+                                #     # Create a file path for saving the WebP image
+                                #     webp_file_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
 
-                                    # Save the RGBA image as WebP
-                                    rgba_image.save(webp_file_path, "WEBP")
+                                #     # Save the RGBA image as WebP
+                                #     rgba_image.save(webp_file_path, "WEBP")
                                      
                                         
 
@@ -395,3 +390,4 @@ admin.site.register(WishList)
 admin.site.register(TopCategory)
 admin.site.register(ShopHeader)
 admin.site.register(Matacor_info)
+admin.site.register(Images_upload)

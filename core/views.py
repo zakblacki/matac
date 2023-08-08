@@ -20,7 +20,7 @@ import random
 import string
 import stripe
 from django.contrib.auth import authenticate, login , logout
-
+from django.core.paginator import Paginator
 from django.contrib.auth.forms import UserCreationForm
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -58,9 +58,17 @@ class PaymentView(View):
 
 class HomeView(ListView):
     template_name = "index.html"
-    queryset = Item.objects.filter(is_active=True)
+    model= Item
     context_object_name = 'items'
-
+     
+    
+    def get_queryset(self):
+        # Get all products
+        all_products = list(Item.objects.all(is_active=True))
+        # Get a random selection of products
+        items = random.sample(all_products, 1)
+        
+        return items
 
 
 
@@ -180,6 +188,16 @@ def wishlist_view(request):
 
 def index(request):
     
+    # Get a random selection of products
+    try:
+        items_most_sales = random.sample(list(Item.objects.filter(label="S",is_active=True)),50)
+    except:
+        items_most_sales = Item.objects.filter(label="S",is_active=True)
+    try:
+        items_most_new = random.sample(list(Item.objects.filter(label="N",is_active=True)), 50)
+    except:
+        items_most_new =  Item.objects.filter(label="N",is_active=True) 
+
     try:
         wishlist =WishList.objects.get(user=request.user).items.all()
     except:
@@ -189,8 +207,8 @@ def index(request):
     context={
         "items":Item.objects.filter(is_active=True),
         "category":Category.objects.filter(is_active=True),
-        "new_items":Item.objects.filter(label="N"),
-        "most_sale":Item.objects.filter(label="S"),
+        "new_items":items_most_new,
+        "most_sale":items_most_sales,
         "essentials":Essential.objects.filter(is_active=True),
         "wishedlist":wishlist
     }
@@ -285,9 +303,11 @@ class OrderSummaryView(LoginRequiredMixin, View):
                 messages.error(self.request, "Serious Error occured")
         return redirect("/")
 
+
+
 class ShopView(ListView):
     model = Item
-    paginate_by = 9
+    paginate_by = 24
     template_name = "shop.html"
     
     def get(self, *args, **kwargs):  
@@ -380,22 +400,30 @@ class ShopView(ListView):
                 if brand_qry:
                     comb_final = comb_final & brand_qry
                 
-                item= Item.objects.filter(comb_final,is_active=True)
+                item= self.get_queryset().filter(comb_final,is_active=True)
 
                 if filtermeth:
                      
                     
-                    item =Item.objects.filter(comb_final,is_active=True).order_by(filtermeth)
+                    item =self.get_queryset().filter(comb_final,is_active=True).order_by(filtermeth)
                 else:
                     pass
             else:
-                item = Item.objects.filter( is_active=True)
+                item = self.get_queryset().filter( is_active=True)
                  
 
         except:
-            item = Item.objects.filter( is_active=True)
+            item = self.get_queryset().filter( is_active=True)
+        
+        try:
+            page_number = int(self.request.GET.get('page'))
+        except:
+            page_number=1
+            
+        paginator = Paginator(item, self.paginate_by)
+        paginated_items = paginator.page(page_number)
         context = {
-            'object_list': item,
+            'object_list': paginated_items,
              'categories':Category.objects.all(),
              'header':ShopHeader.objects.first()
              
@@ -403,6 +431,48 @@ class ShopView(ListView):
         return render(self.request, "shop.html", context)             
 
 
+
+import os
+import shutil
+
+def admin_upload(request):
+    if request.method == 'POST':
+        form = ImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            title= form.cleaned_data['title']
+            for image in request.FILES.getlist('images'):
+                if image:
+                    parts = image.name.split("_")[-1]
+                    folder_name_org=parts.split(".")[0]
+                    name_org=str(image.name.split("_")[-2]) + "_org_zoom" + ".webp"
+                     
+                    
+                    # Construct the path to the media_root directory
+                    media_root1 = os.path.join(settings.MEDIA_ROOT, "images_upload_product" , folder_name_org)
+
+                    # Create the 'images' directory if it doesn't exist
+                    
+                    
+                
+                    os.makedirs(media_root1, exist_ok=True)
+                    image_path_up = os.path.join(media_root1,name_org)
+                    realimg_path= os.path.join(settings.MEDIA_ROOT, "images_upload_product",name_org )
+                    image.name= name_org
+                    
+                    
+                     
+                    
+                    print(image_path_up)
+                    if not os.path.exists(image_path_up):
+                        Images_upload.objects.create(title=title, images=image)
+                        shutil.move(realimg_path, media_root1)
+                 
+                 
+            # form.save()
+            return HttpResponseRedirect(reverse('admin:index'))
+    else:
+        form = ImageUploadForm()
+    return render(request,"admin/upload.html",{"form":form})
 
 @login_required
 def profile(request):
@@ -519,7 +589,13 @@ class ItemDetailView(DetailView):
 class ItemListView(generics.ListAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
-class CategoryView(View):
+class CategoryView(ListView):
+    model = Item
+    paginate_by = 24
+    template_name = "category.html"
+     
+    
+    
     def get(self, *args, **kwargs):
         category = Category.objects.get(slug=self.kwargs['slug'])
         combined_query = Q()
@@ -618,32 +694,38 @@ class CategoryView(View):
                 comb_final  =   combined_query & combined_query5 & combined_query3 & combined_cat
                  
                 
-                item= Item.objects.filter(comb_final,is_active=True)
+                item= self.get_queryset().filter(comb_final,is_active=True)
                 if filtermeth:
                      
                     
-                    item =Item.objects.filter(comb_final,is_active=True).order_by(filtermeth)
+                    item =self.get_queryset().filter(comb_final,is_active=True).order_by(filtermeth)
                 else:
                     pass
             else:
-                item = Item.objects.filter(category=category, is_active=True)
+                print("no req")
+                item = self.get_queryset().filter(category=category, is_active=True)
                  
 
         except:
-            item = Item.objects.filter(category=category, is_active=True)
+            item = self.get_queryset().filter(category=category, is_active=True)
              
        
             
          
-         
+        try:
+            page_number = int(self.request.GET.get('page'))
+        except:
+            page_number = 1
         
+        paginator = Paginator(item, self.paginate_by)
+        paginated_items = paginator.page(page_number)
         context = {
-            'object_list': item,
+            'object_list': paginated_items,
             'category_title': category,
             'category_description': category.description,
             'category_image': category.image.url,
-             'banners':banners,
-             'categories':Category.objects.all()
+            'banners':banners,
+            'categories':Category.objects.all()
         }
         return render(self.request, "category.html", context)
 

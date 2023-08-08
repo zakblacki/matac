@@ -355,3 +355,11 @@ class Matacor_info(models.Model):
     
     def __str__(self):
         return self.name_owner
+    
+    
+class Images_upload(models.Model):
+    title = models.CharField(max_length=100)
+    images = models.ImageField(upload_to='images_upload_product/')
+    
+    def __str__(self):
+        return self.title 

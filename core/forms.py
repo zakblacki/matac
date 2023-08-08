@@ -3,7 +3,7 @@ from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
- 
+from .models import Images_upload
 
 
 PAYMENT_CHOICES = (
@@ -117,3 +117,13 @@ class RefundForm(forms.Form):
         'rows': 4
     }))
     email = forms.EmailField()
+
+
+
+from multiupload.fields import MultiFileField
+class ImageUploadForm(forms.ModelForm):
+    images = MultiFileField(min_num=1, max_file_size=1024*1024*5)
+    
+    class Meta:
+        model = Images_upload
+        fields = ('title', 'images')
