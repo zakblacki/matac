@@ -1502,7 +1502,7 @@ nav ul li a, nav ul li ul li a{
     font-size: 12px
   }
   .owl-carousel.owl-drag .owl-item{
-    width: 190px !important;
+    margin-right: 0px !important;
   }
   .ab-t-l{
     top: -80px !important;
@@ -2204,8 +2204,8 @@ object-fit: cover;
 }
 
 .active-pagination {
-  background-color: #222222;
-  color: white;
+  background-color: #22222205;
+  color: #0b0909;
 }
 
 

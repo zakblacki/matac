@@ -1651,7 +1651,7 @@ h4 {
 }
 
 .shop-table td.product-remove {
-  padding-right: 0;
+  padding-right: 22px;
   width: 23px
 }
 
@@ -9313,10 +9313,14 @@ aside+div .product-single .product-details {
   color: #888;
 }
 
-*{
+/* *{
   
     font-family: 'Roboto Condensed', sans-serif !important;
   
+} */
+
+.fa-classic, .fa-regular, .fa-solid, .far, .fas {
+  font-family: "Font Awesome 6 Free" !important;
 }
 .header-search.hs-simple.filt{
   margin: 0 !important;
@@ -12773,6 +12777,33 @@ ul.megamenu {
   display: none ;
 }
 @media (max-width:992px) {
+
+  .product-variations .barred::before{
+    width: 1px !important;
+    height: 200% !important;
+    left: 14px !important;
+top: -5px !important;
+
+  }
+  .owl-theme .owl-dots .owl-dot{
+    display: none !important;
+  }
+  #id_voucher{
+    max-width: 45%;
+  }
+  thead .summary-subtotal{
+    display: inline-table;
+    min-width: 360px;
+  }
+  tr .product-name{
+    min-width: 64px !important;
+  }
+  .header-cart-wrapitem{
+    width: 90%;
+  }
+  .product-media{
+    height: 290px !important ;
+  }
   .filtermob{
     display: block ;
     position: fixed;
@@ -14353,4 +14384,44 @@ color: #fff;
 
 .summary.mb-4 .btn-success{
   display: none;
+}
+
+
+@media (max-width:992px) {
+  .taille__wrapper {
+    display: inline !important;
+  }
+  .order-details{
+    overflow: hidden;
+  }
+  .order-details-table thead .summary-subtotal td:first-of-type{
+    max-width: 200px;
+    width: 150px;
+  
+    text-align: center;
+  }
+
+  .order-details-table thead .summary-subtotal td:nth-of-type(2){
+    max-width: 70px;
+    width: 60px;
+  }
+  .order-details-table thead .summary-subtotal td:last-of-type{
+    width: 141px;
+  }
+
+  .order-details-table tbody tr td:first-of-type{
+    max-width: 151px;
+    
+    width: 150px;
+  }
+  .order-details-table tbody tr td:nth-of-type(2){
+    text-align: center;
+  }
+  .order-details-table tbody tr td:last-of-type{
+    text-align: center;
+  }
+}
+
+.owl-prev, .owl-next{
+  display: none !important;
 }
