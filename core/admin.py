@@ -60,6 +60,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         obj_file_name= obj.file
+        gender_type = obj.gender
         df = pd.read_excel(obj_file_name,  engine='openpyxl')
 
         
@@ -204,7 +205,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                 article_id=article_id,
                                 stock_no=stock,
                                 details= details ,
-                                gender="F",
+                                gender=gender_type,
                                 description_short=description,
                                 description_long=description,
                                 tags= details ,
@@ -391,3 +392,7 @@ admin.site.register(TopCategory)
 admin.site.register(ShopHeader)
 admin.site.register(Matacor_info)
 admin.site.register(Images_upload)
+
+
+ 
+ 

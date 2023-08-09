@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load mathfilters %}
-
+{% load custom_filters %}
 
 {% block content %}
 
@@ -58,7 +58,9 @@
                     </div>
                 <div class="overview-item">
                     <span>Total:</span>
-                    <strong>{{target.total_amount}} DA</strong>
+                    <strong>
+                        {{ target.total_amount|total_withship:target.shipping_price }}
+                        DA</strong>
                 </div>
                 <div class="overview-item">
                     <span>Mode de paiement:</span>
@@ -125,7 +127,7 @@
                                 <td class="product-name"></td>
 
                             <td>
-                                <p class="summary-total-price">{{target.total_amount}} DA</p>
+                                <p class="summary-total-price">{{ target.total_amount|total_withship:target.shipping_price }} DA</p>
                             </td>
                         </tr>
                     </tbody>

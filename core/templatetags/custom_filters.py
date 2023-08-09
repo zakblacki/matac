@@ -14,3 +14,8 @@ def filtered_and_length(value, delimiter):
 @register.filter
 def parse_json(value):
     return json.loads(value)
+
+@register.filter
+def total_withship(value1 , value2 ):
+     
+    return value1  + float(value2)

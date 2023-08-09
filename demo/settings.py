@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'allauth',
+    "social_django",
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
@@ -25,7 +26,8 @@ INSTALLED_APPS = [
     'django_countries',
     'core',
     'mathfilters',
-    'rest_framework'
+    'rest_framework',
+   
 ]
 
 MIDDLEWARE = [
@@ -36,7 +38,8 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware'
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware'
 ]
 
 ROOT_URLCONF = 'demo.urls'
@@ -52,6 +55,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect'
             ],
         },
     },
@@ -110,10 +115,12 @@ if ENVIRONMENT == 'production':
 
 # Auth
 AUTHENTICATION_BACKENDS = (
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend'
 )
-
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
@@ -142,3 +149,14 @@ SITE_ID=1
 SILENCED_SYSTEM_CHECKS = ['models.E006','admin.E108']
  
 DATA_UPLOAD_MAX_NUMBER_FILES=50000
+
+LOGIN_URL = 'login/'
+LOGOUT_URL = 'logout/'
+LOGIN_REDIRECT_URL = '/'
+
+SOCIAL_AUTH_FACEBOOK_KEY  = '1332074261038830'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '9e57419d03907e57fbe2fe2e1d05392a'  # 
+
+#  <!-- <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a> -->
+ 
+ 

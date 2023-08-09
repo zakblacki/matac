@@ -52,7 +52,7 @@ class Essential(models.Model):
     model_type=models.CharField(max_length=150)
     line1 = models.CharField(max_length=100)
     line2 = models.CharField(max_length=100)
-    price= models.IntegerField()
+    price= models.FloatField()
     button_text= models.CharField(max_length=100)
     link = models.CharField(max_length=100)
     image = models.ImageField(help_text="Size: 1920x570")
@@ -84,7 +84,10 @@ class Category(models.Model):
 class ExcelFile(models.Model):
     name = models.CharField(max_length=100)
     file = models.FileField(upload_to='excel_files/')
-
+    gender = models.CharField(choices=LABEL_CHOICES_GENDER, max_length=3,default="M")
+    
+    def __str__(self):
+        return self.name
 
  
 
@@ -217,7 +220,7 @@ class Order(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
-    total_amount= models.IntegerField(default=1)
+    total_amount= models.FloatField(default=1)
     recui_image=  models.ImageField(upload_to="orders_recu/",default="",blank=True,null=True)
     phone_number=models.CharField(max_length=10, default="")
     shipping_address = models.CharField(max_length=50,default="")

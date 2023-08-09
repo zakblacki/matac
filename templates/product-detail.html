@@ -221,27 +221,73 @@
 
 									
 											
-												
-								 
-									<div class="variants-parent" style="width: {{colors_item|length|mul:50|add:10|mul:2}}px;">
-									{% for item in colors_item %}
+								<div class="owl-carousel555 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
+									'nav': true,
+									'dots': false,
+									'margin': 0,
+									'responsive': {
+										'0': {
+											'items': 5
+										},
+										'576': {
+											'items': 5
+										},
+										'768': {
+											'items': 5
+										},
+										
+										'992': {
+											'items': 9
+										}
+									}
+								}" style="animation-duration: 1.2s;">
 									
+								
+								<div class="owl-stage-outer" style="overflow: hidden;">
+									<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); 
+									transition: all 3s ease 0s; width: 5814px;">
+								{% for item in colors_item %}
+								
+								<div class="owl-item new_item{% if forloop.counter <= 4 %} active{% endif %}" style="width: 247px !important; margin-right: 20px;">
+									<a class="variant" >
 											 
-										 
-										<a class="variant" >
-											<!-- {% for tt in images %}
-												{% if tt.item.title == item.title %}
-												<input type="hidden" data-images="{{tt.image.url}}"  name="">
-												{% endif %}
-											{% endfor %} -->
-											<img draggable="false" style="width: 50px !important; height: 100% !important;" class="color variant-owl" src="{{item.image.url}}"
-											 alt=" " data-slug="{{item.slug}}" data-current="{{object.slug}}"  srcset="" loading="lazy" width="80">
-										</a>
-										 
-  
-									 
-									{% endfor %}
+										<img draggable="false" style="width: 50px !important; height: 100% !important;" class="color variant-owl" src="{{item.image.url}}"
+										 alt=" " data-slug="{{item.slug}}" data-current="{{object.slug}}"  srcset="" loading="lazy" width="80">
+									</a>
+								</div> 
+								{% endfor %}
+					
+					
 									</div>
+								</div>
+								
+								 
+					
+							</div>
+							<script>
+								$(document).ready(function(){
+								  $(".owl-carousel555").owlCarousel({
+									items: 9, // Display 4 items in a line
+									loop: false,
+									margin: 0,
+									nav: true,
+									dots: false,
+									responsive: {
+									  0: {
+										items: 5 // Display 1 item on smaller screens
+									  },
+									  600: {
+										items: 5 // Display 2 items on screens wider than 600px
+									  },
+									  992: {
+										items: 9 // Display 4 items on screens wider than 1000px
+									  }
+									}
+								  });
+								});
+							  </script>			
+								 
+									 
 								
 							{% endif %}
 							<script>
@@ -561,51 +607,28 @@ itemLinks.forEach(itemLink => {
 					Related Products
 				</h3>
 			</div>
-			<div class="owl-carousel owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
+			<div class="owl-carousel551 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
 				'nav': true,
 				'dots': true,
 				'margin': 10,
 				'responsive': {
 					'0': {
-						'items': 4
+						'items': 2
 					},
 					'576': {
-						'items': 4
+						'items': 2
 					},
 					'768': {
-						'items': 4
+						'items': 2
 					},
+					
 					'992': {
 						'items': 4
-					},
-					'1200': {
-						'items': 5
 					}
 				}
 			}" style="animation-duration: 1.2s;">
 				
-			<script>
-				$(document).ready(function(){
-				  $(".owl-carousel").owlCarousel({
-					items: 4, // Display 4 items in a line
-					loop: false,
-					margin: 10,
-					nav: true,
-					dots: false,
-					responsive: {
-					  0: {
-						items: 2 // Display 1 item on smaller screens
-					  },
-					  600: {
-						items: 2 // Display 2 items on screens wider than 600px
-					  },
-					  1000: {
-						items: 4 // Display 4 items on screens wider than 1000px
-					  }
-					}
-				  });
-				});
-			  </script>
+			
 			<div class="owl-stage-outer">
 				<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); 
 				transition: all 3s ease 0s; width: 5814px;">
@@ -709,6 +732,28 @@ itemLinks.forEach(itemLink => {
 			</div> -->
 
 		</div>
+		<script>
+			$(document).ready(function(){
+			  $(".owl-carousel551").owlCarousel({
+				items: 4, // Display 4 items in a line
+				loop: false,
+				margin: 10,
+				nav: true,
+				dots: false,
+				responsive: {
+				  0: {
+					items: 2 // Display 1 item on smaller screens
+				  },
+				  600: {
+					items: 2 // Display 2 items on screens wider than 600px
+				  },
+				  992: {
+					items: 4 // Display 4 items on screens wider than 1000px
+				  }
+				}
+			  });
+			});
+		  </script>
 	</section>
 
 

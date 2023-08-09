@@ -12777,6 +12777,17 @@ ul.megamenu {
   display: none ;
 }
 @media (max-width:992px) {
+
+  .product-variations .barred::before{
+    width: 1px !important;
+    height: 200% !important;
+    left: 14px !important;
+top: -5px !important;
+
+  }
+  .owl-theme .owl-dots .owl-dot{
+    display: none !important;
+  }
   #id_voucher{
     max-width: 45%;
   }
@@ -14409,4 +14420,8 @@ color: #fff;
   .order-details-table tbody tr td:last-of-type{
     text-align: center;
   }
+}
+
+.owl-prev, .owl-next{
+  display: none !important;
 }

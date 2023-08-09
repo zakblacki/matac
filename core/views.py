@@ -573,13 +573,21 @@ class ItemDetailView(DetailView):
                 combined_q = similar_items_q | similar_items_q2
                 initial_queryset = Item.objects.filter(combined_q).exclude(pk=self.object.pk)
 
-
+            try:
+                context["relate_pros"] = random.sample(list(initial_queryset),24)
+            except:
+                pass
              
             
          
         else:
-            context["relate_pros"] =  Item.objects.filter(category=self.object.category).exclude(pk=self.object.pk) 
+            try:
+            
+                context["relate_pros"] = random.sample(list(Item.objects.filter(category=self.object.category).exclude(pk=self.object.pk)) ,24) 
+            except:
+                context["relate_pros"] =  Item.objects.filter(category=self.object.category).exclude(pk=self.object.pk) 
 
+           
            
          
         
