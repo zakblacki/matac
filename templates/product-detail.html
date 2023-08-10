@@ -493,10 +493,15 @@ itemLinks.forEach(itemLink => {
 			
 															for(var append_size=0; append_size < splitedsize.length;append_size++){
 																document.write(
-																	`<option id="stock-1" name="atribute" value="${splitedsize[append_size]}">${splitedsize[append_size]}</option>`
+																	`<option id="stock-${append_size+1}" name="atribute" value="${splitedsize[append_size]}">${splitedsize[append_size]}</option>`
 																)
 																 
 															}
+
+															document.getElementById('sticky_sizes').addEventListener("change",function(){
+																	const targetid_op =this.options[this.options.selectedIndex].id
+																	document.getElementById(targetid_op).checked=true
+															})
 														</script>
 															
 															 

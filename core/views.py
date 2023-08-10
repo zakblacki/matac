@@ -386,7 +386,7 @@ class ShopView(ListView):
                             combined_query3 |=combined_query1 & combined_query2
                             
                         if "brand" == get_key:
-                            brand_qry |=Q(category__title=get_val)
+                            brand_qry |=Q(brand_name__iexact=get_val)
                            
                             combined_query3 |= brand_qry
                             
@@ -422,11 +422,13 @@ class ShopView(ListView):
             
         paginator = Paginator(item, self.paginate_by)
         paginated_items = paginator.page(page_number)
+        brands_list=list(Item.objects.values_list('brand_name', flat=True).distinct())
+
         context = {
             'object_list': paginated_items,
              'categories':Category.objects.all(),
-             'header':ShopHeader.objects.first()
-             
+             'header':ShopHeader.objects.first(),
+             'brands_list':brands_list
         }
         return render(self.request, "shop.html", context)             
 
@@ -439,7 +441,7 @@ def admin_upload(request):
     if request.method == 'POST':
         form = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            title= form.cleaned_data['title']
+            title= form.cleaned_data['excel_related']
             for image in request.FILES.getlist('images'):
                 if image:
                     parts = image.name.split("_")[-1]
@@ -462,9 +464,9 @@ def admin_upload(request):
                     
                      
                     
-                    print(image_path_up)
+                    print(title)
                     if not os.path.exists(image_path_up):
-                        Images_upload.objects.create(title=title, images=image)
+                        Images_upload.objects.create(excel_related=title, images=image)
                         shutil.move(realimg_path, media_root1)
                  
                  
@@ -684,7 +686,10 @@ class CategoryView(ListView):
                         if "filter" == get_key:
                             filtermeth=get_val
                             
-                       
+                        if "brand" == get_key:
+                            brand_qry |= Q(brand_name__iexact=get_val)
+                            
+                        
                              
                             
                         if combined_query1 and combined_query2:
@@ -703,12 +708,19 @@ class CategoryView(ListView):
                  
                 
                 item= self.get_queryset().filter(comb_final,is_active=True)
+                if brand_qry:
+                    comb_final= comb_final & brand_qry
+                    item =self.get_queryset().filter(comb_final,is_active=True)
+                    
                 if filtermeth:
                      
                     
                     item =self.get_queryset().filter(comb_final,is_active=True).order_by(filtermeth)
                 else:
                     pass
+                
+                
+                    
             else:
                 print("no req")
                 item = self.get_queryset().filter(category=category, is_active=True)
@@ -727,8 +739,12 @@ class CategoryView(ListView):
         
         paginator = Paginator(item, self.paginate_by)
         paginated_items = paginator.page(page_number)
+        
+        listbrand=list(Item.objects.values_list('brand_name', flat=True).distinct())
+        print(listbrand)
         context = {
             'object_list': paginated_items,
+            'brand_list':listbrand,
             'category_title': category,
             'category_description': category.description,
             'category_image': category.image.url,
@@ -816,26 +832,7 @@ class CheckoutView(View):
 
 
 
-# def home(request):
-#     context = {
-#         'items': Item.objects.all()
-#     }
-#     return render(request, "index.html", context)
-#
-#
-# def products(request):
-#     context = {
-#         'items': Item.objects.all()
-#     }
-#     return render(request, "product-detail.html", context)
-#
-#
-# def shop(request):
-#     context = {
-#         'items': Item.objects.all()
-#     }
-#     return render(request, "shop.html", context)
-
+ 
 
 @login_required
 def add_to_cart(request, slug):
@@ -1026,6 +1023,8 @@ def get_filtered_items_by_type(filter_type):
         filtered_items = []
 
     return list(filtered_items)
+
+
 def get_filtered_items(request):
     
     filter_type = request.GET.get("filter")

@@ -321,9 +321,9 @@
 								 <i class="fas fa-times" style="margin-left: 95px !important;"></i> 
 								</div>
 
-							 
+								
 								<div class="filter_type widget widget-collapsible">
-									<h3 class="widget-title"> Brand 
+									<h3 class="widget-title"> Categorie 
 										<span style="height: 10px;" class="toggle-btn">-</span></h3>
 									<form action="." method="get">
 										<ul class="widget-body filter-items slided">
@@ -344,28 +344,55 @@
 									</ul>   
 									</form>
 								</div>
-						 
-								<div class="widget widget-collapsible">
-									<h3 class="widget-title"> Gender 
-										<span style="height: 10px;" 
-										class="toggle-btn">-</span></h3>
-									<ul class="slided widget-body filter-items">
-										
+								 <!-- {% for category in brand_list %}
 										
 											<li>
-												<input type="radio" class="custom-checkbox" id="cat-1" value="F" name="gender" onchange="this.form.submit()">
-												<label class="form-control-label " for="cat-1">FEMME</label>
+												<a href="/category/{{category.slug}}">
+													 
+												<label class="form-control-label "  >{{category}} </label>
+												</a>
 											</li>
-										
-											<li>
-												<input type="radio" class="custom-checkbox" id="cat-24" value="M" name="gender" onchange="this.form.submit()">
-												<label class="form-control-label " for="cat-24">HOMME </label>
-											</li>
-										
-											 
-										
-									</ul>   
-								</div>
+											
+											{% endfor %} -->
+											<div class="widget widget-collapsible">
+												<h3 class="widget-title"> Brand 
+													<span style="height: 10px;" 
+													class="toggle-btn">-</span></h3>
+												<ul class="slided widget-body filter-items">
+													
+													{% for brand_name in brand_list %}
+														<li>
+															<input type="radio" class="custom-checkbox" id="cat-{{forloop.counter|mul:58}}" value="{{brand_name}}" name="brand" onchange="this.form.submit()">
+															<label class="form-control-label " for="cat-{{forloop.counter|mul:58}}">{{brand_name}}</label>
+														</li>
+													
+													{% endfor %}
+													
+														 
+													
+												</ul>   
+											</div>
+											<div class="widget widget-collapsible">
+												<h3 class="widget-title"> Gender 
+													<span style="height: 10px;" 
+													class="toggle-btn">-</span></h3>
+												<ul class="slided widget-body filter-items">
+													
+													
+														<li>
+															<input type="radio" class="custom-checkbox" id="cat-1" value="F" name="gender" onchange="this.form.submit()">
+															<label class="form-control-label " for="cat-1">FEMME</label>
+														</li>
+													
+														<li>
+															<input type="radio" class="custom-checkbox" id="cat-24" value="M" name="gender" onchange="this.form.submit()">
+															<label class="form-control-label " for="cat-24">HOMME </label>
+														</li>
+													
+														 
+													
+												</ul>   
+											</div>
 					
 									<div class="widget widget-collapsible" style="overflow: hidden;">
 										<h3 class="widget-title">Prix  
@@ -910,11 +937,11 @@
 								<ul class="widget-body filter-items" style="height: 0; display: none;">
 								
 								
-									{% for category in categories %}
+									{% for brand_name in brand_list %}
 								
 									<li>
-										<input type="radio" class="custom-checkbox"   value="{{category.title}}" name="brand"   >
-										<label class="form-control-label "  >{{category.title}} </label>
+										<input type="radio" class="custom-checkbox" id="cat-{{forloop.counter|mul:100}}" value="{{brand_name}}" name="brand"  onchange="this.form.submit()">
+										<label class="form-control-label " for="cat-{{forloop.counter|mul:100 }}">{{brand_name}} </label>
 									</li>
 									
 									{% endfor %}

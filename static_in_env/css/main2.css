@@ -8655,6 +8655,7 @@ aside+div .product-single .product-details {
 }
 
 .product-form select {
+  min-width: 60px;
   max-width: none;
   padding: .8rem 3rem .8rem 1.4rem !important;
   color: #222 !important;
@@ -12776,7 +12777,15 @@ ul.megamenu {
 .filtermob{
   display: none ;
 }
+
+
+.nav-tabs .nav-item{
+  text-transform: uppercase;
+}
 @media (max-width:992px) {
+  .login-popup .nav-item .nav-link.active{
+    font-size: 2rem;
+  }
 
   .product-variations .barred::before{
     width: 1px !important;

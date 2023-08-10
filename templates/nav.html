@@ -26,23 +26,37 @@
                     
                     <div class="tab tab-menu" style="min-width: 715px;padding-left: 10px;">
                         <ul class="nav nav-tabs" role="tablist" style="width: 40%;display: flex;
-						justify-content: space-evenly;">
+						justify-content: space-between;">
                             
 							{% gendercat as catgg %}
 							{% for catg in  catgg %}
 							{% if forloop.counter == 1 %}
 							
 							<li class="nav-item">
-								<a class="nav-link active" href="{{catg.slug}} ">{{catg.title}}</a>
+								<a data-id="#{{catg.title}}" class="nav-link active navat nav-link-top" href="{{catg.slug}} ">{{catg.title}}</a>
 							</li>
 							{% else %}
 							<li class="nav-item">
-								<a class="nav-link" href=" {{catg.slug}}">{{catg.title}}</a>
+								<a data-id="#{{catg.title}}" class="nav-link nav-link-top" href=" {{catg.slug}}">{{catg.title}}</a>
 							</li>
 							{% endif %}
 							{% endfor %}
                           
-                            
+                         <script>
+							Array.from(document.querySelectorAll(".nav-link-top")).forEach(ele=>{ele.addEventListener("click",function(e){
+								e.preventDefault()
+								const nvitlength = document.querySelectorAll(".nav-link-top").length
+								for(var navitind=0;navitind<nvitlength; navitind++){
+									document.querySelectorAll(".nav-link-top")[navitind].classList.remove("active")
+									document.querySelectorAll(".nav-link-top")[navitind].classList.remove("activenavit")
+								}
+								this.classList.add("active");
+								this.classList.add("activenavit");
+								$(document.querySelector(this.dataset.id)).siblings().css({"display":"none"}) 
+								document.querySelector(this.dataset.id).style.display="flex"
+								
+							})})
+						 </script>
                         </ul>
                     </div>
                 <div></div></div>
@@ -340,12 +354,11 @@ position: fixed;">
 
 				<!-- Header Icon -->
 				<nav class="main-nav" style="width: 100%;">
-					<ul class="menu" style="padding: 10px;">
-						
+					    
+						 
 						   
-						 
-						  {% categories %}  
-						 
+						  {% categories  as categories1 %}
+						  {{categories1.items }}
 						   
 						 <script>
 							var submenus = document.querySelectorAll(".submenu") ;
@@ -372,15 +385,8 @@ position: fixed;">
 						 </script>
 						
 
-						<div class="header-search hs-simple">
-							<form action="/shop/" class="input-wrapper">
-								<input type="text" class="form-control" name="search" autocomplete="off" placeholder="&nbsp; &nbsp; &nbsp; &nbsp; Rechercher par mot clés..." required="">
-								<button class="btn btn-search" type="submit">
-									<i class="d-icon-search"></i>
-								</button>
-							</form>
-						</div>
-					</ul>
+ 
+				   
 				</nav>
 			</div>
 		</div>
@@ -593,14 +599,7 @@ position: fixed;">
 
 					 
 					
-<!-- 
-					<li class="item-menu-mobile">
-						<a href="/">Home</a>
-					</li>
-
-					<li class="item-menu-mobile">
-						<a href="/shop">Shop</a>
-					</li> -->
+ 
 					<ul class="nav nav-tabs nav-fill" role="tablist">
                     
                         <!-- <li class="nav-item" style="width: 100px;">
@@ -615,29 +614,22 @@ position: fixed;">
 					{% categories_mobile %}
 
 				 
-							 
-
 					<script>
-						Array.from(document.querySelectorAll("#menu_tel")).forEach(ele=>{
-						ele.addEventListener("click",function(e){ e.preventDefault()
-							ele.classList.toggle("active_catg")
-							if(ele.classList.contains("active_catg")){
-								$(ele.nextElementSibling).hide(300)
-								ele.children[0].style.transform = "rotate(180deg)"
-							}else{
-								$(ele.nextElementSibling).show(300)
-								ele.children[0].style.transform = "rotate(0deg)"
-							}
-							
+						Array.from(document.querySelectorAll(".nav-link-phone")).forEach(ele=>{
+							ele.addEventListener("click",function(){
+								const idtar=this.dataset.id;
+								 
+								var targetelements = document.querySelectorAll("#"+idtar)
+								$(".removblelist").css({"display":"none"})
+								for(var eleindx=0;eleindx<targetelements.length;eleindx++){
+									
+									$(targetelements[eleindx]).css({"display":"block"})
+								}
+							})
 						})
-						})
+					</script>		 
 
-						Array.from($(".subcat-name")).forEach(ele=>{
-						ele.addEventListener("mouseout",function(){
-							ele.nextElementSibling.style.display="none"
-						})
-})
-					</script>
+					
 					{% if request.user.is_authenticated %}
 					<li class="item-menu-mobile">
 					 
@@ -676,6 +668,27 @@ position: fixed;">
 					{% endif %}
 
 				</ul>
+				<script>
+					Array.from(document.querySelectorAll("#menu_tel")).forEach(ele=>{
+					ele.addEventListener("click",function(e){ e.preventDefault()
+						ele.classList.toggle("active_catg")
+						if(ele.classList.contains("active_catg")){
+							$(ele.nextElementSibling).hide(300)
+							ele.children[0].style.transform = "rotate(180deg)"
+						}else{
+							$(ele.nextElementSibling).show(300)
+							ele.children[0].style.transform = "rotate(0deg)"
+						}
+						
+					})
+					})
+
+					Array.from($(".subcat-name")).forEach(ele=>{
+					ele.addEventListener("mouseout",function(){
+						ele.nextElementSibling.style.display="none"
+					})
+})
+				</script>
 			</nav>
 		</div>
 	</header>

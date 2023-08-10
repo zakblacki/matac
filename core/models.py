@@ -97,6 +97,7 @@ class Item(models.Model):
     id_item= models.CharField(max_length=50,default="0")
     title = models.CharField(max_length=100)
     price = models.FloatField()
+    brand_name=models.CharField(max_length=150,default="")
     discount_price = models.FloatField(blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     label = models.CharField(choices=LABEL_CHOICES, max_length=1)
@@ -361,8 +362,8 @@ class Matacor_info(models.Model):
     
     
 class Images_upload(models.Model):
-    title = models.CharField(max_length=100)
+    excel_related=models.ForeignKey(ExcelFile, on_delete=models.CASCADE)
     images = models.ImageField(upload_to='images_upload_product/')
     
     def __str__(self):
-        return self.title 
+        return "image" 

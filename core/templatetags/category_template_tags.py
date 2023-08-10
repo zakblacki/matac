@@ -73,79 +73,96 @@ def gendercat():
 @register.simple_tag
 def categories():
     
-     
+    context={} 
     items_li = ""
-    items =TopCategory.objects.all()
+    items =GenderCategory.objects.all()
     
         
         
-    for i in items:
-       
+    for indx,i in enumerate(items):
+        
+        if indx ==0:
             
-        if i.items.all():
-                
-            # items_li += """<li><a href="/category/{}">{}</a></li>""".format(i.slug, i.title)
-            items_li += """ <li class="submenu">
-						<a class="subcat-name" href="{}" role="button">{}</a>
-						<ul class="megamenu" aria-labelledby="navbarDropdown" >
-							<div class="row " style="visibility: visible;">
-								<div class="col-lg-3">
-									<ul class="two-column">""".format(i.slug, i.title)
-            for itm in i.items.all():
-                    
-                items_li += """<li class="mega-sub-cat">
-                            <a href="/category/{}">{}</a>
-                        </li>""".format( itm.slug,itm.title)
-                    
+            items_li+="""<ul id="{}" class="menu" style="padding: 10px;">""".format(i.title)
+        else:
+            items_li+="""<ul id="{}" class="menu" style="padding: 10px;display:none">""".format(i.title)
 
-            items_li +="""</ul>
-							</div>
-							</div>
-						</ul>
-					</li>"""
+        if i.categories.all():
+            for itml in i.categories.all():    
+                # items_li += """<li><a href="/category/{}">{}</a></li>""".format(i.slug, i.title)
+                items_li += """ <li class="submenu">
+                            <a class="subcat-name" href="{}" role="button">{}</a>
+                            <ul class="megamenu" aria-labelledby="navbarDropdown" >
+                                <div class="row " style="visibility: visible;">
+                                    <div class="col-lg-3">
+                                        <ul class="two-column">""".format(itml.slug, itml.title)
+                for itm in itml.items.all():
+                        
+                    items_li += """<li class="mega-sub-cat">
+                                <a href="/category/{}">{}</a>
+                            </li>""".format( itm.slug,itm.title)
+                        
+
+                items_li +="""</ul>
+                                </div>
+                                </div>
+                            </ul>
+                        </li>"""
         
         else:   
             items_li += """<li><a href="{}">{}</a></li>""".format(i.slug, i.title)
     
-    return mark_safe(items_li )
+        items_li +="""<div class="header-search hs-simple">
+							<form action="/shop/" class="input-wrapper">
+								<input type="text" class="form-control" name="search" autocomplete="off" placeholder="&nbsp; &nbsp; &nbsp; &nbsp; Rechercher par mot clés..." required="">
+								<button class="btn btn-search" type="submit">
+									<i class="d-icon-search"></i>
+								</button>
+							</form>
+						</div>
+					</ul>"""
+    
+    context["items"]=mark_safe(items_li )
+    context["header"]="dd"
+    return context
 
 @register.simple_tag
 def categories_mobile():
     items_li = ""
-    items =TopCategory.objects.all()
+    items =GenderCategory.objects.all()
     
         
+    for indx,itt in enumerate(items) :    
+        for i in itt.categories.all():
         
-    for i in items:
-       
-            
-        if i.items.all():
                 
-            # items_li += """<li><a href="/category/{}">{}</a></li>""".format(i.slug, i.title)
-            items_li += """ <li>
-						<a id="menu_tel"  >{}
-							<img style="height: 15px;
-							position: absolute;
-							top: 15px;
-                            opacity:0.8;
-							right: 5px;" src="/static/images/chev.png" alt="">
-					</a>
-						<ul>""".format(i.title)
-            for itm in i.items.all():
+            if i.items.all():
                     
-                items_li += """<li style="padding:10px;">
-								<a href="/category/{}"> 	
-								<img sty class="icon-category" src="{}" alt="Category" loading="lazy">
-									{}
-								</a>
-							</li>""".format( itm.slug,itm.image.url,itm.title)
-                    
+                # items_li += """<li><a href="/category/{}">{}</a></li>""".format(i.slug, i.title)
+                items_li += """ <li id='{}1' class="removblelist" >
+                            <a id="menu_tel"  >{}
+                                <img style="height: 15px;
+                                position: absolute;
+                                top: 15px;
+                                opacity:0.8;
+                                right: 5px;" src="/static/images/chev.png" alt="">
+                        </a>
+                            <ul>""".format(itt.title,i.title)
+                for itm in i.items.all():
+                        
+                    items_li += """<li style="padding:10px;">
+                                    <a href="/category/{}"> 	
+                                    <img sty class="icon-category" src="{}" alt="Category" loading="lazy">
+                                        {}
+                                    </a>
+                                </li>""".format( itm.slug,itm.image.url,itm.title)
+                        
 
-            items_li +="""</ul>
-					</li>"""
-        
-        else:   
-            items_li += """<li><a href="/category/{}">{}</a></li>""".format(i.slug, i.title)
+                items_li +="""</ul>
+                        </li>"""
+            
+            else:   
+                items_li += """<li><a href="/category/{}">{}</a></li>""".format(i.slug, i.title)
     
     return mark_safe(items_li )
 
@@ -163,9 +180,9 @@ def categories_mobile1():
     for i in items:
        items_li += """
         <li class="nav-item" style="width: 100px;">
-                            <a class="nav-link"   style="text-decoration: none;">{}</a>
+                            <a data-id="{}1" class="nav-link nav-link-phone"   style="text-decoration: none;">{}</a>
                         </li>
-       """.format(i.title)
+       """.format(i.title,i.title)
             
         
         

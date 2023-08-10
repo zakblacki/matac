@@ -200,6 +200,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                 slug=  new_slug,
                                 price=sellingPrice,
                                 discount_price=discountPrice,
+                                brand_name=brand_name,
                                 category=Category.objects.filter(title=categoryName).first(),
                                 label="N",
                                 article_id=article_id,

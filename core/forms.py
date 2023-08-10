@@ -126,4 +126,4 @@ class ImageUploadForm(forms.ModelForm):
     
     class Meta:
         model = Images_upload
-        fields = ('title', 'images')
+        fields = ('excel_related', 'images')
