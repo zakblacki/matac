@@ -8654,6 +8654,9 @@ aside+div .product-single .product-details {
   color: #222
 }
 
+.main-nav .menu > li{
+  font-size: medium;
+}
 .product-form select {
   min-width: 60px;
   max-width: none;

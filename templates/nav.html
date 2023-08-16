@@ -26,7 +26,10 @@
                     
                     <div class="tab tab-menu" style="min-width: 715px;padding-left: 10px;">
                         <ul class="nav nav-tabs" role="tablist" style="width: 40%;display: flex;
-						justify-content: space-between;">
+						justify-content: space-between;
+						position: relative;
+						left: 10px;
+						">
                             
 							{% gendercat as catgg %}
 							{% for catg in  catgg %}
@@ -177,7 +180,7 @@
 						padding: 4px;
 						font-weight: bolder;
 						color: #222;"
-						>Account</p>
+						>Profile</p>
                     </a>
 					{% else %}
 					<a href="/login" class="header-wrapicon1 dis-block">
@@ -208,7 +211,7 @@
 						padding: 4px;
 						font-weight: bolder;
 						color: #222;"
-						>Wishlist</p>
+						>Favoris</p>
                     </a>
 					 <span class="linedivide1" style="margin-left: 7px;
 					margin-right: 5px;"></span>
@@ -306,7 +309,7 @@ position: fixed;">
 						font-weight: bolder;
 						color: #222;
 						"
-						>Cart</p>
+						>Panier</p>
 						</a>
 					</div>
 					
@@ -353,7 +356,7 @@ position: fixed;">
 				</div> -->
 
 				<!-- Header Icon -->
-				<nav class="main-nav" style="width: 100%;">
+				<nav class="main-nav" style="width: 98%;">
 					    
 						 
 						   
@@ -647,7 +650,7 @@ position: fixed;">
 					</li>
 						{% if request.user.is_authenticated  %}
 						<li class="item-menu-mobile">
-							<a href="/profile">My Account</a>
+							<a href="/profile">Mon profile</a>
 						</li>
 						{% else %}
 						<li class="item-menu-mobile">

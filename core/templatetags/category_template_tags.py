@@ -114,7 +114,8 @@ def categories():
     
         items_li +="""<div class="header-search hs-simple">
 							<form action="/shop/" class="input-wrapper">
-								<input type="text" class="form-control" name="search" autocomplete="off" placeholder="&nbsp; &nbsp; &nbsp; &nbsp; Rechercher par mot clés..." required="">
+								<input type="text" class="form-control" name="search" autocomplete="off" placeholder="Rechercher par mot clés..." required="", style='
+                                border:none !important;border-bottom: 1px solid #222 !important'>
 								<button class="btn btn-search" type="submit">
 									<i class="d-icon-search"></i>
 								</button>

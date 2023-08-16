@@ -28,7 +28,7 @@
                         <a class="nav-link active" href="#dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#orders">Mes Commandes</a>
+                        <a class="nav-link" href="#orders" id="ordersclick">Mes Commandes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#account">Mes informations</a>
@@ -43,8 +43,17 @@
                             Hello {{request.user.username}}<span></span>
                         </p>
                         <p class="mb-8">
-                            Depuis votre Dashboard vous pouvez voir vos <a href="#orders" class="link-to-tab text-primary">Commandes recentes</a>, Modifier vos informations de commande et de livraison,<br>Modifier votre mot de passe
+                            Depuis votre Dashboard vous pouvez voir vos <a id="voirtb" href="#orders" class="link-to-tab text-primary">Commandes recentes</a>, Modifier vos informations de commande et de livraison,<br>Modifier votre mot de passe
                         </p>
+
+                        <script>
+                            document.getElementById("voirtb").addEventListener("click",function(e){
+                                e.preventDefault();
+                                console.log(this.href)
+                                document.getElementById("ordersclick").click()
+                            })
+                        </script>
+
                         <a href="/shop " class="btn btn-dark btn-rounded">Aller a la boutique<i class="d-icon-arrow-right"></i></a>
                     </div>
                     <div class="tab-pane" id="orders">
