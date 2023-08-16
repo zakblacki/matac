@@ -633,13 +633,14 @@
 						{% if  new_item.article_id|filtered_and_length:"," > 1 %}
 							<div class="product-color__badge--wheel img">
 								<div class="color-options">
-									<div>
+									<div style="width: 15px;">
+										
+										<!-- <span class="color-option"></span>
 										
 										<span class="color-option"></span>
-										
-										<span class="color-option"></span>
-										
-										
+										 -->
+										 <img src="{% static 'images/color.png' %}" alt="">
+
 										
 								</div>
 								<span class="color-variant-count">
@@ -671,7 +672,7 @@
 					&nbsp; 
 					<ins class="new-price price-block">{{new_item.discount_price}}DA</ins>
 					{% else %}
-					<ins class="new-price price-block">{{new_item.price}}DA</ins>
+					<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price}}DA</ins>
 					{% endif %}
 					</div>
 		
@@ -774,15 +775,16 @@
 			{% if  new_item.article_id|filtered_and_length:"," > 1 %}
 				<div class="product-color__badge--wheel img">
 					<div class="color-options">
-						<div>
+						<div style="width: 15px;">
+										
+							<!-- <span class="color-option"></span>
 							
 							<span class="color-option"></span>
+							 -->
+							 <img src="{% static 'images/color.png' %}" alt="">
+
 							
-							<span class="color-option"></span>
-							 
-							 
-							
-					</div>
+						</div>
 					<span class="color-variant-count">
 						{% if  new_item.article_id|filtered_and_length:"," > 1 %}
 							{{new_item.article_id|filtered_and_length:","}}
@@ -814,7 +816,7 @@
 										<ins class="new-price price-block">{{new_item.discount_price}}DA</ins>
 										{% else %}
 
-										<ins class="new-price price-block">{{new_item.price}}DA</ins>
+										<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price}}DA</ins>
 		{% endif %}
 	</div>
 	

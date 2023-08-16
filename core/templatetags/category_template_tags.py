@@ -1,7 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 
-from core.models import Category , Item , OrderItem, Order, TopCategory,GenderCategory
+from core.models import Category , Item , OrderItem, Order, TopCategory,GenderCategory,Banner_category
 
 register = template.Library()
 
@@ -76,6 +76,7 @@ def categories():
     context={} 
     items_li = ""
     items =GenderCategory.objects.all()
+    bannercat=Banner_category.objects.all()
     
         
         
@@ -87,16 +88,25 @@ def categories():
         else:
             items_li+="""<ul id="{}" class="menu" style="padding: 10px;display:none">""".format(i.title)
 
+        
         if i.categories.all():
-            for itml in i.categories.all():    
+            for itml in i.categories.all():  
+                banner_cat_target=Banner_category.objects.filter(category=itml)
+                banner_imgtag=""
+                for bann in banner_cat_target:
+                    banner_imgtag += """<div style="width:150px; margin-right:2px;margin-bottom:3px">
+                                <a href="{}"><img style="width:100%;height:100%" src="{}"></a>
+                                </div>""".format(bann.banner_link,bann.banner_image.url)
+                                
                 # items_li += """<li><a href="/category/{}">{}</a></li>""".format(i.slug, i.title)
                 items_li += """ <li class="submenu">
                             <a class="subcat-name" href="{}" role="button">{}</a>
                             <ul class="megamenu" aria-labelledby="navbarDropdown" >
                                 <div class="row " style="visibility: visible;">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-3" style="max-width:none !important">
                                         <ul class="two-column">""".format(itml.slug, itml.title)
                 for itm in itml.items.all():
+                    
                         
                     items_li += """<li class="mega-sub-cat">
                                 <a href="/category/{}">{}</a>
@@ -105,9 +115,11 @@ def categories():
 
                 items_li +="""</ul>
                                 </div>
+                                {}
+                                 
                                 </div>
                             </ul>
-                        </li>"""
+                        </li>""".format(banner_imgtag)
         
         else:   
             items_li += """<li><a href="{}">{}</a></li>""".format(i.slug, i.title)
