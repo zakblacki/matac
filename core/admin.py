@@ -390,10 +390,11 @@ admin.site.register(Order)
 admin.site.register(Coupon)
 admin.site.register(WishList)
 admin.site.register(TopCategory)
-admin.site.register(ShopHeader)
+# admin.site.register(ShopHeader)
 admin.site.register(Matacor_info)
 admin.site.register(Images_upload)
 
+admin.site.register(NewsLetterEmails)
 
  
  

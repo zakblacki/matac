@@ -3,7 +3,7 @@ from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Images_upload
+from .models import Images_upload,NewsLetterEmails
 
 
 PAYMENT_CHOICES = (
@@ -127,3 +127,5 @@ class ImageUploadForm(forms.ModelForm):
     class Meta:
         model = Images_upload
         fields = ('excel_related', 'images')
+        
+    

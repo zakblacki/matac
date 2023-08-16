@@ -367,3 +367,17 @@ class Images_upload(models.Model):
     
     def __str__(self):
         return "image" 
+
+class Faq(models.Model):
+    question=models.CharField(max_length=500)
+    answer=models.CharField(max_length=500)
+    
+    def __str__(self):
+        return self.question
+    
+    
+class NewsLetterEmails(models.Model):
+    email=models.EmailField()
+    def __str__(self):
+        return self.email
+    

@@ -188,6 +188,14 @@ def wishlist_view(request):
 
 def index(request):
     
+    try:
+        email_news=request.GET["email_newsletter"]
+        print(email_news)
+        NewsLetterEmails.objects.create(email=email_news)
+        
+    except:
+        pass
+    
     # Get a random selection of products
     try:
         items_most_sales = random.sample(list(Item.objects.filter(label="S",is_active=True)),50)
