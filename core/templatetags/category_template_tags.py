@@ -150,9 +150,12 @@ def categories_mobile():
         
                 
             if i.items.all():
-                    
+                if indx !=0:
+                    classadd="dis-none"
+                else:
+                    classadd=""    
                 # items_li += """<li><a href="/category/{}">{}</a></li>""".format(i.slug, i.title)
-                items_li += """ <li id='{}1' class="removblelist" >
+                items_li += """ <li id='{}1' class="removblelist {}" >
                             <a id="menu_tel"  >{}
                                 <img style="height: 15px;
                                 position: absolute;
@@ -160,7 +163,7 @@ def categories_mobile():
                                 opacity:0.8;
                                 right: 5px;" src="/static/images/chev.png" alt="">
                         </a>
-                            <ul>""".format(itt.title,i.title)
+                            <ul>""".format(itt.title,classadd,i.title)
                 for itm in i.items.all():
                         
                     items_li += """<li style="padding:10px;">
@@ -190,12 +193,21 @@ def categories_mobile1():
     
         
         
-    for i in items:
-       items_li += """
-        <li class="nav-item" style="width: 100px;">
-                            <a data-id="{}1" class="nav-link nav-link-phone"   style="text-decoration: none;">{}</a>
-                        </li>
-       """.format(i.title,i.title)
+    for index,i in enumerate(items):
+       
+        if index==0:
+           items_li += """
+                <li class="nav-item" style="width: 100px;">
+                                    <a data-id="{}1" class="nav-link nav-link-phone active"   style="text-decoration: none;">{}</a>
+                                </li>
+            """.format(i.title,i.title)
+        else:
+            items_li += """
+                <li class="nav-item" style="width: 100px;">
+                                    <a data-id="{}1" class="nav-link nav-link-phone"   style="text-decoration: none;">{}</a>
+                                </li>
+            """.format(i.title,i.title)
+            
             
         
         

@@ -625,9 +625,12 @@ position: fixed;">
 
 				 
 					<script>
-						Array.from(document.querySelectorAll(".nav-link-phone")).forEach(ele=>{
+ 						Array.from(document.querySelectorAll(".nav-link-phone")).forEach(ele=>{
 							ele.addEventListener("click",function(){
 								const idtar=this.dataset.id;
+								$(this).parent().siblings().children("a").removeClass("active")
+								this.classList.add("active")
+								
 								 
 								var targetelements = document.querySelectorAll("#"+idtar)
 								$(".removblelist").css({"display":"none"})

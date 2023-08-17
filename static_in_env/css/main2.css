@@ -229,6 +229,8 @@ input {
 .nav-item.show .nav-link,
 .nav-item:hover .nav-link {
   border-bottom-color: #26c;
+  color: #222 !important;
+  background: none !important;
 }
 
 .header-search.hs-simple {
@@ -14409,6 +14411,9 @@ color: #fff;
 
 
 @media (max-width:992px) {
+  .header-icons-noti{
+    top: -10px !important;
+  }
   .detail-attr-item{
     width: 100%;
   }
