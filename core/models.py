@@ -381,3 +381,12 @@ class NewsLetterEmails(models.Model):
     def __str__(self):
         return self.email
     
+    
+class Comments_and_Ratings(models.Model):
+    rating=models.FloatField(max_length=1)
+    comment=models.TextField(max_length=500)
+    product=models.ForeignKey(Item,on_delete=models.CASCADE)
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    def __str__(self):
+        return "comment of {}".format(self.user) 
+    

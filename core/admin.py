@@ -393,8 +393,8 @@ admin.site.register(TopCategory)
 # admin.site.register(ShopHeader)
 admin.site.register(Matacor_info)
 admin.site.register(Images_upload)
-
 admin.site.register(NewsLetterEmails)
+admin.site.register(Comments_and_Ratings)
 
  
  

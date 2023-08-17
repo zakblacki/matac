@@ -760,7 +760,13 @@
 						
 						
 						<a id="wishHeart" href="/wishlist-add/{{product.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-							<img src="/static/images/VSC.svg">
+							{% if product in wishlist %}
+							<img src="/static/images/PSC.svg">
+						{% else %}
+
+						<img src="/static/images/VSC.svg">
+
+						{% endif %}
 						</a>
 						 	
 								</div>

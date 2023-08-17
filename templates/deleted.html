@@ -1,0 +1,62 @@
+<div style="width: 100%;
+				margin: auto;
+				padding: 15px;margin-top: 100px;"
+				 class="wrap-dropdown-content bo7 p-t-15 p-b-14">
+					<h5 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
+						Additional information
+						<i class="down-mark fs-12 color1 fa fa-minus dis-none display-none" aria-hidden="true"></i>
+						<i class="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
+					</h5>
+
+					<div class="dropdown-content dis-none p-t-15 p-b-23">
+						<!-- <p class="s-text8">
+							{{object.description_long}}
+						</p> -->
+						<ul class="detail-attr-container">
+							<!-- {% for key, val in details.items %}
+							<li class="detail-attr-item">
+								<span>{{key}}</span> 
+								<span><b>{{val}}</b></span>
+							</li>
+							{% endfor %} -->
+
+						 
+							{% for key, value in details.items %}
+							 
+									 
+									{% if value != nan %}
+										<li  class="detail-attr-item">
+											<span>{{key}}</span> 
+											<span><b id="{{ key|slugify }}">{{value}}</b></span>
+										</li>
+										<script>
+											var element = document.getElementById("{{ key|slugify }}");
+											if (element.innerHTML == "nan") {
+												console.log(element.parentElement.parentElement.remove())
+											}
+										</script>
+									{% endif %}
+							 
+							{% endfor %}
+						 
+						</ul>
+					</div>
+				</div>
+
+				<div style="width: 100%;
+				margin: auto;
+				padding: 15px;"
+				 class="wrap-dropdown-content bo7 p-t-15 p-b-14">
+					<h5 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
+						<!-- Reviews (0) -->
+						Description
+						<i class="down-mark fs-12 color1 fa fa-minus dis-none display-none" aria-hidden="true"></i>
+						<i class="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
+					</h5>
+
+					<div class="dropdown-content dis-none p-t-15 p-b-23">
+						<p class="s-text8">
+							{{object.description_long|linebreaks}}
+						</p>
+					</div>
+				</div>

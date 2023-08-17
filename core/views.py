@@ -129,12 +129,21 @@ def wishlist_add_view(request,slug):
             except:
                 user_wish=[]
             if user_wish.first():
+                
                 user_wish =user_wish.first()
                 if item in user_wish.items.all():
                     
                     user_wish.items.remove(item)
+                    item.wishlist_num = item.wishlist_num - 1
+                     
+                    if item.wishlist_num <0:
+                        item.wishlist_num =0
+                    item.save()
                 else:
                     user_wish.items.add(item)
+                    item.wishlist_num = item.wishlist_num + 1
+                    
+                    item.save()
                     
                  
             else:
@@ -142,6 +151,8 @@ def wishlist_add_view(request,slug):
                     user= request.user,
                      
                 )
+                item.wishlist_num = item.wishlist_num + 1
+                item.save()
                 WishList.objects.get(
                     user= request.user,
                 ).items.add(item)
@@ -190,7 +201,6 @@ def index(request):
     
     try:
         email_news=request.GET["email_newsletter"]
-        print(email_news)
         NewsLetterEmails.objects.create(email=email_news)
         
     except:
@@ -431,13 +441,22 @@ class ShopView(ListView):
         paginator = Paginator(item, self.paginate_by)
         paginated_items = paginator.page(page_number)
         brands_list=list(Item.objects.values_list('brand_name', flat=True).distinct())
-
+    	
         context = {
             'object_list': paginated_items,
              'categories':Category.objects.all(),
              'header':ShopHeader.objects.first(),
              'brands_list':brands_list
         }
+        if  self.request.user.is_authenticated:
+          
+          
+            # context["wishlist"]=WishList.objects.filter(user=self.request.user).first().items.all()
+            
+            context["wishlist"]=list(WishList.objects.filter(user=self.request.user).first().items.all())
+        else:
+            context["wishlist"]=None
+        
         return render(self.request, "shop.html", context)             
 
 
@@ -472,7 +491,7 @@ def admin_upload(request):
                     
                      
                     
-                    print(title)
+
                     if not os.path.exists(image_path_up):
                         Images_upload.objects.create(excel_related=title, images=image)
                         shutil.move(realimg_path, media_root1)
@@ -538,6 +557,30 @@ class ItemDetailView(DetailView):
     model = Item
 
     template_name = "product-detail.html"
+    
+    def post(self, *args, **kwargs):
+        if self.request.method == "POST":
+           
+            findslug=self.request.POST["findslug"]
+            comment=self.request.POST["text"]
+            rate=self.request.POST["rating"]
+            product_tar=Item.objects.get(slug=findslug)
+            if not rate:
+                rate=0
+            if not comment:
+                comment=""
+            try:
+                Comments_and_Ratings.objects.create(
+                    user=self.request.user,
+                    rating=rate,
+                    comment=comment,
+                    product=product_tar
+                )
+            except:
+                pass
+            
+            
+            return redirect("/")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -547,7 +590,7 @@ class ItemDetailView(DetailView):
         context['images'] =ImageItem.objects.filter(slug=self.object.slug) 
         context["details"] =   ast.literal_eval(self.object.details)
         
-        
+        context["comments"] =   Comments_and_Ratings.objects.filter(product=self.object.id)
         
         context["colors_item"] = Item.objects.filter(article_id=self.object.article_id)
         
@@ -730,7 +773,7 @@ class CategoryView(ListView):
                 
                     
             else:
-                print("no req")
+                
                 item = self.get_queryset().filter(category=category, is_active=True)
                  
 
@@ -749,7 +792,7 @@ class CategoryView(ListView):
         paginated_items = paginator.page(page_number)
         
         listbrand=list(Item.objects.values_list('brand_name', flat=True).distinct())
-        print(listbrand)
+       
         context = {
             'object_list': paginated_items,
             'brand_list':listbrand,
@@ -759,6 +802,14 @@ class CategoryView(ListView):
             'banners':banners,
             'categories':Category.objects.all()
         }
+        if  self.request.user.is_authenticated:
+          
+          
+            # context["wishlist"]=WishList.objects.filter(user=self.request.user).first().items.all()
+            
+            context["wishlist"]=list(WishList.objects.filter(user=self.request.user).first().items.all())
+        else:
+            context["wishlist"]=None
         return render(self.request, "category.html", context)
 
 

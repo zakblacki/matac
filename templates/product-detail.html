@@ -180,9 +180,9 @@
 								}
 							</style>
 							<span class="ratings " ></span>
-							<span class="tooltiptext tooltip-top">0</span>
+							<span class="tooltiptext tooltip-top">{{object.rating}}</span>
 						</div>
-						<a href="#product-tab-reviews" class="link-to-tab rating-reviews">( {{object.opinion_num|floatformat:0}} Avis )</a>
+						<a href="#product-tab-reviews" class="link-to-tab rating-reviews">( {{comments|length}} Avis )</a>
 						
 						<img src="/static/images/VSC.svg" class="head-heart" style="width:30px; height:30px;">
 						<a href="#product-tab-reviews" class="link-to-tab rating-reviews">{{object.wishlist_num|floatformat:0}}</a>
@@ -538,80 +538,71 @@ itemLinks.forEach(itemLink => {
 
 			 
 
-				<div style="width: 100%;
-				margin: auto;
-				padding: 15px;margin-top: 100px;"
-				 class="wrap-dropdown-content bo7 p-t-15 p-b-14">
-					<h5 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
-						Additional information
-						<i class="down-mark fs-12 color1 fa fa-minus dis-none display-none" aria-hidden="true"></i>
-						<i class="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
-					</h5>
-
-					<div class="dropdown-content dis-none p-t-15 p-b-23">
-						<!-- <p class="s-text8">
-							{{object.description_long}}
-						</p> -->
-						<ul class="detail-attr-container">
-							<!-- {% for key, val in details.items %}
-							<li class="detail-attr-item">
-								<span>{{key}}</span> 
-								<span><b>{{val}}</b></span>
-							</li>
-							{% endfor %} -->
-
-						 
-							{% for key, value in details.items %}
-							 
-									 
-									{% if value != nan %}
-										<li  class="detail-attr-item">
-											<span>{{key}}</span> 
-											<span><b id="{{ key|slugify }}">{{value}}</b></span>
-										</li>
-										<script>
-											var element = document.getElementById("{{ key|slugify }}");
-											if (element.innerHTML == "nan") {
-												console.log(element.parentElement.parentElement.remove())
-											}
-										</script>
-									{% endif %}
-							 
-							{% endfor %}
-						 
-						</ul>
-					</div>
-				</div>
-
-				<div style="width: 100%;
-				margin: auto;
-				padding: 15px;"
-				 class="wrap-dropdown-content bo7 p-t-15 p-b-14">
-					<h5 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
-						<!-- Reviews (0) -->
-						Description
-						<i class="down-mark fs-12 color1 fa fa-minus dis-none display-none" aria-hidden="true"></i>
-						<i class="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
-					</h5>
-
-					<div class="dropdown-content dis-none p-t-15 p-b-23">
-						<p class="s-text8">
-							{{object.description_long|linebreaks}}
-						</p>
-					</div>
-				</div>
+				
 			</div> 
 		</div>
 	</div>
 
+	<div class="tab tab-nav-simple product-tabs pt-4"  style="padding: 8px;min-height:115vh">
+		<ul class="nav nav-tabs d-flex justify-content-center" style="width:auto;" role="tablist">
+			<li class="nav-item mr-auto ml-auto">
+				<a class="nav-link navvlink active" style="text-decoration: none;background: none;" href="#product-tab-description">Déscription</a>
+			</li>
+			<li class="nav-item mr-auto ml-auto">
+				<a class="nav-link navvlink" style="text-decoration: none;background: none;" href="#product-tab-additional">Caractéristiques</a>
+			</li>					
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active in" id="product-tab-description">
+				{{object.description_long|linebreaks}}
+			</div>
+			<div class="tab-pane " id="product-tab-additional" style="min-height: 250px;">
+				<ul class="detail-attr-container">
+					
+					{% for key, value in details.items %}
+					 
+							 
+							{% if value != nan %}
+								<li  class="detail-attr-item">
+									<span>{{key}}</span> 
+									<span><b id="{{ key|slugify }}">{{value}}</b></span>
+								</li>
+								<script>
+									var element = document.getElementById("{{ key|slugify }}");
+									if (element.innerHTML == "nan") {
+										console.log(element.parentElement.parentElement.remove())
+									}
+								</script>
+							{% endif %}
+					 
+					{% endfor %}
+				 
+				</ul>
+			</div>
+			<script>
+				Array.from(document.querySelectorAll(".nav-link")).forEach(tab=>{
+					tab.addEventListener("click",function(){
+						 
+						$(this).addClass("active")
+						$(this).parent().siblings().children("a").removeClass("active")
 
+						var detid=tab.href.split("#")[tab.href.split("#").length-1]
+						$(document.getElementById(detid)).addClass("active in")
+						$(document.getElementById(detid)).siblings().removeClass("active in")
+						
+					})
+				})
+			</script>
+		</div>
+	</div>
 	<!-- Relate Product -->
-	<section class="relateproduct bgwhite p-t-45 p-b-138">
+	 
+	<section class="relateproduct bgwhite p-t-5 p-b-138">
 		<div class="container">
-			<div class="sec-title p-b-60">
-				<h3 class="m-text5 t-center">
+			<div class="sec-title   p-t-40">
+				<h2 class="m-text5">
 					Related Products
-				</h3>
+				</h2>
 			</div>
 			<div class="owl-carousel551 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
 				'nav': true,
@@ -762,7 +753,99 @@ itemLinks.forEach(itemLink => {
 		  </script>
 	</section>
 
+	<div style="padding: 10px;" class="tab tab-nav-simple product-tabs pt-4">
+		<ul class="nav nav-tabs justify-content-center" style="width:auto;" role="tablist">
+			<li class="nav-item">
+				<a style="background: none;border-bottom: 3px solid transparent !important;
+				border-bottom-color: transparent;
+			  border-bottom-color: transparent !important;
+			  background-color: transparent;
+			  border-bottom-color: #26c !important;" class="nav-link active" href="#product-tab-reviews">Avis ({{comments|length}})</a> 
+			</li>
+		</ul>     
+		<div class="tab-content">
+		
+			<div class="tab-pane active in" id="product-tab-reviews">
+				<div class="comments mb-8 pt-2 pb-2 border-no">
+					<ul>
+						{% for comment in comments %}
+						<li>
+							<div class="comment">
+										<figure class="comment-media">
+												<img src="{% static 'images/avatar.png' %}" alt="photo" loading="lazy">
+										</figure> 
 
+								<div class="comment-body">
+									<div class="comment-rating ratings-container mb-0">
+										<div class="ratings-full">
+											
+											<span class="ratings " style="width:{{ comment.rating|mul:20 }}%"></span>
+											
+											<span class="tooltiptext tooltip-top">{{comment.rating}}</span>
+										</div>
+									</div>
+									
+									<div class="comment-user">
+										<span class="comment-date text-body">17 août 2023 11:27</span>
+										
+										<h4>salem</h4>
+									</div>
+									 
+								
+									<div class="comment-content">
+										<p>{{comment.comment}}</p>
+									</div>
+								</div>
+							</div>
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+				
+					{% if request.user.is_authenticated %}
+
+					<form method="POST" action=".">
+						{% csrf_token %}
+					   <div class="reply">
+						   <div class="title-wrapper text-left">
+							   <h3 class="title title-simple text-left text-normal">Ajouter</h3>
+						   </div>
+						   <div class="rating-form">
+							   <label for="rating" class="text-dark" required="required">Votre note * </label>
+							   <span class="rating-stars selected" required="required">
+								   <a class="star-1" href="#">1</a>
+								   <a class="star-2" href="#">2</a>
+								   <a class="star-3" href="#">3</a>
+								   <a class="star-4" href="#">4</a>
+								   <a class="star-5" href="#">5</a>
+							   </span>
+							   <select name="rating" id="rating" required="required" style="display: none;">
+								   <option value="">Note...
+								   </option><option value="5">Trés Bon
+								   </option><option value="4">Bon
+								   </option><option value="3">Normal
+								   </option><option value="2">Pas Top
+								   </option><option value="1">Mauvais
+							   </option></select>
+						   </div>
+							   <textarea id="reply-message" name="text" cols="30" rows="6" class="form-control mb-4" placeholder="Commentaire *" required="required"></textarea>											
+							   <input type="text" hidden="true" name="findslug" value="{{object.slug}}"> 
+							   
+
+							   
+							   <div class="form-checkbox mb-4">
+								   <input type="checkbox" class="custom-checkbox" id="signin-remember" name="signin-remember">
+							   </div>
+						   </div>
+							   <button type="submit" class="btn btn-primary btn-rounded">Confirmer</button>
+							   
+					   </form>
+					{% else %}
+					<a href="/login"> <span style="font-weight:bold;">Connectez-vous</span> pour rédiger un commentaire.</a>
+					{% endif %}
+			</div>
+		</div>
+	</div>
 	<!-- Footer -->
 	
 
@@ -900,6 +983,23 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		})
 		
+		
+
+		Array.from(document.querySelectorAll(".rating-stars a")).forEach(aele=>{
+			aele.addEventListener("click",function(e){
+			e.preventDefault()
+			var selectElement=document.getElementById("rating")
+			var desiredValue=this.classList[0].split("-")[1]
+			for (var i = 0; i < selectElement.options.length; i++) {
+			if (selectElement.options[i].value === desiredValue) {
+				selectElement.options[i].selected = true; // Set the option as selected
+				break; // Exit the loop once the desired option is found
+			}
+			}
+			$(this).siblings().removeClass("active")
+			this.classList.add('active')
+		})
+		})
 		
 	</script>
 	
