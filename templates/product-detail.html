@@ -2,6 +2,7 @@
 {% load static %}
 {% load mathfilters %}
 {% load custom_filters %}
+{% block head_title %}{{object.title}}{% endblock %}
 {% block content %}
 
 	<!-- breadcrumb -->
@@ -596,7 +597,7 @@ itemLinks.forEach(itemLink => {
 		</div>
 	</div>
 	<!-- Relate Product -->
-	 
+	{% if relate_pros %} 
 	<section class="relateproduct bgwhite p-t-5 p-b-138">
 		<div class="container">
 			<div class="sec-title   p-t-40">
@@ -752,7 +753,7 @@ itemLinks.forEach(itemLink => {
 			});
 		  </script>
 	</section>
-
+	{% endif %}
 	<div style="padding: 10px;" class="tab tab-nav-simple product-tabs pt-4">
 		<ul class="nav nav-tabs justify-content-center" style="width:auto;" role="tablist">
 			<li class="nav-item">

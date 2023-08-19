@@ -45,6 +45,10 @@ class Slide(models.Model):
 
     def __str__(self):
         return "{} - {}".format(self.caption1, self.caption2)
+    
+    class Meta:
+        verbose_name = "Ajouter un Slide avec text et lien"
+        verbose_name_plural = "Ajouter des Slides avec texts et liens"
 
 
 
@@ -60,6 +64,10 @@ class Essential(models.Model):
 
     def __str__(self):
         return "{} - {}".format(self.line1, self.price)
+    
+    class Meta:
+        verbose_name = "Ajouter un banner au centre de la page Home"
+        verbose_name_plural = "Ajouter des banners au centre de la page Home"
 
 
 
@@ -80,6 +88,10 @@ class Category(models.Model):
         return reverse("core:category", kwargs={
             'slug': self.slug
         })
+    
+    class Meta:
+        verbose_name = "Ajouter un categorie relie à des produit"
+        verbose_name_plural = "Ajouter des categories relie à des produit"
 
 class ExcelFile(models.Model):
     name = models.CharField(max_length=100)
@@ -88,6 +100,10 @@ class ExcelFile(models.Model):
     
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = "Ajouter des Produits à partir d'un fichier excel"
+        verbose_name_plural = "Ajouter des Produits à partir d'un fichier excel"
 
  
 
@@ -106,7 +122,7 @@ class Item(models.Model):
     stock_no = models.CharField(max_length=10)
     description_short = models.CharField(max_length=100)
     description_long = models.TextField()
-    details = models.CharField(max_length=1500,default="{'color':'black'}")
+    details = models.CharField(max_length=1500,default="{'color':''}")
     tags=models.TextField()
     rating = models.FloatField(blank=True, null=True, 
     validators=[MaxValueValidator(limit_value=5.0)],
@@ -158,7 +174,9 @@ class Item(models.Model):
         return reverse("core:remove-from-cart", kwargs={
             'slug': self.slug
         })
-
+    class Meta:
+        verbose_name = "Ajouter Produit"
+        verbose_name_plural = "Ajouter Produits"
      
 
    
@@ -178,6 +196,10 @@ class ImageItem(models.Model):
 
     def __str__(self):
         return self.item.title
+    
+    class Meta:
+        verbose_name = "Ajouter Image de Produit"
+        verbose_name_plural = "Ajouter Images des Produits"
     
 
 class OrderItem(models.Model):
@@ -212,6 +234,9 @@ class OrderItem(models.Model):
             return self.get_total_discount_item_price()
         return self.get_total_item_price()
 
+    class Meta:
+        verbose_name = "la Commande dans un panier"
+        verbose_name_plural = "les Commandes dans les paniers non confirmée"
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -256,6 +281,9 @@ class Order(models.Model):
         if self.coupon:
             total -= self.coupon.amount
         return total
+    class Meta:
+        verbose_name = "la Commande confirmée"
+        verbose_name_plural = "les Commandes confirmées"
 
 
 class BillingAddress(models.Model):
@@ -292,6 +320,10 @@ class Coupon(models.Model):
 
     def __str__(self):
         return self.code
+    
+    class Meta:
+        verbose_name = "Ajouter Un coupon pour un produit"
+        verbose_name_plural = "Ajouter Un coupon pour un produit"
 
 
 class Refund(models.Model):
@@ -310,6 +342,13 @@ class Refund(models.Model):
 class WishList(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE)
     items=  models.ManyToManyField(Item)
+    
+    
+    def __str__(self):
+        return self.user
+    class Meta:
+        verbose_name = "utilisateur avec sa wishlists"
+        verbose_name_plural = "utilisateurs avec leurs wishlists"
 
 
 class TopCategory(models.Model):
@@ -318,7 +357,11 @@ class TopCategory(models.Model):
     slug = models.CharField( max_length=190)
     
     def __str__(self):
-        return "{} - category".format(self.title) 
+        return "{} - category".format(self.title)
+    class Meta:
+        verbose_name = "Ajouter un category ex(Vettements,collections..)"
+        verbose_name_plural = "Ajouter un category ex(Vettements,collections..)"
+    
 
 
 class GenderCategory(models.Model):
@@ -328,6 +371,10 @@ class GenderCategory(models.Model):
 
     def __str__(self):
         return "{} - gender category".format(self.title)
+    
+    class Meta:
+        verbose_name = "Ajouter Gender category ex(hommes,femmes..)"
+        verbose_name_plural = "Ajouter Gender category ex(hommes,femmes..)"
     
     
     
@@ -340,6 +387,10 @@ class Banner_category(models.Model):
     
     def __str__(self):
         return self.category.title
+    
+    class Meta:
+        verbose_name = "Ajouter un banner image pour un category ex(vettements, collection)"
+        verbose_name_plural = "Ajouter un banner image pour un category  ex(vettements, collection)"
     
 
 class ShopHeader(models.Model):
@@ -360,13 +411,21 @@ class Matacor_info(models.Model):
     def __str__(self):
         return self.name_owner
     
+    class Meta:
+        verbose_name = "Matacor information "
+        verbose_name_plural = "Matacor informations (ccp/email,tel...)"
+    
     
 class Images_upload(models.Model):
     excel_related=models.ForeignKey(ExcelFile, on_delete=models.CASCADE)
     images = models.ImageField(upload_to='images_upload_product/')
     
     def __str__(self):
-        return "image" 
+        return "image"
+    class Meta:
+        verbose_name = "pour l'upload des mutiples images visite /images/upload/"
+        verbose_name_plural = "pour l'upload des mutiples images visite /images/upload/"
+    
 
 class Faq(models.Model):
     question=models.CharField(max_length=500)
@@ -374,12 +433,19 @@ class Faq(models.Model):
     
     def __str__(self):
         return self.question
+    class Meta:
+        verbose_name = "Question & Answer"
+        verbose_name_plural = "Questions & Answers"
     
     
 class NewsLetterEmails(models.Model):
     email=models.EmailField()
     def __str__(self):
         return self.email
+    
+    class Meta:
+        verbose_name = "NewsLetter Email"
+        verbose_name_plural = "NewsLetter Emails"
     
     
 class Comments_and_Ratings(models.Model):
@@ -388,5 +454,9 @@ class Comments_and_Ratings(models.Model):
     product=models.ForeignKey(Item,on_delete=models.CASCADE)
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     def __str__(self):
-        return "comment of {}".format(self.user) 
+        return "comment of {}".format(self.user)
+    
+    class Meta:
+        verbose_name = "commentaire de chaque produit"
+        verbose_name_plural = "commentaires de chaque produit"
     

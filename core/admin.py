@@ -218,7 +218,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                 size_not_exist=sizes_not_exist,
                                 wishlist_num=0,
                                 opinion_num=0,
-                                shipping="2 days",
+                                shipping=delivery,
 
 
                             )

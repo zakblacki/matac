@@ -329,6 +329,7 @@ class ShopView(ListView):
     template_name = "shop.html"
     
     def get(self, *args, **kwargs):  
+        searchtext=""
         filtermeth=""  
         brand_qry=Q()
         try:
@@ -374,6 +375,7 @@ class ShopView(ListView):
                     else:
                         
                         if get_key == "search":
+                            searchtext=get_val
                             
                             if get_val != "" :
                                 
@@ -446,7 +448,8 @@ class ShopView(ListView):
             'object_list': paginated_items,
              'categories':Category.objects.all(),
              'header':ShopHeader.objects.first(),
-             'brands_list':brands_list
+             'brands_list':brands_list,
+             "searchtext":searchtext
         }
         if  self.request.user.is_authenticated:
           

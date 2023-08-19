@@ -3,7 +3,7 @@
 <html lang="en">
   {% include "header.html" %}
 
-  <title>{% block head_title %}{% endblock %}</title>
+  <title>Matacor-{% block head_title %}{% endblock %}</title>
   {% block extra_head %} {% endblock %}
   <style type="text/css">
     .form-control {
@@ -25,7 +25,9 @@
   <body class="animsition" >
     {% include "nav.html"%}
     <div class="overlay_div">
-      
+      <a class="mobile-menu-close" href="#" style="opacity: 1;">
+        <i class="d-icon-times"></i>
+      </a>
     </div>
     <div class="overlay_div12">
       
@@ -60,7 +62,63 @@
 
      {% block extra_body %} 
      {% endblock %} 
-     <section class="shipping bgwhite p-t-62 p-b-20">
+     <!-- <div id="notification-container">
+      <div id="notification">
+          <div id="notification-content">
+              Your notification message here.
+          </div>
+          <div id="notification-timer"></div>
+      </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const notificationTimer = document.getElementById("notification-timer");
+    const notificationContainer = document.getElementById("notification-container");
+    function showNotification() {
+        notificationContainer.style.transform = "translateX(0)";
+        notificationTimer.style.opacity = 1;
+    }
+
+    
+    function hideNotification() {
+        notificationTimer.style.backgroundColor = "transparent";
+        
+        notificationContainer.style.transform = "translateX(100%)";
+        notificationTimer.style.opacity = 0;
+        setTimeout(() => {
+            notificationContainer.style.display = "none";
+        }, 500);
+        clearTimeout(hideTimeout);
+    }
+    function startTimer(duration) {
+        let startTime = Date.now();
+        
+        function updateTimer() {
+            const currentTime = Date.now();
+            const elapsed = currentTime - startTime;
+            const remaining = Math.max(0, duration - elapsed);
+            
+            const percentage = (remaining / duration) * 100;
+            notificationTimer.style.width = `${percentage}%`;
+            
+            if (remaining === 0) {
+                notificationTimer.style.backgroundColor = "transparent";
+                clearTimeout(timerInterval);
+            }
+        }
+        
+        const timerInterval = setInterval(updateTimer, 100);
+        updateTimer(); // Initial call
+    }
+
+    // Set the duration for the timer in milliseconds
+    const timerDuration = 4000; // 4 seconds
+    startTimer(timerDuration);
+    showNotification();
+    const hideTimeout = setTimeout(hideNotification, timerDuration);
+});
+  </script> -->
+     <section class="shipping bgwhite p-t-15 p-b-15" style="box-shadow: 0 5px 30px rgba(0, 0, 0, .07);">
       <div  class="flex-w p-l-15 p-r-15">
         <div  style="display: flex;flex-direction: row;" class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1">
           <div style="margin-left: 26px;">			

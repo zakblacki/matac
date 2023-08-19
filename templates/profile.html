@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
+{% block head_title %}Profile{% endblock %}
 {% block content %}
 
 
@@ -40,7 +40,7 @@
                 <div class="tab-content col-lg-9 col-md-8">
                     <div class="tab-pane active in" id="dashboard">
                         <p class="mb-0">
-                            Hello {{request.user.username}}<span></span>
+                            Salut {{request.user.username}}<span></span>
                         </p>
                         <p class="mb-8">
                             Depuis votre Dashboard vous pouvez voir vos <a id="voirtb" href="#orders" class="link-to-tab text-primary">Commandes recentes</a>, Modifier vos informations de commande et de livraison,<br>Modifier votre mot de passe
