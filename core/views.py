@@ -809,8 +809,10 @@ class CategoryView(ListView):
           
           
             # context["wishlist"]=WishList.objects.filter(user=self.request.user).first().items.all()
-            
-            context["wishlist"]=list(WishList.objects.filter(user=self.request.user).first().items.all())
+            try:
+                context["wishlist"]=list(WishList.objects.filter(user=self.request.user).first().items.all())
+            except:
+                context["wishlist"]=[]
         else:
             context["wishlist"]=None
         return render(self.request, "category.html", context)
