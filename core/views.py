@@ -332,6 +332,7 @@ class ShopView(ListView):
         searchtext=""
         filtermeth=""  
         brand_qry=Q()
+        topcatsearch=Q()
         try:
             
             
@@ -409,6 +410,18 @@ class ShopView(ListView):
                             brand_qry |=Q(brand_name__iexact=get_val)
                            
                             combined_query3 |= brand_qry
+                        
+                        if "topcat" == get_key:
+                            separted=get_val.split('_')
+                            
+                            for valslug in separted[1:]:
+                                catitem =Category.objects.filter(slug=valslug).first()
+                                topcatsearch |= Q(category=catitem)
+                                
+                                 
+                                
+
+                                
                             
                     
                 if query_srch :
@@ -419,9 +432,11 @@ class ShopView(ListView):
                 
                 if brand_qry:
                     comb_final = comb_final & brand_qry
-                
+                if topcatsearch :
+                    
+                    comb_final = comb_final & topcatsearch
                 item= self.get_queryset().filter(comb_final,is_active=True)
-
+                 
                 if filtermeth:
                      
                     
@@ -663,6 +678,7 @@ class CategoryView(ListView):
     def get(self, *args, **kwargs):
         category = Category.objects.get(slug=self.kwargs['slug'])
         combined_query = Q()
+        topcatsearch=Q()
         filtermeth=""
         bannertarg=[]
         banners=[]
@@ -742,7 +758,8 @@ class CategoryView(ListView):
                             
                         if "brand" == get_key:
                             brand_qry |= Q(brand_name__iexact=get_val)
-                            
+                        
+                        
                         
                              
                             
@@ -800,7 +817,7 @@ class CategoryView(ListView):
             'object_list': paginated_items,
             'brand_list':listbrand,
             'category_title': category,
-            'category_description': category.description,
+            'category_description': "",
             'category_image': category.image.url,
             'banners':banners,
             'categories':Category.objects.all()

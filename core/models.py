@@ -76,7 +76,6 @@ class Essential(models.Model):
 class Category(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(unique=True,max_length=190)
-    description = models.TextField()
     image = models.ImageField()
     is_active = models.BooleanField(default=True)
      

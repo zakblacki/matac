@@ -375,10 +375,27 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ['title', 'is_active']
     prepopulated_fields = {"slug": ("title",)}
 
+class CategoryGenTopAdmin(admin.ModelAdmin):
+    
+    
+    prepopulated_fields = {"slug": ("title",)}
+    
+    def save_model(self, request, obj, form, change):
+        if obj.title.lower() in ["hommes", "homme","man","men"]:
+            obj.slug = "/shop?gender=M"
+        elif obj.title.lower() in ["femmes", "femme","women","woman"]:
+            obj.slug = "/shop?gender=F"
+        elif obj.title.lower() in ["femmes", "femme","women","woman"]:
+            obj.slug = "/shop?gender=E"
+        else:
+            slug1="/shop?topcat="
+            for item in obj.items.all():
+                slug1 += "_" +item.slug
+            obj.slug=slug1 
+        super().save_model(request, obj, form, change)
 
 
-
-admin.site.register(GenderCategory)
+admin.site.register(GenderCategory,CategoryGenTopAdmin)
 admin.site.register(ImageItem)
 admin.site.register(Banner_category)
 admin.site.register(Item, ItemAdmin)
@@ -389,7 +406,7 @@ admin.site.register(OrderItem)
 admin.site.register(Order)
 admin.site.register(Coupon)
 admin.site.register(WishList)
-admin.site.register(TopCategory)
+admin.site.register(TopCategory,CategoryGenTopAdmin)
 # admin.site.register(ShopHeader)
 admin.site.register(Matacor_info)
 admin.site.register(Images_upload)
