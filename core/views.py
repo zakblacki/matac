@@ -215,7 +215,10 @@ def index(request):
         items_most_new = random.sample(list(Item.objects.filter(label="N",is_active=True)), 50)
     except:
         items_most_new =  Item.objects.filter(label="N",is_active=True) 
-
+    try:
+        items_promo=random.sample(list(random.sample(list(Item.objects.filter(label="P",is_active=True)), 50)), 50)
+    except:
+        items_promo=Item.objects.filter(label="P",is_active=True)
     try:
         wishlist =WishList.objects.get(user=request.user).items.all()
     except:
@@ -226,6 +229,7 @@ def index(request):
         "items":Item.objects.filter(is_active=True),
         "category":Category.objects.filter(is_active=True),
         "new_items":items_most_new,
+        "promo_items":items_promo,
         "most_sale":items_most_sales,
         "essentials":Essential.objects.filter(is_active=True),
         "wishedlist":wishlist
@@ -333,6 +337,7 @@ class ShopView(ListView):
         filtermeth=""  
         brand_qry=Q()
         topcatsearch=Q()
+        color=None
         try:
             
             
@@ -348,6 +353,7 @@ class ShopView(ListView):
                 combined_query2=Q()
                 combined_query3=Q()
                 combined_query5=Q()
+                combined_color=Q()
                 query_srch=Q()
                 
                  
@@ -411,6 +417,14 @@ class ShopView(ListView):
                            
                             combined_query3 |= brand_qry
                         
+                        if "color" == get_key:
+                             
+                            color =get_val
+                            # brand_qry |=Q(brand_name__iexact=get_val)
+                            
+                            combined_color |= "brand_qry"
+                        
+                        
                         if "topcat" == get_key:
                             separted=get_val.split('_')
                             
@@ -449,6 +463,15 @@ class ShopView(ListView):
 
         except:
             item = self.get_queryset().filter( is_active=True)
+        
+        if color:
+            listupdated= []
+            color=color.split("-")
+            for clr,itm in zip(color,item):
+                if clr in itm.details :
+                    listupdated.append(itm)
+                    
+            item=listupdated
         
         try:
             page_number = int(self.request.GET.get('page'))

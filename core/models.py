@@ -17,9 +17,9 @@ CATEGORY_CHOICES = (
 )
 
 LABEL_CHOICES = (
-    ('S', 'sale'),
-    ('N', 'new'),
-    ('P', 'promotion')
+    ('S', 'Meilleur vente'),
+    ('N', 'Nouveau'),
+    ('P', 'Promotion')
 )
 
 LABEL_CHOICES_GENDER=(

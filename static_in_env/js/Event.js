@@ -5,8 +5,13 @@ document.getElementById('img-container').addEventListener('mouseover', function(
 
 function imageZoom(imgID){
 	let img = document.getElementById(imgID)
-	let lens = document.getElementById('lens')
+	let lens = document.getElementById('img_lens_zoom')
+	let lens1 = document.getElementById('lens')
 
+
+	img.addEventListener("mouseout", function(){
+		lens.style.display = "none"
+	});
 	lens.style.backgroundImage = `url( ${img.src} )`
 
 	let ratio = 3
@@ -146,8 +151,8 @@ function imageZoom(imgID){
 
 
 		//3
-		lens.style.left = positionLeft + 'px';
-		lens.style.top = positionTop + 'px';
+		// lens.style.left = positionLeft + 'px';
+		// lens.style.top = positionTop + 'px';
 
 		//4
 		lens.style.backgroundPosition = "-" + (pos.x * ratio) + 'px -' +  (pos.y * ratio) + 'px'

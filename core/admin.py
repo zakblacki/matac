@@ -385,13 +385,16 @@ class CategoryGenTopAdmin(admin.ModelAdmin):
             obj.slug = "/shop?gender=M"
         elif obj.title.lower() in ["femmes", "femme","women","woman"]:
             obj.slug = "/shop?gender=F"
-        elif obj.title.lower() in ["femmes", "femme","women","woman"]:
+        elif obj.title.lower() in ["enfants", "enfant","kids","kid"]:
             obj.slug = "/shop?gender=E"
         else:
             slug1="/shop?topcat="
-            for item in obj.items.all():
-                slug1 += "_" +item.slug
-            obj.slug=slug1 
+            try:
+                for item in obj.items.all():
+                    slug1 += "_" +item.slug
+                obj.slug=slug1 
+            except:
+                obj.slug = obj.title
         super().save_model(request, obj, form, change)
 
 

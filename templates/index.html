@@ -69,7 +69,7 @@
 </style>
 
 	<!-- Slide1 -->
-	<section class="slide1">
+	<section class="slide1 pt-3" style="padding: 7px;">
 		<div class="wrap-slick1">
 			<div class="slick1">
 
@@ -131,8 +131,8 @@
 	<script>
 		$(document).ready(function(){
 		  $(".owl-carousel").owlCarousel({
-			items: 4, // Display 4 items in a line
-			loop: false,
+			items: 7, // Display 4 items in a line
+			loop: true,
 			margin: 10,
 			nav: true,
 			dots: true,
@@ -144,7 +144,7 @@
 				items: 4 // Display 2 items on screens wider than 600px
 			  },
 			  1000: {
-				items:5 // Display 4 items on screens wider than 1000px
+				items:7 // Display 4 items on screens wider than 1000px
 			  }
 			}
 		  });
@@ -152,30 +152,9 @@
 	  </script>
 	<section class="container mb-8">
 		<br>
-		<h2 class="title with-link appear-animate mb-5 text-center fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;margin-left: 10px;text-transform: uppercase;">Catégorie</h2> 
-	   <div class="owl-carousel owl-theme owl-nav-inner mb-8 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
-		   'nav': false,
-		   'loop':false
-		   'dots': true,
-		   'margin': 0,
-		   'responsive': {
-			   '0': {
-				   'items': 4
-			   },
-			   '576': {
-				   'items': 4
-			   },
-			   '768': {
-				   'items': 4
-			   },
-			   '992': {
-				   'items': 4
-			   },
-			   '1200': {
-				   'items': 4
-			   }
-		   }
-	   }" style="animation-duration: 1.2s;">
+		<h2 class="title with-link appear-animate mb-5 text-center fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;margin-left: 10px;text-transform: uppercase;display: block;font-family: 'Roboto Condensed-bold', sans-serif !important;
+		font-weight: lighter !important;color: #707070 !important;">Catégorie tendance</h2> 
+	   <div class="owl-carousel owl-theme owl-nav-inner mb-8 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}"   style="animation-duration: 1.2s;">
  
 	<div class="owl-stage-outer">
 		<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 809px;">
@@ -202,7 +181,9 @@
 		
 		</div>
 	</div>
-	<div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i class="d-icon-angle-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="d-icon-angle-right"></i></button></div><div class="owl-dots disabled"><button role="button" class="owl-dot active"><span></span></button></div></div>
+	 
+	 
+</div>
    </section>
    
  
@@ -297,7 +278,8 @@
 	{% if essentials %}
 	<section class="banner2 bg5">
 		
-		<h4 class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" style="text-transform: uppercase;">Season's Essentials</h4>
+		<h4 class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" style="text-transform: uppercase;font-family: 'Roboto Condensed-bold', sans-serif !important;
+		font-weight: lighter !important;color: #707070 !important;">Season's Essentials</h4>
 		<div class="">
 			<div class="row" style="height: 500px;">
 				
@@ -578,10 +560,151 @@
 
 		</div>
 	</section> -->
+	{% if promo_items %}
+	<section class="container  ">
+		
+		<h2 style="padding-left: 10px;font-family: 'Roboto Condensed-bold', sans-serif !important;
+		font-weight: lighter !important;color: #707070 !important;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">Promotion</h2>
+	<div class="owl-carousel1 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}"   style="animation-duration: 1.2s;" data-owl-options="{
+		'nav': true,
+		'dots': true,
+		'loop':false,
+		'margin':0,
+		'responsive': {
+			'0': {
+				'items': 2
+			},
+			'576': {
+				'items': 2
+			},
+			'768': {
+				'items': 2
+			},
+			'992': {
+				'items': 2
+			},
+			'1200': {
+				'items': 4
+			}
+		}
+	}">
+	
+		<div class="owl-stage-outer">
+		<div class="owl-stage"  >
+				
+		{% for new_item in promo_items %}
+				
+		<div class="owl-item new_item{% if forloop.counter <= 4 %} active{% endif %}"  >
+			<div class="product product-classic">
+				<figure class="product-media">
+					<a href="/product/{{new_item.slug}}">
+						
+							<img style="width: 100%; height: 100%;" src={{new_item.image.url}} loading="lazy" alt="Manteau Noir  Oversize en Laine  image" width="300" height="338">
+						
+					</a>
+				
+					<div class="product-action-vertical">
+			
+						{% if new_item in wishedlist %}
+						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+							<img src="/static/images/PSC.svg">
+						</a>
+						
+						{% else %}
+						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+							<img src="/static/images/VSC.svg">
+						</a>
+						{% endif %}	
+					</div>
+
+					<div class="product-action  justify-content-end">
+						{% if  new_item.article_id|filtered_and_length:"," > 1 %}
+							<div class="product-color__badge--wheel img">
+								<div class="color-options">
+									<div style="width: 15px;">
+										
+										<!-- <span class="color-option"></span>
+										
+										<span class="color-option"></span>
+										 -->
+										 <img src="{% static 'images/color.png' %}" alt="">
+
+										
+								</div>
+								<span class="color-variant-count">
+									{% if  new_item.article_id|filtered_and_length:"," > 1 %}
+										{{new_item.article_id|filtered_and_length:","}}
+									{% endif %}
+										
+								</span></div>
+							</div>
+							
+						{% endif %}
+					</div>
+
+					<div class="product-label-group">
+						
+							
+							<label class="product-label label-top">{{new_item.get_label_display }}</label>
+						
+					</div>  
+				</figure>
+				<div class="product-details">
+					<h3 class="product-name">
+						<a href="/product/{{new_item.slug}}">{{new_item.title}} </a>
+					</h3>
+					<div class="product-price d-flex justify-content-between">
+					<div>
+					{% if new_item.price > new_item.discount_price %}
+					<del class="old-price old-price-block">&nbsp;{{new_item.price}} DA</del>
+					&nbsp; 
+					<ins class="new-price price-block">{{new_item.discount_price}}DA</ins>
+					{% else %}
+					<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price}}DA</ins>
+					{% endif %}
+					</div>
+		
+					</div>
+				</div>
+			</div>
+		</div> 
+		{% endfor %}
+				
+		</div>
+		</div>
+	</div>
+	</section>
+	<script>
+		$(function() {
+	  // Owl Carousel
+	  var owl = $(".owl-carousel1");
+	  owl.owlCarousel({
+		items: 4,
+		margin: 0,
+		loop: true,
+		nav: true,
+		responsive: {
+				  0: {
+					items: 2 // Display 1 item on smaller screens
+				  },
+				  600: {
+					items: 2 // Display 2 items on screens wider than 600px
+				  },
+				  1000: {
+					items: 4 // Display 4 items on screens wider than 1000px
+				  }
+				}
+	  });
+	});
+			</script>
+
+	{% endif %}
+	
 	{% if new_items %}
 	<section class="container  ">
 		
-		<h2 style="padding-left: 10px;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">NOUVEAUTÉS</h2>
+		<h2 style="padding-left: 10px;font-family: 'Roboto Condensed-bold', sans-serif !important;
+		font-weight: lighter !important;color: #707070 !important;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">NOUVEAUTÉS</h2>
 	<div class="owl-carousel1 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}"   style="animation-duration: 1.2s;" data-owl-options="{
 		'nav': true,
 		'dots': true,
@@ -721,7 +844,8 @@
 	<section class="container  ">
 		
 		
-		<h2 style="padding-left: 10px;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">PRODUITS LES PLUS VENDUS</h2>
+		<h2 style="padding-left: 10px;font-family: 'Roboto Condensed-bold', sans-serif !important;
+		font-weight: lighter !important;color: #707070 !important;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">PRODUITS LES PLUS VENDUS</h2>
 		<div class="owl-carousel2 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
 			'nav': true,
 			'dots': true,
@@ -804,7 +928,7 @@
 <div class="product-label-group">
 	
 		
-		<label class="product-label label-top">{{new_item.get_label_display }}</label>
+		<label style="min-width: 115px;" class="product-label label-top">{{new_item.get_label_display }}</label>
 	 
 </div>  
 </figure>
