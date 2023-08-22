@@ -34,6 +34,19 @@ ADDRESS_CHOICES = (
     ('B', 'Billing'),
     ('S', 'Shipping'),
 )
+from django.contrib.auth.models import AbstractUser
+
+
+class Profile(models.Model):
+    user=models.OneToOneField(User, on_delete=models.CASCADE)
+    image=models.ImageField(default="/static/images/default-avatar.jpg",upload_to="user_profiles")
+    fullname=models.CharField(max_length=150,default="")
+    email=models.EmailField(max_length=250,default="")
+    adresse=models.CharField(max_length=250,default="")
+    phone=models.CharField(max_length=20,default="")
+    
+    def __str__(self):
+        return self.user.username + " profile"
 
 
 class Slide(models.Model):
@@ -448,14 +461,27 @@ class NewsLetterEmails(models.Model):
     
     
 class Comments_and_Ratings(models.Model):
+    image = models.ImageField(blank=True,default='',upload_to="images_comments")
     rating=models.FloatField(max_length=1)
     comment=models.TextField(max_length=500)
     product=models.ForeignKey(Item,on_delete=models.CASCADE)
     user=models.ForeignKey(User,on_delete=models.CASCADE)
+    date_added= models.DateTimeField(  default=datetime.datetime.now())
     def __str__(self):
-        return "comment of {}".format(self.user)
+        return "comment of {} on product N° {}".format(self.user,self.product.id)
     
     class Meta:
         verbose_name = "commentaire de chaque produit"
         verbose_name_plural = "commentaires de chaque produit"
     
+class Comment_images(models.Model):
+    image = models.ImageField(default='',upload_to="images_comments")
+    comment=models.ForeignKey(Comments_and_Ratings,on_delete=models.CASCADE)
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return "image comment of {}".format(self.user)
+    
+    class Meta:
+        verbose_name = "image de commentaire"
+        verbose_name_plural = "les images des commentaires"

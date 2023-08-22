@@ -1,4 +1,5 @@
 import os
+from django.utils.translation import gettext_lazy as _
 
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
@@ -13,6 +14,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.humanize',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
@@ -27,6 +29,7 @@ INSTALLED_APPS = [
     'core',
     'mathfilters',
     'rest_framework',
+    
    
 ]
 
@@ -39,7 +42,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware'
+    'social_django.middleware.SocialAuthExceptionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'demo.urls'
@@ -146,7 +150,7 @@ STRIPE_PUBLIC_KEY = 'pk_test_lX3r6OMjOU2yzFsNSHq6belT00EY82kZmH'
 STRIPE_SECRET_KEY = 'sk_test_tn0CTDaIJHUJyAqhsf39cfsC00LNjsqDnb'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SITE_ID=1
-SILENCED_SYSTEM_CHECKS = ['models.E006','admin.E108']
+SILENCED_SYSTEM_CHECKS = ['models.E006','admin.E108',"fields.E301"]
  
 DATA_UPLOAD_MAX_NUMBER_FILES=50000
 
@@ -159,4 +163,12 @@ SOCIAL_AUTH_FACEBOOK_SECRET = '9e57419d03907e57fbe2fe2e1d05392a'  #
 
 #  <!-- <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a> -->
  
- 
+
+LANGUAGES = [
+    ('en', _('English')),
+    ('fr', _('French')),
+    ('ar', _('Arabic')),
+]
+
+LANGUAGE_CODE = 'fr'
+

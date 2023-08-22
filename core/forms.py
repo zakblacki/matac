@@ -3,7 +3,7 @@ from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Images_upload,NewsLetterEmails
+from .models import Images_upload,NewsLetterEmails , Comment_images
 
 
 PAYMENT_CHOICES = (
@@ -38,6 +38,23 @@ class UploadImg(forms.Form):
     }))
      
        
+from multiupload.fields import MultiFileField
+from django.forms.widgets import ClearableFileInput
+
+ 
+        
+ 
+        
+class ImageUploadForm1(forms.Form):
+    image = forms.ImageField(required=False,widget=forms.FileInput(attrs={
+         
+        "hidden":"true",
+        "id":"comment_image",
+        "accept":"image/*" ,
+          
+    }))
+    
+    
     
 class FormInput(forms.Form):
     recu_img = forms.ImageField(required=False,widget=forms.FileInput(attrs={
@@ -120,7 +137,7 @@ class RefundForm(forms.Form):
 
 
 
-from multiupload.fields import MultiFileField
+ 
 class ImageUploadForm(forms.ModelForm):
     images = MultiFileField(min_num=1, max_file_size=1024*1024*5)
     

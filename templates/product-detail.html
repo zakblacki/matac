@@ -2,6 +2,7 @@
 {% load static %}
 {% load mathfilters %}
 {% load custom_filters %}
+{% load humanize %}
 {% block head_title %}{{object.title}}{% endblock %}
 {% block content %}
 
@@ -776,29 +777,51 @@ itemLinks.forEach(itemLink => {
 						<li>
 							<div class="comment">
 										<figure class="comment-media">
-												<img src="{% static 'images/avatar.png' %}" alt="photo" loading="lazy">
+											{% if comment.user.profile %}
+											 
+												 <img style="border-radius: 50%;" src="{{comment.user.profile.image.url}}" alt="photo" loading="lazy">
+											{% else %}
+											<img style="border-radius: 50%;" src="{% static 'images/default-avatar.jpg' %}" alt="photo" loading="lazy">
+											{% endif %}
 										</figure> 
 
 								<div class="comment-body">
 									<div class="comment-rating ratings-container mb-0">
 										<div class="ratings-full">
 											
-											<span class="ratings " style="width:{{ comment.rating|mul:20 }}%"></span>
+											<span class="ratings " style="width:{{ comment.rating|mul:20|floatformat:0  }}%"></span>
 											
 											<span class="tooltiptext tooltip-top">{{comment.rating}}</span>
 										</div>
 									</div>
 									
-									<div class="comment-user">
-										<span class="comment-date text-body">17 août 2023 11:27</span>
+									<div class="comment-user"  >
+										<span class="comment-date text-body">{{comment.date_added}}</span>
 										
-										<h4>salem</h4>
+										<h4>
+											{% if comment.user.profile %}
+											{{comment.user.profile.fullname}}
+											{% else %}
+												{{request.user.username}}
+											{% endif %}
+										</h4>
+										
 									</div>
+									
 									 
 								
 									<div class="comment-content">
 										<p>{{comment.comment}}</p>
 									</div>
+
+									<div style="width: 50px; float: left;margin-right: 4px">
+										{% if comment.image %}
+										<a href="{{ comment.image.url }}">
+											<img src="{{ comment.image.url }}">
+										</a>
+										{% endif %}
+									</div>
+									 
 								</div>
 							</div>
 						</li>
@@ -808,7 +831,7 @@ itemLinks.forEach(itemLink => {
 				
 					{% if request.user.is_authenticated %}
 
-					<form method="POST" action=".">
+					<form method="POST" action="." enctype="multipart/form-data">
 						{% csrf_token %}
 					   <div class="reply">
 						   <div class="title-wrapper text-left">
@@ -832,7 +855,20 @@ itemLinks.forEach(itemLink => {
 								   </option><option value="1">Mauvais
 							   </option></select>
 						   </div>
-							   <textarea id="reply-message" name="text" cols="30" rows="6" class="form-control mb-4" placeholder="Commentaire *" required="required"></textarea>											
+						   <!-- <input name="imagecom" type="file" id="comment_image" style="display: none;"> -->
+						{{form.image}}
+						<!-- <input type="file" name="com_img" style="display: none;" hidden="true" id="comment_image" accept="image/*" onchange="readUrl(this)" multiple="multiple"> -->
+						<input style="display: none;" name="allcomimagesin_one" type="text" id="allcomimagesin_one" >
+						   <div id="comment_img_list" class="comment_img_list" style="display: block ruby;position: absolute;bottom: 96px;left: 10px;">
+								<!-- <div id="img_com1" class="img_com" style="width: 40px;
+								height: 40px;
+								margin-right: 5px;display: flex;">
+									 
+								</div> -->
+							</div>
+							   <textarea id="reply-message" name="text" cols="30" rows="6" class="form-control mb-4" placeholder="Commentaire *" required="required">
+								
+							   </textarea>											
 							   <input type="text" hidden="true" name="findslug" value="{{object.slug}}"> 
 							   
 
@@ -841,8 +877,59 @@ itemLinks.forEach(itemLink => {
 								   <input type="checkbox" class="custom-checkbox" id="signin-remember" name="signin-remember">
 							   </div>
 						   </div>
+						   <button type="button" id="btnuplo" style="background-color: forestgreen;border: none;outline: none;" type="submit" class="btn   btn-rounded">
+							
+							<img style="height: 21px;scale: 1.6;margin-right: 8px;
+							cursor: pointer;"  src="{% static 'images/upload_icon.png' %}" alt="">
+							   Upload image
+						   </button>
+						   
 							   <button type="submit" class="btn btn-primary btn-rounded">Confirmer</button>
-							   
+							   <script>
+								       function readUrl(input) {
+  if (input.files && input.files[0]) {
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      let imgData = e.target.result;
+      let imgName = input.files[0].name;
+      input.setAttribute("data-title", imgName);
+     
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+								document.getElementById("btnuplo").addEventListener("click",function(e){
+									e.preventDefault();
+									document.getElementById('comment_image').click()
+								})
+								var allcomimagesin_one= document.getElementById("allcomimagesin_one")
+								var imageInput = document.getElementById("comment_image")
+								var imageContainer = document.getElementById("comment_img_list")
+								console.log(imageContainer)
+								imageInput.addEventListener('change', function(event) {
+								const selectedFile = event.target.files[0]; // Get the selected file
+								if (selectedFile) {
+									// Set the src attribute of the image to the selected file's URL
+									const newImage = document.createElement('img');
+									newImage.src = URL.createObjectURL(selectedFile);
+									newImage.alt = 'Uploaded Image';
+									// newImage.style.marginRight=5+"px"
+									const newDiv = document.createElement('div');
+									newDiv.id = `img_com1`;
+									newDiv.className = 'img_com';
+									newDiv.style.width = '40px';
+									newDiv.style.height = '40px';
+									newDiv.style.marginRight = '5px';
+									newDiv.style.display = 'flex';
+									newDiv.appendChild(newImage);
+									imageContainer.appendChild(newDiv);
+									allcomimagesin_one.value=""
+									// gather all images in one array
+									allcomimagesin_one.value  = imageInput.value + ","
+									 
+								}
+								});
+							 </script>  
 					   </form>
 					{% else %}
 					<a href="/login"> <span style="font-weight:bold;">Connectez-vous</span> pour rédiger un commentaire.</a>

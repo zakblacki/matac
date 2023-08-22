@@ -173,7 +173,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
                         Category.objects.create(
                             title=categoryName,
                             slug=slugify(categoryName),
-                            description=categoryName,
+                            
                             image=image_path.replace("/workspace/media_root","") 
                         )
 
@@ -400,6 +400,7 @@ class CategoryGenTopAdmin(admin.ModelAdmin):
 
 admin.site.register(GenderCategory,CategoryGenTopAdmin)
 admin.site.register(ImageItem)
+
 admin.site.register(Banner_category)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Category, CategoryAdmin)
@@ -415,6 +416,6 @@ admin.site.register(Matacor_info)
 admin.site.register(Images_upload)
 admin.site.register(NewsLetterEmails)
 admin.site.register(Comments_and_Ratings)
-
+admin.site.register(Profile)
  
  

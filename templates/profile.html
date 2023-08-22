@@ -114,34 +114,59 @@
                     </div>
                     <div class="tab-pane" id="account">
                         <form action="." class="form" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="csrfmiddlewaretoken" value="Ji3ewSESYBfEdcOt9z6jqdwmjPK0Z17szsW8DWbjgIXuDThV3m8LUUndJaFbH1Nb">
+                            {% csrf_token %}
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label>Nom &amp; prénom</label>
-                                    <input type="text" value="{{request.user.username}}" name="first_name" class="form-control" maxlength="150" id="id_first_name">
+                                    {% if request.user.profile %}
+                                    <input type="text" value="{{request.user.profile.fullname}}" name="first_name" class="form-control" maxlength="150" id="id_first_name">
+                                    {% else %}
+                                    <input type="text"   name="first_name" class="form-control" maxlength="150" id="id_first_name">
+        
+                                    {% endif %}
                                 </div>
                                 
                                 <div class="col-sm-6">
                                     <label>Téléphone </label>
                                     
-                                        <input type="phone" class="form-control" name="phone" required="" pattern="^(?:0|\(?\+213\)?\s?|00213\s?)[1-79](?:[\.\-\s]?\d\d){4}$">
-                                    
+                                        {% if request.user.profile %}
+                                        <input value="{{request.user.profile.phone}}" type="phone" class="form-control" name="phone" required="" pattern="^(?:0|\(?\+213\)?\s?|00213\s?)[1-79](?:[\.\-\s]?\d\d){4}$">
+                                        {% else %}
+                                        <input   type="phone" class="form-control" name="phone" required="" pattern="^(?:0|\(?\+213\)?\s?|00213\s?)[1-79](?:[\.\-\s]?\d\d){4}$">
+            
+                                        {% endif %}
                                 </div>
                                 <div class="col-sm-6">
                                     <label>Courriel</label>
-                                    <input type="email" value="{{request.user.email}}" name="email" class="form-control" maxlength="254" id="id_email">
+                                    {% if request.user.profile %}
+                                    <input value="{{request.user.profile.email}}" type="email" value="{{request.user.email}}" name="email" class="form-control" maxlength="254" id="id_email">
+                                    {% else %}
+                                    <input  name="email" class="form-control" maxlength="254" id="id_email">
+        
+                                    {% endif %}
                                 </div>
                                     <div class="col-sm-6">
                                     <label for="id_picture">Photo</label>
-                                      <input type="file" id="id_picture" name="picture">
+                                      
+                                      {% if request.user.profile %}
+                                      <input  type="file" id="id_picture" name="picture">
+                                      <img style="width: 100px" src="{{request.user.profile.image.url}}" alt="">
+                                       {% else %}
+                                       <input  type="file" id="id_picture" name="picture">
 
+                                      {% endif %}
                                 
                                 </div>
                             </div>
 
                             <label>Adresse</label>
-                            <input type="text" name="address" class="form-control" maxlength="250" id="id_address">
-                             <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                            {% if request.user.profile %}
+                            <input value="{{request.user.profile.adresse }}" type="text" name="address" class="form-control" maxlength="250" id="id_address">
+                            {% else %}
+                            <input   type="text" name="address" class="form-control" maxlength="250" id="id_address">
+
+                            {% endif %}
+                            <button type="submit" class="btn btn-primary">Sauvegarder</button>
                             <!-- <a href="/fr/password_change/" class="btn btn-underline">Changer mon mot de passe</a> -->
                         </form>
                          

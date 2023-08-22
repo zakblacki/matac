@@ -546,6 +546,44 @@ def admin_upload(request):
 
 @login_required
 def profile(request):
+    
+    
+    if request.method == "POST":
+        fullname=request.POST["first_name"]
+        phone=request.POST["phone"]
+        email=request.POST["email"]
+        picture=request.FILES.get("picture")
+        address=request.POST["address"]
+        
+        try:
+            prodifile = Profile.objects.get(user=request.user)
+            if fullname:
+                prodifile.fullname=fullname
+            if phone:
+                prodifile.phone=phone
+            if email:
+                prodifile.email=email
+            if picture:
+                prodifile.image=picture
+            if address:
+                prodifile.adresse=address
+                
+            prodifile.save()
+            print(prodifile)
+        except:
+            Profile.objects.create(user=request.user,
+                                   fullname=fullname,
+                                   image=picture,
+                                   email=email,
+                                   adresse=address,
+                                   phone=phone)
+            print("created")
+        
+    
+    else:
+        print("getted")
+        
+        
     context={}
     
     ordered= Order.objects.filter(user=request.user)
@@ -601,28 +639,43 @@ class ItemDetailView(DetailView):
     
     def post(self, *args, **kwargs):
         if self.request.method == "POST":
+            form=ImageUploadForm1(self.request.POST,self.request.FILES)
            
             findslug=self.request.POST["findslug"]
             comment=self.request.POST["text"]
             rate=self.request.POST["rating"]
+            imagee=self.request.POST["allcomimagesin_one"]
+            com_img=self.request.FILES.get("image")
+            print(com_img)
             product_tar=Item.objects.get(slug=findslug)
             if not rate:
                 rate=0
             if not comment:
                 comment=""
             try:
-                Comments_and_Ratings.objects.create(
+                print("commented")
+                targetcomment=Comments_and_Ratings.objects.create(
                     user=self.request.user,
                     rating=rate,
                     comment=comment,
-                    product=product_tar
+                    product=product_tar,
+                    image=com_img
+                )
+                 
+                     
+               
+                Comment_images.objects.create(
+                    user=self.request.user,
+                    image= com_img ,
+                    comment=targetcomment,
+                    
                 )
             except:
                 pass
             
             
             return redirect("/")
-
+        
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -634,7 +687,7 @@ class ItemDetailView(DetailView):
         context["comments"] =   Comments_and_Ratings.objects.filter(product=self.object.id)
         
         context["colors_item"] = Item.objects.filter(article_id=self.object.article_id)
-        
+        context["form"]=ImageUploadForm1()
         if  self.request.user.is_authenticated:
             try:
                 if self.object in WishList.objects.get(user=self.request.user).items.all():

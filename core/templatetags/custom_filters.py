@@ -19,3 +19,8 @@ def parse_json(value):
 def total_withship(value1 , value2 ):
      
     return value1  + float(value2)
+
+@register.filter(name='replace')
+def replace(value1,value2,value3):
+     
+    return value1.replace(value2,value3)
