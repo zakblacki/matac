@@ -493,8 +493,10 @@ class ShopView(ListView):
           
           
             # context["wishlist"]=WishList.objects.filter(user=self.request.user).first().items.all()
-            
-            context["wishlist"]=list(WishList.objects.filter(user=self.request.user).first().items.all())
+            try:
+                context["wishlist"]=list(WishList.objects.filter(user=self.request.user).first().items.all())
+            except:
+                context["wishlist"]= None
         else:
             context["wishlist"]=None
         

@@ -390,8 +390,12 @@ class CategoryGenTopAdmin(admin.ModelAdmin):
         else:
             slug1="/shop?topcat="
             try:
-                for item in obj.items.all():
-                    slug1 += "_" +item.slug
+                if len(obj.items.all()) == 1:
+                    print("dfs")
+                    slug1= slug1 +  obj.items.first().slug
+                elif len(obj.items.all()) > 1:
+                    for item in obj.items.all():
+                        slug1 += "_" +item.slug
                 obj.slug=slug1 
             except:
                 obj.slug = obj.title
