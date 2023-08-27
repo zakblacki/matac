@@ -22,6 +22,12 @@ LABEL_CHOICES = (
     ('P', 'Promotion')
 )
 
+LABEL_CHOICES_EXCEL = (
+    ('A', 'ajouter'),
+    ('M', 'modifier'),
+     
+)
+
 LABEL_CHOICES_GENDER=(
     ('M', 'MALE'),
     ('F', 'FEMALE'),
@@ -107,6 +113,7 @@ class Category(models.Model):
 
 class ExcelFile(models.Model):
     name = models.CharField(max_length=100)
+    label = models.CharField(choices=LABEL_CHOICES_EXCEL, max_length=1)
     file = models.FileField(upload_to='excel_files/')
     gender = models.CharField(choices=LABEL_CHOICES_GENDER, max_length=3,default="M")
     
@@ -132,9 +139,9 @@ class Item(models.Model):
     slug = models.SlugField(unique=True,max_length=190)
     article_id=models.CharField(max_length=50)
     stock_no = models.CharField(max_length=10)
-    description_short = models.CharField(max_length=100)
+    description_short = models.CharField(max_length=5000)
     description_long = models.TextField()
-    details = models.CharField(max_length=1500,default="{'color':''}")
+    details = models.CharField(max_length=5500,default="{'color':''}")
     tags=models.TextField()
     rating = models.FloatField(blank=True, null=True, 
     validators=[MaxValueValidator(limit_value=5.0)],
