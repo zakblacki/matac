@@ -80,7 +80,11 @@ class ExcelFileAdmin(admin.ModelAdmin):
                 except:
                     image_src = row['chemins photos']
 
-                article_id = row['code produit']
+                if not pd.isna(row['code produit']):
+                    article_id = row['code produit']
+                else:
+                    article_id = name.split(" ")[-1]
+                
                 sizes = row['sizes_exist']
                 if sizes:
                     sizes = sizes
@@ -234,54 +238,89 @@ class ExcelFileAdmin(admin.ModelAdmin):
 
                                 )
                                 
-                            
-                                for image_url in  image_src.split(",")[1:]:
-                                    image_src = "https://cdn.dsmcdn.com"+ image_url.replace(" ","")
-                                    image_folder = image_src.split("/")[-3]
-                                    
-                                    local_image_path = image_src 
-                                    # Replace this with the actual path of the image on your computer
-
-                                    
-
-                                    # Create the 'images' directory if it doesn't exist
-                                    
-
-                                    # Get the image filename from the local path
-                                    filename = os.path.basename(local_image_path)
-                                    image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
-                                    
-                                    
-                                    # image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
-                                    slug_ex=itemnow.slug
+                                
+                                
+                                try:
+                                    image_src = row['images_prod']
+                                    for image_url in  image_src.split(",")[1:]:
+                                        image_src = "https://cdn.dsmcdn.com"+ image_url.replace(" ","")
+                                        image_folder = image_src.split("/")[-3]
                                         
-                                    
-                                    # Copy the image file to the media_root directory
-                                    
-                                    ImageItem.objects.create(
-                                        item=Item.objects.filter(slug=slug_ex).first(),
-                                        slug=slug_ex,
-                                        image=image_path.replace("/workspace/media_root","") 
-                                    )
-                                    
-                                    # response = requests.get(local_image_path)
-                                    # if response.status_code == 200:
+                                        local_image_path = image_src 
+                                        # Replace this with the actual path of the image on your computer
+
                                         
-                                    #     # with open(image_path, 'wb') as dest_file:
                                         
+                                        # Create the 'images' directory if it doesn't exist
+                                        
+
+                                        # Get the image filename from the local path
+                                        filename = os.path.basename(local_image_path)
+                                        print(f"{local_image_path}/{filename}")
+                                        image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+                                        
+                                        
+                                        # image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+                                        slug_ex=itemnow.slug
                                             
-                                    #     #     dest_file.write(response.content)
-                                            
-                                    #     image_data = response.content
-                                    #     image = Image.open(io.BytesIO(image_data))
-                                    #     rgba_image = image.convert("RGBA")
-
-                                    #     # Create a file path for saving the WebP image
-                                    #     webp_file_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
-
-                                    #     # Save the RGBA image as WebP
-                                    #     rgba_image.save(webp_file_path, "WEBP")
                                         
+                                        # Copy the image file to the media_root directory
+                                        
+                                        ImageItem.objects.create(
+                                            item=Item.objects.filter(slug=slug_ex).first(),
+                                            slug=slug_ex,
+                                            image=image_path.replace("/workspace/media_root","") 
+                                        )
+                                        
+                                        # response = requests.get(local_image_path)
+                                        # if response.status_code == 200:
+                                            
+                                        #     # with open(image_path, 'wb') as dest_file:
+                                            
+                                                
+                                        #     #     dest_file.write(response.content)
+                                                
+                                        #     image_data = response.content
+                                        #     image = Image.open(io.BytesIO(image_data))
+                                        #     rgba_image = image.convert("RGBA")
+
+                                        #     # Create a file path for saving the WebP image
+                                        #     webp_file_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+
+                                        #     # Save the RGBA image as WebP
+                                        #     rgba_image.save(webp_file_path, "WEBP")
+                                except:
+                                    image_src = row['chemins photos']
+                                    for image_url in  image_src.split(",")[1:]:
+                                        image_src = "https://cdn.dsmcdn.com"+ image_url.replace(" ","")
+                                        image_folder = image_src.split("/")[-3]
+                                        
+                                        local_image_path = image_src 
+                                        # Replace this with the actual path of the image on your computer
+
+                                        
+                                        
+                                        # Create the 'images' directory if it doesn't exist
+                                        
+
+                                        # Get the image filename from the local path
+                                        filename = os.path.basename(local_image_path)
+                                         
+                                        image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+                                        
+                                        
+                                        # image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+                                        slug_ex=itemnow.slug
+                                            
+                                        
+                                        # Copy the image file to the media_root directory
+                                        
+                                        ImageItem.objects.create(
+                                            item=Item.objects.filter(slug=slug_ex).first(),
+                                            slug=slug_ex,
+                                            image=image_path.replace("/workspace/media_root","") 
+                                        )
+                                                
         else:
             for index, row in df.iterrows():
                 
@@ -290,6 +329,59 @@ class ExcelFileAdmin(admin.ModelAdmin):
                     tar_pro= Item.objects.get(id_item=id)
                 except:
                     pass
+                
+                try:
+                    if not pd.isna(row["nom d'article arabe"])  :
+                        arabe_title = row["nom d'article arabe"]
+                        tar_pro.title_ar=arabe_title
+                except:
+                    pass
+                
+                
+                try:
+                    if not pd.isna(row["nom d'article anglais"])    :
+                        english_title = row["nom d'article anglais"]
+                        tar_pro.title_en=english_title
+                except:
+                    pass
+                
+                try:
+                    if not pd.isna(row["product_details_attr_ar"])  :
+                        det_ar = row["product_details_attr_ar"]
+                        tar_pro.details_ar=det_ar
+                except:
+                    pass
+                
+                try:
+                    if not pd.isna(row["product_details_attr_en"])  :
+                        det_en = row["product_details_attr_en"]
+                        tar_pro.details_en=det_en
+                except:
+                    pass
+                
+                try:
+                    if not pd.isna(row["details d'article"])  :
+                        desc = row["details d'article"]
+                        tar_pro.description_long=desc
+                except:
+                    pass
+                try:
+                    if not pd.isna(row["details d'article arabe"])  :
+                        desc_ar = row["details d'article arabe"]
+                        tar_pro.description_long_ar=desc_ar
+                     
+                except:
+                    pass
+                
+                try:
+                    if not pd.isna(row["details d'article anglais"])  :
+                        desc_en = row["details d'article anglais"]
+                        tar_pro.description_long_en=desc_en
+                    
+                except:
+                    pass
+                
+                
                 try:
                     sizes = row['sizes_exist']
                     tar_pro.size_exist=sizes

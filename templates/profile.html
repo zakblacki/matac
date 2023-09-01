@@ -1,49 +1,50 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block head_title %}Profile{% endblock %}
+{% block head_title %} {% trans "Profile" %}{% endblock %}
 {% block content %}
 
 
 <main class="main account">
     <nav class="breadcrumb-nav">
         <div class="container">
-            <ul class="breadcrumb" style="background: white;
+            <ul class="breadcrumb {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}" style="background: white;
            
             padding: 25px;">
                 <li><a href="/"><i class="d-icon-home"></i></a></li>
-                <li>Profile</li>
+                <li> {% trans "Profile" %}</li>
             </ul>
         </div>
     </nav>
     <div class="page-content mt-4 mb-10 pb-6">
         <div class="container">
-            <h2 class="title title-center mb-10">Mon Profile</h2>
+            <h2 class="title title-center mb-10"> {% trans "Mon Profile" %}</h2>
             <div class="row">
                 
             </div>
             <div class="tab tab-vertical gutter-lg">
                 <ul class="nav nav-tabs mb-4 col-lg-3 col-md-4" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#dashboard">Dashboard</a>
+                        <a class="nav-link active" href="#dashboard"> {% trans "Dashboard" %}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#orders" id="ordersclick">Mes Commandes</a>
+                        <a class="nav-link" href="#orders" id="ordersclick"> {% trans "Mes Commandes" %}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#account">Mes informations</a>
+                        <a class="nav-link" href="#account"> {% trans "Mes informations" %}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="logout-link" href="/logout/">Se déconnecter</a>
+                        <a class="logout-link" href="/logout/"> {% trans "Se déconnecter" %}</a>
                     </li>
                 </ul>
-                <div class="tab-content col-lg-9 col-md-8">
+                <div class="tab-content col-lg-9 col-md-8 {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} ">
                     <div class="tab-pane active in" id="dashboard">
                         <p class="mb-0">
-                            Salut {{request.user.username}}<span></span>
+                            {% trans 'Salut' %} {{request.user.username}}<span></span>
                         </p>
                         <p class="mb-8">
-                            Depuis votre Dashboard vous pouvez voir vos <a id="voirtb" href="#orders" class="link-to-tab text-primary">Commandes recentes</a>, Modifier vos informations de commande et de livraison,<br>Modifier votre mot de passe
+                             {% trans "Depuis votre Dashboard vous pouvez voir vos" %} <a id="voirtb" href="#orders" class="link-to-tab text-primary"> {% trans "Commandes recentes" %}</a> {% trans ", Modifier vos informations de commande et de livraison," %}<br> {% trans "Modifier votre mot de passe" %}
                         </p>
 
                         <script>
@@ -54,25 +55,25 @@
                             })
                         </script>
 
-                        <a href="/shop " class="btn btn-dark btn-rounded">Aller a la boutique<i class="d-icon-arrow-right"></i></a>
+                        <a href="/shop " class="btn btn-dark btn-rounded"> {% trans "Aller a la boutique" %}<i class="d-icon-arrow-right"></i></a>
                     </div>
                     <div class="tab-pane" id="orders">
                         {% if leng  == 0  %}
 
-                        <p>Pas de commande pour le moment</p>
+                        <p> {% trans "Pas de commande pour le moment" %}</p>
                         <a href="/" class="btn btn-outline-primary-2">
-                                        <span>Accueil</span>
+                                        <span> {% trans "Accueil" %}</span>
                                         <i class="icon-long-arrow-right"></i>
                         </a>
                         {% else %}
                             <table class="order-table">
                                 <thead>
                                     <tr>
-                                        <th class="pl-2">N° Commande</th>
-                                        <th>Date</th>
-                                        <th>État</th>
-                                        <th>Total</th>
-                                        <th class="pr-2">Actions</th>
+                                        <th class="pl-2"> {% trans "N° Commande" %}</th>
+                                        <th> {% trans "Date" %}</th>
+                                        <th> {% trans "État" %}</th>
+                                        <th> {% trans "Total" %}</th>
+                                        <th class="pr-2"> {% trans "Actions" %}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -85,19 +86,19 @@
                                             <td class="order-status"><span>
 
                                                 {%if order.received%} 
-                                                    received
+                                                    {% trans 'received' %}
 
                                                 {% elif order.being_delivered %}
 
-                                                    delivered
+                                                    {% trans 'delivered' %}
                                                 {% else %}
-                                                waiting
+                                                {% trans 'waiting' %}
                                                 {% endif %}
                                             </span></td>
-                                            <td class="order-total"><span>{{order.total_amount}} DA</span></td>
+                                            <td class="order-total"><span>{{order.total_amount}} {% trans 'DA' %}</span></td>
                                             <td class="order-action">
                                                 
-                                                <a href="/confirm_order/{{request.user}}/{{order.id}}/" class="btn btn-primary btn-link btn-underline">Voir</a>
+                                                <a href="/confirm_order/{{request.user}}/{{order.id}}/" class="btn btn-primary btn-link btn-underline">{% trans 'Voir' %}</a>
                                             </td>
                                         </tr>
                                     
@@ -108,7 +109,7 @@
                             </table>
                             
                             <br>
-                            <h6>NB: Veuillez soumettre un reçu de paiement pour confirmer votre commande.*</h6>
+                            <h6> {% trans 'NB: Veuillez soumettre un reçu de paiement pour confirmer votre commande.*'  %}</h6>
                         
                         {% endif %}
                     </div>
@@ -117,7 +118,7 @@
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <label>Nom &amp; prénom</label>
+                                    <label> {% trans 'Nom' %} &amp;  {% trans 'prénom' %}</label>
                                     {% if request.user.profile %}
                                     <input type="text" value="{{request.user.profile.fullname}}" name="first_name" class="form-control" maxlength="150" id="id_first_name">
                                     {% else %}
@@ -127,7 +128,7 @@
                                 </div>
                                 
                                 <div class="col-sm-6">
-                                    <label>Téléphone </label>
+                                    <label> {% trans 'Téléphone' %} </label>
                                     
                                         {% if request.user.profile %}
                                         <input value="{{request.user.profile.phone}}" type="phone" class="form-control" name="phone" required="" pattern="^(?:0|\(?\+213\)?\s?|00213\s?)[1-79](?:[\.\-\s]?\d\d){4}$">
@@ -137,7 +138,7 @@
                                         {% endif %}
                                 </div>
                                 <div class="col-sm-6">
-                                    <label>Courriel</label>
+                                    <label> {% trans "Courriel" %}</label>
                                     {% if request.user.profile %}
                                     <input value="{{request.user.profile.email}}" type="email" value="{{request.user.email}}" name="email" class="form-control" maxlength="254" id="id_email">
                                     {% else %}
@@ -146,7 +147,7 @@
                                     {% endif %}
                                 </div>
                                     <div class="col-sm-6">
-                                    <label for="id_picture">Photo</label>
+                                    <label for="id_picture">{% trans 'Photo' %}</label>
                                       
                                       {% if request.user.profile %}
                                       <input  type="file" id="id_picture" name="picture">
@@ -159,14 +160,14 @@
                                 </div>
                             </div>
 
-                            <label>Adresse</label>
+                            <label> {% trans "Adresse" %}</label>
                             {% if request.user.profile %}
                             <input value="{{request.user.profile.adresse }}" type="text" name="address" class="form-control" maxlength="250" id="id_address">
                             {% else %}
                             <input   type="text" name="address" class="form-control" maxlength="250" id="id_address">
 
                             {% endif %}
-                            <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                            <button type="submit" class="btn btn-primary"> {% trans "Sauvegarder" %}</button>
                             <!-- <a href="/fr/password_change/" class="btn btn-underline">Changer mon mot de passe</a> -->
                         </form>
                          

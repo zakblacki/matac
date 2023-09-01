@@ -2,7 +2,8 @@ from django import template
 from django.utils.safestring import mark_safe
 
 from core.models import Category , Item , OrderItem, Order, TopCategory,GenderCategory,Banner_category
-
+from django.utils.translation import gettext as _
+from django.utils import translation
 register = template.Library()
 
 
@@ -123,13 +124,25 @@ def categories():
         
         else:   
             items_li += """<li><a href="{}">{}</a></li>""".format(i.slug, i.title)
-    
-        items_li +="""<div class="header-search hs-simple">
-							<form action="/shop/" class="input-wrapper">
-								<input type="text" class="form-control" name="search" autocomplete="off" placeholder="Rechercher par mot clés..." required="", style='
+             
+            print("test..")
+
+        translated_text = _("Rechercher par mot clés...")
+        if translation.get_language() == 'ar':
+            
+            rtl="rtl"
+            right='right-240'
+            padding = 'padd-arab'
+        else:
+            rtl=''
+            right=''
+            padding = 'padd-en'
+        items_li +=f"""<div class="header-search hs-simple">
+							<form action="/shop/" class="input-wrapper  {rtl}  ">
+								<input type="text" class="form-control {padding}" name="search" autocomplete="off" placeholder="{translated_text}" required="", style='
                                 border:none !important;border-bottom: 1px solid #222 !important'>
-								<button class="btn btn-search" type="submit">
-									<i class="d-icon-search"></i>
+								<button class="btn btn-search {right}" type="submit">
+									<i class="d-icon-search "></i>
 								</button>
 							</form>
 						</div>
@@ -200,7 +213,7 @@ def categories_mobile1():
                 <li class="nav-item" style="width: 100px;">
                                     <a data-id="{}1" class="nav-link nav-link-phone active"   style="text-decoration: none;">{}</a>
                                 </li>
-            """.format(i.title,i.title)
+            """.format(i.title,_(i.title.upper()))
         else:
             items_li += """
                 <li class="nav-item" style="width: 100px;">

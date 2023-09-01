@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!-- ------------------------------footer sub end---------------------------------- -->
 <!-- Google Font -->
 <link href="https://fonts.googleapis.com/css?family=Abel|Lato|Open+Sans&display=swap" rel="stylesheet">
@@ -52,16 +53,16 @@
 			<!-- <i class="fa fa-angle-double-up" aria-hidden="true"></i> -->
 		</span>
 	</div>
-<footer class=" p-t-45 p-b-43 p-l-45 p-r-45">
+<footer class=" p-t-45 p-b-43 p-l-45 p-r-45 {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} ">
   <div class="flex-w p-b-90" style="border-bottom: 1px solid;border-top: 1px solid;">
     <div class="w-size6 p-t-30 p-l-15 p-r-15 respon3">
       <h4 class="s-text12 p-b-30">
-        Contactez-nous 
+        {% trans 'Contactez-nous' %}
       </h4>
 
       <div>
         <p class="s-text7 w-size27">
-          Des questions? Faites-nous savoir en nous envoyant une requête par e-mail ou contactez-nous par téléphone ou à Eurl AllDesigns ain-naadja , algeries, Algeria
+          {% trans 'Des questions? Faites-nous savoir en nous envoyant une requête par e-mail ou contactez-nous par téléphone ou à Eurl AllDesigns ain-naadja , algeries, Algeria' %}
         </p>
 
         <!-- <div class="flex-m p-t-30">
@@ -76,25 +77,26 @@
 
     <div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
       <h4 class="s-text12 p-b-30">
-        Categories
+        
+        {% trans 'Catégories' %}
       </h4>
 
       <ul>
         <li class="p-b-9">
           <a href="/shop/?gender=M" class="s-text7">
-            Hommes
+            {% trans 'Hommes' %}
           </a>
         </li>
 
         <li class="p-b-9">
           <a href="/shop/?gender=F" class="s-text7">
-            Femmes
+            {% trans 'Femmes' %}
           </a>
         </li>
 
         <li class="p-b-9">
           <a href="/shop/?gender=E" class="s-text7">
-            Enfants
+            {% trans 'Enfants' %}
           </a>
         </li>
 
@@ -104,31 +106,31 @@
 
     <div class="w-size9 p-t-30 p-l-15 p-r-15 respon4">
       <h4 class="s-text12 p-b-30">
-        Liens Rapides
+        {% trans 'Liens Rapides' %}
       </h4>
 
       <ul>
         <li class="p-b-9">
           <a href="/shop" class="s-text7">
-            Chercher
+            {% trans 'Chercher' %}
           </a>
         </li>
 
         <li class="p-b-9">
           <a href="#footer" class="s-text7" style="text-transform: capitalize;">
-            à propos
+            {% trans 'à propos' %}
           </a>
         </li>
 
         
         <li class="p-b-9">
           <a href="#" class="s-text7">
-            Retours
+            {% trans 'Retours' %}
           </a>
         </li>
         <li class="p-b-9">
           <a href="#" class="s-text7">
-            Termes et Conditions
+            {% trans 'Termes et Conditions' %}
           </a>
         </li>
       </ul>
@@ -168,7 +170,7 @@
 
     <div class="w-size8 p-t-30 p-l-15 p-r-15 respon3">
       <h4 class="s-text12 p-b-30">
-        Newsletter
+        {% trans 'Newsletter' %}
       </h4>
 
       <form>
@@ -180,7 +182,7 @@
         <div class="w-size2 p-t-20">
           <!-- Button -->
           <button style="border: 1px solid;" class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4">
-            S'abonné
+            {% trans "S'abonné" %}
           </button>
         </div>
 
@@ -202,7 +204,7 @@
  
 
     <div class="t-center s-text8 p-t-20">
-      Copyright © 2023 Tout droits reservé. |  Matacor   by <a href="https://flow-in.com" target="_blank">flow-in</a>
+       {% trans 'Copyright © 2023 Tout droits reservé. ' %}|  Matacor   by <a href="https://flow-in.com" target="_blank">flow-in</a>
     </div>
   </div>
 </footer>

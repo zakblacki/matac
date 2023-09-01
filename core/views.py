@@ -521,23 +521,28 @@ def admin_upload(request):
                     
                     # Construct the path to the media_root directory
                     media_root1 = os.path.join(settings.MEDIA_ROOT, "images_upload_product" , folder_name_org)
-
+                    media_root21 = os.path.join(settings.MEDIA_ROOT, "images_upload_product" , "doubled_must_delted")
                     # Create the 'images' directory if it doesn't exist
                     
-                    
-                
                     os.makedirs(media_root1, exist_ok=True)
+                    os.makedirs(media_root21, exist_ok=True)
                     image_path_up = os.path.join(media_root1,name_org)
                     realimg_path= os.path.join(settings.MEDIA_ROOT, "images_upload_product",name_org )
+                    realimg_path_exact= os.path.join( settings.MEDIA_ROOT,"images_upload_product",folder_name_org,name_org )
+                    
                     image.name= name_org
                     
-                    
-                     
-                    
+                  
 
                     if not os.path.exists(image_path_up):
-                        Images_upload.objects.create(excel_related=title, images=image)
-                        shutil.move(realimg_path, media_root1)
+                        imageup=Images_upload.objects.create(excel_related=title, images=image )
+                        try:
+                            shutil.move(realimg_path, media_root1)
+                        except:
+                            shutil.move(realimg_path, media_root21)
+                        imageup.images=realimg_path_exact.replace("/workspace/media_root","")
+                        imageup.save()
+                        
                  
                  
             # form.save()

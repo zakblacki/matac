@@ -3,6 +3,7 @@
 {% load category_template_tags %}
 {% load custom_filters %}
 {% load mathfilters %}
+{% load i18n %}
 {% block head_title %}Shop | {{searchtext}}{% endblock %}
 {% block content %}
 <style type="text/css">
@@ -37,19 +38,19 @@
 						<div class="filter_all">
 						 
 							<div class="filter_type widget widget-collapsible">
-								<h3 class="widget-title"> Gender 
+								<h3 class="widget-title"> {% trans 'Gender' %}
 									<span style="height: 10px;" class="toggle-btn">-</span></h3>
 								<ul class="widget-body filter-items slided">
 									
 									
 										<li>
 											<input type="radio" class="custom-checkbox" id="cat-1" value="F" name="gender" onchange="this.form.submit()">
-											<label class="form-control-label " for="cat-1">FEMME</label>
+											<label class="form-control-label " for="cat-1">{% trans 'FEMMES' %}</label>
 										</li>
 									
 										<li>
 											<input type="radio" class="custom-checkbox" id="cat-24" value="M" name="gender" onchange="this.form.submit()">
-											<label class="form-control-label " for="cat-24">HOMME </label>
+											<label class="form-control-label " for="cat-24">{% trans 'HOMMES' %} </label>
 										</li>
 									
 										 
@@ -57,7 +58,7 @@
 								</ul>   
 							</div>
 							<div class="filter_type widget widget-collapsible">
-								<h3 class="widget-title" >Prix 
+								<h3 class="widget-title" >{% trans 'Prix' %} 
 									<span style="height: 10px;" class="toggle-btn">-</span></h3>
 												<ul class="slided widget-body filter-items">
 														<li style="display:flex;">
@@ -92,7 +93,7 @@
 		
 							</div>
 							<div class="filter_type widget widget-collapsible">
-								<h3 class="widget-title">Taille
+								<h3 class="widget-title">{% trans 'Taille' %}
 									<span style="height: 10px;" class="toggle-btn">-</span></h3>
 								<ul class="slided widget-body filter-items">
 									 
@@ -157,24 +158,24 @@
 						 
 
 						<span style="user-select: none;" class="filtertoptop s-text8 p-t-5 p-b-5">
-							Show filtering <span><img style="opacity: 0.6; scale: 0.7; transform: rotate(0deg);" src="/static/images/chev.png" alt=""></span>
+							{% trans 'Show filtering' %} <span><img style="opacity: 0.6; scale: 0.7; transform: rotate(0deg);" src="/static/images/chev.png" alt=""></span>
 						</span>
 					</div>
 					<div class="flex-sb-m flex-w p-b-35">
 						 
 	
 						<span class="s-text8 p-t-5 p-b-5">
-							Showing {{object_list|length}} of results
+							{% trans 'Showing' %} {{object_list|length}} {% trans 'of results' %}
 						</span>
 					</div>
 					<div class="header-search hs-simple filt" style="z-index: 9;">
 						<form action="" class="input-wrapper">
 							 <select name="filter" id="filtertop">
-								<option value="">filter</option>
-								<option value="-date_added">new</option>
-								<option value="price">lowest price</option>
-								<option value="-wishlist_num">most sales</option>
-								<option value="-rating">rated</option>
+								<option value="">{% trans 'Trier' %}</option>
+								<option value="-date_added">{% trans 'new' %}</option>
+								<option value="price">{% trans 'lowest price' %}</option>
+								<option value="-wishlist_num">{% trans 'most sales' %}</option>
+								<option value="-rating">{% trans 'rated' %}</option>
 							 </select>
 						</form>
 					</div>
@@ -208,14 +209,14 @@
 									
 									<button type="submit" class="toolbox-item btn btn-outline btn-primary btn-icon-left filter-btn" style="border:none;font-size: 13px;
 									font-weight: bold;">
-									<img src="/static/images/3.svg" class="img-filter">&nbsp; Filtrer
+									<img src="/static/images/3.svg" class="img-filter">&nbsp; {% trans 'Filtrer' %}
 									</button>
 									
 									
 									<a style="margin-left: 95px !important;" href="/fr/produits/" class="clear-all text-primary pb-3 clear-all"><i class="fas fa-times"></i></a>
 								</div>
 								<div class="widget widget-collapsible">
-									<h3 class="widget-title"> Brand 
+									<h3 class="widget-title"> {% trans 'Brand' %} 
 										<span style="height: 10px;" 
 										class="toggle-btn">-</span></h3>
 									<ul class="slided widget-body filter-items">
@@ -241,7 +242,7 @@
 									 
 								 
 								<div class="filter_type widget widget-collapsible">
-									<h3 class="widget-title"> Categorie 
+									<h3 class="widget-title"> {% trans 'Catégorie' %}
 										<span style="height: 10px;" class="toggle-btn">-</span></h3>
 									<form action="." method="get">
 										<ul class="widget-body filter-items slided">
@@ -261,7 +262,7 @@
 									</form>
 								</div>
 								<div class="widget widget-collapsible">
-									<h3 class="widget-title"> Gender 
+									<h3 class="widget-title"> {% trans 'Gender' %}
 										<span style="height: 10px;" 
 										class="toggle-btn">-</span></h3>
 									<ul class="slided widget-body filter-items">
@@ -269,12 +270,16 @@
 										
 											<li>
 												<input type="radio" class="custom-checkbox" id="cat-1" value="F" name="gender" onchange="this.form.submit()">
-												<label class="form-control-label " for="cat-1">FEMME</label>
+												<label class="form-control-label " for="cat-1">{% trans 'FEMMES' %}</label>
 											</li>
 										
 											<li>
 												<input type="radio" class="custom-checkbox" id="cat-24" value="M" name="gender" onchange="this.form.submit()">
-												<label class="form-control-label " for="cat-24">HOMME </label>
+												<label class="form-control-label " for="cat-24">{% trans 'HOMMES' %} </label>
+											</li>
+											<li>
+												<input type="radio" class="custom-checkbox" id="cat-26" value="E" name="gender" onchange="this.form.submit()">
+												<label class="form-control-label " for="cat-26">{% trans 'ENFANTS' %} </label>
 											</li>
 										
 											 
@@ -282,7 +287,7 @@
 									</ul>   
 								</div>
 								<div class="widget widget-collapsible" style="overflow: hidden;">
-									<h3 class="widget-title">Prix  
+									<h3 class="widget-title">{% trans 'Prix' %}  
 										<span style="height: 10px;"
 										 class="toggle-btn">-</span></h3>
 									<ul class="slided widget-body filter-items">
@@ -319,7 +324,7 @@
 							
 							
 								<div class="widget widget-collapsible">
-									<h3 class="widget-title">Couleur
+									<h3 class="widget-title">{% trans 'Couleur' %}
 										<span style="height: 10px;" 
 										class="toggle-btn">-</span></h3>
 										<ul class="slided widget-body  ">
@@ -542,86 +547,7 @@
 				
 						
 							
-							<div class="widget widget-collapsible">
-								<h3 class="widget-title">Matère
-									<span style="height: 10px;" 
-									class="toggle-btn">-</span></h3>
-								<ul class="slided widget-body filter-items">
-									 
-									<li>
-										<input type="checkbox" name="size_exist" id="value-Cuir" value="Cuir" class="custom-checkbox" onchange="this.form.submit()">
-										<label class="form-control-label" for="value-Cuir">Cuir</label>
-									</li>
-									 
-								</ul>
-							</div>
-							
-							<div class="widget widget-collapsible">
-								<h3 class="widget-title">Taille
-									<span style="height: 10px;"
-									 class="toggle-btn">-</span></h3>
-								<ul class="slided widget-body filter-items">
-									 
-									<li>
-										<input type="checkbox" name="size_exist" id="value-32" value="32" class="custom-checkbox" onchange="this.form.submit()">
-										<label class="form-control-label" for="value-32">32</label>
-									</li>
-									<li>
-										<input type="checkbox" name="size_exist" id="value-34" value="34" class="custom-checkbox" onchange="this.form.submit()">
-										<label class="form-control-label" for="value-34">34</label>
-									</li>
-									<li>
-										<input type="checkbox" name="size_exist" id="value-36" value="36" class="custom-checkbox" onchange="this.form.submit()">
-										<label class="form-control-label" for="value-36">36</label>
-									</li>
-									<li>
-										<input type="checkbox" name="size_exist" id="value-38" value="38" class="custom-checkbox" onchange="this.form.submit()">
-										<label class="form-control-label" for="value-38">38</label>
-									</li>
-									<li>
-										<input type="checkbox" name="size_exist" id="value-40" value="40" class="custom-checkbox" onchange="this.form.submit()">
-										<label class="form-control-label" for="value-40">40</label>
-									</li>
-									<li>
-										<input type="checkbox" name="size_exist" id="value-42" value="42" class="custom-checkbox" onchange="this.form.submit()">
-										<label class="form-control-label" for="value-42">42</label>
-									</li>
-									<li>
-										<input type="checkbox" name="size_exist" id="value-XS" value="XS" class="custom-checkbox" onchange="this.form.submit()">
-										<label class="form-control-label" for="value-XS">XS</label>
-									</li>
-									<li>
-										<input type="checkbox" name="size_exist" id="value-S" value="S" class="custom-checkbox" onchange="this.form.submit()">
-										<label class="form-control-label" for="value-S">S</label>
-									</li>
-									<li>
-										<input type="checkbox" name="size_exist" id="value-M" value="M" class="custom-checkbox" onchange="this.form.submit()">
-										<label class="form-control-label" for="value-M">M</label>
-									</li>
-									<li>
-										<input type="checkbox" name="size_exist" id="value-L" value="L" class="custom-checkbox" onchange="this.form.submit()">
-										<label class="form-control-label" for="value-L">L</label>
-									</li>
-									<li>
-										<input type="checkbox" name="size_exist" id="value-XL" value="XL" class="custom-checkbox" onchange="this.form.submit()">
-										<label class="form-control-label" for="value-XL">XL</label>
-									</li>
-									<li>
-										<input type="checkbox" name="size_exist" id="value-2XL" value="2XL" class="custom-checkbox" onchange="this.form.submit()">
-										<label class="form-control-label" for="value-2XL">2XL</label>
-									</li>
-									 
-								</ul>
-							</div>
-								
-							
-					
-								
-								
-					
-						
-					
-							</div>
+							 
 						</form>
 					</aside>
 				</div>
@@ -642,24 +568,46 @@
 										<img src="{{product.image.url}}" loading="lazy" alt="Product image" width="300" height="338">
 									
 								</a>
+								{% if LANGUAGE_CODE ==  'ar'  %}
+								<div class="product-action-vertical" style="left: 0;">
+									
+										 
+						
+						
+									<a id="wishHeart"  href="/wishlist-add/{{product.slug}}"    
+									class="btn-product-icon btn-wishlist" 
+									title="Ajouter à la liste de souhait">
+									{% if product in wishlist %}
+										<img src="/static/images/PSC.svg">
+									{% else %}
+			
+									<img src="/static/images/VSC.svg">
+			
+									{% endif %}
+								</a>
+										 
+											</div>
+								{% else %}
 								<div class="product-action-vertical">
 									
 										 
 						
 						
-						<a id="wishHeart"  href="/wishlist-add/{{product.slug}}"    
-						class="btn-product-icon btn-wishlist" 
-						title="Ajouter à la liste de souhait">
-						{% if product in wishlist %}
-							<img src="/static/images/PSC.svg">
-						{% else %}
-
-						<img src="/static/images/VSC.svg">
-
-						{% endif %}
-					</a>
-						 	
-								</div>
+									<a id="wishHeart"  href="/wishlist-add/{{product.slug}}"    
+									class="btn-product-icon btn-wishlist" 
+									title="Ajouter à la liste de souhait">
+									{% if product in wishlist %}
+										<img src="/static/images/PSC.svg">
+									{% else %}
+			
+									<img src="/static/images/VSC.svg">
+			
+									{% endif %}
+								</a>
+										 
+											</div>
+								{% endif %}
+								
 								
 										<div class="product-action  justify-content-end">
 											{% if  product.article_id|filtered_and_length:"," > 1 %}
@@ -687,27 +635,47 @@
 											
 										</div>
 								
-								<div class="product-label-group">
-									
-										
-										<label class="product-label label-top">{{product.get_label_display}}</label>
-										 
-								</div>  
+								{% if LANGUAGE_CODE ==  'ar'  %}
+		<div class="product-label-group" style=" position: absolute !important;min-width: 45px;
+		right: 0px !important;
+		top: 30px  ;left: auto !important;">
+	
+		
+			<label style="width: 100%;"  class="product-label label-top">{% trans product.get_label_display %}</label>
+		 
+	</div>  
+		{% else %}
+		<div class="product-label-group">
+	
+		
+			<label style="min-width: 60px;" class="product-label label-top">{% trans product.get_label_display %}</label>
+		 
+	</div>  
+		{% endif %}
 							</figure>
 							<div class="product-details">
-								<h3 class="product-name">
-									<a href="/{{product.slug}}">{{product.title}}</a>
+								<h3 class="product-name {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
+									<a href="/{{product.slug}}">
+										
+										{% if LANGUAGE_CODE == 'ar'  %}
+						{{product.title_ar}}
+						{% elif  LANGUAGE_CODE == 'en' %}
+						{{product.title_en}} 
+						{% else %}
+						{{product.title}}
+						{% endif %}
+									</a>
 								</h3>
-								<div class="product-price d-flex justify-content-between">
+								<div class="product-price d-flex justify-content-between {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
 									<div>
 										
 										{% if product.price > product.discount_price %}
-										<del class="old-price old-price-block">&nbsp;{{product.price}} DA</del>
+										<del class="old-price old-price-block">&nbsp;{{product.price}} {% trans 'DA' %}</del>
 										 &nbsp; 
-										<ins class="new-price price-block">{{product.discount_price}}DA</ins>
+										<ins class="new-price price-block">{{product.discount_price}}{% trans 'DA' %}</ins>
 										{% else %}
 
-										<ins class="new-price price-block" style="color: #222 !important;">{{product.price}}DA</ins>
+										<ins class="new-price price-block" style="color: #222 !important;">{{product.price}}{% trans 'DA' %}</ins>
 										{% endif %}
 									</div>
 									
@@ -765,7 +733,7 @@
 				margin: 0;
 				padding: 7px;">
 					 
-					<label class="form-control-label " for="cat-1">Trier</label>
+					<label class="form-control-label " for="cat-1">{% trans 'Trier' %}</label>
 				</li>			
 				<li>
 					<input type="radio" class="custom-checkbox" id="cat-121" value="-date_added" name="filter" onchange="this.form.submit()">
@@ -801,7 +769,7 @@
 			border-bottom: 1px solid #e1e1e1;
 			padding-bottom: 1.3rem;">
 				<h4 class="cart-title">Filtrer</h4>
-				<a href="#" class="btn btn-dark btn-link btn-icon-right btn-close">fermer<i class="d-icon-arrow-right"></i><span class="sr-only">Panier</span></a>
+				<a href="#" class="btn btn-dark btn-link btn-icon-right btn-close">{% trans 'fermer' %}<i class="d-icon-arrow-right"></i><span class="sr-only">Panier</span></a>
 			</div>
 			
 
@@ -814,7 +782,7 @@
 				<form action="." method="get">
 					<div class="filter_all">
 						<div class="filter_type widget widget-collapsible">
-							<h3 class="widget-title"> Brand 
+							<h3 class="widget-title"> {% trans 'Brand' %} 
 								<span style="height: 10px;" class="toggle-btn">+</span></h3>
 							<form action="." method="get">
 								<ul class="widget-body filter-items" style="height: 0; display: none;">
@@ -834,19 +802,19 @@
 							</form>
 						</div>
 						<div class="filter_type widget widget-collapsible">
-							<h3 class="widget-title"> Gender 
+							<h3 class="widget-title"> {% trans 'Gender' %}
 								<span style="height: 10px;" class="toggle-btn">+</span></h3>
 							<ul  class="widget-body filter-items" style="height: 0; display: none;">
 								
 								
 									<li>
 										<input type="radio" class="custom-checkbox" id="cat-1" value="F" name="gender" onchange="this.form.submit()">
-										<label class="form-control-label " for="cat-1">FEMME</label>
+										<label class="form-control-label " for="cat-1">{% trans 'FEMMES' %}</label>
 									</li>
 								
 									<li>
 										<input type="radio" class="custom-checkbox" id="cat-24" value="M" name="gender" onchange="this.form.submit()">
-										<label class="form-control-label " for="cat-24">HOMME </label>
+										<label class="form-control-label " for="cat-24">{% trans 'HOMMES' %} </label>
 									</li>
 								
 									 
@@ -854,7 +822,7 @@
 							</ul>   
 						</div>
 						<div class="filter_type widget widget-collapsible">
-							<h3 class="widget-title" >Prix 
+							<h3 class="widget-title" >{% trans 'Prix' %} 
 								<span style="height: 10px;" class="toggle-btn">+</span></h3>
 											<ul class=" widget-body filter-items" style="height: 0; display: none;">
 													<li style="display:flex;">
@@ -889,7 +857,7 @@
 	
 						</div>
 						<div class="filter_type widget widget-collapsible">
-							<h3 class="widget-title">Taille
+							<h3 class="widget-title">{% trans 'Taille' %}
 								<span style="height: 10px;" class="toggle-btn">+</span></h3>
 							<ul style="height: 0; display: none;" class=" widget-body filter-items">
 								 
@@ -950,7 +918,7 @@
 			</div>
 			
 			<div class="cart-action">
-				<a style="width: 100%;" href="" class="btn btn-dark"><span>Filtrer</span></a>
+				<a style="width: 100%;" href="" class="btn btn-dark"><span>{% trans 'Filtrer' %}</span></a>
 			</div>
 			
 

@@ -3,27 +3,50 @@
 {% load mathfilters %}
 {% load custom_filters %}
 {% load humanize %}
-{% block head_title %}{{object.title}}{% endblock %}
+{% load i18n %}
+
+{% block head_title %}
+						{% if LANGUAGE_CODE == 'ar'  %}
+						{{object.title_ar}}
+						{% elif  LANGUAGE_CODE == 'en' %}
+						{{object.title_en}} 
+						{% else %}
+						{{object.title}} 
+						{% endif %}
+{% endblock %}
 {% block content %}
 
 	<!-- breadcrumb -->
-	<div class="bread-crumb bgwhite flex-w p-l-52 p-r-15 p-t-30 p-l-15-sm">
+	<div class=" {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} bread-crumb bgwhite flex-w p-l-52 p-r-15 p-t-30 p-l-15-sm">
 		<a href="/">
 			<i class="d-icon-home chemin"></i>
-			<i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+			<i class="fa fa-angle-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} m-l-8 m-r-9" aria-hidden="true"></i>
 		</a>
 		<a href="/" class="s-text16">
-			Home
-			<i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+			{% trans 'Home' %}
+			<i class="fa fa-angle-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} m-l-8 m-r-9" aria-hidden="true"></i>
 		</a>
 
 		<a href="{% url 'core:category' object.category.slug %}" class="s-text16">
-			{{ object.category }}
-			<i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+			
+			{% if LANGUAGE_CODE == 'ar'  %}
+			{{ object.category.title_ar }}
+						{% elif  LANGUAGE_CODE == 'en' %}
+						{{ object.category.title_en }}
+						{% else %}
+						{{ object.category }}
+						{% endif %}
+			<i class="fa fa-angle-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} m-l-8 m-r-9" aria-hidden="true"></i>
 		</a>
 
 		<span class="s-text17">
-			{{object.title}}
+			{% if LANGUAGE_CODE == 'ar'  %}
+						{{object.title_ar}}
+						{% elif  LANGUAGE_CODE == 'en' %}
+						{{object.title_en}} 
+						{% else %}
+						{{object.title}} 
+						{% endif %}
 		</span>
 	</div>
 
@@ -121,7 +144,17 @@
 					</div>
 
 					{% endfor %}
-
+<script>
+	document.querySelectorAll(".product-thumb ").forEach(ele=>{
+		ele.children[0].onerror = function() {
+            ele.remove(); // Hide the image if it doesn't exist
+			
+        };
+		if(ele.nextElementSibling.children[0].src == ele.children[0].src){
+			ele.remove();
+		}
+	})
+</script>
 						 
 					</div>
 				</div>
@@ -161,21 +194,29 @@
 									
 						
 						
-					<h1 class="product-name name-title ">{{object.title}}</h1>
+					<h1 class="product-name name-title {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} ">
+						{% if LANGUAGE_CODE == 'ar'  %}
+						{{object.title_ar}}
+						{% elif  LANGUAGE_CODE == 'en' %}
+						{{object.title_en}} 
+						{% else %}
+						{{object.title}} 
+						{% endif %}
+					</h1>
 
 					
-					<div class="product-price price-detail d-none d-lg-block d-xl-none">
+					<div class="product-price price-detail d-none d-lg-block d-xl-none {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
 						{% if object.price > object.discount_price %}
-										<del class="old-price old-price-block">&nbsp;{{object.price}} DA</del>
+										<del class="old-price old-price-block">&nbsp;{{object.price}} {% trans 'DA' %}</del>
 										 &nbsp; 
-										<ins class="new-price price-block">{{object.discount_price}}DA</ins>
+										<ins class="new-price price-block">{{object.discount_price}}{% trans 'DA' %}</ins>
 										{% else %}
 
-										<ins class="new-price price-block">{{object.price}}DA</ins>
+										<ins class="new-price price-block">{{object.price}}{% trans 'DA' %}</ins>
 						{% endif %}
 					</div> 
 
-					<div class="ratings-container price-detai">
+					<div class="ratings-container price-detai {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
 						 
 						<div class="ratings-full">
 							<style>
@@ -186,7 +227,7 @@
 							<span class="ratings " ></span>
 							<span class="tooltiptext tooltip-top">{{object.rating}}</span>
 						</div>
-						<a href="#product-tab-reviews" class="link-to-tab rating-reviews">( {{comments|length}} Avis )</a>
+						<a href="#product-tab-reviews" class="link-to-tab rating-reviews">( {{comments|length}} {% trans 'Avis' %} )</a>
 						
 						<img src="/static/images/VSC.svg" class="head-heart" style="width:30px; height:30px;">
 						<a href="#product-tab-reviews" class="link-to-tab rating-reviews">{{object.wishlist_num|floatformat:0}}</a>
@@ -195,7 +236,7 @@
 					
 					
 					{% if object.has_coupon and object.show_coupon %}
-						<div class="owl-stage-outer">
+						<div class="owl-stage-outer {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
 							<div class="owl-item active" style="width: 280px; margin-right: 20px;">
 								<div class="icon-box  icon-box-side flex-column coupon-box">
 										<div class="icon-box-content mb-1 text-center">
@@ -204,11 +245,11 @@
 													<i class="icon-box-icon  d-icon-card"></i> 
 												</div>
 												<div class="col-8">
-													<h4 class="icon-box-title text-uppercase">{{object.price_after_coupon|mul:100|div:object.price|sub:100|floatformat:1}}% Tu viens d'arriver ? 
-	Profite de {{object.price_after_coupon|mul:100|div:object.price|sub:100|mul:-1|floatformat:1}}% de réduction</h4>
+													<h4 class="icon-box-title text-uppercase">{% if not LANGUAGE_CODE == 'ar' %}{{object.price_after_coupon|mul:100|div:object.price|sub:100|floatformat:1}}% {%endif %} {% trans "Tu viens d'arriver ? Profite de" %}
+														{{object.price_after_coupon|mul:100|div:object.price|sub:100|mul:-1|floatformat:1}}% {% trans 'de réduction' %}</h4>
 												</div>
 											</div>
-											<p style="color:#000;">avec le code :  <span style="font-weight:600;"> {{object.coupon_code}} </span></p>
+											<p style="color:#000;">{% trans 'avec le code :' %}   <span style="font-weight:600;"> {{object.coupon_code}} </span></p>
 										</div>
 								</div>
 							</div> 
@@ -220,12 +261,12 @@
 
 
 							{% if colors_item|length > 1 %}
-								<p> Couleurs : </p>
+								<p class="{% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}" > {% trans 'Couleurs' %} : </p>
 								 
 
 									
 											
-								<div class="owl-carousel555 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
+								<div class="{% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} owl-carousel555 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
 									'nav': true,
 									'dots': false,
 									'margin': 0,
@@ -252,7 +293,7 @@
 									transition: all 3s ease 0s; width: 5814px;">
 								{% for item in colors_item %}
 								
-								<div class="owl-item new_item{% if forloop.counter <= 4 %} active{% endif %}" style="width: 247px !important; margin-right: 20px;">
+								<div class="owl-item new_item {% if forloop.counter == 1 %} margin-right-2 {% endif %} {% if forloop.counter <= 4 %} active{% endif %}" style="width: 247px !important; margin-right: 20px;">
 									<a class="variant" >
 											 
 										<img draggable="false" style="width: 50px !important; height: 100% !important;" class="color variant-owl" src="{{item.image.url}}"
@@ -329,11 +370,11 @@ itemLinks.forEach(itemLink => {
 							
 							</script>
 							 
-								<div class="product-form product-size ">
+								<div class="product-form product-size {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} ">
 									<div class="product-form-group product-cen">
 										<div class="product-variations">
 											<div class="d-flex justify-content-between">
-												<label style="font-size:16px">Taille :</label>  <br>
+												<label style="font-size:16px">{% trans 'Taille' %} :</label>  <br>
 												
 											</div>	 
 											
@@ -390,17 +431,20 @@ itemLinks.forEach(itemLink => {
 							<div class="product-form product-qty d-md-block d-lg-block d-xl-block d-xs-none">
 							
 								<label style="display: none;">Quantité :</label>
-								<div class="product-form-group product-cen">
+								<div class="product-form-group product-cen {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} ">
 									<div class="input-group" style="display: none;">
 										<button class="btn-num-update-product-down d-icon-minus"></button>
 											<input type="number" name="quantity" class="quantity form-control" value="1" required="">
 										<button class="btn-num-update-product-up d-icon-plus"></button>
 									</div>
 									<a id="submit_to" style="width: 76%;" href="/add-to-cart/{{object.slug}}?name=dd">
-										<button  style="width: 100%;" type="submit" class="btn-product btn-cart"><i class="d-icon-bag" style="color:#fff;"></i>Ajouter Au Panier</button> 
+										<button  style="width: 100%;" type="submit" class="btn-product btn-cart"><i class="d-icon-bag" style="color:#fff;"></i>
+											
+											{% trans 'Ajouter Au Panier' %}
+										</button> 
 									</a>
 									
-								<a class="sticky-wishlist-th d-md-none d-lg-block d-xl-block  d-xs-none" 
+								<a class="{% if LANGUAGE_CODE == 'ar' %}margin-right-30{% endif %} sticky-wishlist-th d-md-none d-lg-block d-xl-block  d-xs-none" 
 									id="wishHeart" 
 									href="/wishlist-add/{{object.slug}}">
 									 
@@ -418,10 +462,12 @@ itemLinks.forEach(itemLink => {
 					</form>
 					<div class="mobile_cart"  >
 						<a id="submit_to" style="width: 76%;" href="/add-to-cart/{{object.slug}}?name=dd">
-																<button style="width: 100%;" type="submit" class="btn-product btn-cart"><i class="d-icon-bag" style="color:#fff;"></i>Ajouter Au Panier</button> 
+																<button style="width: 100%;" type="submit" class="btn-product btn-cart"><i class="d-icon-bag" style="color:#fff;"></i>
+																	{% trans 'Ajouter Au Panier' %}
+																</button> 
 															</a>
 						
-						<a class="sticky-wishlist-th d-md-none d-lg-block d-xl-block  d-xs-none" id="wishHeart" 
+						<a  class="{% if LANGUAGE_CODE == 'ar' %}margin-right-30{% endif %} sticky-wishlist-th d-md-none d-lg-block d-xl-block  d-xs-none" id="wishHeart" 
 						href="/wishlist-add/{{object.slug}}" 
 						style="display: block !important;height: 100%;height: 40px;">
 						{% if whished %}
@@ -435,9 +481,20 @@ itemLinks.forEach(itemLink => {
 									
 						</div>
 						<hr class="product-divider  mb-3 hr-product">
-						<div class="product-footer ">
+						<div class="product-footer {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
 							<div class="social-links mr-4 ">
-								<p> <span style="color:#000"> Délais de livraison :</span> {{object.shipping}} </p>
+								<p class="{% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}"> <span style="color:#000"> {% trans 'Délais de livraison' %} :</span> 
+									{% if object.shipping|extract_numbers %}
+									{{object.shipping|extract_numbers}} 
+									{% if  object.shipping|extract_numbers == '1' %}
+									{% trans 'jour' %}
+									{% else %}
+									{% trans 'jours' %}
+									{% endif %}
+									{% else %}
+									{% trans 'le meme jour' %}
+									{% endif %} 
+								</p>
 								
 								
 							</div> 
@@ -464,16 +521,24 @@ itemLinks.forEach(itemLink => {
 											<img src="{{ object.image.url }}" alt="Manteau Beige en Laine image" class="sticky-image mr-3" loading="lazy">
 										</figure>
 									<div class="title-sticky-div">
-										<h4 class="product-title sticky-title"><a href="#">{{object.title}}</a></h4>
+										<h4 class="product-title sticky-title"><a href="#">
+											{% if LANGUAGE_CODE == 'ar'  %}
+											{{object.title_ar}}
+											{% elif  LANGUAGE_CODE == 'en' %}
+											{{object.title_en}} 
+											{% else %}
+											{{object.title}} 
+											{% endif %}
+										</a></h4>
 										<div class="product-info sticky-p-info">
-											<div class="product-price">
+											<div class="product-price ">
 												{% if object.discount_price > object.price%}
-												<ins class="new-price new-price-sticky">{{object.price}} DA</ins>
+												<ins class="new-price new-price-sticky">{{object.price}} {% trans 'DA' %}</ins>
 												
-												<del class="old-price-sticky"> &nbsp;1 DA</del>
+												<del class="old-price-sticky"> &nbsp;1 {% trans 'DA' %}</del>
 											
 												{% else %}
-												<ins class="new-price new-price-sticky">{{object.price}} DA</ins>
+												<ins class="new-price new-price-sticky">{{object.price}} {% trans 'DA' %}</ins>
 												
 
 												{% endif %}
@@ -488,7 +553,7 @@ itemLinks.forEach(itemLink => {
 												<div class="product-form product-size d-flex justify-content-end" style="margin-right: 8px;">
 													<div class="select-box sticky-selct-box">
 														<select name="atribute" value="" class="form-control" id="sticky_sizes" required="required">
-															<option value="">Taille:</option>
+															<option value="">{% trans 'Taille' %}:</option>
 															
 														<script>
 															var mysize="{{object.size_exist}}"
@@ -516,7 +581,9 @@ itemLinks.forEach(itemLink => {
 												
 											<input type="number" style="display: none;" name="quantity" class="quantity form-control display-none" value="1" required="">
 												<a id="submit_to" href="/add-to-cart/{{object.slug}}?name=dd">
-													<button type="submit" class="btn-product btn-cart sticky-bag"><i class="d-icon-bag" style="color:#fff;"></i>Ajouter Au Panier</button>
+													<button type="submit" class="btn-product btn-cart sticky-bag"><i class="d-icon-bag" style="color:#fff;"></i>
+														{% trans 'Ajouter Au Panier' %}
+													</button>
 												</a>
 											<a class="sticky-wishlist-th" id="wishHeart"
 											 href="/wishlist-add/{{object.slug}}" 
@@ -548,17 +615,24 @@ itemLinks.forEach(itemLink => {
 	</div>
 
 	<div class="tab tab-nav-simple product-tabs pt-4"  style="padding: 8px;min-height:115vh">
-		<ul class="nav nav-tabs d-flex justify-content-center" style="width:auto;" role="tablist">
+		<ul class="nav nav-tabs d-flex justify-content-center {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}" style="width:auto;" role="tablist">
 			<li class="nav-item mr-auto ml-auto">
-				<a class="nav-link navvlink active" style="text-decoration: none;background: none;" href="#product-tab-description">Déscription</a>
+				<a class="nav-link navvlink active" style="text-decoration: none;background: none;" href="#product-tab-description">{% trans 'Déscription' %}</a>
 			</li>
 			<li class="nav-item mr-auto ml-auto">
-				<a class="nav-link navvlink" style="text-decoration: none;background: none;" href="#product-tab-additional">Caractéristiques</a>
+				<a class="nav-link navvlink" style="text-decoration: none;background: none;" href="#product-tab-additional">{% trans 'Caractéristiques' %}</a>
 			</li>					
 		</ul>
 		<div class="tab-content">
-			<div class="tab-pane active in" id="product-tab-description">
-				{{object.description_long|linebreaks}}
+			<div class="tab-pane active in {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}  " id="product-tab-description" >
+					{% if LANGUAGE_CODE == 'ar'  %}
+					{{object.description_long_ar|linebreaks}}
+					{% elif  LANGUAGE_CODE == 'en' %}
+					{{object.description_long_en|linebreaks}}
+					{% else %}
+					{{object.description_long|linebreaks}}
+					{% endif %}
+				
 			</div>
 			<div class="tab-pane " id="product-tab-additional" style="min-height: 250px;">
 				<ul class="detail-attr-container">
@@ -573,7 +647,7 @@ itemLinks.forEach(itemLink => {
 								</li>
 								<script>
 									var element = document.getElementById("{{ key|slugify }}");
-									if (element.innerHTML == "nan") {
+									if (element.innerHTML == "nan" || element.innerHTML =="NULL") {
 										console.log(element.parentElement.parentElement.remove())
 									}
 								</script>
@@ -604,8 +678,8 @@ itemLinks.forEach(itemLink => {
 	<section class="relateproduct bgwhite p-t-5 p-b-138">
 		<div class="container">
 			<div class="sec-title   p-t-40">
-				<h2 class="m-text5">
-					Related Products
+				<h2 class="m-text5 {% if LANGUAGE_CODE == 'ar' %}rtl marg-right-10{% endif %} ">
+					{% trans 'Related Products' %}
 				</h2>
 			</div>
 			<div class="owl-carousel551 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
@@ -643,37 +717,62 @@ itemLinks.forEach(itemLink => {
 						<img style="width: 100%; height: 100%;" src={{new_item.image.url}} loading="lazy" alt="Manteau Noir  Oversize en Laine  image" width="300" height="338">
 					
 				</a>
-			<div class="product-action-vertical">
+				{% if LANGUAGE_CODE ==  'ar'  %}
+			<div class="product-action-vertical" style="right: 78% !important;">
 	 
 			<a id="wishHeart" hx-get="/fr/wishlistadd/873" hx-target="this" hx-swap="outerHTML" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
 				<img src="/static/images/VSC.svg">
 			</a>		
 			</div>
+			<div class="product-label-group" style="width: 48px;position: absolute !important;
+			right: 0px !important;
+			top: 30px  ;left: auto !important;">
+				
+					
+					<label style="width: 100%;" class="product-label label-top">{% trans new_item.get_label_display %}</label>
 
-		 
+			</div>  
 
-<div class="product-label-group">
-	
-		
-		<label class="product-label label-top">{{new_item.get_label_display }}</label>
+			{% else %}
+			<div class="product-action-vertical">
 	 
-</div>  
+				<a id="wishHeart" hx-get="/fr/wishlistadd/873" hx-target="this" hx-swap="outerHTML" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+					<img src="/static/images/VSC.svg">
+				</a>		
+				</div>
+				<div class="product-label-group">
+					
+						
+						<label class="product-label label-top">{% trans new_item.get_label_display %}</label>
+	
+				</div>  
+
+			{% endif %}
 </figure>
 <div class="product-details">
 	
-<h3 class="product-name">
-	<a href="/product/{{new_item.slug}}">{{new_item.title}} </a>
+<h3 class="product-name {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
+	<a href="/product/{{new_item.slug}}">
+		
+						{% if LANGUAGE_CODE == 'ar'  %}
+						{{new_item.title_ar}}
+						{% elif  LANGUAGE_CODE == 'en' %}
+						{{new_item.title_en}} 
+						{% else %}
+						{{new_item.title}} 
+						{% endif %}
+						  </a>
 </h3>
-<div class="product-price d-flex justify-content-between">
+<div class="product-price d-flex justify-content-between {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
 	<div>
 		
 		{% if new_item.price > new_item.discount_price %}
-		<del class="old-price old-price-block">&nbsp;{{new_item.price}} DA</del>
+		<del class="old-price old-price-block">&nbsp;{{new_item.price}} {% trans 'DA' %}</del>
 		 &nbsp; 
-		<ins class="new-price price-block">{{new_item.discount_price}}DA</ins>
+		<ins class="new-price price-block">{{new_item.discount_price}}{% trans 'DA' %}</ins>
 		{% else %}
 
-		<ins class="new-price price-block">{{new_item.price}}DA</ins>
+		<ins class="new-price price-block">{{new_item.price}}{% trans 'DA' %}</ins>
 {% endif %}
 	</div>
 	
@@ -765,7 +864,7 @@ itemLinks.forEach(itemLink => {
 				border-bottom-color: transparent;
 			  border-bottom-color: transparent !important;
 			  background-color: transparent;
-			  border-bottom-color: #26c !important;" class="nav-link active" href="#product-tab-reviews">Avis ({{comments|length}})</a> 
+			  border-bottom-color: #26c !important;" class="nav-link active" href="#product-tab-reviews">{% trans 'Avis' %} ({{comments|length}})</a> 
 			</li>
 		</ul>     
 		<div class="tab-content">
@@ -833,19 +932,32 @@ itemLinks.forEach(itemLink => {
 
 					<form method="POST" action="." enctype="multipart/form-data">
 						{% csrf_token %}
-					   <div class="reply">
+					   <div class="reply ">
 						   <div class="title-wrapper text-left">
-							   <h3 class="title title-simple text-left text-normal">Ajouter</h3>
+							   <h3 class="title title-simple text-left text-normal {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">{% trans 'Ajouter' %}</h3>
 						   </div>
-						   <div class="rating-form">
-							   <label for="rating" class="text-dark" required="required">Votre note * </label>
-							   <span class="rating-stars selected" required="required">
-								   <a class="star-1" href="#">1</a>
-								   <a class="star-2" href="#">2</a>
-								   <a class="star-3" href="#">3</a>
-								   <a class="star-4" href="#">4</a>
-								   <a class="star-5" href="#">5</a>
-							   </span>
+						   <div class="rating-form {% if LANGUAGE_CODE == 'ar' %}flex-end{% endif %} ">
+							{% if LANGUAGE_CODE == 'ar' %}
+							
+							<span class="rating-stars selected {% if LANGUAGE_CODE == 'ar' %}margin-right-30 ltr {% endif %}" required="required">
+								<a class="star-1" href="#">1</a>
+								<a class="star-2" href="#">2</a>
+								<a class="star-3" href="#">3</a>
+								<a class="star-4" href="#">4</a>
+								<a class="star-5" href="#">5</a>
+							</span>
+							<label for="rating" class="text-dark rtl" required="required">{% trans 'Votre note' %} * </label>
+							{% else %}
+							<label for="rating" class="text-dark" required="required">{% trans 'Votre note' %} * </label>
+							<span class="rating-stars selected   " required="required">
+								<a class="star-1" href="#">1</a>
+								<a class="star-2" href="#">2</a>
+								<a class="star-3" href="#">3</a>
+								<a class="star-4" href="#">4</a>
+								<a class="star-5" href="#">5</a>
+							</span>
+							{% endif %}
+							   
 							   <select name="rating" id="rating" required="required" style="display: none;">
 								   <option value="">Note...
 								   </option><option value="5">Trés Bon
@@ -866,7 +978,7 @@ itemLinks.forEach(itemLink => {
 									 
 								</div> -->
 							</div>
-							   <textarea id="reply-message" name="text" cols="30" rows="6" class="form-control mb-4" placeholder="Commentaire *" required="required">
+							   <textarea id="reply-message" name="text" cols="30" rows="6" class="form-control mb-4 {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} " placeholder="{% trans 'Commentaire *' %}" required="required">
 								
 							   </textarea>											
 							   <input type="text" hidden="true" name="findslug" value="{{object.slug}}"> 
@@ -881,10 +993,10 @@ itemLinks.forEach(itemLink => {
 							
 							<img style="height: 21px;scale: 1.6;margin-right: 8px;
 							cursor: pointer;"  src="{% static 'images/upload_icon.png' %}" alt="">
-							   Upload image
+							   {% trans 'Upload image' %}
 						   </button>
 						   
-							   <button type="submit" class="btn btn-primary btn-rounded">Confirmer</button>
+							   <button type="submit" class="btn btn-primary btn-rounded">{% trans 'Confirmer' %}</button>
 							   <script>
 								       function readUrl(input) {
   if (input.files && input.files[0]) {

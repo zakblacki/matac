@@ -1,8 +1,10 @@
 
 {% extends 'base.html' %}
 {% load static %}
-{% block head_title %}Register{% endblock %}
+{% load i18n %}
+{% block head_title %}{% trans 'Register' %}{% endblock %}
 {%  block content %}
+
 
 <div class="page-content mt-6 pb-2 mb-10">
     <div class="container">
@@ -12,11 +14,11 @@
                 <div class="tab tab-nav-simple tab-nav-boxed form-tab">
                     <ul class="nav nav-tabs nav-fill align-items-center border-no justify-content-center mb-5" role="tablist">
                         <li class="nav-item">
-                            <span class="nav-link active border-no lh-1 ls-normal">S'inscrir</span>
+                            <span class="nav-link active border-no lh-1 ls-normal">{% trans "S'inscrire" %}</span>
                         </li>
-                        <li class="delimiter">OU</li>
+                        <li class="delimiter">{% trans 'OU' %}</li>
                         <li class="nav-item">
-                            <a class="border-no lh-1 ls-normal" href="/login/">Se connecter</a>
+                            <a class="border-no lh-1 ls-normal" href="/login/">{% trans 'Se connecter' %}</a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -40,7 +42,7 @@
                                 <div class="form-group">
                                     {{form.password2}}                                </div>
                                 </div>
-                                <button class="btn btn-dark btn-block btn-rounded" type="submit">Je Valide</button>
+                                <button class="btn btn-dark btn-block btn-rounded" type="submit">{% trans 'Je Valide' %}</button>
                             </form>
                             {% if form.errors %}
         <p>There are some errors in the form:</p>

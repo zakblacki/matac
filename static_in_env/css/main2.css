@@ -269,12 +269,21 @@ input {
   color: #999;
   margin-right: 50px;
 }
-
+/* .mobrightlen{
+  right: 180px !important;
+  position: relative;
+} */
 .header-search.hs-simple input.form-control{
-  padding-right: 51px !important;
-  padding-left: 5px !important;
+  padding-right: 51px ;
+  padding-left: 5px ;
 }
-
+.marg-right-10{
+  margin-right: 10px;
+}
+.padd-en{
+  padding-right: 51px !important;
+  padding-left: 5px  !important;
+}
 .header-search.hs-simple input::placeholder{
   padding-left: 0px !important;
 }
@@ -14439,6 +14448,14 @@ color: #fff;
 
 .detail-attr-item span:nth-of-type(2){
   text-align: end;
+}
+
+.padd-arab{
+  padding-left: 51px !important;
+  padding-right: 5px !important;
+}
+.right-240{
+  right: 240px !important;
 }
 @media (max-width:992px) {
   

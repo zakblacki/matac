@@ -60,13 +60,14 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect'
+                'social_django.context_processors.login_redirect',
+                'django.template.context_processors.i18n'
             ],
         },
     },
 ]
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
@@ -163,12 +164,14 @@ SOCIAL_AUTH_FACEBOOK_SECRET = '9e57419d03907e57fbe2fe2e1d05392a'  #
 
 #  <!-- <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a> -->
  
-
+LANGUAGE_CODE = 'fr'
 LANGUAGES = [
     ('en', _('English')),
     ('fr', _('French')),
     ('ar', _('Arabic')),
 ]
 
-LANGUAGE_CODE = 'fr'
+LOCALE_PATHS=[
+    os.path.join(BASE_DIR,'local')
+]
 

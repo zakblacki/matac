@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block head_title %}Login{% endblock %}
+{% block head_title %}{%trans 'Login' %}{% endblock %}
 {% block content %}
 <div class="page-content mt-6 pb-2 mb-10">
     <div class="container">
@@ -13,11 +14,11 @@
                 <div class="tab tab-nav-simple tab-nav-boxed form-tab">
                     <ul class="nav nav-tabs nav-fill align-items-center border-no justify-content-center mb-5" role="tablist">
                         <li class="nav-item">
-                            <span class="nav-link active border-no lh-1 ls-normal">Se connecter</span>
+                            <span class="nav-link active border-no lh-1 ls-normal">{% trans 'Se connecter' %}</span>
                         </li>
-                        <li class="delimiter">OU</li>
+                        <li class="delimiter">{% trans 'OU' %}</li>
                         <li class="nav-item">
-                            <a class=" border-no lh-1 ls-normal" href="/register/">S'inscrire</a>
+                            <a class=" border-no lh-1 ls-normal" href="/register/">{% trans "S'inscrire" %}</a>
                         </li>
                     </ul>
 
@@ -32,9 +33,9 @@
                               {{form.password}}
                             </div>
                             <div class="form-footer">
-                                <a href="#" class="lost-link">J'ai oublier mon mot de pass</a>
+                                <a href="#" class="lost-link">{% trans "J'ai oublier mon mot de pass" %}</a>
                             </div>
-                            <button class="btn btn-dark btn-block btn-rounded" type="submit">Se connecter</button>
+                            <button class="btn btn-dark btn-block btn-rounded" type="submit">{% trans 'Se connecter' %}</button>
                         </form>
 
                         <!-- <p><strong>-- OR --</strong></p> -->

@@ -1,6 +1,7 @@
 {% load static %}
 {% load cart_template_tags %}
 {% load category_template_tags %}
+{% load i18n %}
 
 <style>
 	.topbar {
@@ -13,6 +14,7 @@
 </style>
 <!-- Header -->
 <header class="header1">
+	
 		<!-- Header desktop -->
 		<div class="container-menu-header">
 			<div class="topbar" style="height: 92px;">
@@ -25,7 +27,7 @@
                     
                     
                     <div class="tab tab-menu" style="min-width: 715px;padding-left: 10px;">
-                        <ul class="nav nav-tabs" role="tablist" style="width: 40%;display: flex;
+                        <ul class="nav nav-tabs {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}" role="tablist" style="width: 40%;display: flex;
 						justify-content: space-between;
 						position: relative;
 						left: 10px;
@@ -36,11 +38,13 @@
 							{% if forloop.counter == 1 %}
 							
 							<li class="nav-item">
-								<a data-id="#{{catg.title}}" class="nav-link active navat activenavit nav-link-top" href="{{catg.slug}} ">{{catg.title}}</a>
+								<a data-id="#{{catg.title}}" class="nav-link active navat activenavit nav-link-top" href="{{catg.slug}} ">
+									{% trans catg.title %}
+								</a>
 							</li>
 							{% else %}
 							<li class="nav-item">
-								<a data-id="#{{catg.title}}" class="nav-link nav-link-top" href=" {{catg.slug}}">{{catg.title}}</a>
+								<a data-id="#{{catg.title}}" class="nav-link nav-link-top" href=" {{catg.slug}}">{% trans catg.title %}</a>
 							</li>
 							{% endif %}
 							{% endfor %}
@@ -66,6 +70,32 @@
 				<a href="/" class="logo">
 					<img src="{% static 'images/matacor.png' %}" style="scale: 1.17;" alt="">
 				</a>
+				<form style="margin-bottom: 35px;
+				margin-right: 10px;" action="{% url 'set_language' %}" method="post">{% csrf_token %}
+					<input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}">
+					<select id="lang_change" name="language" style="
+					background: transparent;
+					border: none;
+					outline: none;
+					border: 1px solid #22222285;
+					padding: 4px;padding-left: 25px;
+					">
+						{% get_current_language as LANGUAGE_CODE %}
+						{% get_available_languages as LANGUAGES %}
+						{% get_language_info_list for LANGUAGES as languages %}
+						{% for language in languages %}
+							<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+								{{ language.name_local }} ({{ language.code }})
+							</option>
+						{% endfor %}
+					</select>
+					<input id="lang_change_sub" type="submit" value="Go" hidden="true">
+					<script>
+						document.getElementById("lang_change").addEventListener("change",function(){
+							document.getElementById("lang_change_sub").click()
+						})
+					</script>
+				</form>
 				<!-- <div class="topbar-child2" style="position: relative;
 				background: #fbf5f5;
 				border-radius:6px 6px 0 0;
@@ -181,7 +211,7 @@
 						color: #222;
 						text-transform: capitalize;
 						"
-						>Favoris</p>
+						>{% trans 'Favoris' %}</p>
                     </a>
 					  
 					{% if user.is_authenticated %}
@@ -200,7 +230,7 @@
 						color: #222;
 						text-transform: capitalize;
 						"
-						>Compte</p>
+						>{% trans 'Compte' %}</p>
                     </a>
 					{% else %}
 					<a href="/login" class="header-wrapicon1 dis-block">
@@ -217,7 +247,7 @@
 						color: #222;
 						text-transform: capitalize;
 						"
-						>Login</p>
+						>{% trans 'Login' %}</p>
                     </a>
 					{% endif %}
 
@@ -254,8 +284,8 @@ position: fixed;">
 								justify-content: space-between;
 								border-bottom: 1px solid #e1e1e1;
 								padding-bottom: 1.3rem;">
-									<h4 class="cart-title">Panier</h4>
-									<a href="#" class="btn btn-dark btn-link btn-icon-right btn-close">fermer<i class="d-icon-arrow-right"></i><span class="sr-only">Panier</span></a>
+									<h4 class="cart-title">{% trans 'Panier' %}</h4>
+									<a href="#" class="btn btn-dark btn-link btn-icon-right btn-close">{% trans 'fermer' %}<i class="d-icon-arrow-right"></i><span class="sr-only">{% trans 'Panier' %}</span></a>
 								</div>
 								{% if request.user.is_authenticated %}
 								{% if orders %}
@@ -270,11 +300,18 @@ position: fixed;">
 
 										<div class="header-cart-item-txt">
 											<a href="#" class="header-cart-item-name">
-												{{order.item.title}}
+												{% if LANGUAGE_CODE == 'ar' %}
+												{{order.item.title_ar}}
+									{% elif  LANGUAGE_CODE == 'en' %}
+									{{order.item.title_en}}
+									{% else %}
+									{{order.item.title}}
+									{% endif %}
+												
 											</a>
 
 											<span class="header-cart-item-info">
-												{{order.quantity}} x {{order.item.price}} DZD
+												{{order.quantity}} x {{order.item.price}} {% trans 'DZD' %}
 											</span>
 										</div>
 									</li>
@@ -288,20 +325,20 @@ position: fixed;">
 									padding: 14px;
 									padding-left: 14px;
 									padding-left: 0;
-									" class="mt-2">aucun Produit trouver</p>
+									" class="mt-2">{% trans 'aucun Produit trouver' %}</p>
 									
 									<div class="cart-action">
-										<a style="width: 100%;" href="/shop" class="btn btn-dark"><span>Aller au Shopping</span></a>
+										<a style="width: 100%;" href="/shop" class="btn btn-dark"><span>{% trans 'Aller au Shopping' %}</span></a>
 									</div>
 									{% endfor %}
 								 
 							</ul>
 							{% if orders_cart.total != 0 %}
 							<div class="header-cart-total">
-								Total: {{orders_cart.total}}DZD
+								{% trans 'Total' %}: {{orders_cart.total|floatformat:2}}{% trans 'DZD' %}
 							</div>
 							<div class="cart-action">
-								<a style="width: 100%;" href="{% url 'core:order-summary' %}" class="btn btn-dark"><span>Checkout</span></a>
+								<a style="width: 100%;" href="{% url 'core:order-summary' %}" class="btn btn-dark"><span>{% trans 'Checkout' %}</span></a>
 							</div>
 							{% endif %}
 							 
@@ -321,7 +358,7 @@ position: fixed;">
 						padding-left: 15px;
 						text-transform: capitalize;
 						"
-						>Panier</p>
+						>{% trans 'Panier' %}</p>
 						</a>
 					</div>
 					
@@ -356,9 +393,9 @@ position: fixed;">
 							</li>
 							{% else %}
 							<li>
-								<a href="/login">Login</a>
+								<a href="/login">{% trans 'Login' %}</a>
 								<ul class="sub_menu">
-									<li><a href="/login">Login</a></li>
+									<li><a href="/login">{% trans 'Login' %}</a></li>
 									<li><a href="/register ">SignUp</a></li>
 								</ul>
 							</li>
@@ -408,6 +445,33 @@ position: fixed;">
 
 		<!-- Header Mobile -->
 		<div class="wrap_header_mobile" style="padding-top: 43px;">
+			<form style="position: absolute;
+			right: 8px;
+			top: 22px;" action="{% url 'set_language' %}" method="post">{% csrf_token %}
+				<input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}">
+				<select id="lang_change1" name="language" style="
+				background: transparent;
+				border: none;
+				outline: none;
+				border: 1px solid #22222285;
+				padding: 4px;padding-left: 25px;
+				">
+					{% get_current_language as LANGUAGE_CODE %}
+					{% get_available_languages as LANGUAGES %}
+					{% get_language_info_list for LANGUAGES as languages %}
+					{% for language in languages %}
+						<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+							{{ language.name_local }} ({{ language.code }})
+						</option>
+					{% endfor %}
+				</select>
+				<input id="lang_change_sub1" type="submit" value="Go" hidden="true">
+				<script>
+					document.getElementById("lang_change1").addEventListener("change",function(){
+						document.getElementById("lang_change_sub1").click()
+					})
+				</script>
+			</form>
 			<div style="margin-left: -25px;" class="btn-show-menu-mobile hamburger hamburger--squeeze">
 				<!-- <span class="hamburger-box">
 					<span style="left: 30px;" class="hamburger-inner"></span>
@@ -473,8 +537,8 @@ position: fixed;">
 												justify-content: space-between;
 												border-bottom: 1px solid #e1e1e1;
 												padding-bottom: 1.3rem;">
-													<h4 class="cart-title">Panier</h4>
-													<a href="#" class="btn btn-dark btn-link btn-icon-right btn-close">fermer<i class="d-icon-arrow-right"></i><span class="sr-only">Panier</span></a>
+													<h4 class="cart-title">{% trans 'Panier' %}</h4>
+													<a href="#" class="btn btn-dark btn-link btn-icon-right btn-close">{% trans 'fermer' %}<i class="d-icon-arrow-right"></i><span class="sr-only">{% trans 'Panier' %}</span></a>
 												</div>
 												
 
@@ -492,11 +556,18 @@ position: fixed;">
 				
 														<div class="header-cart-item-txt">
 															<a href="#" class="header-cart-item-name">
-																{{order.item.title}}
+																 
+																{% if LANGUAGE_CODE == 'ar' %}
+												{{order.item.title_ar}}
+									{% elif  LANGUAGE_CODE == 'en' %}
+									{{order.item.title_en}}
+									{% else %}
+									{{order.item.title}}
+									{% endif %}
 															</a>
 				
 															<span class="header-cart-item-info">
-																{{order.quantity}} x {{order.item.price}} DZD
+																{{order.quantity}} x {{order.item.price}} {% trans 'DZD' %}
 															</span>
 														</div>
 													</li>
@@ -509,10 +580,10 @@ position: fixed;">
 												padding: 14px;
 												padding-left: 14px;
 												padding-left: 0;
-												" class="mt-2">you have to login first</p>
+												" class="mt-2">{% trans 'you have to login first'  %}</p>
 												
 												<div class="cart-action">
-													<a style="width: 100%;" href="/login" class="btn btn-dark"><span>Login & start shopping</span></a>
+													<a style="width: 100%;" href="/login" class="btn btn-dark"><span>{% trans 'Login & start shopping' %}</span></a>
 												</div>
 												{% endfor %}
 				
@@ -521,10 +592,10 @@ position: fixed;">
 				
 											{% if orders_cart.total != 0 %}
 											<div class="header-cart-total">
-												Total: {{orders_cart.total}}DZD
+												{% trans 'Total' %}: {{orders_cart.total}}{% trans 'DZD' %}
 											</div>
 											<div class="cart-action">
-												<a style="width: 100%;" href="{% url 'core:order-summary' %}" class="btn btn-dark"><span>Checkout</span></a>
+												<a style="width: 100%;" href="{% url 'core:order-summary' %}" class="btn btn-dark"><span>{% trans 'Checkout' %}</span></a>
 											</div>
 											{% endif %}
 				
@@ -595,11 +666,11 @@ position: fixed;">
 		width: 55%;margin-left: 10.25%;">
                         
                         
-			<form action="/shop" class="input-wrapper" style="border-bottom: 1px solid #222 !important;">
- 				<button class="btn btn-search-mobile" type="submit">
+			<form action="/shop" class="input-wrapper {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}" style="border-bottom: 1px solid #222 !important;">
+ 				<button class="btn btn-search-mobile {% if LANGUAGE_CODE == 'ar' %}mobrightlen{% endif %}" type="submit">
 					<i class="d-icon-search" style="scale: 0.9;"></i> 
 				</button>
-				<input placeholder="Rechercher par mot clés..." type="text" class="search-input" name="search" autocomplete="off" required="" >
+				<input placeholder="{% trans 'Rechercher par mot clés...' %}" type="text" class="search-input" name="search" autocomplete="off" required="" >
 			</form>
 		</div>
 		<!-- Menu Mobile -->
@@ -610,8 +681,8 @@ position: fixed;">
 
 					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8 mobile-menu-container"
 					style="transform: translate(0);">
-						<form action="/shop"   class="input-wrapper">
- 								<input style="height: 100%;" type="text" class="form-control" name="search" autocomplete="off" placeholder="Rechercher par mot clés..." required="">
+						<form action="/shop"   class="input-wrapper {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
+ 								<input style="height: 100%;" type="text" class="form-control" name="search" autocomplete="off" placeholder="{% trans 'Rechercher par mot clés...' %}" required="">
 								<button class="btn btn-search" type="submit">
 									<i class="d-icon-search"></i>
 								</button>
@@ -621,7 +692,7 @@ position: fixed;">
 					 
 					
  
-					<ul class="nav nav-tabs nav-fill" role="tablist">
+					<ul class="nav nav-tabs nav-fill  " role="tablist">
                     
                         <!-- <li class="nav-item" style="width: 100px;">
                             <a class="nav-link active"  style="text-decoration: none;">FEMME</a>
@@ -657,7 +728,7 @@ position: fixed;">
 					{% if request.user.is_authenticated %}
 					<li class="item-menu-mobile">
 					 
-						<a href="{% url 'core:order-summary' %}">Checkout
+						<a href="{% url 'core:order-summary' %}">{% trans 'Checkout' %}
 							<span class="badge badge-dark">
 								{% if request.user.is_authenticated %}
 								{{ request.user|cart_item_count }}
@@ -671,11 +742,11 @@ position: fixed;">
 					</li>
 						{% if request.user.is_authenticated  %}
 						<li class="item-menu-mobile">
-							<a href="/profile">Mon Compte</a>
+							<a href="/profile">{% trans 'Mon Compte' %}</a>
 						</li>
 						{% else %}
 						<li class="item-menu-mobile">
-							<a href="/login">Login</a>
+							<a href="/login">{% trans 'Login' %}</a>
 						</li>
 						<li class="item-menu-mobile">
 							<a href="/register">Register</a>
@@ -683,7 +754,7 @@ position: fixed;">
 						{% endif %}
 					{% else %}
 					<li class="item-menu-mobile">
-						<a href="/login">Login</a>
+						<a href="/login">{% trans 'Login' %}</a>
 					</li>
 					<li>
 						<a href="/register">Register</a>

@@ -57,7 +57,11 @@ class Profile(models.Model):
 
 class Slide(models.Model):
     caption1 = models.CharField(max_length=100)
+    caption1_en = models.CharField(max_length=100)
+    caption1_ar = models.CharField(max_length=100)
     caption2 = models.CharField(max_length=100)
+    caption2_en = models.CharField(max_length=100)
+    caption2_ar = models.CharField(max_length=100)
     link = models.CharField(max_length=100)
     image = models.ImageField(help_text="Size: 1920x570")
     is_active = models.BooleanField(default=True)
@@ -73,10 +77,19 @@ class Slide(models.Model):
 
 class Essential(models.Model):
     model_type=models.CharField(max_length=150)
+    model_type_en=models.CharField(max_length=150)
+    model_type_ar=models.CharField(max_length=150)
     line1 = models.CharField(max_length=100)
+    line1_en = models.CharField(max_length=100)
+    line1_ar = models.CharField(max_length=100)
     line2 = models.CharField(max_length=100)
+    line2_en = models.CharField(max_length=100)
+    line2_ar = models.CharField(max_length=100)
     price= models.FloatField()
     button_text= models.CharField(max_length=100)
+    button_text_en= models.CharField(max_length=100)
+    button_text_ar= models.CharField(max_length=100)
+    
     link = models.CharField(max_length=100)
     image = models.ImageField(help_text="Size: 1920x570")
     is_active = models.BooleanField(default=True)
@@ -94,6 +107,8 @@ class Essential(models.Model):
 
 class Category(models.Model):
     title = models.CharField(max_length=100)
+    title_en = models.CharField(max_length=100)
+    title_ar = models.CharField(max_length=100)
     slug = models.SlugField(unique=True,max_length=190)
     image = models.ImageField()
     is_active = models.BooleanField(default=True)
@@ -131,6 +146,8 @@ class ExcelFile(models.Model):
 class Item(models.Model):
     id_item= models.CharField(max_length=50,default="0")
     title = models.CharField(max_length=100)
+    title_ar = models.CharField(max_length=100)
+    title_en  = models.CharField(max_length=100)
     price = models.FloatField()
     brand_name=models.CharField(max_length=150,default="")
     discount_price = models.FloatField(blank=True, null=True)
@@ -141,7 +158,11 @@ class Item(models.Model):
     stock_no = models.CharField(max_length=10)
     description_short = models.CharField(max_length=5000)
     description_long = models.TextField()
+    description_long_en = models.TextField()
+    description_long_ar = models.TextField()
     details = models.CharField(max_length=5500,default="{'color':''}")
+    details_en = models.CharField(max_length=5500,default="{'color':''}")
+    details_ar = models.CharField(max_length=5500,default="{'color':''}")
     tags=models.TextField()
     rating = models.FloatField(blank=True, null=True, 
     validators=[MaxValueValidator(limit_value=5.0)],

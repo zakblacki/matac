@@ -1,8 +1,8 @@
 {% extends 'base.html' %} 
 {% load static %} 
+{% load i18n %}
 
-
-{% block head_title %}Checkout{% endblock %}
+{% block head_title %} {% trans "Checkout" %}{% endblock %}
 {% block content %}
 {% load category_template_tags %}
 
@@ -71,7 +71,7 @@ padding: 16px;">
         </tr>
         <tr class="btns_check">
         	<td colspan="5" >
-        		<a href="/checkout" class="btn btn-warning float-right ml-2">Checkout</a>
+        		<a href="/checkout" class="btn btn-warning float-right ml-2"> {% trans "Checkout" %}</a>
         		<a href="/" class="btn btn-primary float-right">Continue Shopping</a>
 
         	</td>
@@ -79,13 +79,15 @@ padding: 16px;">
         {% endif %}
       </table>
     </div> -->
-    <div class="page-content pt-7 pb-10">
+    <div class="page-content pt-7 pb-10 {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
       <div class="row">
         
       </div>
       <div class="step-by pr-4 pl-4">
-                  <h3 class="title title-simple title-step active"><a href="#">1. Panier</a></h3>
-        <h3 class="title title-simple title-step"><a href="/fr/profile/">2. Commande confirmée</a></h3>
+          <a class="s-text16" href="#"> {% trans "1. Panier" %} <i class="fa fa-angle-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} m-l-8 m-r-9" aria-hidden="true"></i></a>
+        
+          <a class="s-text16" href="/fr/profile/"> {% trans "2. Commande confirmée" %}  </a>
+        
       </div>
       <div class="container mt-7 mb-2">
         <div class="row">
@@ -93,11 +95,11 @@ padding: 16px;">
             <table class="shop-table cart-table">
               <thead>
                 <tr>
-                  <th><span>Produit</span></th>
+                  <th><span> {% trans "Produit" %}</span></th>
                   <th></th>
-                  <th><span>Prix</span></th>
-                  <th><span>Quantité</span></th>
-                  <th>Sous-Total</th>
+                  <th><span> {% trans "Prix" %}</span></th>
+                  <th><span> {% trans "Quantité" %}</span></th>
+                  <th> {% trans "Sous-Total" %}</th>
                 </tr>
               </thead>
               <tbody>
@@ -112,18 +114,25 @@ padding: 16px;">
                           </a>
                         </figure>
                       </td>
-                      <td class="product-name">
+                      <td class="product-name {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
                         <div class="product-name-section">
                           <a href="product/{{order_item.item.slug}}">
-                            {{ order_item.item.title }}
+                            
+                            {% if LANGUAGE_CODE == 'ar'  %}
+						{{ order_item.item.title_ar}}
+						{% elif  LANGUAGE_CODE == 'en' %}
+						{{ order_item.item.title_en}} 
+						{% else %}
+						{{ order_item.item.title}}
+						{% endif %}
                           </a>
                           
-                            <p class="text-success font-weight-light">Taille: {{order_item.size}}</p>
+                            <p class="text-success font-weight-light">{% trans 'Taille' %}: {{order_item.size}}</p>
                           
                         </div>
                       </td>
                       <td class="product-subtotal">
-                        <span class="amount">{{ order_item.item.price }} </span>		
+                        <span class="amount">{{ order_item.item.price }}{% trans 'DA' %} </span>		
                       </td>
                       <td class="product-quantity ">
                          
@@ -142,9 +151,9 @@ padding: 16px;">
                       <td class="product-price">
                         <span class="amount">
                         {% if order_item.item.discount_price %}
-                          ${{ order_item.get_total_discount_item_price}}
+                          {{ order_item.get_total_discount_item_price}}{% trans 'DA' %}
                           {% if order_item.get_amount_saved !=  None  %}
-                          <span class="badge badge-primary">  Saving ${{ order_item.get_amount_saved|floatformat:1 }}</span>
+                          <span class="badge badge-primary">  Saving {{ order_item.get_amount_saved|floatformat:1 }}{% trans 'DA' %}</span>
                           {% endif %}
                       {% else %}
                           {{ order_item.get_total_item_price}}DZD
@@ -160,36 +169,36 @@ padding: 16px;">
                                   
               </tbody>
             </table>
-            <h4 class="title coupon-title text-uppercase ls-m mt-3">Coupon de réduction</h4>
+            <h4 class="title coupon-title text-uppercase ls-m mt-3"> {% trans "Coupon de réduction" %}</h4>
             
               <form action="/" method="post">
                 {% csrf_token %}
                  <div class="check-coupon-box d-flex">
                   <input type="text" name="code" class="input-text form-control text-grey ls-m mr-4" id="coupon_code" value="" placeholder="code coupon / carte cadeau">
-                  <button type="submit" class="btn btn-dark btn-rounded btn-outline">Appliquer</button>
+                  <button type="submit" class="btn btn-dark btn-rounded btn-outline"> {% trans "Appliquer" %}</button>
                 </div>
                  
               </form>
             
         <form id="order_form" enctype="multipart/form-data"   class="form" method="post"  >
               {% csrf_token %}
-               <h3 class="title title-simple text-left text-uppercase mt-3">Details de commande</h3>
+               <h3 class="title title-simple text-left text-uppercase mt-3"> {% trans "Details de commande" %}</h3>
               <div class="row">
                 <div class="col-xs-6">
-                  <label>Nom complet*  </label>
+                  <label> {% trans "Nom complet*" %}  </label>
                   {{form.fullname}}
                 </div>
                 <div class="col-xs-6">
-                  <label>Téléphone*</label>
+                  <label> {% trans "Téléphone*" %}</label>
                   
                     {{form.phone}}
                 </div>
                 <div class="col-xs-6">
-                  <label>e-mail</label>
+                  <label> {% trans "e-mail" %}</label>
                   {{form.email}}
                 </div>
                 <div class="col-xs-6">
-                  <label>adresse</label>
+                  <label> {% trans "adresse" %}</label>
                     {{form.address}}
                      
                  </div>
@@ -197,22 +206,22 @@ padding: 16px;">
                  {{form.communship}}
                  {{form.delivery_type}}
                  {{form.delivery_price}}
-                <h2 class="title title-simple text-uppercase text-left">information additionnel</h2>
-                <textarea class="form-control pb-2 pt-2 mb-0" cols="30" rows="5" placeholder="Notes de commande  (Optionel)"></textarea>
+                <h2 class="title title-simple text-uppercase text-left"> {% trans "information additionnel" %}</h2>
+                <textarea class="form-control pb-2 pt-2 mb-0" cols="30" rows="5" placeholder="{% trans 'Notes de commande  (Optionel)' %}"></textarea>
                 <br>
                 {{form.recu_img}}
                 <!-- <input name="recu_img" hidden="true" type="file" class="form-control-file text-primary font-weight-bold" id="inputFile" accept="image/*" onchange="readUrl(this)" data-title="Drag and drop a file"> -->
                 <button type="button" class="btn btn-success btn-block recu-cap" 
                 onclick="document.getElementById('inputFile').click()">
-                <img src="{% static 'images/icon_image.png' %}" alt=""> Captutré le reçu ccp
+                <img src="{% static 'images/icon_image.png' %}" alt="">  {% trans "Captutré le reçu ccp" %}
               </button>
-              <button type="submit" class="d-none d d-lg-block btn btn-success btn-block btn-rounded btn-checkout mt-3">Valider ma commande</button>
+              <button type="submit" class="d-none d d-lg-block btn btn-success btn-block btn-rounded btn-checkout mt-3"> {% trans "Valider ma commande" %}</button>
   
               <p class="font-weight-bold"> 
-                NB: votre commande sera validée une fois le reçu de paiement envoyé.  
+                 {% trans "NB: votre commande sera validée une fois le reçu de paiement envoyé." %} 
               </p>
                 <p class="font-weight-bold"> 
-                  Numero du ccp: {{contact.ccp}}
+                   {% trans "Numero du ccp:" %} {{contact.ccp}}
                 {{contact.name_owner}}
                 </p>
               </div>
@@ -235,12 +244,12 @@ padding: 16px;">
           <aside class="col-lg-4 sticky-sidebar-wrapper">
             <div class="sticky-sidebar" data-sticky-options="{'bottom': 20}">
               <div class="summary mb-4">
-                <h3 class="summary-title text-left">Total Panier</h3>
+                <h3 class="summary-title text-left {% if LANGUAGE_CODE == 'ar' %}text-right-imp{% endif %} "> {% trans "Total Panier" %}</h3>
                 <table class="shipping">
                   
                   <tbody><tr class="summary-subtotal">
                     <td>
-                      <h4 class="summary-subtitle">Sous-Total</h4>
+                      <h4 class="summary-subtitle "> {% trans "Sous-Total" %}</h4>
                     </td>
                     <td>
                       <p class="summary-subtotal-price"> </p>
@@ -249,20 +258,20 @@ padding: 16px;">
                   </tr>
                   <tr class="sumnary-shipping shipping-row-last">
                     <td id="yourOrder" class="your-order" colspan="2">
-                      <h4 class="summary-subtitle">Calcul de livraison</h4>
+                      <h4 class="summary-subtitle {% if LANGUAGE_CODE == 'ar' %}text-right-imp{% endif %}"> {% trans "Calcul de livraison" %}</h4>
                       <select id="id_delivery" class="form-control trigershipping" name="delivery">
-                                                  <option value="DOM">LIVRAISON A DOMICILE</option>
-                                                  <option value="REL">LIVRAISON POINT DE RELAIS</option>
-                                                  <option value="NON">SANS LIVRAISON</option>
+                                                  <option value="DOM"> {% trans "LIVRAISON A DOMICILE" %}</option>
+                                                  <option value="REL"> {% trans "LIVRAISON POINT DE RELAIS" %}</option>
+                                                  <option value="NON"> {% trans "SANS LIVRAISON" %}</option>
                       </select>
                     </td>
                   </tr>
                 </tbody></table>
                 <div class="shipping-address">
-                  <label>Livraison à </label>
+                  <label> {% trans "Livraison à" %} </label>
                   <div class="select-box">
                     <select id="wilayaId" name="wilaya" class="form-control trigershipping" hx-get="/fr/load-communes" hx-target="#Commune" hx-swap="innerHtml">
-                      <option>Selectionner une wilaya</option>
+                      <option> {% trans "Selectionner une wilaya" %}</option>
 
 
                       
@@ -276,30 +285,30 @@ padding: 16px;">
                   </div>
                 </div>
                 
-                   <strong class="product-quantity">Livraison</strong> 
+                   <strong class="product-quantity"> {% trans "Livraison" %}</strong> 
                   <span class="amount" id="deliveryCost"> 500 </span>   
                 
                 <table class="total">
                   <tbody><tr class="summary-subtotal">
                     <td>
-                      <h4 class="summary-subtitle">Total </h4>
+                      <h4 class="summary-subtitle"> {% trans "Total" %} </h4>
                     </td>
                     <td>
                       <p id="order_total" class="summary-total-price ls-s"  >
                         {% if request.user.is_authenticated %}
                         {% orders request.user as orders_cart %}
-                        {{orders_cart.total}}
+                        {{orders_cart.total|floatformat:2}}
                         {% else %}
                         0
                         {% endif %}
-                        DA
+                        {% trans 'DA' %}
                       
                       </p>
                         
                     </td>												
                   </tr>
                 </tbody></table>
-                <button  type="submit" class="btnwithoutform btn btn-success btn-block btn-rounded btn-checkout">Valider ma commande</button>
+                <button  type="submit" class="btnwithoutform btn btn-success btn-block btn-rounded btn-checkout"> {% trans "Valider ma commande" %}</button>
                 <script>
                   $(".btnwithoutform").on("click",function(){
                     $("#order_form").submit()
@@ -307,7 +316,7 @@ padding: 16px;">
                 </script>
               </div>
               <div class="cart-actions mb-6 pt-4">
-                <a href="/shop" class="btn btn-block btn-dark btn-md btn-rounded btn-icon-left ml-4 mr-4 mb-4"><i class="d-icon-arrow-left"></i>Retourner à la boutique</a>
+                <a href="/shop" class="btn btn-block btn-dark btn-md btn-rounded btn-icon-left ml-4 mr-4 mb-4"><i class="d-icon-arrow-left"></i> {% trans "Retourner à la boutique" %}</a>
               </div>
             </div>
           </aside>
@@ -323,7 +332,7 @@ padding: 16px;">
 
 document.getElementById("id_delivery").addEventListener("change",function(){
   document.querySelector("input[name=delivery_type]").value = this.value
-  fetch('../static/js/Wilaya_Of_Algeria.json', {
+  fetch('/static/js/Wilaya_Of_Algeria.json', {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -345,7 +354,7 @@ document.getElementById("id_delivery").addEventListener("change",function(){
 
 document.getElementById("wilayaId").addEventListener("change",function(){
   document.querySelector("input[name=wilayaship]").value = this.options[this.selectedIndex].dataset.valu
-  fetch('../static/js/Wilaya_Of_Algeria.json', {
+  fetch('/static/js/Wilaya_Of_Algeria.json', {
         headers: {
           'Content-Type': 'application/json',
         },

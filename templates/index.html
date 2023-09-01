@@ -131,7 +131,7 @@
 	<script>
 		$(document).ready(function(){
 		  $(".owl-carousel").owlCarousel({
-			items: 7, // Display 4 items in a line
+			items: 4, // Display 4 items in a line
 			loop: true,
 			margin: 10,
 			nav: true,
@@ -153,7 +153,7 @@
 	<section class="container mb-8">
 		<br>
 		<h2 class="title with-link appear-animate mb-5 text-center fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;margin-left: 10px;text-transform: uppercase;display: block;font-family: 'Roboto Condensed-bold', sans-serif !important;
-		font-weight: lighter !important;color: #707070 !important;">Catégorie tendance</h2> 
+		font-weight: lighter !important;color: #707070 !important;">{% trans 'Catégorie tendance' %}</h2> 
 	   <div class="owl-carousel owl-theme owl-nav-inner mb-8 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}"   style="animation-duration: 1.2s;">
  
 	<div class="owl-stage-outer">
@@ -169,7 +169,16 @@
 											   <img class="circular-category-image" src={{category.image.url}} alt="Category" loading="lazy">
 										   </figure>
 									   </div>
-									   <p style="text-align: center; "> {{category.title}} </p>
+									   <p  style="text-align: center; ">
+										{% if LANGUAGE_CODE == 'ar'  %}
+						{{category.title_ar}}
+						{% elif  LANGUAGE_CODE == 'en' %}
+						{{category.title_en}} 
+						{% else %}
+						{{category.title}} 
+						{% endif %}
+										 
+									</p>
 									</a>
 									<p><a href="/produits/?category=2"></a></p>
 								</div>
@@ -278,8 +287,8 @@
 	{% if essentials %}
 	<section class="banner2 bg5">
 		
-		<h4 class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" style="text-transform: uppercase;font-family: 'Roboto Condensed-bold', sans-serif !important;
-		font-weight: lighter !important;color: #707070 !important;">Season's Essentials</h4>
+		<h4 class="{% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} title with-link pt-6 appear-animate fadeIn appear-animation-visible" style="text-transform: uppercase;font-family: 'Roboto Condensed-bold', sans-serif !important;
+		font-weight: lighter !important;color: #707070 !important;">{% trans "Season's Essentials" %}</h4>
 		<div class="">
 			<div class="row" style="height: 500px;">
 				
@@ -288,6 +297,26 @@
 				<div style="height: 430px;padding-right: 5px;"   class="essential col-sm-10 col-md-8 col-lg-3 m-l-r-auto p-t-15 p-b-15">
 					<div style="height: 430px;" class="pos-relative">
 						<img style="height: 430px;" src="{{essential.image.url}}" alt="IMG-BANNER" class="ban_img">
+						{% if LANGUAGE_CODE == 'ar' %}
+						<div style="position: absolute;
+						width: 50px;
+						height: 50px;
+						top: 10px;
+						right: 10px;
+						font-family: 'Roboto Condensed', sans-serif !important;
+						font-size: 22px;
+						color: white;
+						line-height: 1.2;" class="title-ess " >
+						{% if LANGUAGE_CODE == 'ar'  %}
+						{{essential.model_type_ar}}
+						{% elif  LANGUAGE_CODE == 'en' %}
+						{{essential.model_type_en}} 
+						{% else %}
+						{{essential.model_type}} 
+						{% endif %}
+						 
+					</div>
+						{% else %}
 						<div style="position: absolute;
 						width: 50px;
 						height: 50px;
@@ -296,13 +325,37 @@
 						font-family: 'Roboto Condensed', sans-serif !important;
 						font-size: 22px;
 						color: white;
-						line-height: 1.2;" class="title-ess">{{essential.model_type}}</div>
-						<div style="height: 430px;" class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
+						line-height: 1.2;" class="title-ess " >
+						{% if LANGUAGE_CODE == 'ar'  %}
+						{{essential.model_type_ar}}
+						{% elif  LANGUAGE_CODE == 'en' %}
+						{{essential.model_type_en}} 
+						{% else %}
+						{{essential.model_type}} 
+						{% endif %}
+						 
+					</div>
+						{% endif %}
+						
+						<div style="height: 430px;" class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15 {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
 							<br><br><br><br><br>
 							<br><br><br><br><br>
 							<span class="m-text9 p-t-100  fs-20-sm">
-								<span style="font-size: 23px;">{{essential.line1}} <br> {{essential.line2}}</span> 
-								<span style="font-weight: bolder;">{{essential.price}}</span><sup>DA</sup>
+								<span style="font-size: 23px;">
+									{% if LANGUAGE_CODE == 'ar'  %}
+									{{essential.line1_ar}} <br> {{essential.line2_ar}}
+						{% elif  LANGUAGE_CODE == 'en' %}
+						{{essential.line1_en}} <br> {{essential.line2_en}}
+						{% else %}
+						{{essential.line1}} <br> {{essential.line2}}
+						{% endif %}
+									
+								
+								</span> 
+								<span style="font-weight: bolder;">
+									{{essential.price}}
+									
+								</span><sup>{% trans 'DA' %}</sup>
 							</span>
 
 							<br>
@@ -311,7 +364,15 @@
 								<div class="wrap-btn-slide1 w-size1 animated" data-appear="slideInUp">
 						
 							<a href="{{essential.link}}" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite  trans-0-4">
-								{{essential.button_text}}
+								
+								{% if LANGUAGE_CODE == 'ar'  %}
+								{{essential.button_text_ar}}
+						{% elif  LANGUAGE_CODE == 'en' %}
+						{{essential.button_text_en}}
+						{% else %}
+						{{essential.button_text}}
+						{% endif %}
+								
 							</a>
 						</div>
 
@@ -478,9 +539,9 @@
 	<div>
 		
 		
-		<del class="old-price old-price-block">5&nbsp;700 DA</del>
+		<del class="old-price old-price-block">5&nbsp;700 {% trans 'DA' %}</del>
 		 &nbsp; 
-		<ins class="new-price price-block">4&nbsp;900    DA</ins>
+		<ins class="new-price price-block">4&nbsp;900    {% trans 'DA' %}</ins>
 	</div>
 	
 </div>
@@ -537,9 +598,9 @@
 	<div>
 		
 		
-		<del class="old-price old-price-block">5&nbsp;700 DA</del>
+		<del class="old-price old-price-block">5&nbsp;700 {% trans 'DA' %}</del>
 		 &nbsp; 
-		<ins class="new-price price-block">4&nbsp;900    DA</ins>
+		<ins class="new-price price-block">4&nbsp;900    {% trans 'DA' %}</ins>
 	</div>
 	
 </div>
@@ -564,9 +625,9 @@
 	<section class="container  ">
 		
 		<h2 style="padding-left: 10px;font-family: 'Roboto Condensed-bold', sans-serif !important;
-		font-weight: lighter !important;color: #707070 !important;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">
-		Promotion 
-		<h1>{% trans "Welcome to our store" %}</h1>
+		font-weight: lighter !important;color: #707070 !important;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible {% if LANGUAGE_CODE == 'ar' %}rtl marg-right-10{% endif %}" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">
+		{% trans 'Promotions' %}
+		 
 	</h2>
 	<div class="owl-carousel1 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}"   style="animation-duration: 1.2s;" data-owl-options="{
 		'nav': true,
@@ -606,6 +667,22 @@
 						
 					</a>
 				
+					{% if LANGUAGE_CODE ==  'ar'  %}
+					<div class="product-action-vertical" style="left: 0;">
+			
+						{% if new_item in wishedlist %}
+						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+							<img src="/static/images/PSC.svg">
+						</a>
+						
+						{% else %}
+						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+							<img src="/static/images/VSC.svg">
+						</a>
+						{% endif %}	
+					</div>
+					{% else %}
+
 					<div class="product-action-vertical">
 			
 						{% if new_item in wishedlist %}
@@ -619,6 +696,7 @@
 						</a>
 						{% endif %}	
 					</div>
+					{% endif %}
 
 					<div class="product-action  justify-content-end">
 						{% if  new_item.article_id|filtered_and_length:"," > 1 %}
@@ -645,29 +723,49 @@
 						{% endif %}
 					</div>
 
-					<div class="product-label-group">
-						
-							
-							<label class="product-label label-top">{{new_item.get_label_display }}</label>
-						
-					</div>  
+					{% if LANGUAGE_CODE ==  'ar'  %}
+		<div class="product-label-group" style=" position: absolute !important;width: 45px;
+		right: 0px !important;
+		top: 30px  ;left: auto !important;">
+	
+		
+			<label   class="product-label label-top" style="width: 100%;">{% trans new_item.get_label_display %}</label>
+		 
+	</div>  
+		{% else %}
+		<div class="product-label-group">
+	
+		
+			<label style="min-width: 60px;" class="product-label label-top">{% trans new_item.get_label_display %}</label>
+		 
+	</div>  
+		{% endif %}
 				</figure>
 				<div class="product-details">
-					<h3 class="product-name">
-						<a href="/product/{{new_item.slug}}">{{new_item.title}} </a>
+					<h3 class="product-name {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
+						<a href="/product/{{new_item.slug}}">
+							 
+							{% if LANGUAGE_CODE == 'ar'  %}
+						{{new_item.title_ar}}
+						{% elif  LANGUAGE_CODE == 'en' %}
+						{{new_item.title_en}} 
+						{% else %}
+						{{new_item.title}} 
+						{% endif %}
+						</a>
 					</h3>
-					<div class="product-price d-flex justify-content-between">
-					<div>
+					<div class="product-price d-flex justify-content-between {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
+					 
 					{% if new_item.price > new_item.discount_price %}
-					<del class="old-price old-price-block">&nbsp;{{new_item.price}} DA</del>
+					<del class="old-price old-price-block">&nbsp;{{new_item.price}} {% trans 'DA' %}</del>
 					&nbsp; 
-					<ins class="new-price price-block">{{new_item.discount_price}}DA</ins>
+					<ins class="new-price price-block">{{new_item.discount_price}}{% trans 'DA' %}</ins>
 					{% else %}
-					<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price}}DA</ins>
+					<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price}}{% trans 'DA' %}</ins>
 					{% endif %}
 					</div>
 		
-					</div>
+					 
 				</div>
 			</div>
 		</div> 
@@ -707,7 +805,7 @@
 	<section class="container  ">
 		
 		<h2 style="padding-left: 10px;font-family: 'Roboto Condensed-bold', sans-serif !important;
-		font-weight: lighter !important;color: #707070 !important;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">NOUVEAUTÉS</h2>
+		font-weight: lighter !important;color: #707070 !important;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible {% if LANGUAGE_CODE == 'ar' %}rtl marg-right-10{% endif %}" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">{% trans 'NOUVEAUTÉS' %}</h2>
 	<div class="owl-carousel1 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}"   style="animation-duration: 1.2s;" data-owl-options="{
 		'nav': true,
 		'dots': true,
@@ -737,7 +835,7 @@
 				
 		{% for new_item in new_items %}
 				
-		<div class="owl-item new_item{% if forloop.counter <= 4 %} active{% endif %}"  >
+		<div class="owl-item new_item {% if forloop.counter <= 4 %} active{% endif %}"  >
 			<div class="product product-classic">
 				<figure class="product-media">
 					<a href="/product/{{new_item.slug}}">
@@ -745,7 +843,22 @@
 							<img style="width: 100%; height: 100%;" src={{new_item.image.url}} loading="lazy" alt="Manteau Noir  Oversize en Laine  image" width="300" height="338">
 						
 					</a>
-				
+					{% if LANGUAGE_CODE ==  'ar'  %}
+					<div class="product-action-vertical" style="left: 0;">
+			
+						{% if new_item in wishedlist %}
+						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+							<img src="/static/images/PSC.svg">
+						</a>
+						
+						{% else %}
+						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+							<img src="/static/images/VSC.svg">
+						</a>
+						{% endif %}	
+					</div>
+					{% else %}
+
 					<div class="product-action-vertical">
 			
 						{% if new_item in wishedlist %}
@@ -759,7 +872,7 @@
 						</a>
 						{% endif %}	
 					</div>
-
+					{% endif %}
 					<div class="product-action  justify-content-end">
 						{% if  new_item.article_id|filtered_and_length:"," > 1 %}
 							<div class="product-color__badge--wheel img">
@@ -785,32 +898,51 @@
 						{% endif %}
 					</div>
 
-					<div class="product-label-group">
-						
-							
-							<label class="product-label label-top">{{new_item.get_label_display }}</label>
-						
-					</div>  
+					
+					{% if LANGUAGE_CODE ==  'ar'  %}
+		<div class="product-label-group" style=" position: absolute !important;width: 45px;
+		right: 0px !important;
+		top: 30px  ;left: auto !important;">
+	
+		
+			<label style="width: 100%;"  class="product-label label-top">{% trans new_item.get_label_display %}</label>
+		 
+	</div>  
+		{% else %}
+		<div class="product-label-group">
+	
+		
+			<label style="min-width: 60px;" class="product-label label-top">{% trans new_item.get_label_display %}</label>
+		 
+	</div>  
+		{% endif %}
 				</figure>
 				<div class="product-details">
-					<h3 class="product-name">
-						<a href="/product/{{new_item.slug}}">{{new_item.title}} </a>
+					<h3 class="product-name {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
+						<a href="/product/{{new_item.slug}}">
+							{% if LANGUAGE_CODE == 'ar'  %}
+							{{new_item.title_ar}}
+							{% elif  LANGUAGE_CODE == 'en' %}
+							{{new_item.title_en}} 
+							{% else %}
+							{{new_item.title}} 
+							{% endif %}</a>
 					</h3>
-					<div class="product-price d-flex justify-content-between">
-					<div>
+					<div class="product-price d-flex justify-content-between {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
+					 
 					{% if new_item.price > new_item.discount_price %}
-					<del class="old-price old-price-block">&nbsp;{{new_item.price}} DA</del>
+					<del class="old-price old-price-block">&nbsp;{{new_item.price}} {% trans 'DA' %}</del>
 					&nbsp; 
-					<ins class="new-price price-block">{{new_item.discount_price}}DA</ins>
+					<ins class="new-price price-block">{{new_item.discount_price}}{% trans 'DA' %}</ins>
 					{% else %}
-					<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price}}DA</ins>
+					<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price}}{% trans 'DA' %}</ins>
 					{% endif %}
 					</div>
 		
-					</div>
 				</div>
 			</div>
-		</div> 
+		</div>
+		
 		{% endfor %}
 				
 		</div>
@@ -848,7 +980,7 @@
 		
 		
 		<h2 style="padding-left: 10px;font-family: 'Roboto Condensed-bold', sans-serif !important;
-		font-weight: lighter !important;color: #707070 !important;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">PRODUITS LES PLUS VENDUS</h2>
+		font-weight: lighter !important;color: #707070 !important;" class="title with-link pt-6 appear-animate fadeIn appear-animation-visible {% if LANGUAGE_CODE == 'ar' %}rtl marg-right-10{% endif %}" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">{% trans 'PRODUITS LES PLUS VENDUS' %}</h2>
 		<div class="owl-carousel2 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
 			'nav': true,
 			'dots': true,
@@ -888,20 +1020,36 @@
 						<img style="width: 100%; height: 100%;" src={{new_item.image.url}} loading="lazy" alt="Manteau Noir  Oversize en Laine  image" width="300" height="338">
 					
 				</a>
-			<div class="product-action-vertical">
-	 
-			{% if new_item in wishedlist %}
-			<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-				<img src="/static/images/PSC.svg">
-			</a>
-			
-			{% else %}
-			<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-				<img src="/static/images/VSC.svg">
-			</a>
-			{% endif %}
+				{% if LANGUAGE_CODE ==  'ar'  %}
+				<div class="product-action-vertical" style="left: 0;">
+		
+					{% if new_item in wishedlist %}
+					<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+						<img src="/static/images/PSC.svg">
+					</a>
 					
-			</div>
+					{% else %}
+					<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+						<img src="/static/images/VSC.svg">
+					</a>
+					{% endif %}	
+				</div>
+				{% else %}
+
+				<div class="product-action-vertical">
+		
+					{% if new_item in wishedlist %}
+					<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+						<img src="/static/images/PSC.svg">
+					</a>
+					
+					{% else %}
+					<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+						<img src="/static/images/VSC.svg">
+					</a>
+					{% endif %}	
+				</div>
+				{% endif %}
 
 		<div class="product-action  justify-content-end">
 			{% if  new_item.article_id|filtered_and_length:"," > 1 %}
@@ -928,35 +1076,55 @@
 			{% endif %}
 		</div>
 
-<div class="product-label-group">
+		{% if LANGUAGE_CODE ==  'ar'  %}
+		<div class="product-label-group" style="width: 65px;position: absolute !important;
+		right: 0px !important;
+		top: 30px  ;left: auto !important;">
 	
 		
-		<label style="min-width: 115px;" class="product-label label-top">{{new_item.get_label_display }}</label>
-	 
-</div>  
-</figure>
-<div class="product-details">
-<h3 class="product-name">
-	<a href="/product/{{new_item.slug}}">{{new_item.title}} </a>
-</h3>
-<div class="product-price d-flex justify-content-between">
-	<div>
+			<label style=" width: 65px;" class="product-label label-top">{% trans new_item.get_label_display %}</label>
+		 
+	</div>  
+		{% else %}
+		<div class="product-label-group">
+	
 		
-		{% if new_item.price > new_item.discount_price %}
-										<del class="old-price old-price-block">&nbsp;{{new_item.price}} DA</del>
-										 &nbsp; 
-										<ins class="new-price price-block">{{new_item.discount_price}}DA</ins>
-										{% else %}
-
-										<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price}}DA</ins>
+			<label style="min-width: 60px;" class="product-label label-top">{% trans new_item.get_label_display %}</label>
+		 
+	</div>  
 		{% endif %}
-	</div>
-	
-</div>
+
+				</figure>
+				<div class="product-details">
+				<h3 class="product-name {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
+					<a href="/product/{{new_item.slug}}">
+						{% if LANGUAGE_CODE == 'ar'  %}
+										{{new_item.title_ar}}
+										{% elif  LANGUAGE_CODE == 'en' %}
+										{{new_item.title_en}} 
+										{% else %}
+										{{new_item.title}} 
+										{% endif %}
+									</a>
+				</h3>
+				<div class="product-price d-flex justify-content-between {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
+					
+						
+						{% if new_item.price > new_item.discount_price %}
+														<del class="old-price old-price-block">&nbsp;{{new_item.price}} {% trans 'DA' %}</del>
+														&nbsp; 
+														<ins class="new-price price-block">{{new_item.discount_price}}{% trans 'DA' %}</ins>
+														{% else %}
+
+														<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price}}{% trans 'DA' %}</ins>
+						{% endif %}
+					</div>
+					
+				</div>
 
 
-</div>
-</div>
+ 
+			</div>
 			</div> 
 			{% endfor %}
 			 
@@ -969,7 +1137,7 @@
 			</div>
 
 		</div>
-		
+	</div>
 	</section>
 	<script>
 		$(function() {
