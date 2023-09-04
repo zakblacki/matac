@@ -130,8 +130,12 @@
 						<div class="item-slick3" data-thumb="{{ object.image.url }}">
 							<div id="img-container" class="wrap-pic-w">
 								<div id="lens"></div>	
- 								<img id="featured" src="{{ object.image.url }}" alt="{{ object.title }}">
+								<a data-lightbox="photo" href="{{ object.image.url }}">
 
+									<img id="featured" src="{{ object.image.url }}" alt="{{ object.title }}">
+
+								</a>
+ 								
 									 							 
 							</div>
 						</div>
@@ -185,7 +189,7 @@
 				</p>
 
 				<!--  -->
-				<div class="product-details" style="width: 58%;">
+				<div class="product-details" style="width: 50%;">
 					<div id="img_lens_zoom" class="img_lens_zoom" >
 		
 					</div>
@@ -648,7 +652,10 @@ itemLinks.forEach(itemLink => {
 								<script>
 									var element = document.getElementById("{{ key|slugify }}");
 									if (element.innerHTML == "nan" || element.innerHTML =="NULL") {
-										console.log(element.parentElement.parentElement.remove())
+										element.parentElement.parentElement.remove()
+									}
+									if("{{value}}" == "Couleur"){
+										document.querySelector(".detail-attr-container ").classList.add("rtl")
 									}
 								</script>
 							{% endif %}
@@ -675,7 +682,7 @@ itemLinks.forEach(itemLink => {
 	</div>
 	<!-- Relate Product -->
 	{% if relate_pros %} 
-	<section class="relateproduct bgwhite p-t-5 p-b-138">
+	<section class="relateproduct bgwhite p-t-5 p-b-138" style="overflow: hidden;width: 98%; margin: auto;">
 		<div class="container">
 			<div class="sec-title   p-t-40">
 				<h2 class="m-text5 {% if LANGUAGE_CODE == 'ar' %}rtl marg-right-10{% endif %} ">
@@ -685,7 +692,7 @@ itemLinks.forEach(itemLink => {
 			<div class="owl-carousel551 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
 				'nav': true,
 				'dots': true,
-				'margin': 10,
+				'margin': 20,
 				'responsive': {
 					'0': {
 						'items': 2
@@ -699,6 +706,9 @@ itemLinks.forEach(itemLink => {
 					
 					'992': {
 						'items': 4
+					},
+					'1200': {
+						'items': 5
 					}
 				}
 			}" style="animation-duration: 1.2s;">
@@ -836,11 +846,11 @@ itemLinks.forEach(itemLink => {
 		<script>
 			$(document).ready(function(){
 			  $(".owl-carousel551").owlCarousel({
-				items: 4, // Display 4 items in a line
+				items: 5, // Display 4 items in a line
 				loop: false,
-				margin: 10,
+				margin: 20,
 				nav: true,
-				dots: false,
+				dots: true,
 				responsive: {
 				  0: {
 					items: 2 // Display 1 item on smaller screens
@@ -850,6 +860,9 @@ itemLinks.forEach(itemLink => {
 				  },
 				  992: {
 					items: 4 // Display 4 items on screens wider than 1000px
+				  },
+				  1200: {
+					items: 5 // Display 4 items on screens wider than 1000px
 				  }
 				}
 			  });
@@ -1162,9 +1175,12 @@ document.addEventListener("DOMContentLoaded", function() {
 								ele.addEventListener("click",function(){
 									
 									var slickcurrent = document.getElementsByClassName("slick-current slick-active")[0]
-									var main_img_src = slickcurrent.children[0].children[1].getAttribute("src")
+									var main_img_src = slickcurrent.children[0].children[1].getAttribute("href")
 									var src_target = this.children[0].getAttribute("src");
-									slickcurrent.children[0].children[1].src =src_target;
+									console.log(slickcurrent.children[0].children[1])
+									
+									slickcurrent.children[0].children[1].href =src_target;
+									slickcurrent.children[0].children[1].children[0].src =src_target;
 									 
 								})
 							}) 

@@ -1,3 +1,179 @@
+@font-face {
+  font-family: "Roboto Condensed-bold";
+  src: url('../fonts/Roboto-Medium.ttf');
+}
+@font-face {
+  font-family: "Roboto Condensed";
+  src: url('../fonts/Roboto-Regular.ttf');
+}
+@font-face {
+  font-family:Roboto-Black;
+  src:url(../fonts/Roboto-Black.eot);
+  src:local("Roboto Black"),
+  local("Roboto-Black"),
+  url(../fonts/Roboto-Black.eot) format("embedded-opentype"),
+  url(../fonts/Roboto-Black.woff2) format("woff2"),
+  url(../fonts/Roboto-Black.woff) format("woff"),
+  url(../fonts/Roboto-Black.ttf) format("truetype"),
+  url(../img/Roboto-Black.svg) format("svg");
+  font-weight:900;
+  font-style:normal;
+  font-display:swap
+}
+@font-face {
+  font-family:Roboto-BlackItalic;
+  src:url(../fonts/Roboto-BlackItalic.eot);
+  src:local("Roboto Black Italic"),
+  local("Roboto-BlackItalic"),
+  url(../fonts/Roboto-BlackItalic.eot) format("embedded-opentype"),
+  url(../fonts/Roboto-BlackItalic.woff2) format("woff2"),
+  url(../fonts/Roboto-BlackItalic.woff) format("woff"),
+  url(../fonts/Roboto-BlackItalic.ttf) format("truetype"),
+  url(../img/Roboto-BlackItalic.svg) format("svg");
+  font-weight:900;
+  font-style:italic;
+  font-display:swap
+}
+@font-face {
+  font-family:Roboto-Bold;
+  src:url(../fonts/Roboto-Bold.eot);
+  src:local("Roboto Bold"),
+  local("Roboto-Bold"),
+  url(../fonts/Roboto-Bold.eot) format("embedded-opentype"),
+  url(../fonts/Roboto-Bold.woff2) format("woff2"),
+  url(../fonts/Roboto-Bold.woff) format("woff"),
+  url(../fonts/Roboto-Bold.ttf) format("truetype"),
+  url(../img/Roboto-Bold.svg) format("svg");
+  font-weight:700;
+  font-style:normal;
+  font-display:swap
+}
+@font-face {
+  font-family:Roboto-BoldItalic;
+  src:url(../fonts/Roboto-BoldItalic.eot);
+  src:local("Roboto Bold Italic"),
+  local("Roboto-BoldItalic"),
+  url(../fonts/Roboto-BoldItalic.eot) format("embedded-opentype"),
+  url(../fonts/Roboto-BoldItalic.woff2) format("woff2"),
+  url(../fonts/Roboto-BoldItalic.woff) format("woff"),
+  url(../fonts/Roboto-BoldItalic.ttf) format("truetype"),
+  url(../img/Roboto-BoldItalic.svg) format("svg");
+  font-weight:700;
+  font-style:italic;
+  font-display:swap
+}
+@font-face {
+  font-family:Roboto-Italic;
+  src:url(../fonts/Roboto-Italic.eot);
+  src:local("Roboto Italic"),
+  local("Roboto-Italic"),
+  url(../fonts/Roboto-Italic.eot) format("embedded-opentype"),
+  url(../fonts/Roboto-Italic.woff2) format("woff2"),
+  url(../fonts/Roboto-Italic.woff) format("woff"),
+  url(../fonts/Roboto-Italic.ttf) format("truetype"),
+  url(../img/Roboto-Italic.svg) format("svg");
+  font-weight:400;
+  font-style:italic;
+  font-display:swap
+}
+@font-face {
+  font-family:Roboto-Light;
+  src:url(../fonts/Roboto-Light.eot);
+  src:local("Roboto Light"),
+  local("Roboto-Light"),
+  url(../fonts/Roboto-Light.eot) format("embedded-opentype"),
+  url(../fonts/Roboto-Light.woff2) format("woff2"),
+  url(../fonts/Roboto-Light.woff) format("woff"),
+  url(../fonts/Roboto-Light.ttf) format("truetype"),
+  url(../img/Roboto-Light.svg) format("svg");
+  font-weight:300;
+  font-style:normal;
+  font-display:swap
+}
+@font-face {
+  font-family:Roboto-LightItalic;
+  src:url(../fonts/Roboto-LightItalic.eot);
+  src:local("Roboto Light Italic"),
+  local("Roboto-LightItalic"),
+  url(../fonts/Roboto-LightItalic.eot) format("embedded-opentype"),
+  url(../fonts/Roboto-LightItalic.woff2) format("woff2"),
+  url(../fonts/Roboto-LightItalic.woff) format("woff"),
+  url(../fonts/Roboto-LightItalic.ttf) format("truetype"),
+  url(../img/Roboto-LightItalic.svg) format("svg");
+  font-weight:300;
+  font-style:italic;
+  font-display:swap
+}
+@font-face {
+  font-family:Roboto-Medium;
+  src:url(../fonts/Roboto-Medium.eot);
+  src:local("Roboto Medium"),
+  local("Roboto-Medium"),
+  url(../fonts/Roboto-Medium.eot) format("embedded-opentype"),
+  url(../fonts/Roboto-Medium.woff2) format("woff2"),
+  url(../fonts/Roboto-Medium.woff) format("woff"),
+  url(../fonts/Roboto-Medium.ttf) format("truetype"),
+  url(../img/Roboto-Medium.svg) format("svg");
+  font-weight:500;
+  font-style:normal;
+  font-display:swap
+}
+@font-face {
+  font-family:Roboto-MediumItalic;
+  src:url(../fonts/Roboto-MediumItalic.eot);
+  src:local("Roboto Medium Italic"),
+  local("Roboto-MediumItalic"),
+  url(../fonts/Roboto-MediumItalic.eot) format("embedded-opentype"),
+  url(../fonts/Roboto-MediumItalic.woff2) format("woff2"),
+  url(../fonts/Roboto-MediumItalic.woff) format("woff"),
+  url(../fonts/Roboto-MediumItalic.ttf) format("truetype"),
+  url(../img/Roboto-MediumItalic.svg) format("svg");
+  font-weight:500;
+  font-style:italic;
+  font-display:swap
+}
+@font-face {
+  font-family:Roboto-Regular;
+  src:url(../fonts/Roboto-Regular.eot);
+  src:local("Roboto"),
+  local("Roboto-Regular"),
+  url(../fonts/Roboto-Regular.eot) format("embedded-opentype"),
+  url(../fonts/Roboto-Regular.woff2) format("woff2"),
+  url(../fonts/Roboto-Regular.woff) format("woff"),
+  url(../fonts/Roboto-Regular.ttf) format("truetype"),
+  url(../img/Roboto-Regular.svg) format("svg");
+  font-weight:400;
+  font-style:normal;
+  font-display:swap
+}
+@font-face {
+  font-family:Roboto-Thin;
+  src:url(../fonts/Roboto-Thin.eot);
+  src:local("Roboto Thin"),
+  local("Roboto-Thin"),
+  url(../fonts/Roboto-Thin.eot) format("embedded-opentype"),
+  url(../fonts/Roboto-Thin.woff2) format("woff2"),
+  url(../fonts/Roboto-Thin.woff) format("woff"),
+  url(../fonts/Roboto-Thin.ttf) format("truetype");
+  font-weight:100;
+  font-style:normal;
+  font-display:swap
+}
+@font-face {
+  font-family:Roboto-ThinItalic;
+  src:url(../fonts/Roboto-ThinItalic.eot);
+  src:local("Roboto Thin Italic"),
+  local("Roboto-ThinItalic"),
+  url(../fonts/Roboto-ThinItalic.eot) format("embedded-opentype"),
+  url(../fonts/Roboto-ThinItalic.woff2) format("woff2"),
+  url(../fonts/Roboto-ThinItalic.woff) format("woff"),
+  url(../fonts/Roboto-ThinItalic.ttf) format("truetype");
+  font-weight:100;
+  font-style:italic;
+  font-display:swap
+}
+
+
 .card-header,
 .element p {
   font-weight: 600;
@@ -85,14 +261,6 @@ input {
   -webkit-appearance: none
 }
 
-@font-face {
-  font-family: "Roboto Condensed-bold";
-  src: url('../fonts/Roboto-Medium.ttf');
-}
-@font-face {
-  font-family: "Roboto Condensed";
-  src: url('../fonts/Roboto-Light.ttf');
-}
 
 @media (min-width:567px) {
   .d-sm-none {
@@ -112,7 +280,8 @@ input {
 @font-face {
   font-family: riode;
   src: url("../fonts/riode.eot");
-  src: url("../fonts/riode.eot") format("embedded-opentype"), url("../fonts/riode.ttf") format("truetype"), url("../fonts/riode.woff") format("woff"), url("../fonts/riode.svg?5gap68#riode") format("svg");
+  src: url("../fonts/riode.eot") format("embedded-opentype"), url("../fonts/riode.ttf") format("truetype"), url("../fonts/riode.woff") format("woff"), 
+  url("../fonts/riode.svg?5gap68#riode") format("svg");
   font-weight: 400;
   font-style: normal;
   font-display: block
@@ -264,7 +433,7 @@ input {
 .header-search.hs-simple input.form-control {
   padding: 0 5rem 0 1.55rem;
   border-bottom: 1px solid #000;
-  font-family: "Roboto Condensed",inherit;
+  font-family: Roboto-Regular,inherit;
   background-color: #fff;
   color: #999;
   margin-right: 50px;
@@ -430,7 +599,7 @@ transform: rotate(90deg);
   top: 50%;
   transform: translateY(-50%);
   right: .5rem;
-  font-family: "Roboto Condensed-bold",Montserrat-Bold, sans-serif;
+  font-family: Roboto-Bold,Montserrat-Bold, sans-serif;
   font-size: 1.8rem;
   font-weight: 400;
   letter-spacing: -.01em;
@@ -580,7 +749,7 @@ transform: rotate(90deg);
 }
 
 .footer-middle .widget-title {
-  font-family: "Roboto Condensed",inherit;
+  font-family: Roboto-Regular,inherit;
   text-transform: capitalize
 }
 
@@ -626,7 +795,7 @@ transform: rotate(90deg);
 }
 
 .account p {
-  font-family: "Roboto Condensed-bold",Montserrat-Bold, sans-serif;
+  font-family: Roboto-Bold,Montserrat-Bold, sans-serif;
   letter-spacing: -.017em
 }
 
@@ -656,7 +825,7 @@ transform: rotate(90deg);
 
 .account .form-control {
   font-size: 1.3rem;
-  font-family: "Roboto Condensed-bold",Montserrat-Bold, sans-serif;
+  font-family: Roboto-Bold,Montserrat-Bold, sans-serif;
   transition: background-color .3s, border-color .3s;
   color: #999;
   border-radius: .3rem
@@ -1320,7 +1489,7 @@ input[type=radio]:checked~label::after {
   left: 3px;
   top: 2px;
   content: "\e960";
-  font-family: "Roboto Condensed-bold",Montserrat-Bold, sans-serif;
+  font-family: Roboto-Bold,Montserrat-Bold, sans-serif;
   font-weight: 700;
   font-size: 1.2rem;
   color: #222
@@ -1964,7 +2133,7 @@ a:hover {
 
 .order .address-info p {
   color: #666;
-  font-family: "Roboto Condensed-bold",Montserrat-Bold, sans-serif;
+  font-family: Roboto-Bold,Montserrat-Bold, sans-serif;
   line-height: 2.15
 }
 
@@ -2159,7 +2328,7 @@ a:hover {
   background-color: transparent;
   background-size: cover;
   font-size: 1.2rem;
-  font-family: "Roboto Condensed",inherit;
+  font-family: Roboto-Regular,inherit;
   color: #222;
   transition: .3s;
   position: relative;
@@ -2750,7 +2919,7 @@ h3 {
   font-weight: 600;
   line-height: 1.34;
   letter-spacing: -.35px;
-  font-family: "Roboto Condensed-bold",Montserrat-Bold, sans-serif;
+  font-family: Roboto-Regular,"Montserrat-Bold", sans-serif;
   color: #666
 }
 
@@ -3028,7 +3197,7 @@ h3 {
   right: 0;
   bottom: 0;
   z-index: 10000;
-  font-family: "Roboto Condensed-bold",Montserrat-Bold, sans-serif;
+  font-family: Roboto-Bold,Montserrat-Bold, sans-serif;
   transition: visibility .4s
 }
 
@@ -3311,7 +3480,7 @@ h3 {
 }
 
 .footer {
-  font-family: "Roboto Condensed-bold",Montserrat-Bold, sans-serif;
+  font-family: Roboto-Bold,Montserrat-Bold, sans-serif;
   font-size: 1.3rem;
   background: #fff;
   color: #000
@@ -3338,7 +3507,7 @@ h3 {
 .footer-middle .widget-title {
   padding: .6rem 0;
   margin-bottom: .9rem;
-  font-family: "Roboto Condensed",inherit;
+  font-family: Roboto-Regular,inherit;
   font-size: 1.6rem;
   font-weight: 600;
   letter-spacing: 0;
@@ -3423,7 +3592,7 @@ h3 {
 .widget-newsletter .widget-title {
   padding: 0;
   margin-bottom: .5rem;
-  font-family: "Roboto Condensed",inherit;
+  font-family: Roboto-Regular,inherit;
   font-size: 2rem;
   font-weight: 600;
   letter-spacing: -.015em;
@@ -3438,7 +3607,7 @@ a {
 
 .widget-newsletter p {
   margin-bottom: .1rem;
-  font-family: "Roboto Condensed",inherit;
+  font-family: Roboto-Regular,inherit;
   font-size: 1.4rem;
   letter-spacing: -.005em;
   line-height: 1.23;
@@ -3689,7 +3858,7 @@ a {
 }
 
 .banner-4 .banner-subtitle span {
-  font-family: "Roboto Condensed-bold",Montserrat-Bold, sans-serif;
+  font-family: Roboto-Bold,Montserrat-Bold, sans-serif;
   font-size: 1.71em
 }
 
@@ -3779,7 +3948,7 @@ a {
 .intro-slide1 .banner-subtitle,
 .summary-subtotal-price,
 .summary-total-price {
-  font-family: "Roboto Condensed",Montserrat-Regular;
+  font-family: Roboto-Regular,Montserrat-Regular;
 }
 
 .label-star::before {
@@ -4436,7 +4605,7 @@ justify-content: right;
 .checkout input.form-control::before,
 .shipping-address,
 .shipping-address input.form-control::before {
-  font-family: "Roboto Condensed-bold",Montserrat-Bold, sans-serif;
+  font-family: Roboto-Bold,Montserrat-Bold, sans-serif;
   content: "\e953";
   right: 1.5rem;
   font-size: 1.1rem;
@@ -4787,7 +4956,7 @@ main {
   background-color: transparent;
   background-size: cover;
   font-size: 1.5rem;
-  font-family: "Roboto Condensed",inherit;
+  font-family: Roboto-Regular,inherit;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -4970,12 +5139,16 @@ html {
   font-size-adjust: 100%;
   font-weight: 400;
   box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent
+  -webkit-tap-highlight-color: transparent;
+  font-family:Roboto,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+  
 }
 
 body {
   overflow-x: hidden;
-  font-family: 'Roboto Condensed', sans-serif !important;
+  
+  font-family:system-ui,-apple-system,Segoe UI,Roboto-Regular,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+
   font-size: 1.4rem;
   line-height: 1.6;
   color: #666
@@ -4998,7 +5171,7 @@ h6,
 input,
 #addToCartForm,
 p {
-  font-family: 'Roboto Condensed', sans-serif !important
+  font-family: Roboto-Regular, sans-serif !important
 }
 
 main {
@@ -6625,7 +6798,7 @@ input[type=radio]~label::before {
   text-align: left;
   font-size: 2rem;
   font-weight: 700;
-  font-family: "Roboto Condensed",inherit;
+  font-family: Roboto-Regular,inherit;
   letter-spacing: -.025em
 }
 
@@ -6817,7 +6990,7 @@ input[type=radio]~label::before {
 }
 
 textarea {
-  font-family: "Roboto Condensed",inherit;
+  font-family: Roboto-Regular,inherit;
   min-width: 100%;
   max-width: 100%
 }
@@ -6873,7 +7046,7 @@ textarea {
   color: inherit;
   background-color: transparent;
   font-size: 1.2rem;
-  font-family: "Roboto Condensed",inherit;
+  font-family: Roboto-Regular,inherit;
   letter-spacing: inherit;
   z-index: 1;
   -moz-appearance: none;
@@ -8152,7 +8325,7 @@ input[type=radio]~label::after {
 .ratings,
 .ratings-full,
 .tooltiptext {
-  font-family: 'Roboto Condensed', sans-serif
+  font-family: Roboto-Regular, sans-serif
 }
 
 .product-price {
@@ -8223,7 +8396,7 @@ input[type=radio]~label::after {
   background-color: transparent;
   background-size: cover;
   font-size: 1.2rem;
-  font-family: "Roboto Condensed",inherit;
+  font-family: Roboto-Regular,inherit;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -8421,7 +8594,7 @@ input[type=radio]~label::after {
 .product.product-variable:not(.cart-full) .btn-cart::after {
   content: "\e97f";
   display: none;
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: Roboto-Regular, sans-serif;
   content: "\e97f";
   font-size: 1.8rem;
   font-weight: 400
@@ -8485,13 +8658,22 @@ input[type=radio]~label::after {
 }
 
 .product-thumb::before,
-.product-thumbs-wrap button {
+.product-thumbs-wrap .thumb-down {
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
+  top: -36px;
   bottom: 0
 }
+
+.product-thumbs-wrap .thumb-up {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0px;
+  bottom: 0
+}
+
 
 .product-thumbs {
   transition: top .3s ease-out;
@@ -9347,7 +9529,7 @@ aside+div .product-single .product-details {
 
 /* *{
   
-    font-family: 'Roboto Condensed', sans-serif !important;
+    font-family: Roboto-Regular, sans-serif !important;
   
 } */
 
@@ -9378,7 +9560,7 @@ max-width: 100px !important;
   border-radius: 0;
   border: 0;
   transition: border .35s, color .35s, background-color .35s;
-  font-family: "Roboto Condensed-bold",Montserrat-Regular !important;
+  font-family: Roboto-Bold,Montserrat-Regular !important;
   font-weight: initial  !important
 }
 
@@ -9820,7 +10002,7 @@ max-width: 100px !important;
   padding: 1.1rem 0;
   font-size: inherit;
   font-weight: inherit;
-  font-family: "Roboto Condensed",inherit;
+  font-family: Roboto-Regular,inherit;
   letter-spacing: -.0125em;
   line-height: 1.5;
   white-space: nowrap
@@ -10132,7 +10314,7 @@ max-width: 100px !important;
     #product-tab-description li::before,
     .footer,
     .mobile-menu-wrapper {
-      font-family: 'Roboto Condensed', sans-serif
+      font-family: Roboto-Regular, sans-serif
     }
 
     #product-tab-description figure img,
@@ -10508,7 +10690,7 @@ max-width: 100px !important;
       font-weight: 600;
       line-height: 1.34;
       letter-spacing: -.35px;
-      font-family: 'Roboto Condensed', sans-serif !important;
+      font-family: Roboto-Regular, sans-serif !important;
       color: #666
     }
 
@@ -11125,7 +11307,7 @@ max-width: 100px !important;
     .footer-middle .widget-title {
       padding: .6rem 0;
       margin-bottom: .9rem;
-      font-family: "Roboto Condensed",inherit;
+      font-family: Roboto-Regular,inherit;
       font-size: 1.6rem;
       font-weight: 600;
       letter-spacing: 0;
@@ -11226,7 +11408,7 @@ max-width: 100px !important;
     .widget-newsletter .widget-title {
       padding: 0;
       margin-bottom: .5rem;
-      font-family: "Roboto Condensed",inherit;
+      font-family: Roboto-Regular,inherit;
       font-size: 2rem;
       font-weight: 600;
       letter-spacing: -.015em;
@@ -11237,7 +11419,7 @@ max-width: 100px !important;
 
     .widget-newsletter p {
       margin-bottom: .1rem;
-      font-family: "Roboto Condensed",inherit;
+      font-family: Roboto-Regular,inherit;
       font-size: 1.4rem;
       letter-spacing: -.005em;
       line-height: 1.23;
@@ -12805,7 +12987,7 @@ ul.megamenu {
 }
 
 .mega-sub-cat {
-  font-family: 'Roboto Condensed', sans-serif
+  font-family: Roboto-Regular, sans-serif
 }
 
 .filtermob{
@@ -12852,9 +13034,9 @@ top: -5px !important;
   .header-cart-wrapitem{
     width: 90%;
   }
-  .product-media{
+  /* .product-media{
     height: 290px !important ;
-  }
+  } */
   .filtermob{
     display: block ;
     position: fixed;
@@ -13003,7 +13185,8 @@ top: -5px !important;
 .new-price-detail,
 .price-block {
   color: #FC0D1B !important;
-  font-size: 19.1px !important
+  /* font-size: 19.1px !important; */
+  font-size: 16px !important
 }
 
 .name-title {
@@ -13015,11 +13198,15 @@ top: -5px !important;
   text-overflow: ellipsis !important;
   letter-spacing: -.025em;
   padding-top: 4px;
-  font-family: 'Roboto Condensed-bold', sans-serif !important;
+  font-family: Roboto-Regular,"Montserrat-Bold", sans-serif !important;
   text-transform: capitalize;
+  letter-spacing: 0;
+  line-height: 24px !important;
+  color: #000 !important;
+  font-size: 16px !important;
 }
 .s-text12{
-  font-family: "Roboto Condensed-bold",Montserrat-Bold, sans-serif !important;
+  font-family: Roboto-Bold,Montserrat-Bold, sans-serif !important;
 }
 .head-heart {
   margin-top: 4px
@@ -13938,7 +14125,7 @@ top: -5px !important;
   border: 0;
   color: #fff;
   display: flex;
-  font-family:  "Roboto Condensed", 'Freight Sans LF Pro', Helvetica, Arial, 'Lucida Grande', sans-serif;
+  font-family:  Roboto-Regular, 'Freight Sans LF Pro', Helvetica, Arial, 'Lucida Grande', sans-serif;
   font-weight: 700;
   margin: auto
 }
@@ -14012,9 +14199,9 @@ top: -5px !important;
   transition: opacity .3s
 }
 
-.product-media{
+/* .product-media{
   height: 333px ;
-}
+} */
 .product-media a img{
   width: 100%;
   height: 100%;
@@ -14166,12 +14353,12 @@ justify-content: end;
  
 }
 .product-thumbs-wrap{
-  max-width: 60px;
-  
+  /* max-width: 60px; */
+  max-width: 75px; 
   max-height: 515px;
   margin-right: 7px;
   margin-top: 0;
-  height: 473px;
+  height: 510px;
 }
 
 .product-thumbs{
@@ -14202,7 +14389,7 @@ justify-content: end;
 .form-control option{
 
   background: white;
-  font-family: 'Roboto Condensed', sans-serif !important;
+  font-family: Roboto-Regular, sans-serif !important;
 
 }
 
@@ -14511,7 +14698,7 @@ color: #fff;
 }
 
 .owl-prev, .owl-next{
-  display: none !important;
+  display: block !important;
 }
 
 
@@ -14526,7 +14713,7 @@ color: #fff;
 .sec-title .m-text5{
   color: #707070 !important;
   font-size: 20px !important;
-  padding-left: 8px;
+   
 }
 
 
@@ -14585,9 +14772,11 @@ color: #fff;
 
 .img_lens_zoom{
    display: none;
-  width: 350px;
-  height: 94%;
+  width: 370px;
+  height: 94.5%;
   position: absolute;
   z-index: 999;
   top: 30px;
 }
+
+

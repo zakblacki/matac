@@ -503,48 +503,120 @@ class ShopView(ListView):
         return render(self.request, "shop.html", context)             
 
 
-
+import json
 import os
 import shutil
+from django.views.decorators.csrf import csrf_exempt  # Import csrf_exempt decorator if needed
+
+
+@csrf_exempt
+def ajax_example(request):
+    if request.method == 'POST':
+        print(request.FILES.getlist('images'))
+        data = {'message': 'This is a POST AJAX response'}
+        return JsonResponse(data)
+    return JsonResponse({'message': 'Invalid Request'}, status=400)
+
+
+def ajax_example(request):
+    if request.method == 'POST':
+      
+        form = ImageUploadForm(request.POST, request.FILES)
+        print('form')
+        if form.is_valid():
+            print('requested')
+            title= int(request.POST['excel_related'])
+            for index,image in enumerate(request.FILES.getlist('images')):
+                
+                print("uploading..",(index+1)*100/len(request.FILES.getlist('images')))
+                if image:
+                    if image :
+                        
+                        parts = image.name.split("_")[-1]
+                        folder_name_org=parts.split(".")[0]
+                        name_org=str(image.name.split("_")[-2]) + "_org_zoom" + ".webp"
+                        
+                        
+                        # Construct the path to the media_root directory
+                        media_root1 = os.path.join(settings.MEDIA_ROOT, "images_upload_product" , folder_name_org)
+                        media_root21 = os.path.join(settings.MEDIA_ROOT, "images_upload_product" , "doubled_must_delted")
+                        # Create the 'images' directory if it doesn't exist
+                        
+                        os.makedirs(media_root1, exist_ok=True)
+                        os.makedirs(media_root21, exist_ok=True)
+                        image_path_up = os.path.join(media_root1,name_org)
+                        realimg_path= os.path.join(settings.MEDIA_ROOT, "images_upload_product",name_org )
+                        realimg_path_exact= os.path.join( settings.MEDIA_ROOT,"images_upload_product",folder_name_org,name_org )
+                        
+                        image.name= name_org
+                        
+                    
+
+                        if not os.path.exists(image_path_up):
+                            imageup=Images_upload.objects.create(excel_related_id=title, images=image )
+                            try:
+                                shutil.move(realimg_path, media_root1)
+                            except:
+                                shutil.move(realimg_path, media_root21)
+                            imageup.images=realimg_path_exact.replace("/workspace/media_root","")
+                            imageup.save()
+                            
+                
+                else:
+                    pass
+                    
+            # form.save()
+        return redirect("/")
+    else:
+        form = ImageUploadForm()
+    return render(request,"admin/upload.html",{"form":form})
 
 def admin_upload(request):
     if request.method == 'POST':
+        print('form')
         form = ImageUploadForm(request.POST, request.FILES)
+        
         if form.is_valid():
+            print('requested')
             title= form.cleaned_data['excel_related']
-            for image in request.FILES.getlist('images'):
-                if image:
-                    parts = image.name.split("_")[-1]
-                    folder_name_org=parts.split(".")[0]
-                    name_org=str(image.name.split("_")[-2]) + "_org_zoom" + ".webp"
-                     
-                    
-                    # Construct the path to the media_root directory
-                    media_root1 = os.path.join(settings.MEDIA_ROOT, "images_upload_product" , folder_name_org)
-                    media_root21 = os.path.join(settings.MEDIA_ROOT, "images_upload_product" , "doubled_must_delted")
-                    # Create the 'images' directory if it doesn't exist
-                    
-                    os.makedirs(media_root1, exist_ok=True)
-                    os.makedirs(media_root21, exist_ok=True)
-                    image_path_up = os.path.join(media_root1,name_org)
-                    realimg_path= os.path.join(settings.MEDIA_ROOT, "images_upload_product",name_org )
-                    realimg_path_exact= os.path.join( settings.MEDIA_ROOT,"images_upload_product",folder_name_org,name_org )
-                    
-                    image.name= name_org
-                    
-                  
-
-                    if not os.path.exists(image_path_up):
-                        imageup=Images_upload.objects.create(excel_related=title, images=image )
-                        try:
-                            shutil.move(realimg_path, media_root1)
-                        except:
-                            shutil.move(realimg_path, media_root21)
-                        imageup.images=realimg_path_exact.replace("/workspace/media_root","")
-                        imageup.save()
+            for index,image in enumerate(request.FILES.getlist('images')):
+                 
+                print("uploading..",(index+1)*100/len(request.FILES.getlist('images')))
+                try:
+                    if image :
                         
-                 
-                 
+                        parts = image.name.split("_")[-1]
+                        folder_name_org=parts.split(".")[0]
+                        name_org=str(image.name.split("_")[-2]) + "_org_zoom" + ".webp"
+                        
+                        
+                        # Construct the path to the media_root directory
+                        media_root1 = os.path.join(settings.MEDIA_ROOT, "images_upload_product" , folder_name_org)
+                        media_root21 = os.path.join(settings.MEDIA_ROOT, "images_upload_product" , "doubled_must_delted")
+                        # Create the 'images' directory if it doesn't exist
+                        
+                        os.makedirs(media_root1, exist_ok=True)
+                        os.makedirs(media_root21, exist_ok=True)
+                        image_path_up = os.path.join(media_root1,name_org)
+                        realimg_path= os.path.join(settings.MEDIA_ROOT, "images_upload_product",name_org )
+                        realimg_path_exact= os.path.join( settings.MEDIA_ROOT,"images_upload_product",folder_name_org,name_org )
+                        
+                        image.name= name_org
+                        
+                    
+
+                        if not os.path.exists(image_path_up):
+                            imageup=Images_upload.objects.create(excel_related=title, images=image )
+                            try:
+                                shutil.move(realimg_path, media_root1)
+                            except:
+                                shutil.move(realimg_path, media_root21)
+                            imageup.images=realimg_path_exact.replace("/workspace/media_root","")
+                            imageup.save()
+                            
+                    
+                except:
+                    pass    
             # form.save()
             return HttpResponseRedirect(reverse('admin:index'))
     else:

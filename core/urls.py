@@ -44,6 +44,7 @@ urlpatterns = [
     path('testt/', testt, name='testt'),
     path('get_filtered_items/', get_filtered_items, name='get_filtered_items'),
     path('images/upload/', admin_upload, name='upload_images'),
+    path('admin_upload1/', ajax_example, name='ajax_example'),
     
 ]
 

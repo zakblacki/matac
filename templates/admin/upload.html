@@ -1,12 +1,96 @@
 {% extends 'admin/base.html' %}
 
+
 {% block content %}
+<style>
+    #loading-container {
+  width: 100%;
+  background-color: #ccc;
+  height: 20px;
+  position: relative;
+}
+
+#loading-bar {
+  width: 0;
+  height: 100%;
+  background-color: #4CAF50;
+  transition: width 0.2s ease;
+}
+</style>
 <div class="module">
     <h2>Upload Multiple Images</h2>
-    <form method="post" enctype="multipart/form-data">
+    <form id="upload-form" method="post"   enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Upload</button>
     </form>
 </div>
+<!-- <div id="loading-container">
+    <div id="loading-bar"></div>
+</div> -->
+
+ 
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+     
+
+
+    $('#upload-form').on('submit', function (e) {
+        e.preventDefault();
+         
+        var formData = new FormData(this); 
+        var filesimg=$("input[name=images]")[0].files
+        totalImages=filesimg.length
+        
+       
+        
+        var loadedum = 0
+         
+        var progressBar = $('#loading-bar');
+
+        $.ajax({
+                url: "/fr/admin_upload1/",
+                type: "POST",  // Change the request type to POST
+                processData: false, // Prevent jQuery from processing the data
+                contentType: false, 
+                data: formData,
+                xhr: function () {
+                var xhr = new window.XMLHttpRequest();
+                // Add an event listener to track progress
+                xhr.upload.addEventListener("progress", function (e) {
+                    
+                    
+                    if (e.lengthComputable) {
+                         
+                            // Update the number of images loaded
+                           
+                         
+                        var intprog = setInterval(() => {
+                            progress = (loadedum/ totalImages) * 100;
+                            loadedum =loadedum + 1
+                            console.log(progress)
+                            document.getElementById('loading-bar').style.width = progress + '%';
+                            if(progress ==100){
+                                clearInterval(intprog)
+                            }
+                        }, 480);
+
+                        
+                        
+                    
+                       
+                    }
+                    }, false);
+                    return xhr;
+                },
+                success: function(response) {
+                    // ss
+                }
+            });
+    });
+});
+
+</script> -->
 {% endblock %}

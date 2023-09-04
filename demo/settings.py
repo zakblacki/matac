@@ -18,7 +18,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'allauth',
+    'allauth',  
+  
     "social_django",
     'allauth.account',
     'allauth.socialaccount',
@@ -143,8 +144,10 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+ 
+ 
 # CRISPY FORM
-
+ 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 STRIPE_PUBLIC_KEY = 'pk_test_lX3r6OMjOU2yzFsNSHq6belT00EY82kZmH'

@@ -145,4 +145,6 @@ class ImageUploadForm(forms.ModelForm):
         model = Images_upload
         fields = ('excel_related', 'images')
         
+ 
+        
     
