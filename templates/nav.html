@@ -17,7 +17,7 @@
 	
 		<!-- Header desktop -->
 		<div class="container-menu-header">
-			<div class="topbar" style="height: 92px;">
+			<div class="topbar" style="height: 92px;width: 90%;margin: auto;">
 				 
 
 				<div class="header-left" style="margin-top: auto;">
@@ -26,7 +26,7 @@
                     </a>
                     
                     
-                    <div class="tab tab-menu" style="min-width: 715px;padding-left: 10px;">
+                    <div class="tab tab-menu" style="min-width: 615px;padding-left: 10px;">
                         <ul class="nav nav-tabs {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}" role="tablist" style="width: 40%;display: flex;
 						justify-content: space-between;
 						position: relative;
@@ -70,7 +70,7 @@
 				<a href="/" class="logo">
 					<img src="{% static 'images/matacor.png' %}" style="scale: 1.17;" alt="">
 				</a>
-				<form style="margin-bottom: 35px;
+				<!-- <form style="margin-bottom: 35px;
 				margin-right: 10px;" action="{% url 'set_language' %}" method="post">{% csrf_token %}
 					<input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}">
 					<select id="lang_change" name="language" style="
@@ -95,7 +95,7 @@
 							document.getElementById("lang_change_sub").click()
 						})
 					</script>
-				</form>
+				</form> -->
 				<!-- <div class="topbar-child2" style="position: relative;
 				background: #fbf5f5;
 				border-radius:6px 6px 0 0;
@@ -195,7 +195,7 @@
 
 
 
-				<div class="header-icons" style="width: 23%;">
+				<div class="header-icons" style="width: 19%;">
 
 					<a href="/wishlist" class="header-wrapicon1 dis-block">
 						<img style="scale: 1.3;" src="{% static 'images/VSC.svg' %}" class="header-icon1" alt="ICON">
@@ -365,7 +365,7 @@ position: fixed;">
 				</div>
 			</div>
 
-			<div class="wrap_header" style="overflow: visible !important;">
+			<div class="wrap_header" style="overflow: visible !important;width: 90%; margin: auto; ">
 				<!-- Logo -->
 				
 
@@ -445,7 +445,7 @@ position: fixed;">
 
 		<!-- Header Mobile -->
 		<div class="wrap_header_mobile" style="padding-top: 43px;">
-			<form style="position: absolute;
+			<!-- <form style="position: absolute;
 			right: 8px;
 			top: 22px;" action="{% url 'set_language' %}" method="post">{% csrf_token %}
 				<input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}">
@@ -471,7 +471,7 @@ position: fixed;">
 						document.getElementById("lang_change_sub1").click()
 					})
 				</script>
-			</form>
+			</form> -->
 			<div style="margin-left: -25px;" class="btn-show-menu-mobile hamburger hamburger--squeeze">
 				<!-- <span class="hamburger-box">
 					<span style="left: 30px;" class="hamburger-inner"></span>

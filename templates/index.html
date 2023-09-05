@@ -131,7 +131,7 @@
 	<script>
 		$(document).ready(function(){
 		  $(".owl-carousel").owlCarousel({
-			items: 5, // Display 4 items in a line
+			items: 7, // Display 4 items in a line
 			loop: true,
 			margin: 20,
 			nav: true,
@@ -156,7 +156,7 @@
 		font-weight: lighter !important;color: #707070 !important;">{% trans 'Catégorie tendance' %}</h2> 
 	   <div class="owl-carousel owl-theme owl-nav-inner mb-8 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}"   style="animation-duration: 1.2s;">
  
-	<div class="owl-stage-outer">
+	<div class="owl-stage-outer" style="overflow:hidden">
 		<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 809px;">
 			 
 			{% for category in category %}
@@ -290,21 +290,25 @@
 		<h4 class="{% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} title with-link pt-6 appear-animate fadeIn appear-animation-visible" style="text-transform: uppercase;font-family: Roboto-Bold, sans-serif !important;
 		font-weight: lighter !important;color: #707070 !important;">{% trans "Season's Essentials" %}</h4>
 		<div class="">
-			<div class="row" style="height: 500px;">
+			<div class="row" style="height: 380">
 				
 				
 				{% for essential in essentials %}
-				<div style="height: 430px;padding-right: 5px;"   class="essential col-sm-10 col-md-8 col-lg-3 m-l-r-auto p-t-15 p-b-15">
-					<div style="height: 430px;" class="pos-relative">
-						<img style="height: 430px;" src="{{essential.image.url}}" alt="IMG-BANNER" class="ban_img">
+				<div style=" padding: 0;position: relative;"   class="essential col-sm-10 col-md-8 col-lg-3 m-l-r-auto p-t-15 p-b-15">
+					<div style="width: 100%;
+					height: 100%;" class="pos-relative">
+						<img style="height: 100%;
+						width: 100%;
+						object-fit: cover;
+						" src="{{essential.image.url}}" alt="IMG-BANNER" class="ban_img">
 						{% if LANGUAGE_CODE == 'ar' %}
 						<div style="position: absolute;
 						width: 50px;
 						height: 50px;
 						top: 10px;
 						right: 10px;
-						font-family: Roboto-Regular, sans-serif !important;
-						font-size: 22px;
+						font-family: Roboto-Bold, sans-serif !important;
+						font-size: 35px;
 						color: white;
 						line-height: 1.2;" class="title-ess " >
 						{% if LANGUAGE_CODE == 'ar'  %}
@@ -322,8 +326,8 @@
 						height: 50px;
 						top: 10px;
 						left: 10px;
-						font-family: Roboto-Regular, sans-serif !important;
-						font-size: 22px;
+						font-family: Roboto-Bold, sans-serif !important;
+						font-size: 35px;
 						color: white;
 						line-height: 1.2;" class="title-ess " >
 						{% if LANGUAGE_CODE == 'ar'  %}
@@ -337,7 +341,7 @@
 					</div>
 						{% endif %}
 						
-						<div style="height: 430px;" class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15 {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
+						<div style="height: 430px; bottom: -20px;top: auto;" class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15 {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
 							<br><br><br><br><br>
 							<br><br><br><br><br>
 							<span class="m-text9 p-t-100  fs-20-sm">
@@ -631,7 +635,7 @@
 	</h2>
 	<div class="owl-carousel1 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}"   style="animation-duration: 1.2s;"  >
 	
-		<div class="owl-stage-outer">
+		<div class="owl-stage-outer" style="overflow:hidden">
 		<div class="owl-stage"  >
 				
 		{% for new_item in promo_items %}
@@ -791,7 +795,7 @@
 		{% trans 'NOUVEAUTÉS' %}</h2>
 	<div class="owl-carousel1 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}"   style="animation-duration: 1.2s;"  >
 	
-		<div class="owl-stage-outer">
+		<div class="owl-stage-outer" style="overflow:hidden">
 		<div class="owl-stage"  >
 				
 		{% for new_item in new_items %}
@@ -949,7 +953,7 @@
 		<div class="owl-carousel2 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" style="animation-duration: 1.2s;">
 			
  	
-		<div class="owl-stage-outer">
+		<div class="owl-stage-outer" style="overflow:hidden">
 			<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); 
 			transition: all 3s ease 0s; width: 5814px;">
 			
@@ -1140,7 +1144,15 @@
 
 
 	
-
+	<script>
+		document.querySelectorAll(".product-media").forEach(ele=>{
+			ele.children[0].children[0].onerror = function() {
+				ele.children[0].children[0].src="/static/images/product-def.png";  
+				ele.style.height=348 + "px"
+			};
+			 
+		})
+	</script>
 	{% endblock content %}
 
 

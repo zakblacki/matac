@@ -268,7 +268,7 @@ p {
 	font-family: Roboto-Regular,Montserrat-Regular;
 	font-size: 15px;
 	line-height: 1.7;
-	color: #888888;
+	color: #666666;
 	margin: 0px;
 }
 
@@ -1514,26 +1514,38 @@ nav ul li a, nav ul li ul li a{
 
 @media (min-width: 992px){
   .cntdiv{
-    overflow: hidden;
+     
     width: 98%;
   }
+
+  .owl-theme .owl-nav [class*="owl-"]{
+    width: 40px !important;
+    height: 40px !important;
+  }
+  .owl-prev span, .owl-next span{
+    font-size: 45px !important;
+    color: #000 !important;
+  }
+   
   .owl-theme .owl-nav .owl-next{
-    right: 0 !important;
+    right: -50px !important;
     background: #fff;
-  line-height: 23px;
+  line-height: 26px;
   color: #000;
   border: none !important;
-  top: 40%;
+  border: .1rem solid #ebebeb !important;
+  top: 33%;
 
   }
 
   .owl-theme .owl-nav .owl-prev{
-    left: 0 !important;
+    left: -50px !important;
     background: #fff;
-  line-height: 23px;
+  line-height: 26px;
   color: #000;
   border: none !important;
-  top: 40%;
+  border: .1rem solid #ebebeb !important;
+  top: 33%;
 
   }
 }
