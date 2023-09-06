@@ -1512,43 +1512,7 @@ nav ul li a, nav ul li ul li a{
 }
 
 
-@media (min-width: 992px){
-  .cntdiv{
-     
-    width: 98%;
-  }
 
-  .owl-theme .owl-nav [class*="owl-"]{
-    width: 40px !important;
-    height: 40px !important;
-  }
-  .owl-prev span, .owl-next span{
-    font-size: 45px !important;
-    color: #000 !important;
-  }
-   
-  .owl-theme .owl-nav .owl-next{
-    right: -50px !important;
-    background: #fff;
-  line-height: 26px;
-  color: #000;
-  border: none !important;
-  border: .1rem solid #ebebeb !important;
-  top: 33%;
-
-  }
-
-  .owl-theme .owl-nav .owl-prev{
-    left: -50px !important;
-    background: #fff;
-  line-height: 26px;
-  color: #000;
-  border: none !important;
-  border: .1rem solid #ebebeb !important;
-  top: 33%;
-
-  }
-}
 @media (max-width: 992px){
   #product-tab-reviews a{
     font-size: 14px !important;
@@ -2436,13 +2400,18 @@ object-fit: cover;
 
 .slick3 {
   width:79%;
-  height: 448px;
+  /* height: 448px; */
 }
 
 .item-slick3{
   width: 340px !important;
 }
 
+.item-slick3.slick-slide{
+  height: auto !important;
+  width: 450px !important;
+
+}
 .slick3-dots li {
   display: block;
   position: relative;

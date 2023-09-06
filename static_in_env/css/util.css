@@ -3671,7 +3671,11 @@ SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE
 }
 
 .w-size13 {
-	width: 43%;
+	width: 50%;
+}
+
+.w-size13  .wrap-slick3 {
+	justify-content: space-around;
 }
 
 .w-size14 {

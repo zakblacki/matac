@@ -1077,5 +1077,8 @@ msgid "jour"
 msgstr "يوم"
 
 msgid "jours"
-msgstr "أيام"
+msgstr "أيام" 
 
+
+msgid "Avis et Commentaires"
+msgstr "آراء"

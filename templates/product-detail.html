@@ -133,7 +133,12 @@
 								<a data-lightbox="photo" href="{{ object.image.url }}">
 
 									<img id="featured" src="{{ object.image.url }}" alt="{{ object.title }}">
-
+									<script>
+										document.getElementById('featured').onerror = function() {
+											document.getElementById('featured').src="/static/images/product-def.png";  
+											// ele.style.height=348 + "px"
+										};
+									</script>
 								</a>
  								
 									 							 
@@ -271,7 +276,7 @@
 									
 											
 								<div class="{% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} owl-carousel555 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
-									'nav': true,
+									'nav': false,
 									'dots': false,
 									'margin': 0,
 									'responsive': {
@@ -297,7 +302,7 @@
 									transition: all 3s ease 0s; width: 5814px;">
 								{% for item in colors_item %}
 								
-								<div class="owl-item new_item {% if forloop.counter == 1 %} margin-right-2 {% endif %} {% if forloop.counter <= 4 %} active{% endif %}" style="width: 247px !important; margin-right: 20px;">
+								<div class="product-mediaitm owl-item new_item {% if forloop.counter == 1 %} margin-right-2 {% endif %} {% if forloop.counter <= 4 %} active{% endif %}" style="width: 247px !important; margin-right: 20px;">
 									<a class="variant" >
 											 
 										<img draggable="false" style="width: 50px !important; height: 100% !important;" class="color variant-owl" src="{{item.image.url}}"
@@ -305,8 +310,16 @@
 									</a>
 								</div> 
 								{% endfor %}
-					
-					
+								
+								<script>
+									document.querySelectorAll(".product-mediaitm").forEach(ele=>{
+										ele.children[0].children[0].onerror = function() {
+											ele.children[0].children[0].src="/static/images/product-def.png";  
+											// ele.style.height=348 + "px"
+										};
+										 
+									})
+								</script>
 									</div>
 								</div>
 								
@@ -319,7 +332,7 @@
 									items: 9, // Display 4 items in a line
 									loop: false,
 									margin: 0,
-									nav: true,
+									nav: false,
 									dots: false,
 									responsive: {
 									  0: {
@@ -378,7 +391,7 @@ itemLinks.forEach(itemLink => {
 									<div class="product-form-group product-cen">
 										<div class="product-variations">
 											<div class="d-flex justify-content-between">
-												<label style="font-size:16px">{% trans 'Taille' %} :</label>  <br>
+												<label style="font-size:16px">{% trans 'Taille' %}</label>  <br>
 												
 											</div>	 
 											
@@ -392,32 +405,47 @@ itemLinks.forEach(itemLink => {
 												var splitedsizenot= sizes_not.split(",")
 												var stickysizes=document.getElementById("sticky_sizes")
 
-												for(var append_size=0; append_size < splitedsize.length;append_size++){
-													document.write(
+												// Extract all labels with class "variant__button__label" into an array
+									const labels = splitedsize.concat(splitedsizenot)
+								 
+								// Extract the text content of each label and store it in a separate array
+								const labelTexts = labels.map(label => label);
+							
+								// Sort the text values (assuming they contain both numbers and strings)
+								labelTexts.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+							
+								  
+												for(var append_size=0; append_size < labelTexts.length;append_size++){
+													if(! splitedsizenot.includes(labelTexts[append_size])){
+														document.write(
 														`<div class="d-inline-block text-center dot-wrapper taille__wrapper mr-2 mr-lg-0">
 														<input id="stock-${append_size+1}" class="variant-input visually-hidden" type="radio" name="atribute" required="" value="${append_size+1}">
-														<label class="variant__button__label" for="stock-${append_size+1}">
-															${splitedsize[append_size]} 
+														<label style="line-height: 2.7rem;" class="variant__button__label" for="stock-${append_size+1}">
+															${labelTexts[append_size]} 
 														</label> 
 														 
 														</div>`
 													)
- 												}
+													}else{
 
-												if(sizes_not != "" && sizes_not != "None" && sizes_not != "nan"){
-													for(var append_size1=0; append_size1 < splitedsizenot.length;append_size1++){
-													document.write(
+														if( labelTexts[append_size] != "nan"){
+															document.write(
 														`<div class="d-inline-block text-center dot-wrapper taille__wrapper mr-2 mr-lg-0 barred">
-														<input  class="variant-input visually-hidden" type="radio" name="atribute" required="" >
-														<label class="variant__button__label"  style="color:#d5b2b2a8  !important">
-															${splitedsizenot[append_size1]} 
+														<input id="stock-${append_size+1}"  class="variant-input visually-hidden" type="radio" name="atribute" disabled="true" >
+														<label  style="line-height: 2.7rem;" class="variant__button__label" for="stock-${append_size+1}"  style="color:#d5b2b2a8  !important">
+															${labelTexts[append_size]} 
 														</label> 
 														<div class="notice-alarm"><div class="i-notice-alarm"></div></div>
 														
 														</div>`
 													)
-												}
-												}
+														}
+
+														
+													}
+ 												}
+
+											
 												
 												
 											</script>  
@@ -428,6 +456,7 @@ itemLinks.forEach(itemLink => {
 										</div>
 									</div>
 								</div>
+								 
 								
 								  
 								
@@ -516,7 +545,7 @@ itemLinks.forEach(itemLink => {
 				</div>
 					<div class="sticky-content-wrapper" style="height: 67px;">
 						<div   class="sticky-content  product-sticky-content navWrap fixed" 
-							style="padding-top: 4px;opacity: 0;  height: 67px;top: -67px; margin-top: 0px; z-index: 1060;">
+							style="padding-top: 0px;opacity: 0;  height: 67px;top: -67px; margin-top: 0px; z-index: 1060;">
 							 
 							<input type="hidden" name="csrfmiddlewaretoken" value="AVg2LaTGIt7mBFL7aXM68glmYxpnptul1hepXqZ0c8RwmGFt8WR0enfQubiNYq9O">
 							<div class="container">  
@@ -550,20 +579,24 @@ itemLinks.forEach(itemLink => {
 										</div>
 									</div>
 								</div>
-								<div class="product-form product-qty">
+								<div class="product-form product-qty" style="padding-top: 3.5px;">
 									<div class="product-form-group">
 										<div class="product-form product-size sticky_div" style="margin-left:55rem;padding-right: 10px;">
 											
 												<div class="product-form product-size d-flex justify-content-end" style="margin-right: 8px;">
 													<div class="select-box sticky-selct-box">
 														<select name="atribute" value="" class="form-control" id="sticky_sizes" required="required">
-															<option value="">{% trans 'Taille' %}:</option>
+															<option value="">{% trans 'Taille' %} </option>
 															
 														<script>
 															var mysize="{{object.size_exist}}"
 															var splitedsize= mysize.split(",")
-															 var stickysizes=document.getElementById("sticky_sizes")
-			
+															var stickysizes=document.getElementById("sticky_sizes")
+															splitedsize = splitedsize.map(label => label);
+							
+															// Sort the text values (assuming they contain both numbers and strings)
+															splitedsize.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+														
 															for(var append_size=0; append_size < splitedsize.length;append_size++){
 																document.write(
 																	`<option id="stock-${append_size+1}" name="atribute" value="${splitedsize[append_size]}">${splitedsize[append_size]}</option>`
@@ -618,7 +651,7 @@ itemLinks.forEach(itemLink => {
 		</div>
 	</div>
 
-	<div class="tab tab-nav-simple product-tabs pt-4"  style="padding: 8px;min-height:115vh">
+	<div class="tab tab-nav-simple product-tabs pt-4"  style="padding: 8px;min-height:50vh;width: 85.5%;margin: auto;">
 		<ul class="nav nav-tabs d-flex justify-content-center {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}" style="width:auto;" role="tablist">
 			<li class="nav-item mr-auto ml-auto">
 				<a class="nav-link navvlink active" style="text-decoration: none;background: none;" href="#product-tab-description">{% trans 'Déscription' %}</a>
@@ -868,6 +901,19 @@ itemLinks.forEach(itemLink => {
 			  });
 			});
 		  </script>
+		  <script>
+			document.querySelector('.sticky-image').onerror = function() {
+				document.querySelector('.sticky-image').src="/static/images/product-def.png";  
+					 
+				};
+			document.querySelectorAll(".product-media").forEach(ele=>{
+				ele.children[0].children[0].onerror = function() {
+					ele.children[0].children[0].src="/static/images/product-def.png";  
+					ele.style.height=348 + "px"
+				};
+				 
+			})
+		</script>
 	</section>
 	{% endif %}
 	<div style="padding: 10px;" class="tab tab-nav-simple product-tabs pt-4">
@@ -877,7 +923,7 @@ itemLinks.forEach(itemLink => {
 				border-bottom-color: transparent;
 			  border-bottom-color: transparent !important;
 			  background-color: transparent;
-			  border-bottom-color: #26c !important;" class="nav-link active" href="#product-tab-reviews">{% trans 'Avis' %} ({{comments|length}})</a> 
+			  border-bottom-color: #222 !important;" class="nav-link active" href="#product-tab-reviews">{% trans 'Avis' %} ({{comments|length}})</a> 
 			</li>
 		</ul>     
 		<div class="tab-content">
