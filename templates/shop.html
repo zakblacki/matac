@@ -251,8 +251,8 @@
 											{% for category in categories %}
 										
 											<li>
-												<input type="radio" class="custom-checkbox" id="cat-{{forloop.counter|mul:100}}" value="{{category.title}}" name="brand"  onchange="this.form.submit()">
-												<label class="form-control-label " for="cat-{{forloop.counter|mul:100 }}">{{category.title}} </label>
+												 
+												<a href="/category/{{category.slug}} " class="form-control-label " for="cat-{{forloop.counter|mul:100 }}">{{category.title}} </a>
 											</li>
 											
 											{% endfor %}
@@ -696,23 +696,56 @@
 				<br>
 				<!-- Pagination -->
 				{% if object_list.has_previous or object_list.has_next %}
-				<div class="pagination flex-m flex-w p-t-26">
-					{% if object_list.has_previous %}
-					<a class="page-link" href="?page={{ object_list.previous_page_number}}" aria-label="Previous">
-						<span aria-hidden="true">&laquo;</span>
-						<span class="sr-only">Previous</span>
-					</a>
-					{% endif %}
-					<a href="?page={{ object_list.number }}" class="item-pagination flex-c-m trans-0-4 active-pagination">{{object_list.number}}</a>
+				 
+					 
 					
+					 
+					<nav class="toolbox toolbox-pagination">
+    
+						<ul class="pagination">
+							{% if object_list.has_previous   %}
+							<li class="page-item">
+								<a class="page-link page-link-next" href="?page={{object_list.previous_page_number }}" aria-label="Next">
+									<i class="d-icon-arrow-left"></i>Précédent
+								</a>
+							</li>
+							
+							 {% endif %}
+							
+							 
+							
 					
-					{% if object_list.has_next %}
-					<a class="page-link" href="?page={{ object_list.next_page_number}}" aria-label="Next">
-							<span aria-hidden="true">&raquo;</span>
-							<span class="sr-only">Next</span>
-						</a>
+						 
+							
+							
+					
+
+					{% for page_number in object_list.adjusted_elided_pages %}
+
+        				{% if page_number == object_list.paginator.ELLIPSIS %}
+
+            				{{page_number}}
+			
+
+        				{% else %}
+						<li class="page-item {% if page_number == object_list.number %}active{% endif %} " >
+						<a href="?page={{ page_number }}" class=" page-link" >{{page_number}}</a>
+						</li>
+
 						{% endif %}
-				</div>
+
+    				{% endfor %}
+					{% if object_list.has_next %}
+					<li class="page-item">
+						<a class="page-link page-link-next" href="?page={{object_list.next_page_number}}" aria-label="Next">
+							Suivant<i class="d-icon-arrow-right"></i>
+						</a>
+					</li>
+					{% endif %}
+					
+					
+				</ul>
+			</nav>
 				{% endif %}
 			</div>
 		</div>

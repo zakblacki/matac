@@ -384,7 +384,9 @@ input {
 .nav-tabs .nav-item .nav-item:hover,
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link {
-  color: #707070 !important
+  color: #707070 !important;
+  height: 10px;
+  line-height: 3px !important;
 }
 
 .nav-link.active {
@@ -392,7 +394,7 @@ input {
 }
 
 
- 
+
 
 .nav-item,
 .nav-item .nav-link.active,
@@ -401,8 +403,13 @@ input {
   border-bottom-color: #26c;
   color: #222 !important;
   background: none !important;
+  
 }
 
+.nav-item .nav-link.active{
+  background: #000 !important;
+  color: #fff !important;
+}
 .header-search.hs-simple {
   flex: 1;
   margin-right: 2rem;
@@ -7687,13 +7694,16 @@ input[type=radio]~label::after {
   line-height: 1;
   background-color: transparent;
   border: .1rem solid transparent;
-  transition: border .3s
+  transition: border .3s;
+  color: #222 !important;
+  font-family: Roboto-regular !important;
 }
 
 .active>.page-link,
 :hover:not(.disabled)>.page-link {
-  border-color: #dadada;
-  color: #222
+  border-color: #dadada !important;
+  color: #222 !important;
+  background: none !important;
 }
 
 .disabled>.page-link {
@@ -12962,11 +12972,20 @@ ul.megamenu {
   left: -15px !important;
 }
 
+.nav-item .nav-tabs .nav-link.active.activenavit{
+  border-bottom: none !important;
+}
 
- 
+.subcat-name{
+  font-size: 16px !important;
+}
+
+.mega-sub-cat a{
+  font-size: 14px !important;
+}
 
 .subcat-name.active {
-  border-bottom: 2px solid #000
+  border-bottom: 2px solid #000;
 }
 
 .inside-product {
@@ -14972,4 +14991,18 @@ color: #fff;
   .title-sticky-div{
     top: 60px;
   }
+}
+
+
+
+.page-item.active .page-link{
+	border-color: #dadada !important;
+	background-color: transparent !important;
+  color: #222 !important;
+}
+
+.page-link{
+	background-color: transparent !important;
+  border: .1rem solid transparent !important;
+  background-color: transparent !important;
 }

@@ -95,7 +95,7 @@ def categories():
                 banner_cat_target=Banner_category.objects.filter(category=itml)
                 banner_imgtag=""
                 for bann in banner_cat_target:
-                    banner_imgtag += """<div style="width:150px; margin-right:2px;margin-bottom:3px">
+                    banner_imgtag += """<div style="width:310px; margin-right:2px;margin-bottom:3px">
                                 <a href="{}"><img style="width:100%;height:100%" src="{}"></a>
                                 </div>""".format(bann.banner_link,bann.banner_image.url)
                                 

@@ -479,9 +479,10 @@ class ShopView(ListView):
             page_number=1
             
         paginator = Paginator(item, self.paginate_by)
-        paginated_items = paginator.page(page_number)
+        paginated_items = paginator.get_page(page_number)
         brands_list=list(Item.objects.values_list('brand_name', flat=True).distinct())
-    	
+        paginated_items.adjusted_elided_pages = paginator.get_elided_page_range(page_number)
+     
         context = {
             'object_list': paginated_items,
              'categories':Category.objects.all(),
@@ -508,7 +509,7 @@ import os
 import shutil
 from django.views.decorators.csrf import csrf_exempt  # Import csrf_exempt decorator if needed
 
-
+ 
 @csrf_exempt
 def ajax_example(request):
     if request.method == 'POST':
@@ -965,7 +966,7 @@ class CategoryView(ListView):
         
         paginator = Paginator(item, self.paginate_by)
         paginated_items = paginator.page(page_number)
-        
+        paginated_items.adjusted_elided_pages = paginator.get_elided_page_range(page_number)
         listbrand=list(Item.objects.values_list('brand_name', flat=True).distinct())
        
         context = {
