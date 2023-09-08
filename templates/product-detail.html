@@ -133,12 +133,12 @@
 								<a data-lightbox="photo" href="{{ object.image.url }}">
 
 									<img id="featured" src="{{ object.image.url }}" alt="{{ object.title }}">
-									<script>
+									<!-- <script>
 										document.getElementById('featured').onerror = function() {
 											document.getElementById('featured').src="/static/images/product-def.png";  
 											// ele.style.height=348 + "px"
 										};
-									</script>
+									</script> -->
 								</a>
  								
 									 							 
@@ -311,7 +311,7 @@
 								</div> 
 								{% endfor %}
 								
-								<script>
+								<!-- <script>
 									document.querySelectorAll(".product-mediaitm").forEach(ele=>{
 										ele.children[0].children[0].onerror = function() {
 											ele.children[0].children[0].src="/static/images/product-def.png";  
@@ -319,7 +319,7 @@
 										};
 										 
 									})
-								</script>
+								</script> -->
 									</div>
 								</div>
 								
@@ -901,7 +901,7 @@ itemLinks.forEach(itemLink => {
 			  });
 			});
 		  </script>
-		  <script>
+		  <!-- <script>
 			document.querySelector('.sticky-image').onerror = function() {
 				document.querySelector('.sticky-image').src="/static/images/product-def.png";  
 					 
@@ -913,7 +913,7 @@ itemLinks.forEach(itemLink => {
 				};
 				 
 			})
-		</script>
+		</script> -->
 	</section>
 	{% endif %}
 	<div style="padding: 10px;" class="tab tab-nav-simple product-tabs pt-4">
@@ -923,7 +923,7 @@ itemLinks.forEach(itemLink => {
 				border-bottom-color: transparent;
 			  border-bottom-color: transparent !important;
 			  background-color: transparent;
-			  border-bottom-color: #222 !important;" class="nav-link active" href="#product-tab-reviews">{% trans 'Avis' %} ({{comments|length}})</a> 
+			  border-bottom-color: #222 !important;" class="nav-link active avis" href="#product-tab-reviews">{% trans 'Avis' %} ({{comments|length}})</a> 
 			</li>
 		</ul>     
 		<div class="tab-content">

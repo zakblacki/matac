@@ -1649,10 +1649,6 @@ $.extend($.easing, {
      
 
 
-      document.querySelectorAll("img").forEach(ele=>{
-    ele.onerror = function() {
-        ele.src="/static/images/product-def.png";  
-       
-    };
      
-})
+     
+ 

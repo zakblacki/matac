@@ -394,7 +394,9 @@ input {
 }
 
 
-
+.btn-show-menu-mobile.hamburger{
+  z-index: 9 !important;
+}
 
 .nav-item,
 .nav-item .nav-link.active,
@@ -406,7 +408,7 @@ input {
   
 }
 
-.nav-item .nav-link.active{
+.nav-item .nav-link.active:not(.avis){
   background: #000 !important;
   color: #fff !important;
 }
@@ -13019,7 +13021,16 @@ ul.megamenu {
 .nav-tabs .nav-item{
   text-transform: uppercase;
 }
+
 @media (max-width:992px) {
+  .itm-p:not(:last-of-type):not(:first-of-type):not(.itm-p.active){
+    display: none !important;
+  }
+
+  .itm-p.active, .page-item.prev, .page-item.nxt{
+    display: block !important;
+  }
+
   
   .tab.tab-nav-simple.product-tabs.pt-4{
     width: 100% !important;
