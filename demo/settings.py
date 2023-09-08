@@ -7,7 +7,7 @@ ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 DEBUG = os.getenv('DEBUG','True') == 'True'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY =os.getenv('SECRET_KEY', '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj') 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS',"127.0.0.1,localhost",'http://139.59.210.248').split(",")
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS',"127.0.0.1,localhost,139.59.210.248" ).split(",")
  
 INSTALLED_APPS = [
     'django.contrib.admin',
