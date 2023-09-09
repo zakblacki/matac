@@ -7,7 +7,7 @@ ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 DEBUG = os.getenv('DEBUG','True') == 'True'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY =os.getenv('SECRET_KEY', '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj') 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS',"127.0.0.1,localhost,139.59.210.248" ).split(",")
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS',"127.0.0.1,localhost,104.248.143.27" ).split(",")
  
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -86,26 +86,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
 
 
 DATABASE_URL = os.getenv("DATABASE_URL",None)
-if not DATABASE_URL:
-    DATABASES = {
+
+DATABASES = {
         "default": {
-             "ENGINE": "django.db.backends.sqlite3",
-             "NAME": os.path.join(BASE_DIR, 'db.sqlite3')
-        }
-     }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv('DB_NAME'),
-            "USER": os.getenv('DB_USER'),
-            "PASSWORD": os.getenv('DB_PASSWORD'),
-            "HOST": os.getenv('DB_HOST'),
-            "PORT": os.getenv('DB_PORT'),
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": "demo",
+            "USER": "dbuser",
+            "PASSWORD": "dbpassword",
+            "HOST": "localhost",
+            "PORT": "5432",
             "OPTIONS":{"sslmode":"require"}
             
-        }
     }
+}
 
 
 if ENVIRONMENT == 'production':
