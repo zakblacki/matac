@@ -1,14 +1,17 @@
 import os
 from django.utils.translation import gettext_lazy as _
 
-ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
+# ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
 
-DEBUG = os.getenv('DEBUG','True') == 'True'
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY =os.getenv('SECRET_KEY', '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj') 
-ALLOWED_HOSTS =["matacor.com","www.matacor.com","207.154.249.107"]
+# DEBUG = os.getenv('DEBUG','True') == 'True'
+DEBUG = True
  
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SECRET_KEY ='-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
+ALLOWED_HOSTS =["matacor.com","www.matacor.com","207.154.249.107"]
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -73,26 +76,26 @@ LANGUAGE_CODE = 'fr'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
-USE_TZ = True
+# USE_TZ = True
 
 WSGI_APPLICATION = "demo.wsgi.application"
 # static files (CSS, JS, Image)
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static_in_env')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static_in_env'),"/var/www/static"]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
 
 
-DATABASE_URL = os.getenv("DATABASE_URL",None)
+# DATABASE_URL = os.getenv("DATABASE_URL",None)
 
 DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": "demo",
-            "USER": "dbuser",
-            "PASSWORD": "dbpassword",
+            "NAME": "demo1",
+            "USER": "dbuser1",
+            "PASSWORD": "dbpassword1",
             "HOST": "localhost",
             "PORT": "5432",
             "OPTIONS":{"sslmode":"require"}
@@ -101,9 +104,9 @@ DATABASES = {
 }
 
 
-if ENVIRONMENT == 'production':
-    DEBUG = True
-    SECRET_KEY = os.getenv('SECRET_KEY')
+if DEBUG == False:
+    DEBUG = False
+    # SECRET_KEY = os.getenv('SECRET_KEY')
     SESSION_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True

@@ -52,7 +52,7 @@
                                 </a>
                             </td>
                             <td class="product-price">
-                                <span class="amount">{{wish.price}} {% trans 'DA' %}</span>
+                                <span class="amount">{{wish.price|floatformat:0}} {% trans 'DA' %}</span>
                             </td>
                             <td class="product-stock-status">
                                 <span class="wishlist-in-stock"><strong>{% trans wish.get_label_display %}</strong></span>

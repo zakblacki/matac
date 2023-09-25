@@ -61,8 +61,11 @@
                 <div class="overview-item">
                     <span>{% trans 'Total:' %}</span>
                     <strong>
-                        {{ target.total_amount|total_withship:target.shipping_price }}
-                        {% trans 'DA' %}</strong>
+                        {% if target.shipping_price %}
+                            {{ target.total_amount|total_withship:target.shipping_price }}
+                            {% trans 'DA' %}
+                        {% endif %}
+                    </strong>
                 </div>
                 <div class="overview-item">
                     <span>{% trans 'Mode de paiement:' %}</span>
@@ -99,7 +102,7 @@
 						{% endif %}
                                 </td>
                                 <td class="product-name">{{item.quantity}}</td>
-                                <td class="product-name">{{item.quantity|mul:item.item.price}} {% trans 'DA' %}</td>
+                                <td class="product-name">{{item.quantity|mul:item.price_per_item|floatformat:0}} {% trans 'DA' %}</td>
                             </tr>
                         
                         {% endfor %}
@@ -110,7 +113,7 @@
                             </td>
                                 <td class="product-name"></td>
 
-                            <td class="summary-subtotal-price">{{target.total_amount}} {% trans 'DA' %}</td>
+                            <td class="summary-subtotal-price">{{target.total_amount|floatformat:0}} {% trans 'DA' %}</td>
                         </tr>
                         <tr class="summary-subtotal">
                             <td>
@@ -118,7 +121,7 @@
                             </td>
                             
                                 <td class="product-name"></td>
-                                <td class="summary-subtotal-price">{{target.shipping_price}}  {% trans 'DA' %}</td>
+                                <td class="summary-subtotal-price">{% if target.shipping_price %} {{target.shipping_price}} {% endif %}  {% trans 'DA' %}</td>
                                 
                         </tr>
                         <tr class="summary-subtotal">
@@ -138,7 +141,10 @@
                                 <td class="product-name"></td>
 
                             <td>
-                                <p class="summary-total-price">{{ target.total_amount|total_withship:target.shipping_price }} {% trans 'DA' %}</p>
+                                <p class="summary-total-price">
+                                    {% if target.shipping_price %}
+                                    {{ target.total_amount|total_withship:target.shipping_price }}
+                                    {% endif %} {% trans 'DA' %}</p>
                             </td>
                         </tr>
                     </tbody>

@@ -199,12 +199,12 @@ def wishlist_view(request):
 
 def index(request):
     
-    try:
-        email_news=request.GET["email_newsletter"]
-        NewsLetterEmails.objects.create(email=email_news)
+    # try:
+    #     email_news=request.GET["email_newsletter"]
+    #     NewsLetterEmails.objects.create(email=email_news)
         
-    except:
-        pass
+    # except:
+    #     pass
     
     # Get a random selection of products
     try:
@@ -245,7 +245,24 @@ class OrderSummaryView(LoginRequiredMixin, View):
         if len(OrderItem.objects.filter(user=self.request.user, ordered=False)) !=0:
             try:
                 order = OrderItem.objects.filter(user=self.request.user, ordered=False)
-                
+                try:
+
+                    
+                    for order1 in order.all():
+                        if order1.item.price > order1.item.discount_price:
+                            order1.price_per_item=order1.item.discount_price
+                            order1.save()
+                        if order1.item.coupon_code == self.request.GET["code_coupon"]:
+                            order1.price_per_item=order1.item.price_after_coupon
+                            order1.save()
+                            
+                except:
+                    for order1 in order.all():
+                        if order1.item.price > order1.item.discount_price:
+                            order1.price_per_item=order1.item.discount_price
+                            order1.save()
+
+                            
                 context = {
                     'object': order,
                     "form":FormInput(),
@@ -686,7 +703,9 @@ def confirmorder(request,slug,slug1):
       
         ordertar=get_object_or_404(Order, id=int(slug1))
         
+        
         context["target"]=ordertar
+         
         
     if request.method == "POST":
          

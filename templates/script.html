@@ -45,8 +45,6 @@
 <script type="text/javascript" src="{% static 'js/slick-custom.js' %}"></script>
 
 <script type="text/javascript" src="{% static 'js/Magnifier.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/Event.js' %}"></script>
-
 
 
 
@@ -132,13 +130,7 @@ document.querySelector(".header-icons-mobile .header-wrapicon2 i").addEventListe
 
  const container =document.querySelector(".header-cart-wrapitem");
   
- const pss = new
-PerfectScrollbar(container, {
-wheelSpeed: 2,
-wheelPropagation: true,
-minScrollbarLength: 20
-});
-pss.update();
+ 
 
   $(document).ready(function() {
  
@@ -330,4 +322,4 @@ $(".filtertoptop").on("click",function(){
 
   
  </script>
-<script src="{% static 'js/cities.js' %}"></script>
+

@@ -1010,7 +1010,8 @@ position: absolute;
 }
 
 .header-cart-wrapitem {
-  max-height: 270px;
+  /*max-height: 270px;*/
+  max-height: 90vh !important;
   overflow: auto;
 }
 

@@ -7,6 +7,7 @@ from django.core.validators import MaxValueValidator
 from multiupload.fields import MultiImageField
 import datetime
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Create your models here.
 CATEGORY_CHOICES = (
@@ -56,13 +57,13 @@ class Profile(models.Model):
 
 
 class Slide(models.Model):
-    caption1 = models.CharField(max_length=100)
-    caption1_en = models.CharField(max_length=100)
-    caption1_ar = models.CharField(max_length=100)
-    caption2 = models.CharField(max_length=100)
-    caption2_en = models.CharField(max_length=100)
-    caption2_ar = models.CharField(max_length=100)
-    link = models.CharField(max_length=100)
+    caption1 = models.CharField(max_length=500)
+    caption1_en = models.CharField(max_length=500)
+    caption1_ar = models.CharField(max_length=500)
+    caption2 = models.CharField(max_length=500)
+    caption2_en = models.CharField(max_length=500)
+    caption2_ar = models.CharField(max_length=500)
+    link = models.CharField(max_length=500)
     image = models.ImageField(help_text="Size: 1920x570")
     is_active = models.BooleanField(default=True)
 
@@ -79,18 +80,18 @@ class Essential(models.Model):
     model_type=models.CharField(max_length=150)
     model_type_en=models.CharField(max_length=150)
     model_type_ar=models.CharField(max_length=150)
-    line1 = models.CharField(max_length=100)
-    line1_en = models.CharField(max_length=100)
-    line1_ar = models.CharField(max_length=100)
-    line2 = models.CharField(max_length=100)
-    line2_en = models.CharField(max_length=100)
-    line2_ar = models.CharField(max_length=100)
+    line1 = models.CharField(max_length=500)
+    line1_en = models.CharField(max_length=500)
+    line1_ar = models.CharField(max_length=500)
+    line2 = models.CharField(max_length=500)
+    line2_en = models.CharField(max_length=500)
+    line2_ar = models.CharField(max_length=500)
     price= models.FloatField()
-    button_text= models.CharField(max_length=100)
-    button_text_en= models.CharField(max_length=100)
-    button_text_ar= models.CharField(max_length=100)
+    button_text= models.CharField(max_length=500)
+    button_text_en= models.CharField(max_length=500)
+    button_text_ar= models.CharField(max_length=500)
     
-    link = models.CharField(max_length=100)
+    link = models.CharField(max_length=500)
     image = models.ImageField(help_text="Size: 1920x570")
     is_active = models.BooleanField(default=True)
 
@@ -106,9 +107,9 @@ class Essential(models.Model):
 
 
 class Category(models.Model):
-    title = models.CharField(max_length=100)
-    title_en = models.CharField(max_length=100)
-    title_ar = models.CharField(max_length=100)
+    title = models.CharField(max_length=500)
+    title_en = models.CharField(max_length=500)
+    title_ar = models.CharField(max_length=500)
     slug = models.SlugField(unique=True,max_length=190)
     image = models.ImageField()
     is_active = models.BooleanField(default=True)
@@ -127,7 +128,7 @@ class Category(models.Model):
         verbose_name_plural = "Ajouter des categories relie à des produit"
 
 class ExcelFile(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=500)
     label = models.CharField(choices=LABEL_CHOICES_EXCEL, max_length=1)
     file = models.FileField(upload_to='excel_files/')
     gender = models.CharField(choices=LABEL_CHOICES_GENDER, max_length=3,default="M")
@@ -145,9 +146,9 @@ class ExcelFile(models.Model):
 
 class Item(models.Model):
     id_item= models.CharField(max_length=50,default="0")
-    title = models.CharField(max_length=100)
-    title_ar = models.CharField(max_length=100)
-    title_en  = models.CharField(max_length=100)
+    title = models.CharField(max_length=500)
+    title_ar = models.CharField(max_length=500)
+    title_en  = models.CharField(max_length=500)
     price = models.FloatField()
     brand_name=models.CharField(max_length=150,default="")
     discount_price = models.FloatField(blank=True, null=True)
@@ -181,11 +182,29 @@ class Item(models.Model):
     coupon_code = models.CharField(max_length=10, blank=True, null=True)
     price_after_coupon= models.FloatField(blank=True, null=True)
     show_coupon = models.BooleanField(default=False)
+    coupon_start_date = models.DateField(blank=True, null=True)
+    coupon_end_date = models.DateField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     date_added= models.DateTimeField(  default=datetime.datetime.now())
     def __str__(self):
         self.color  = []
         return self.title
+    
+    
+    
+
+    def is_coupon_valid(self):
+        today = timezone.now().date()
+        if self.coupon_start_date and self.coupon_end_date:
+            return self.coupon_start_date <= today <= self.coupon_end_date
+        else:
+            return False
+
+    def remaining_days(self):
+        today = timezone.now().date()
+        remaining_days = (self.coupon_end_date - today).days
+        return max(0, remaining_days)
+    
     
     def set_has_coupon(self, value):
         self.has_coupon = value
@@ -247,20 +266,35 @@ class OrderItem(models.Model):
                              on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    price_per_item=models.FloatField(max_length=200, default=7.0,null=True,blank=True)
     size = models.CharField(max_length=5, default="")
     quantity = models.IntegerField(default=1)
-
+ 
     def __str__(self):
         return f"{self.quantity} of {self.item.title}"
 
     def get_total_item_price(self):
-        if self.item.discount_price:
-            return self.quantity * self.item.discount_price
+        
+        if self.price_per_item == self.item.price_after_coupon:
+            
+            
+            return self.quantity * self.price_per_item
         else:
-            return self.quantity * self.item.price
+            self.price_per_item = self.item.price
+            
+            if self.item.discount_price < self.item.price and self.item.discount_price != self.item.price:
+                self.price_per_item = self.item.discount_price
+                return self.quantity * self.item.discount_price
+            else:
+                return self.quantity * self.price_per_item
+        
 
     def get_total_discount_item_price(self):
-        return self.quantity * self.item.price
+        if self.price_per_item > self.item.discount_price: 
+            return self.quantity * self.item.discount_price
+        else:
+            return self.quantity * self.price_per_item
+            
 
     def get_amount_saved(self):
         saved_amnt=self.get_total_item_price() - self.get_total_discount_item_price()
@@ -274,6 +308,12 @@ class OrderItem(models.Model):
             return self.get_total_discount_item_price()
         return self.get_total_item_price()
 
+    def save(self,*args,**kwargs):
+        self.get_total_item_price()
+        super().save(*args, **kwargs)
+        
+        
+        
     class Meta:
         verbose_name = "la Commande dans un panier"
         verbose_name_plural = "les Commandes dans les paniers non confirmée"
@@ -289,11 +329,11 @@ class Order(models.Model):
     total_amount= models.FloatField(default=1)
     recui_image=  models.ImageField(upload_to="orders_recu/",default="",blank=True,null=True)
     phone_number=models.CharField(max_length=10, default="")
-    shipping_address = models.CharField(max_length=50,default="")
-    shipping_type= models.CharField(max_length=50,default="")
-    wilaya_ship=models.CharField(max_length=50, default="")
-    commun_ship=models.CharField(max_length=50 , default="")
-    shipping_price= models.CharField(max_length=10 , default="")
+    shipping_address = models.CharField(max_length=50,default="",blank=True, null=True)
+    shipping_type= models.CharField(max_length=50,default="",blank=True, null=True)
+    wilaya_ship=models.CharField(max_length=50, default="",blank=True, null=True)
+    commun_ship=models.CharField(max_length=50 , default="",blank=True, null=True)
+    shipping_price= models.CharField(max_length=10 , default="",blank=True, null=True)
     coupon = models.ForeignKey(
         'Coupon', on_delete=models.SET_NULL, blank=True, null=True)
     being_delivered = models.BooleanField(default=False)
@@ -317,7 +357,7 @@ class Order(models.Model):
     def get_total(self):
         total = 0
         for order_item in self.items.all():
-            total += order_item.get_final_price()
+            total += order_item.get_total_item_price()
         if self.coupon:
             total -= self.coupon.amount
         return total
@@ -329,10 +369,10 @@ class Order(models.Model):
 class BillingAddress(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
-    street_address = models.CharField(max_length=100)
-    apartment_address = models.CharField(max_length=100)
+    street_address = models.CharField(max_length=500)
+    apartment_address = models.CharField(max_length=500)
     country = CountryField(multiple=False)
-    zip = models.CharField(max_length=100)
+    zip = models.CharField(max_length=500)
     address_type = models.CharField(max_length=1, choices=ADDRESS_CHOICES)
     default = models.BooleanField(default=False)
 

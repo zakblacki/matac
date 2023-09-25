@@ -8,7 +8,7 @@ urlpatterns =[
     path("i18n/",include("django.conf.urls.i18n"))
 ]
 urlpatterns += i18n_patterns(
-    path('admin/', admin.site.urls),
+    path('admin-zone-chikh/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('oauth/', include('social_django.urls', namespace='social')),
     path('', include('core.urls', namespace='core'))

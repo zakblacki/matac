@@ -670,12 +670,12 @@
 									<div>
 										
 										{% if product.price > product.discount_price %}
-										<del class="old-price old-price-block">&nbsp;{{product.price}} {% trans 'DA' %}</del>
+										<del class="old-price old-price-block">&nbsp;{{product.price|floatformat:0}} {% trans 'DA' %}</del>
 										 &nbsp; 
-										<ins class="new-price price-block">{{product.discount_price}}{% trans 'DA' %}</ins>
+										<ins class="new-price price-block">{{product.discount_price|floatformat:0}}{% trans 'DA' %}</ins>
 										{% else %}
 
-										<ins class="new-price price-block" style="color: #222 !important;">{{product.price}}{% trans 'DA' %}</ins>
+										<ins class="new-price price-block" style="color: #222 !important;">{{product.price|floatformat:0}}{% trans 'DA' %}</ins>
 										{% endif %}
 									</div>
 									

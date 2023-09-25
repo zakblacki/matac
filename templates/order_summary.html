@@ -42,7 +42,7 @@ padding: 16px;">
               {% if order_item.item.discount_price %}
                   ${{ order_item.get_total_discount_item_price}}
                   {% if order_item.get_amount_saved !=  None  %}
-                  <span class="badge badge-primary">  Saving ${{ order_item.get_amount_saved|floatformat:1 }}</span>
+                  <span class="badge badge-primary">  Saving ${{ order_item.get_amount_saved|floatformat:0 }}</span>
                   {% endif %}
               {% else %}
                   {{ order_item.get_total_item_price}}DZD
@@ -132,7 +132,7 @@ padding: 16px;">
                         </div>
                       </td>
                       <td class="product-subtotal">
-                        <span class="amount">{{ order_item.item.price }}{% trans 'DA' %} </span>		
+                        <span class="amount">{{ order_item.price_per_item|floatformat:0}}{% trans 'DA' %} </span>		
                       </td>
                       <td class="product-quantity ">
                          
@@ -150,13 +150,13 @@ padding: 16px;">
                       </td>
                       <td class="product-price">
                         <span class="amount">
-                        {% if order_item.item.discount_price %}
-                          {{ order_item.get_total_discount_item_price}}{% trans 'DA' %}
+                        {% if  order_item.item.price > order_item.item.discount_price    %}
+                          {{ order_item.get_total_discount_item_price|floatformat:0}}{% trans 'DA' %}
                           {% if order_item.get_amount_saved !=  None  %}
-                          <span class="badge badge-primary">  Saving {{ order_item.get_amount_saved|floatformat:1 }}{% trans 'DA' %}</span>
+                          <span class="badge badge-primary">  Saving {{ order_item.get_amount_saved|floatformat:0 }}{% trans 'DA' %}</span>
                           {% endif %}
                       {% else %}
-                          {{ order_item.get_total_item_price}}DZD
+                          {{ order_item.get_total_item_price|floatformat:0}} DZD
                       {% endif %}</span>
                       </td>
                       <td class="product-close">
@@ -171,10 +171,11 @@ padding: 16px;">
             </table>
             <h4 class="title coupon-title text-uppercase ls-m mt-3"> {% trans "Coupon de réduction" %}</h4>
             
-              <form action="/" method="post">
+              <form action="" method="get">
                 {% csrf_token %}
                  <div class="check-coupon-box d-flex">
-                  <input type="text" name="code" class="input-text form-control text-grey ls-m mr-4" id="coupon_code" value="" placeholder="code coupon / carte cadeau">
+
+                  <input type="text" name="code_coupon" class="input-text form-control text-grey ls-m mr-4" id="coupon_code" value="" placeholder="code coupon / carte cadeau">
                   <button type="submit" class="btn btn-dark btn-rounded btn-outline"> {% trans "Appliquer" %}</button>
                 </div>
                  
@@ -297,7 +298,7 @@ padding: 16px;">
                       <p id="order_total" class="summary-total-price ls-s"  >
                         {% if request.user.is_authenticated %}
                         {% orders request.user as orders_cart %}
-                        {{orders_cart.total|floatformat:2}}
+                        {{orders_cart.total|floatformat:0}}
                         {% else %}
                         0
                         {% endif %}
@@ -326,7 +327,9 @@ padding: 16px;">
     </div>
   </div>
 </div>
- 
+<script src="{% static 'js/cities.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/Event.js' %}"></script>
+
 
 <script>
 

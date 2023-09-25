@@ -12,14 +12,17 @@ register = template.Library()
 @register.simple_tag
 def orders(user_ath):
     context={}
-    if user_ath:
-        total=0
-        for order in OrderItem.objects.filter(user=user_ath,ordered=False):
-            total += order.item.price * order.quantity
-        context["total"] = total
-        context["order"]= OrderItem.objects.filter(user=user_ath,ordered=False)
-        return context
-    else:
+    try:
+        if user_ath:
+            total=0
+            for order in OrderItem.objects.filter(user=user_ath,ordered=False):
+                total += order.price_per_item * order.quantity
+            context["total"] = total
+            context["order"]= OrderItem.objects.filter(user=user_ath,ordered=False)
+            return context
+        else:
+            return context
+    except:
         return context
     
 

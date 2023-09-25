@@ -206,54 +206,10 @@
 			color: black !important;
 			
 		}
-		 
-	</style>
-	<!-- <section class="banner bgwhite p-t-40 p-b-40">
-		<div class="container">
-			<div class="row"> -->
-
-			 
-
-<!--				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">-->
-<!--					-->
-<!--					<div class="block1 hov-img-zoom pos-relative m-b-30">-->
-<!--						<img src="{% static 'images/banner-02.webp' %}" alt="IMG-BENNER">-->
-<!--						<div class="block1-wrapbtn w-size2">-->
-<!--							<a href="#" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">-->
-<!--								Dresses-->
-<!--							</a>-->
-<!--						</div>-->
-<!--					</div>-->
-<!--					-->
-<!--					<div class="block1 hov-img-zoom pos-relative m-b-30">-->
-<!--						<img src="{% static 'images/banner-05.webp' %}" alt="IMG-BENNER">-->
-<!--						<div class="block1-wrapbtn w-size2">-->
-<!--							<a href="#" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">-->
-<!--								Sunglasses-->
-<!--							</a>-->
-<!--						</div>-->
-<!--					</div>-->
-<!--					-->
-<!--				</div>-->
-
-
-
-
-			<!-- </div>
-		</div>
-	</section> -->
-
-	<!-- New Product -->
-	<style>
 		.newproduct{
 			margin-bottom: 2px;
 			padding-bottom: 2px;
 		}
-	</style>
-	 
-
-	<!-- ------------------Banner2  start ------------------------>
-	<style>
 		.banner2{
 			background-color: #fff;
 			margin-right: 1rem;
@@ -284,6 +240,11 @@
 	
 		}
 	</style>
+	
+ 
+
+	<!-- ------------------Banner2  start ------------------------>
+	 
 	{% if essentials %}
 	<section class="banner2 bg5">
 		
@@ -300,7 +261,7 @@
 						<img style="height: 100%;
 						width: 100%;
 						object-fit: cover;
-						" src="{{essential.image.url}}" alt="IMG-BANNER" class="ban_img">
+						" src="{{essential.image.url}}" alt="IMG-BANNER" class="ban_img" loading="lazy">
 						{% if LANGUAGE_CODE == 'ar' %}
 						<div style="position: absolute;
 						width: 50px;
@@ -357,7 +318,7 @@
 								
 								</span> 
 								<span style="font-weight: bolder;">
-									{{essential.price}}
+									{{essential.price|floatformat:0}}
 									
 								</span><sup>{% trans 'DA' %}</sup>
 							</span>
@@ -404,227 +365,7 @@
 </style>
 <br><br>
  
-
-<!-- ------------------Banner4  end ------------------------>
-
-	<!-- ------------------Banner3  start ------------------------>
-
-
-	<!-- ------------------Banner3  end ------------------------>
-
-	<!-- ------------------Banner5  start ------------------------>
-
-	<!-- <section class="banner2 bg5 p-t-55 p-b-55">
-		<h4 class="title with-link pt-6 appear-animate fadeIn appear-animation-visible" style="text-transform: uppercase;">More Products</h4>
-		 <div class="">
-			<div class="row">
-				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto p-t-15 p-b-15">
-					<div class="pos-relative">
-						<img src="https://static.nike.com/a/images/f_auto/dpr_2.0/h_573,c_limit/0bafb728-2ae2-416f-bb18-5935801c8071/nike-just-do-it.png" alt="IMG-BANNER" class="ban5_img">
-
-						<div class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
-							<br><br><br><br><br>
-							<br><br><br><br><br>
-							<br><br><br><br><br>
-						
-							
-
-							<br>
-							
-
-								<div class="wrap-btn-slide1 w-size1 animated" data-appear="slideInUp">
-						
-							<a href="/shop/" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite  trans-0-4">
-								Men's
-							</a>
-						</div>
-
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto p-t-15 p-b-15">
-					<div class="pos-relative">
-						<img src="https://static.nike.com/a/images/f_auto/dpr_2.0/h_573,c_limit/2c8754ce-6287-4e77-a198-1ad483fba257/nike-just-do-it.png" alt="IMG-BANNER" class="ban5_img">
-
-						<div class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
-							<br><br><br><br><br>
-							<br><br><br><br><br>
-							<br><br><br><br><br>
-
-							<br>
-							
-
-								<div class="wrap-btn-slide1 w-size1 animated" data-appear="slideInUp">
-						
-							<a href="/shop/" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite  trans-0-4">
-								Women's
-							</a>
-						</div>
-
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto p-t-15 p-b-15">
-					<div class="pos-relative">
-						<img src="https://static.nike.com/a/images/f_auto/dpr_2.0/h_573,c_limit/414db494-7ebc-4d53-bbff-58d50b380a24/nike-just-do-it.png" alt="IMG-BANNER" class="ban5_img">
-
-						<div class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
-							<br><br><br><br><br>
-							<br><br><br><br><br>
-							<br><br><br><br><br>
-
-							<br>
-							
-
-								<div class="wrap-btn-slide1 w-size1 animated" data-appear="slideInUp">
-						
-							<a href="/shop/" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite  trans-0-4">
-								Kids'
-							</a>
-						</div>
-
-						</div>
-					</div>
-				</div>
-			
-			</div>
-		</div> 
-		<div class="owl-stage-outer">
-			<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); 
-			transition: all 3s ease 0s; width: 5814px;">
-			
-			 
-			<div class="owl-item active" style="width: 247px !important; margin-right: 10px;">
-				<div class="product product-classic">
-<figure class="product-media">
-<a href="/fr/produits/manteau-noir-oversize-en-laine353692861/">
-	
-		<img src="media/banner-02.webp" loading="lazy" alt="Manteau Noir  Oversize en Laine  image" width="300" height="338">
-	
-</a>
-<div class="product-action-vertical">
-	
-		 
-
-
-<a id="wishHeart" hx-get="/fr/wishlistadd/873" hx-target="this" hx-swap="outerHTML" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait"><img src="/static/images/VSC.svg"></a>
-
-
-	 
-	
-		
-			
-		
-</div>
-
-		<div class="product-action  justify-content-end">
-			<div class="product-color-qt">
-				<div class="product-color__badge--wheel img"><img src="/static/images/color.png"></div>
-				<div class="text-color-block">
-					<p style="margin:0"> 1</p>
-				</div>
-			</div>
-		</div>
-
-<div class="product-label-group">
-	
-		
-		<label class="product-label label-top">Nouveau</label>
-	 
-</div>  
-</figure>
-<div class="product-details">
-<h3 class="product-name">
-	<a href="/fr/produits/manteau-noir-oversize-en-laine353692861/">Manteau Noir  Oversize en Laine </a>
-</h3>
-<div class="product-price d-flex justify-content-between">
-	<div>
-		
-		
-		<del class="old-price old-price-block">5&nbsp;700 {% trans 'DA' %}</del>
-		 &nbsp; 
-		<ins class="new-price price-block">4&nbsp;900    {% trans 'DA' %}</ins>
-	</div>
-	
-</div>
-
-
-</div>
-</div>
-			</div> 
-			
-			<div class="owl-item active" style="width: 247px !important; margin-right: 20px;">
-				<div class="product product-classic">
-<figure class="product-media">
-<a href="/fr/produits/manteau-noir-oversize-en-laine353692861/">
-	
-		<img src="media/banner-02.webp" loading="lazy" alt="Manteau Noir  Oversize en Laine  image" width="300" height="338">
-	
-</a>
-<div class="product-action-vertical">
-	
-		 
-
-
-<a id="wishHeart" hx-get="/fr/wishlistadd/873" hx-target="this" hx-swap="outerHTML" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait"><img src="/static/images/VSC.svg"></a>
-
-
-	 
-	
-		
-			
-		
-</div>
-
-		<div class="product-action  justify-content-end">
-			<div class="product-color-qt">
-				<div class="product-color__badge--wheel img"><img src="/static/images/color.png"></div>
-				<div class="text-color-block">
-					<p style="margin:0"> 1</p>
-				</div>
-			</div>
-		</div>
-
-<div class="product-label-group">
-	
-		
-		<label class="product-label label-top">Nouveau</label>
-	 
-</div>  
-</figure>
-<div class="product-details">
-<h3 class="product-name">
-	<a href="/fr/produits/manteau-noir-oversize-en-laine353692861/">Manteau Noir  Oversize en Laine </a>
-</h3>
-<div class="product-price d-flex justify-content-between">
-	<div>
-		
-		
-		<del class="old-price old-price-block">5&nbsp;700 {% trans 'DA' %}</del>
-		 &nbsp; 
-		<ins class="new-price price-block">4&nbsp;900    {% trans 'DA' %}</ins>
-	</div>
-	
-</div>
-
-
-</div>
-</div>
-			</div> 
-			 
-			 
-			 
-			 
-			 
-		 
-			 
-
-</div>
-
-		</div>
-	</section> -->
+ 
 	{% if promo_items %}
 	<section class="container  cntdiv" >
 		
@@ -645,7 +386,7 @@
 				<figure class="product-media">
 					<a href="/product/{{new_item.slug}}">
 						
-							<img style="width: 100%; height: 100%;" src={{new_item.image.url}} loading="lazy" alt="Manteau Noir  Oversize en Laine  image" width="300" height="338">
+							<img style="width: 100%; height: 100%;" src={{new_item.image.url}}   alt="{{new_item.title}}" width="300" height="338" loading="lazy">
 						
 					</a>
 				
@@ -654,12 +395,12 @@
 			
 						{% if new_item in wishedlist %}
 						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-							<img src="/static/images/PSC.svg">
+							<img src="/static/images/PSC.svg" loading="lazy">
 						</a>
 						
 						{% else %}
 						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-							<img src="/static/images/VSC.svg">
+							<img src="/static/images/VSC.svg" loading="lazy">
 						</a>
 						{% endif %}	
 					</div>
@@ -669,12 +410,12 @@
 			
 						{% if new_item in wishedlist %}
 						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-							<img src="/static/images/PSC.svg">
+							<img src="/static/images/PSC.svg" loading="lazy">
 						</a>
 						
 						{% else %}
 						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-							<img src="/static/images/VSC.svg">
+							<img src="/static/images/VSC.svg" loading="lazy">
 						</a>
 						{% endif %}	
 					</div>
@@ -690,7 +431,7 @@
 										
 										<span class="color-option"></span>
 										 -->
-										 <img src="{% static 'images/color.png' %}" alt="">
+										 <img src="{% static 'images/color.png' %}" alt="" loading="lazy">
 
 										
 								</div>
@@ -739,11 +480,11 @@
 					<div class="product-price d-flex justify-content-between {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
 					 
 					{% if new_item.price > new_item.discount_price %}
-					<del class="old-price old-price-block">&nbsp;{{new_item.price}} {% trans 'DA' %}</del>
+					<del class="old-price old-price-block">&nbsp;{{new_item.price|floatformat:0}} {% trans 'DA' %}</del>
 					&nbsp; 
-					<ins class="new-price price-block">{{new_item.discount_price}}{% trans 'DA' %}</ins>
+					<ins class="new-price price-block">{{new_item.discount_price|floatformat:0}}{% trans 'DA' %}</ins>
 					{% else %}
-					<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price}}{% trans 'DA' %}</ins>
+					<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price|floatformat:0}}{% trans 'DA' %}</ins>
 					{% endif %}
 					</div>
 		
@@ -805,7 +546,7 @@
 				<figure class="product-media">
 					<a href="/product/{{new_item.slug}}">
 						
-							<img style="width: 100%; height: 100%;" src={{new_item.image.url}} loading="lazy" alt="Manteau Noir  Oversize en Laine  image" width="300" height="338">
+							<img style="width: 100%; height: 100%;" src={{new_item.image.url}}  alt="{{new_item.title}}" width="300" height="338" loading="lazy">
 						
 					</a>
 					{% if LANGUAGE_CODE ==  'ar'  %}
@@ -813,12 +554,12 @@
 			
 						{% if new_item in wishedlist %}
 						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-							<img src="/static/images/PSC.svg">
+							<img src="/static/images/PSC.svg" loading="lazy">
 						</a>
 						
 						{% else %}
 						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-							<img src="/static/images/VSC.svg">
+							<img src="/static/images/VSC.svg" loading="lazy">
 						</a>
 						{% endif %}	
 					</div>
@@ -828,12 +569,12 @@
 			
 						{% if new_item in wishedlist %}
 						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-							<img src="/static/images/PSC.svg">
+							<img src="/static/images/PSC.svg" loading="lazy">
 						</a>
 						
 						{% else %}
 						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-							<img src="/static/images/VSC.svg">
+							<img src="/static/images/VSC.svg" loading="lazy">
 						</a>
 						{% endif %}	
 					</div>
@@ -848,7 +589,7 @@
 										
 										<span class="color-option"></span>
 										 -->
-										 <img src="{% static 'images/color.png' %}" alt="">
+										 <img src="{% static 'images/color.png' %}" alt="" loading="lazy">
 
 										
 								</div>
@@ -896,11 +637,11 @@
 					<div class="product-price d-flex justify-content-between {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
 					 
 					{% if new_item.price > new_item.discount_price %}
-					<del class="old-price old-price-block">&nbsp;{{new_item.price}} {% trans 'DA' %}</del>
+					<del class="old-price old-price-block">&nbsp;{{new_item.price|floatformat:0}} {% trans 'DA' %}</del>
 					&nbsp; 
-					<ins class="new-price price-block">{{new_item.discount_price}}{% trans 'DA' %}</ins>
+					<ins class="new-price price-block">{{new_item.discount_price|floatformat:0}}{% trans 'DA' %}</ins>
 					{% else %}
-					<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price}}{% trans 'DA' %}</ins>
+					<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price|floatformat:0}}{% trans 'DA' %}</ins>
 					{% endif %}
 					</div>
 		
@@ -966,7 +707,7 @@
 				<figure class="product-media">
 				<a href="/product/{{new_item.slug}}">
 					
-						<img style="width: 100%; height: 100%;" src={{new_item.image.url}} loading="lazy" alt="Manteau Noir  Oversize en Laine  image" width="300" height="338">
+						<img style="width: 100%; height: 100%;" src={{new_item.image.url}}   alt="{{new_item.title}}" width="300" height="338" loading="lazy">
 					
 				</a>
 				{% if LANGUAGE_CODE ==  'ar'  %}
@@ -974,12 +715,12 @@
 		
 					{% if new_item in wishedlist %}
 					<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-						<img src="/static/images/PSC.svg">
+						<img src="/static/images/PSC.svg" loading="lazy">
 					</a>
 					
 					{% else %}
 					<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-						<img src="/static/images/VSC.svg">
+						<img src="/static/images/VSC.svg" loading="lazy">
 					</a>
 					{% endif %}	
 				</div>
@@ -989,12 +730,12 @@
 		
 					{% if new_item in wishedlist %}
 					<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-						<img src="/static/images/PSC.svg">
+						<img src="/static/images/PSC.svg" loading="lazy">
 					</a>
 					
 					{% else %}
 					<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-						<img src="/static/images/VSC.svg">
+						<img src="/static/images/VSC.svg" loading="lazy">
 					</a>
 					{% endif %}	
 				</div>
@@ -1010,7 +751,7 @@
 							
 							<span class="color-option"></span>
 							 -->
-							 <img src="{% static 'images/color.png' %}" alt="">
+							 <img src="{% static 'images/color.png' %}" alt="" loading="lazy">
 
 							
 						</div>
@@ -1060,12 +801,12 @@
 					
 						
 						{% if new_item.price > new_item.discount_price %}
-														<del class="old-price old-price-block">&nbsp;{{new_item.price}} {% trans 'DA' %}</del>
+														<del class="old-price old-price-block">&nbsp;{{new_item.price|floatformat:0}} {% trans 'DA' %}</del>
 														&nbsp; 
-														<ins class="new-price price-block">{{new_item.discount_price}}{% trans 'DA' %}</ins>
+														<ins class="new-price price-block">{{new_item.discount_price|floatformat:0}}{% trans 'DA' %}</ins>
 														{% else %}
 
-														<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price}}{% trans 'DA' %}</ins>
+														<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price|floatformat:0}}{% trans 'DA' %}</ins>
 						{% endif %}
 					</div>
 					

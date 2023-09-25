@@ -1,0 +1,21 @@
+[0;1;32m●[0m gunicorn.service - gunicorn daemon
+     Loaded: loaded (/etc/systemd/system/gunicorn.service; enabled; vendor preset: enabled)
+     Active: [0;1;32mactive (running)[0m since Sun 2023-09-10 17:06:43 UTC; 50s ago
+TriggeredBy: [0;1;32m●[0m gunicorn.socket
+   Main PID: 12896 (gunicorn)
+      Tasks: 7 (limit: 2323)
+     Memory: 222.2M
+        CPU: 2.529s
+     CGroup: /system.slice/gunicorn.service
+             ├─12896 /root/demo/env/bin/python /root/demo/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/run/gunicorn.sock demo.wsgi:application
+             ├─12897 /root/demo/env/bin/python /root/demo/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/run/gunicorn.sock demo.wsgi:application
+             ├─12898 /root/demo/env/bin/python /root/demo/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/run/gunicorn.sock demo.wsgi:application
+             └─12899 /root/demo/env/bin/python /root/demo/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/run/gunicorn.sock demo.wsgi:application
+
+Sep 10 17:06:43 matacor-ecom systemd[1]: Started gunicorn daemon.
+Sep 10 17:06:43 matacor-ecom gunicorn[12896]: [2023-09-10 17:06:43 +0000] [12896] [INFO] Starting gunicorn 21.2.0
+Sep 10 17:06:43 matacor-ecom gunicorn[12896]: [2023-09-10 17:06:43 +0000] [12896] [INFO] Listening at: unix:/run/gunicorn.sock (12896)
+Sep 10 17:06:43 matacor-ecom gunicorn[12896]: [2023-09-10 17:06:43 +0000] [12896] [INFO] Using worker: sync
+Sep 10 17:06:43 matacor-ecom gunicorn[12897]: [2023-09-10 17:06:43 +0000] [12897] [INFO] Booting worker with pid: 12897
+Sep 10 17:06:43 matacor-ecom gunicorn[12898]: [2023-09-10 17:06:43 +0000] [12898] [INFO] Booting worker with pid: 12898
+Sep 10 17:06:43 matacor-ecom gunicorn[12899]: [2023-09-10 17:06:43 +0000] [12899] [INFO] Booting worker with pid: 12899

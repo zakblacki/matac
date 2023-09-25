@@ -2,19 +2,28 @@ from django.contrib import admin
 import os 
 import requests
 import pandas as pd
+import csv
 from .models import *
+import openpyxl
+from openpyxl.utils import get_column_letter
 import time
 import re
 import ast
 import json
 import random
+import pytz
 from openpyxl import load_workbook
 # Register your models here.
 from PIL import Image
-from io import BytesIO
+# from io import BytesIO
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils.text import slugify
-import io
+from import_export.admin import ExportActionMixin, ImportExportMixin, ImportMixin
+# import io
+# from import_export.resources import ModelResource
+from django.http import HttpResponse
+# import openpyxl
+# from openpyxl.writer.excel import save_virtual_workbook
 
 def make_refund_accepted(modeladmin, request, queryset):
     queryset.update(refund_requested=False, refund_granted=True)
@@ -189,7 +198,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                 title=categoryName,
                                 slug=slugify(categoryName),
                                 
-                                image=image_path.replace("/workspace/media_root","") 
+                                image=image_path.replace("/root/demo/media_root","") 
                             )
 
 
@@ -225,7 +234,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                     description_short=description,
                                     description_long=description,
                                     tags= details ,
-                                    image=imagepathitem.replace("/workspace/media_root",""),
+                                    image=imagepathitem.replace("/root/demo/media_root",""),
                                     rating=rating,
                                     color_exist="M,S",
                                     color_not_exist="F",
@@ -269,7 +278,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                         ImageItem.objects.create(
                                             item=Item.objects.filter(slug=slug_ex).first(),
                                             slug=slug_ex,
-                                            image=image_path.replace("/workspace/media_root","") 
+                                            image=image_path.replace("/root/demo/media_root","") 
                                         )
                                         
                                         # response = requests.get(local_image_path)
@@ -318,7 +327,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                         ImageItem.objects.create(
                                             item=Item.objects.filter(slug=slug_ex).first(),
                                             slug=slug_ex,
-                                            image=image_path.replace("/workspace/media_root","") 
+                                            image=image_path.replace("/root/demo/media_root","") 
                                         )
                                                 
         else:
@@ -452,20 +461,99 @@ class ExcelFileAdmin(admin.ModelAdmin):
 
  
 
+from datetime import timedelta
 
+
+def add_coupon_to_selected(modeladmin, request, queryset):
+    # Assuming you have a Coupon model and a 'coupon_code' field in it
+    coupon_code = "MATACOR DZ"  # Replace with your desired coupon code
+
+    # Assuming you have a 'coupon_end_date' field in your Product model
+    # and you want to set the coupon to expire in 30 days from today
+    coupon_end_date = timezone.now().date() + timedelta(days=30)
+
+    # Apply the coupon to the selected products
+    for product in queryset:
+        product.coupon_code = coupon_code
+        product.coupon_start_date = timezone.now().date()
+        product.coupon_end_date = coupon_end_date
+        product.has_coupon=True
+        product.show_coupon=True
+        product.price_after_coupon=80
+        product.save()
+
+    modeladmin.message_user(request, "Coupon added to selected items successfully.")
+
+add_coupon_to_selected.short_description = "Add coupon to selected items"
+
+def delete_coupon_to_selected(modeladmin, request, queryset):
+    # Assuming you have a Coupon model and a 'coupon_code' field in it
+    coupon_code = ""  # Replace with your desired coupon code
+
+    # Assuming you have a 'coupon_end_date' field in your Product model
+    # and you want to set the coupon to expire in 30 days from today
+     
+
+    # Apply the coupon to the selected products
+    for product in queryset:
+        product.coupon_code = coupon_code
+        product.has_coupon=False
+        product.show_coupon=False
+        product.save()
+
+    modeladmin.message_user(request, "Coupon deleted to selected items successfully.")
+
+delete_coupon_to_selected.short_description = "delete  coupon to selected items"
  
  
+ 
+def move_to_promotion(modeladmin, request, queryset):
+    
+    for product in queryset:
+        product.label = "P"
+         
+        product.save()
+
+    modeladmin.message_user(request, "moved to Promotion successfully.")
+
+move_to_promotion.short_description = "Move to Promotion"
+ 
+ 
+def move_to_new(modeladmin, request, queryset):
+    
+    for product in queryset:
+        product.label = "N"
+         
+        product.save()
+
+    modeladmin.message_user(request, "moved to New successfully.")
+
+move_to_new.short_description = "Move to New"
+
+
+def move_to_Sale(modeladmin, request, queryset):
+    
+    for product in queryset:
+        product.label = "S"
+         
+        product.save()
+
+    modeladmin.message_user(request, "moved to best Sale successfully.")
+
+move_to_Sale.short_description = "Move to best Sale"
+
 class ItemAdmin(admin.ModelAdmin):
     list_display = [
         'title',
         'category',
     ]
-    list_filter = ['title', 'category']
-    search_fields = ['title', 'description_long']
+    list_filter = ['title', 'category','brand_name', 'article_id','id_item']
+    search_fields = ['title', 'description_long' ,'brand_name' ,'article_id','id_item']
     prepopulated_fields = {"slug": ("title",)}
-    actions = [copy_items]
-    list_display = ('id', 'has_coupon', 'coupon_code')  # Customize the displayed columns in the admin list view
-   
+    actions = [add_coupon_to_selected,delete_coupon_to_selected,move_to_Sale,move_to_new,move_to_promotion]
+    list_display = ('id_item','title','has_coupon', 'coupon_code')  # Customize the displayed columns in the admin list view
+    
+    
 
     def save_model(self, request, obj, form, change):
         
@@ -566,6 +654,106 @@ class CategoryGenTopAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
+ 
+
+
+
+def export_confirmed_orders(modeladmin, request, queryset):
+    
+     
+
+    # Apply the coupon to the selected products
+    ordersConfirmed = queryset.filter(ordered=True)
+    wb = openpyxl.Workbook()
+    ws = wb.active
+
+    # Write headers to the worksheet
+    headers = ['User', 'Ref Code', 'Items', 'Total Amount','shipping price','shipping address','phone number','ordered date','Received']
+    for col_num, header in enumerate(headers, 1):
+        col_letter = get_column_letter(col_num)
+        ws[f"{col_letter}1"] = header
+
+    utc_tz = pytz.UTC
+    # Write order data to the worksheet
+    for row_num, order in enumerate(ordersConfirmed, start=2):
+        
+        ws[f"A{row_num}"] = order.user.username
+        ws[f"B{row_num}"] = order.ref_code
+        ws[f"C{row_num}"] =','.join([ str(item.quantity) +" x "+ str(item.item.title) for item in order.items.all()])
+        ws[f"D{row_num}"] = order.total_amount
+        ws[f"E{row_num}"] = order.shipping_price
+        ws[f"F{row_num}"] = order.shipping_address
+        ws[f"G{row_num}"] = order.phone_number
+        
+        ws[f"H{row_num}"] = order.ordered_date.astimezone(utc_tz).replace(tzinfo=None)
+        ws[f"I{row_num}"] = order.received
+
+
+    # Create a response with the Excel file
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="confirmed_orders.xlsx"'
+    wb.save(response)
+
+    return response
+
+    
+
+export_confirmed_orders.short_description = "Export Confirmed Orders"
+
+
+def export_confirmed_ordersAll(modeladmin, request, queryset):
+    
+     
+
+    # Apply the coupon to the selected products
+    ordersConfirmed = Order.objects.filter(ordered=True)
+    wb = openpyxl.Workbook()
+    ws = wb.active
+
+    # Write headers to the worksheet
+    headers = ['User', 'Ref Code', 'Items', 'Total Amount','shipping price','shipping address','phone number','ordered date','Received']
+    for col_num, header in enumerate(headers, 1):
+        col_letter = get_column_letter(col_num)
+        ws[f"{col_letter}1"] = header
+
+    utc_tz = pytz.UTC
+    # Write order data to the worksheet
+    for row_num, order in enumerate(ordersConfirmed, start=2):
+        
+        ws[f"A{row_num}"] = order.user.username
+        ws[f"B{row_num}"] = order.ref_code
+        ws[f"C{row_num}"] =','.join([ str(item.quantity) +" x "+ str(item.item.title) for item in order.items.all()])
+        ws[f"D{row_num}"] = order.total_amount
+        ws[f"E{row_num}"] = order.shipping_price
+        ws[f"F{row_num}"] = order.shipping_address
+        ws[f"G{row_num}"] = order.phone_number
+        
+        ws[f"H{row_num}"] = order.ordered_date.astimezone(utc_tz).replace(tzinfo=None)
+        ws[f"I{row_num}"] = order.received
+
+    # Create a response with the Excel file
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="confirmed_orders_all.xlsx"'
+    wb.save(response)
+
+    return response
+
+    
+
+export_confirmed_ordersAll.short_description = "Export Confirmed Orders All"
+
+ 
+ 
+class OrderConfirmAdmin(admin.ModelAdmin):
+    list_display =['user', 'ref_code','total_amount','received'] 
+    list_filter = ['user', 'ref_code']
+    search_fields = ['user', 'ref_code']
+    
+    actions = [export_confirmed_orders,export_confirmed_ordersAll]
+ 
+    
+
+
 admin.site.register(GenderCategory,CategoryGenTopAdmin)
 admin.site.register(ImageItem)
 
@@ -575,7 +763,7 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Slide)
 admin.site.register(Essential)
 admin.site.register(OrderItem)
-admin.site.register(Order)
+admin.site.register(Order,OrderConfirmAdmin)
 admin.site.register(Coupon)
 admin.site.register(WishList)
 admin.site.register(TopCategory,CategoryGenTopAdmin)

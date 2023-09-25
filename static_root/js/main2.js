@@ -907,13 +907,7 @@ $.extend($.easing, {
                           null)
                         : null === Riode.initProductSingle(o)
                         ? null
-                        : (Riode.$body.on("click", ".product-single .product-image-full", t),
-                          Riode.$body.on("click", ".single-product .btn-cart:not(.disabled)", e),
-                          Riode.zoomImage(".product-gallery.row"),
-                          void Riode.$body.on("click", ".rating-form .rating-stars > a", function (e) {
-                              var t = $(this);
-                              t.addClass("active").siblings().removeClass("active"), t.parent().addClass("selected"), t.closest(".rating-form").find("select").val(t.text()), e.preventDefault();
-                          }))
+                        
                     : null
             );
         };
@@ -1653,3 +1647,8 @@ $.extend($.easing, {
 
       
      
+
+
+     
+     
+ 
