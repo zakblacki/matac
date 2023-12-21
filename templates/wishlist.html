@@ -4,12 +4,12 @@
 
 {% block head_title %}{% trans 'Wishlist' %}{% endblock %}
 {% block content %}
-<nav class="breadcrumb-nav">
-    <div class="container {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}" style="text-align: center;padding-top: 20px;">
+<nav class="breadcrumb-nav p-t-70">
+    <div class="container {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}" style="font-size: 15px;text-align: center;padding-top: 20px;">
           
-        <a class="s-text16" href="#"> <i class="d-icon-home"></i> <i class="fa fa-angle-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} m-l-8 m-r-9" aria-hidden="true"></i></a>
+        Accueil <i class="fa fa-angle-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} m-l-8 m-r-9" aria-hidden="true"></i></a>
         
-        <a class="s-text16" href="/fr/profile/">{% trans 'Wishlist' %}  </a>
+        <a style="font-size: 15px;" class="s-text16" href="/wishlist/">{% trans 'Wishlist' %}  </a>
       
     </div>
 </nav>

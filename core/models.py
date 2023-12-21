@@ -1,3 +1,5 @@
+from email.policy import default
+from ipaddress import ip_address
 from django.conf import settings
 from django.db import models
 from django.db.models import Sum
@@ -20,12 +22,18 @@ CATEGORY_CHOICES = (
 LABEL_CHOICES = (
     ('S', 'Meilleur vente'),
     ('N', 'Nouveau'),
-    ('P', 'Promotion')
+    ('P', 'Promo')
 )
 
 LABEL_CHOICES_EXCEL = (
     ('A', 'ajouter'),
     ('M', 'modifier'),
+     
+)
+
+LABEL_PAIEMENT = (
+    ('E', 'E-paiement'),
+    ('C', 'Reçu de Paiement'),
      
 )
 
@@ -51,7 +59,8 @@ class Profile(models.Model):
     email=models.EmailField(max_length=250,default="")
     adresse=models.CharField(max_length=250,default="")
     phone=models.CharField(max_length=20,default="")
-    
+    phone=models.CharField(max_length=20,default="")
+    reset_code=models.CharField(max_length=6,default="",null=True,blank=True)
     def __str__(self):
         return self.user.username + " profile"
 
@@ -65,14 +74,15 @@ class Slide(models.Model):
     caption2_ar = models.CharField(max_length=500)
     link = models.CharField(max_length=500)
     image = models.ImageField(help_text="Size: 1920x570")
+    image_mob = models.ImageField(help_text="Size:  ")
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return "{} - {}".format(self.caption1, self.caption2)
     
     class Meta:
-        verbose_name = "Ajouter un Slide avec text et lien"
-        verbose_name_plural = "Ajouter des Slides avec texts et liens"
+        verbose_name = "Slide avec text et lien"
+        verbose_name_plural = " Slides avec texts et liens"
 
 
 
@@ -99,8 +109,8 @@ class Essential(models.Model):
         return "{} - {}".format(self.line1, self.price)
     
     class Meta:
-        verbose_name = "Ajouter un banner au centre de la page Home"
-        verbose_name_plural = "Ajouter des banners au centre de la page Home"
+        verbose_name = "banner au centre de la page Home"
+        verbose_name_plural = "banners au centre de la page Home"
 
 
 
@@ -110,7 +120,7 @@ class Category(models.Model):
     title = models.CharField(max_length=500)
     title_en = models.CharField(max_length=500)
     title_ar = models.CharField(max_length=500)
-    slug = models.SlugField(unique=True,max_length=190)
+    slug = models.SlugField(unique=True,max_length=590)
     image = models.ImageField()
     is_active = models.BooleanField(default=True)
      
@@ -124,38 +134,38 @@ class Category(models.Model):
         })
     
     class Meta:
-        verbose_name = "Ajouter un categorie relie à des produit"
-        verbose_name_plural = "Ajouter des categories relie à des produit"
+        verbose_name = "categorie relie à des produit"
+        verbose_name_plural = "categories relie à des produit"
 
 class ExcelFile(models.Model):
     name = models.CharField(max_length=500)
     label = models.CharField(choices=LABEL_CHOICES_EXCEL, max_length=1)
     file = models.FileField(upload_to='excel_files/')
-    gender = models.CharField(choices=LABEL_CHOICES_GENDER, max_length=3,default="M")
+    gender = models.CharField(choices=LABEL_CHOICES_GENDER, max_length=3,default="F")
     
     def __str__(self):
         return self.name
     
     class Meta:
-        verbose_name = "Ajouter des Produits à partir d'un fichier excel"
-        verbose_name_plural = "Ajouter des Produits à partir d'un fichier excel"
+        verbose_name = "Produits à partir d'un fichier excel"
+        verbose_name_plural = "Produits à partir d'un fichier excel"
 
  
 
 
 
 class Item(models.Model):
-    id_item= models.CharField(max_length=50,default="0")
-    title = models.CharField(max_length=500)
-    title_ar = models.CharField(max_length=500)
-    title_en  = models.CharField(max_length=500)
-    price = models.FloatField()
-    brand_name=models.CharField(max_length=150,default="")
+    id_item= models.CharField(max_length=100,default="0")
+    title = models.CharField(max_length=1000)
+    title_ar = models.CharField(max_length=1000)
+    title_en  = models.CharField(max_length=1000)
+    price = models.FloatField(default=0)
+    brand_name=models.CharField(max_length=550,default="")
     discount_price = models.FloatField(blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE,blank=True)
     label = models.CharField(choices=LABEL_CHOICES, max_length=1)
-    slug = models.SlugField(unique=True,max_length=190)
-    article_id=models.CharField(max_length=50)
+    slug = models.SlugField(unique=True,max_length=590)
+    article_id=models.CharField(max_length=100)
     stock_no = models.CharField(max_length=10)
     description_short = models.CharField(max_length=5000)
     description_long = models.TextField()
@@ -168,7 +178,7 @@ class Item(models.Model):
     rating = models.FloatField(blank=True, null=True, 
     validators=[MaxValueValidator(limit_value=5.0)],
         default=0.0)
-    gender=models.CharField(choices=LABEL_CHOICES_GENDER, max_length=3,default="M")
+    gender=models.CharField(choices=LABEL_CHOICES_GENDER, max_length=3,default="F")
     color_exist= models.CharField(max_length=250,default="",blank=True,null=True)
     color_not_exist= models.CharField(max_length=250,default="",blank=True, null=True)
     size_exist= models.CharField(max_length=250,default="34,36,38,40,42",blank=True,null=True)
@@ -234,8 +244,8 @@ class Item(models.Model):
             'slug': self.slug
         })
     class Meta:
-        verbose_name = "Ajouter Produit"
-        verbose_name_plural = "Ajouter Produits"
+        verbose_name = "Produit"
+        verbose_name_plural = "Produits"
      
 
    
@@ -244,7 +254,7 @@ class Item(models.Model):
 
 class ImageItem(models.Model):
     item= models.ForeignKey(Item, on_delete=models.CASCADE)
-    slug = models.SlugField(max_length=190 ) 
+    slug = models.SlugField(max_length=590 ) 
     image= models.ImageField(upload_to="products/")
 
     def get_absolute_url(self):
@@ -253,12 +263,14 @@ class ImageItem(models.Model):
         })
 
 
+    
+
     def __str__(self):
         return self.item.title
     
     class Meta:
-        verbose_name = "Ajouter Image de Produit"
-        verbose_name_plural = "Ajouter Images des Produits"
+        verbose_name = "Image de Produit"
+        verbose_name_plural = "Images des Produits"
     
 
 class OrderItem(models.Model):
@@ -315,20 +327,30 @@ class OrderItem(models.Model):
         
         
     class Meta:
-        verbose_name = "la Commande dans un panier"
-        verbose_name_plural = "les Commandes dans les paniers non confirmée"
+        verbose_name = "les produits dans un panier"
+        verbose_name_plural = "les Produits dans les paniers"
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     ref_code = models.CharField(max_length=20)
+    formUrl=models.CharField(max_length=1500, default="",blank=True,null=True)
+
     items = models.ManyToManyField(OrderItem)
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
     total_amount= models.FloatField(default=1)
+    depositAmount= models.FloatField(default=1)
+    message=models.CharField(max_length=500, default="",blank=True,null=True)
+    ip_address=models.CharField(max_length=500, default="",blank=True,null=True)
+    cardholderName=models.CharField(max_length=200, default="",blank=True,null=True)
+    approvalCode=models.CharField(max_length=200, default="",blank=True,null=True)
+    paiement_meth=models.CharField(choices=LABEL_PAIEMENT, max_length=1)
     recui_image=  models.ImageField(upload_to="orders_recu/",default="",blank=True,null=True)
     phone_number=models.CharField(max_length=10, default="")
+    email=models.CharField(max_length=500, default="")
+    fullname=models.CharField(max_length=500, default="")
     shipping_address = models.CharField(max_length=50,default="",blank=True, null=True)
     shipping_type= models.CharField(max_length=50,default="",blank=True, null=True)
     wilaya_ship=models.CharField(max_length=50, default="",blank=True, null=True)
@@ -402,8 +424,8 @@ class Coupon(models.Model):
         return self.code
     
     class Meta:
-        verbose_name = "Ajouter Un coupon pour un produit"
-        verbose_name_plural = "Ajouter Un coupon pour un produit"
+        verbose_name = "coupon pour un produit"
+        verbose_name_plural = "coupon pour un produit"
 
 
 class Refund(models.Model):
@@ -425,40 +447,51 @@ class WishList(models.Model):
     
     
     def __str__(self):
-        return self.user
+        return str(self.user.username)
     class Meta:
         verbose_name = "utilisateur avec sa wishlists"
         verbose_name_plural = "utilisateurs avec leurs wishlists"
 
 
 class TopCategory(models.Model):
-    title=models.CharField(max_length=20)
+    title=models.CharField(max_length=500)
     items=  models.ManyToManyField(Category)
-    slug = models.CharField( max_length=190)
+    slug = models.CharField( max_length=590)
     
     def __str__(self):
         return "{} - category".format(self.title)
     class Meta:
-        verbose_name = "Ajouter un category ex(Vettements,collections..)"
-        verbose_name_plural = "Ajouter un category ex(Vettements,collections..)"
+        verbose_name = "category ex(Vettements,collections..)"
+        verbose_name_plural = "category ex(Vettements,collections..)"
     
 
 
 class GenderCategory(models.Model):
     title=models.CharField(max_length=20)
     categories=  models.ManyToManyField(TopCategory)
-    slug=models.CharField(max_length=190)
+    slug=models.CharField(max_length=50)
 
     def __str__(self):
         return "{} - gender category".format(self.title)
     
     class Meta:
-        verbose_name = "Ajouter Gender category ex(hommes,femmes..)"
-        verbose_name_plural = "Ajouter Gender category ex(hommes,femmes..)"
+        verbose_name = "Gender category ex(hommes,femmes..)"
+        verbose_name_plural = "Gender category ex(hommes,femmes..)"
     
     
     
-
+class Ad_homePage(models.Model):
+    AD_image=models.ImageField(upload_to="AD_imgs")
+    AD_link = models.CharField(max_length=500)
+     
+    
+    def __str__(self):
+        return self.AD_link
+    
+    class Meta:
+        verbose_name = "AD home page"
+        verbose_name_plural = "AD home page"
+    
 
 class Banner_category(models.Model):
     banner_image=models.ImageField(upload_to="banner_imgs")
@@ -469,8 +502,8 @@ class Banner_category(models.Model):
         return self.category.title
     
     class Meta:
-        verbose_name = "Ajouter un banner image pour un category ex(vettements, collection)"
-        verbose_name_plural = "Ajouter un banner image pour un category  ex(vettements, collection)"
+        verbose_name = "banner image pour un category ex(vettements, collection)"
+        verbose_name_plural = "banner image pour un category  ex(vettements, collection)"
     
 
 class ShopHeader(models.Model):
@@ -487,7 +520,7 @@ class Matacor_info(models.Model):
     phone_number = models.CharField(max_length=50)
     ccp = models.CharField(max_length=50)
     name_owner = models.CharField(max_length=50)
-    
+    contact_footer=models.TextField(max_length=3000,default="Des questions? Faites-nous savoir en nous envoyant une requête par e-mail ou contactez-nous par téléphone ou à Eurl AllDesigns ain-naadja , algeries, Algeria")
     def __str__(self):
         return self.name_owner
     

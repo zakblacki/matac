@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_filters %}
 {% load i18n %}
 <!-- ------------------------------footer sub end---------------------------------- -->
 <!-- Google Font -->
@@ -62,7 +63,8 @@
 
       <div>
         <p class="s-text7 w-size27">
-          {% trans 'Des questions? Faites-nous savoir en nous envoyant une requête par e-mail ou contactez-nous par téléphone ou à Eurl AllDesigns ain-naadja , algeries, Algeria' %}
+          <!-- {% trans 'Des questions? Faites-nous savoir en nous envoyant une requête par e-mail ou contactez-nous par téléphone ou à Eurl AllDesigns ain-naadja , algeries, Algeria' %} -->
+          {% contact_fo %}
         </p>
 
         <!-- <div class="flex-m p-t-30">

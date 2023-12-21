@@ -1,3 +1,5 @@
+from itertools import product
+from urllib import request
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -23,7 +25,7 @@ from django.contrib.auth import authenticate, login , logout
 from django.core.paginator import Paginator
 from django.contrib.auth.forms import UserCreationForm
 stripe.api_key = settings.STRIPE_SECRET_KEY
-
+import requests
 from django import template
 
 register = template.Library()
@@ -72,10 +74,12 @@ class HomeView(ListView):
 
 
 
-def login_view(request):
+def login_view(request): 
     if request.method == 'POST':
+        print("try............")
         form = LoginForm(request.POST)
         if form.is_valid():
+            print("try")
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user = User.objects.filter(email=email).first()
@@ -84,8 +88,8 @@ def login_view(request):
                 if user is not None:
                     login(request, user)
                     return redirect('/')  # Redirect to the home page after successful login
-            # Add an error message here if login fails
-            pass
+            else:
+                pass
     else:
         form = LoginForm()
         
@@ -163,7 +167,7 @@ def wishlist_add_view(request,slug):
         
         return redirect(f"/product/{slug}/")
     else:
-        return redirect("/login")
+        return redirect("/account/login")
      
 
 def logout_view(request):
@@ -199,24 +203,24 @@ def wishlist_view(request):
 
 def index(request):
     
-    # try:
-    #     email_news=request.GET["email_newsletter"]
-    #     NewsLetterEmails.objects.create(email=email_news)
+    try:
+        email_news=request.GET["email_newsletter"]
+        NewsLetterEmails.objects.create(email=email_news)
         
-    # except:
-    #     pass
+    except:
+        pass
     
     # Get a random selection of products
     try:
-        items_most_sales = random.sample(list(Item.objects.filter(label="S",is_active=True)),50)
+        items_most_sales = random.sample(list(Item.objects.filter(label="S",is_active=True)),32)
     except:
         items_most_sales = Item.objects.filter(label="S",is_active=True)
     try:
-        items_most_new = random.sample(list(Item.objects.filter(label="N",is_active=True)), 50)
+        items_most_new = random.sample(list(Item.objects.filter(label="N",is_active=True)), 32)
     except:
         items_most_new =  Item.objects.filter(label="N",is_active=True) 
     try:
-        items_promo=random.sample(list(random.sample(list(Item.objects.filter(label="P",is_active=True)), 50)), 50)
+        items_promo= random.sample(list(Item.objects.filter(label="P",is_active=True)), 32) 
     except:
         items_promo=Item.objects.filter(label="P",is_active=True)
     try:
@@ -232,9 +236,11 @@ def index(request):
         "promo_items":items_promo,
         "most_sale":items_most_sales,
         "essentials":Essential.objects.filter(is_active=True),
-        "wishedlist":wishlist
+        "wishedlist":wishlist,
+        "ad_items":Ad_homePage.objects.all()[:2]
     }
-
+    
+    print(context)
     return render(request, 'index.html',context) 
 
 
@@ -245,26 +251,18 @@ class OrderSummaryView(LoginRequiredMixin, View):
         if len(OrderItem.objects.filter(user=self.request.user, ordered=False)) !=0:
             try:
                 order = OrderItem.objects.filter(user=self.request.user, ordered=False)
-                try:
-
-                    
+                try:  
+                    print("cupon: ", self.request.GET["code_coupon"])
                     for order1 in order.all():
-                        if order1.item.price > order1.item.discount_price:
-                            order1.price_per_item=order1.item.discount_price
-                            order1.save()
                         if order1.item.coupon_code == self.request.GET["code_coupon"]:
                             order1.price_per_item=order1.item.price_after_coupon
                             order1.save()
                             
                 except:
-                    for order1 in order.all():
-                        if order1.item.price > order1.item.discount_price:
-                            order1.price_per_item=order1.item.discount_price
-                            order1.save()
-
-                            
+                    pass
                 context = {
                     'object': order,
+                    "orderid":order.first().id,
                     "form":FormInput(),
                     "contact":Matacor_info.objects.first()
                 }
@@ -291,22 +289,57 @@ class OrderSummaryView(LoginRequiredMixin, View):
             commun=form.cleaned_data.get("communship")
             deliverytype=form.cleaned_data.get("delivery_type")
             deliveryprice=form.cleaned_data.get("delivery_price")
+
+           
+                
+            
              
                 
             
            
         
             order = Order.objects.get(user=self.request.user, ordered=False)
-         
+            if order.ref_code:
+                    confirmorderapi="https://test.satim.dz/payment/rest/confirmOrder.do?language=EN&orderId={}&password=satim120&userName=SAT2310130762".format(order.ref_code)
+                    orderidpai=requests.get(confirmorderapi)
+                    try:
+                        if orderidpai.json()["depositAmount"] == order.get_total():
+                            order.ordered = True
+                            order.approvalCode = orderidpai.json()["approvalCode"]
+                            for item_ordered in order.items.all():
+                                item_ordered.ordered = True
+                                item_ordered.save() 
+
+                    except:
+                        pass
             amount = int(order.get_total() * 100)
             try:
                 order.commun_ship = commun
                 order.wilaya_ship = wilaya
+                order.email=email
+                order.fullname=fullname
                 order.shipping_type = deliverytype
                 order.shipping_price= deliveryprice
                 
+                # orderidpai=requests.get("https://test.satim.dz/payment/rest/register.do?currency=012&amount="+str(amount)+"&language=fr&orderNumber="+ str(order.id)+"&userName=SAT2310130762&password=satim120&returnUrl=https://matacor.com/fr/confirm_order/" +str(order.user.username) +  "/"+str(order.id) + "/directpayment/step2/cib%3Flogin%3Dtest%26variable%3DtestPwd&failUrl=https://matacor.com/fr/confirm_order/" +str(order.user.username) +  "/"+str(order.id) +  "/directpayment/step2/cib/c&jsonParams={'force_terminal_id':'E005005097','udf1':'2018105301346','udf5':'ggsf85s42524s5uhgsf'}")
+                # Get the current date and time in UTC
+                 
+                objtest='{"force_terminal_id":"E010901004","udf1":"20231221","udf5":"ggsf85s42524s5uhgsf"}'
+                strapi="https://test.satim.dz/payment/rest/register.do?currency=012&amount={}&language=fr&orderNumber={}&userName=SAT2310130762&password=satim120&returnUrl=https://matacor.com/payement_status/{}/&failUrl=https://matacor.com/payement_status/{}/&jsonParams={}".format(str(amount),str(order.id),str(order.id),str(order.id),objtest)
+                orderidpai=requests.get(strapi)
+                # order.ref_code = create_ref_code()*
+                try :
+                    if orderidpai.json()["orderId"] and orderidpai.json()["errorCode"] != '1':
+                        order.ref_code =orderidpai.json()["orderId"]
+                        
+                        order.formUrl =orderidpai.json()["formUrl"]
+                except:
+                    return redirect("/order-summary/")
+
                 
-                order.ref_code = create_ref_code()
+                
+
+                
                 
                     
                     
@@ -327,20 +360,26 @@ class OrderSummaryView(LoginRequiredMixin, View):
                 order.save()
 
                 
-
-                messages.success(self.request, "Order was successful")
-                return redirect("/confirm_order/{}/{}/".format(self.request.user,order.id))
+                try:
+                    return redirect("/confirm_order/{}/{}/".format(self.request.user,order.id))
+                    # messages.success(self.request, "Order was successful")
+                except:
+                    return redirect("/order-summary/")
+                    # messages.error(self.request, "Something went wrong")
+            
+                # return redirect("/confirm_order/{}/{}/".format(self.request.user,order.id))
 
         
                 # Display a very generic error to the user, and maybe send
                 # yourself an email
-                messages.error(self.request, "Something went wrong")
-                return redirect("/")
+               
+                
 
             except  :
                 # send an email to ourselves
                 messages.error(self.request, "Serious Error occured")
-        return redirect("/")
+        else:
+            return redirect("/")
 
 
 
@@ -355,6 +394,7 @@ class ShopView(ListView):
         brand_qry=Q()
         topcatsearch=Q()
         color=None
+        color_q=Q()
         try:
             
             
@@ -370,7 +410,7 @@ class ShopView(ListView):
                 combined_query2=Q()
                 combined_query3=Q()
                 combined_query5=Q()
-                combined_color=Q()
+                # combined_color=Q()
                 query_srch=Q()
                 
                  
@@ -404,6 +444,8 @@ class ShopView(ListView):
                             if get_val != "" :
                                 
                                 query_srch |= Q(title__icontains=get_val)
+                                query_srch |= Q(article_id__icontains=get_val)
+                                query_srch |= Q(id_item__icontains=get_val)
                         else:
                             pass
                             
@@ -436,10 +478,9 @@ class ShopView(ListView):
                         
                         if "color" == get_key:
                              
-                            color =get_val
-                            # brand_qry |=Q(brand_name__iexact=get_val)
+                            color_q |= Q(tags__icontains=get_val)
                             
-                            combined_color |= "brand_qry"
+                          
                         
                         
                         if "topcat" == get_key:
@@ -463,6 +504,13 @@ class ShopView(ListView):
                 
                 if brand_qry:
                     comb_final = comb_final & brand_qry
+                
+                
+
+                if color_q:
+                    comb_final= comb_final & color_q
+                    item =self.get_queryset().filter(comb_final,is_active=True)
+
                 if topcatsearch :
                     
                     comb_final = comb_final & topcatsearch
@@ -501,6 +549,7 @@ class ShopView(ListView):
         paginated_items.adjusted_elided_pages = paginator.get_elided_page_range(page_number)
      
         context = {
+            'object_list_len': item,
             'object_list': paginated_items,
              'categories':Category.objects.all(),
              'header':ShopHeader.objects.first(),
@@ -599,17 +648,21 @@ def admin_upload(request):
             title= form.cleaned_data['excel_related']
             for index,image in enumerate(request.FILES.getlist('images')):
                  
-                print("uploading..",(index+1)*100/len(request.FILES.getlist('images')))
-                try:
+                # print("uploading..",(index+1)*100/len(request.FILES.getlist('images')))
+                if index:
                     if image :
                         
                         parts = image.name.split("_")[-1]
+                        idimg = image.name.split("+")[0]
                         folder_name_org=parts.split(".")[0]
-                        name_org=str(image.name.split("_")[-2]) + "_org_zoom" + ".webp"
-                        
+                        image_number=index
+                        # name_org=str(image.name.split("_")[-2]) + "_org_zoom" + ".webp"
+                        name_org=  idimg +str(image).replace(idimg,"")
+
+                        folder_name_org = os.path.join(  folder_name_org,str(image_number))
                         
                         # Construct the path to the media_root directory
-                        media_root1 = os.path.join(settings.MEDIA_ROOT, "images_upload_product" , folder_name_org)
+                        media_root1 = os.path.join(settings.MEDIA_ROOT, "images_upload_product"  )
                         media_root21 = os.path.join(settings.MEDIA_ROOT, "images_upload_product" , "doubled_must_delted")
                         # Create the 'images' directory if it doesn't exist
                         
@@ -617,23 +670,51 @@ def admin_upload(request):
                         os.makedirs(media_root21, exist_ok=True)
                         image_path_up = os.path.join(media_root1,name_org)
                         realimg_path= os.path.join(settings.MEDIA_ROOT, "images_upload_product",name_org )
-                        realimg_path_exact= os.path.join( settings.MEDIA_ROOT,"images_upload_product",folder_name_org,name_org )
+                        realimg_path_exact= os.path.join( settings.MEDIA_ROOT,"images_upload_product",name_org )
                         
-                        image.name= name_org
+                        # image.name= name_org
                         
                     
-
-                        if not os.path.exists(image_path_up):
+                        cur_prod=Item.objects.filter(id_item=idimg).first()
+                        if not os.path.exists(image_path_up) and cur_prod:
                             imageup=Images_upload.objects.create(excel_related=title, images=image )
-                            try:
-                                shutil.move(realimg_path, media_root1)
-                            except:
-                                shutil.move(realimg_path, media_root21)
-                            imageup.images=realimg_path_exact.replace("/workspace/media_root","")
+                            # try:
+                            #     shutil.move(realimg_path, media_root1)
+                            # except:
+                            #     shutil.move(realimg_path, media_root21)
+
+                            imageup.images=realimg_path_exact.replace("/workspace/media_root","").replace("+","").replace("/root/demo/media_root","")
+                            
                             imageup.save()
+                            try:
+                                imageup1=ImageItem.objects.create(item=cur_prod,slug=cur_prod.slug,image=image)
+                                # try:
+                                #     shutil.move(realimg_path, media_root1)
+                                # except:
+                                #     shutil.move(realimg_path, media_root21)
+                                
+                                imageup1.image=realimg_path_exact.replace("/workspace/media_root","").replace("+","").replace("/root/demo/media_root","")
+                                
+                                imageup1.save()
+                                first_img = "+0"
+                                sec_img = "+1"
+
+                                if first_img in realimg_path_exact:
+                                    cur_prod.image=realimg_path_exact.replace("/workspace/media_root","").replace("+","").replace("/root/demo/media_root","")
+                                elif sec_img in realimg_path_exact:
+                                    cur_prod.image=realimg_path_exact.replace("/workspace/media_root","").replace("+","").replace("/root/demo/media_root","")
+                                else:
+                                    cur_prod.image=realimg_path_exact.replace("/workspace/media_root","").replace("+","").replace("/root/demo/media_root","")
+
+                                cur_prod.save()
+                            except:
+                                pass
+
+
+
                             
                     
-                except:
+                else:
                     pass    
             # form.save()
             return HttpResponseRedirect(reverse('admin:index'))
@@ -641,94 +722,130 @@ def admin_upload(request):
         form = ImageUploadForm()
     return render(request,"admin/upload.html",{"form":form})
 
-@login_required
+ 
 def profile(request):
-    
-    
-    if request.method == "POST":
-        fullname=request.POST["first_name"]
-        phone=request.POST["phone"]
-        email=request.POST["email"]
-        picture=request.FILES.get("picture")
-        address=request.POST["address"]
-        
-        try:
-            prodifile = Profile.objects.get(user=request.user)
-            if fullname:
-                prodifile.fullname=fullname
-            if phone:
-                prodifile.phone=phone
-            if email:
-                prodifile.email=email
-            if picture:
-                prodifile.image=picture
-            if address:
-                prodifile.adresse=address
-                
-            prodifile.save()
-            print(prodifile)
-        except:
-            Profile.objects.create(user=request.user,
-                                   fullname=fullname,
-                                   image=picture,
-                                   email=email,
-                                   adresse=address,
-                                   phone=phone)
-            print("created")
-        
-    
-    else:
-        print("getted")
-        
-        
-    context={}
-    
-    ordered= Order.objects.filter(user=request.user)
-    context["orders"]=ordered
-    context["leng"]=len(ordered)
-    
-    return render(request,"profile.html",context)
 
-@login_required
-def confirmorder(request,slug,slug1):
-    context={}
-     
+    if request.user.is_authenticated:
     
-    ordertar= None
-    context={}
     
-    context["contact"]=Matacor_info.objects.first()
+        if request.method == "POST":
+            fullname=request.POST["first_name"]
+            phone=request.POST["phone"]
+            email=request.POST["email"]
+            picture=request.FILES.get("picture")
+            address=request.POST["address"]
+            
+            try:
+                prodifile = Profile.objects.get(user=request.user)
+                if fullname:
+                    prodifile.fullname=fullname
+                if phone:
+                    prodifile.phone=phone
+                if email:
+                    prodifile.email=email
+                if picture:
+                    prodifile.image=picture
+                if address:
+                    prodifile.adresse=address
+                    
+                prodifile.save()
+                print(prodifile)
+            except:
+                Profile.objects.create(user=request.user,
+                                    fullname=fullname,
+                                    image=picture,
+                                    email=email,
+                                    adresse=address,
+                                    phone=phone)
+                
+            
+        
+        else:
+            pass
+            
+            
     
-    if str(slug.replace(" ","")) == str(request.user):
-      
-        ordertar=get_object_or_404(Order, id=int(slug1))
         
-        
-        context["target"]=ordertar
-         
-        
-    if request.method == "POST":
-         
-        context["form"]=UploadImg(request.POST,request.FILES)
-        if context["form"].is_valid():
-            
-             
-            
-             
-            ordertar.recui_image = request.FILES.get("recu_img")
-            ordertar.ordered=True
-            for item_ordered in ordertar.items.all():
-                item_ordered.ordered = True
-                item_ordered.save()  
-            
-            ordertar.save()
-            # ordertar.recui_image = img
-            # ordertar.save()
+        ordered= Order.objects.filter(user=request.user,ordered=True)
+        products_com= Comments_and_Ratings.objects.filter(user=request.user)
+        context={
+            "lengg":len(products_com),
+            "leng":len(ordered),
+            "products_com":products_com,
+            "orders":ordered }
+        return render(request,"profile.html",context)
     else:
-        context["form"]=UploadImg()
-     
+        return redirect("/accounts/login")
+
+ 
+def confirmorder(request,slug,slug1):
+    if request.user.is_authenticated:
     
-    return render(request,"confirm_order.html",context)
+        context={}
+        
+        
+        ordertar= None
+        context={}
+        
+        context["contact"]=Matacor_info.objects.first()
+        
+        if str(slug.replace(" ","")) == str(request.user):
+        
+            ordertar=get_object_or_404(Order, id=int(slug1))
+            
+            
+            context["target"]=ordertar
+            
+
+
+        order= get_object_or_404(Order, id=int(slug1))
+        if order.ref_code:
+            confirmorderapi="https://test.satim.dz/payment/rest/confirmOrder.do?language=EN&orderId={}&password=satim120&userName=SAT2310130762".format(order.ref_code)
+            orderidpai=requests.get(confirmorderapi)
+            try:
+                if orderidpai.json()["depositAmount"] == order.get_total()*100:
+                    order.ordered = True
+                    order.depositAmount=orderidpai.json()["depositAmount"]/100
+                    order.message=orderidpai.json()["actionCodeDescription"]
+                    order.ip_address=orderidpai.json()["Ip"]
+                    order.cardholderName=orderidpai.json()["cardholderName"]
+                    order.approvalCode = orderidpai.json()["approvalCode"]
+                    order.paiement_meth="E"
+                    for item_ordered in order.items.all():
+                        item_ordered.ordered = True
+                        item_ordered.save() 
+                    order.save()
+                else:
+                    order.paiement_meth="C"
+            except:
+                order.paiement_meth="C"
+                order.save()
+            
+            
+        if request.method == "POST":
+            
+            context["form"]=UploadImg(request.POST,request.FILES)
+            if context["form"].is_valid():
+                
+                
+                
+                
+                ordertar.recui_image = request.FILES.get("recu_img")
+                ordertar.ordered=True
+                for item_ordered in ordertar.items.all():
+                    item_ordered.ordered = True
+                    item_ordered.save()  
+                
+                ordertar.save()
+                # ordertar.recui_image = img
+                # ordertar.save()
+        else:
+            context["form"]=UploadImg()
+        
+        
+        return render(request,"confirm_order.html",context)
+    else:
+        return redirect("/accounts/login")
 
 import ast
 class ItemDetailView(DetailView):
@@ -800,6 +917,21 @@ class ItemDetailView(DetailView):
             context["whished"]=None
         
         relateditems = Item.objects.filter(category=self.object.category).exclude(pk=self.object.pk)
+        context["bought"]=False
+        if self.request.user.is_authenticated:
+
+            # objectsbought=Order.objects.filter(user=self.request.user)
+            
+            # if self.object in objectsbought.items.all():
+            #     context["bought"]=True
+            orders_with_product = Order.objects.filter(items__item=self.object,items__ordered=True)
+
+            # Set the 'bought' variable based on whether the product is in any order
+            context['bought'] = orders_with_product.exists()
+
+
+
+
         if len(relateditems) < 5 :
             objecttags=self.object.title.split(" ")
             
@@ -858,6 +990,7 @@ class CategoryView(ListView):
         bannertarg=[]
         banners=[]
         brand_qry=Q()
+        color_q=Q()
        
         for cattg in TopCategory.objects.filter(items__title=category):
             if len(Banner_category.objects.filter(category__title=cattg.title))>0:
@@ -933,6 +1066,9 @@ class CategoryView(ListView):
                             
                         if "brand" == get_key:
                             brand_qry |= Q(brand_name__iexact=get_val)
+
+                        if "color" == get_key:
+                            color_q |= Q(tags__icontains=get_val)
                         
                         
                         
@@ -956,6 +1092,10 @@ class CategoryView(ListView):
                 item= self.get_queryset().filter(comb_final,is_active=True)
                 if brand_qry:
                     comb_final= comb_final & brand_qry
+                    item =self.get_queryset().filter(comb_final,is_active=True)
+
+                if color_q:
+                    comb_final= comb_final & color_q
                     item =self.get_queryset().filter(comb_final,is_active=True)
                     
                 if filtermeth:
@@ -989,6 +1129,7 @@ class CategoryView(ListView):
         listbrand=list(Item.objects.values_list('brand_name', flat=True).distinct())
        
         context = {
+            'object_list_len': item,
             'object_list': paginated_items,
             'brand_list':listbrand,
             'category_title': category,
@@ -1042,12 +1183,42 @@ class CheckoutView(View):
             
          
             order = Order.objects.get(user=self.request.user, ordered=False)
-         
+            if order.ref_code:
+                confirmorderapi="https://test.satim.dz/payment/rest/confirmOrder.do?language=EN&orderId={}&password=satim120&userName=SAT2310130762".format(order.ref_code)
+                orderidpai=requests.get(confirmorderapi)
+                try:
+                    if orderidpai.json()["depositAmount"] == order.get_total():
+                        order.ordered = True
+                        order.approvalCode = orderidpai.json()["approvalCode"]
+                        for item_ordered in order.items.all():
+                            item_ordered.ordered = True
+                            item_ordered.save() 
+
+                except:
+                    pass
             amount = int(order.get_total() * 100)
             try:
+                current_datetime = timezone.now()
+
+                # Format the date and time as a string in the desired format
+                formatted_datetime = current_datetime.strftime('%Y%m%d%H%M%S%f')[:-3]
+
+                objtest=f'{"force_terminal_id":"E010901004","udf1":{str(formatted_datetime)},"udf5":"ggsf85s42524s5uhgsf"}'
+                # orderidpai=requests.get("https://test.satim.dz/payment/rest/register.do?currency=012&amount="+str(amount)+"&language=fr&orderNumber="+ str(order.id)+"&userName=SAT2310130762&password=satim120&returnUrl=https://matacor.com/fr/confirm_order/" +str(order.user.username) +  "/"+str(order.id) + "/directpayment/step2/cib%3Flogin%3Dtest%26variable%3DtestPwd&failUrl=https://matacor.com/fr/confirm_order/" +str(order.user.username) +  "/"+str(order.id) +   "/directpayment/step2/cib/c&jsonParams={'force_terminal_id':'E005005097','udf1':'2018105301346','udf5':'ggsf85s42524s5uhgsf'}")
+                # objtest='{"force_terminal_id":"E010901004","udf1":"20231017301346","udf5":"ggsf85s42524s5uhgsf"}'
+                strapi="https://test.satim.dz/payment/rest/register.do?currency=012&amount={}&language=fr&orderNumber={}&userName=SAT2310130762&password=satim120&returnUrl=https://matacor.com/status/{}/&failUrl=https://matacor.com/status/{}/&jsonParams={}".format(str(amount),str(order.id),str(order.id),str(order.id),objtest)
+                orderidpai=requests.get(strapi)
+                # order.ref_code = create_ref_code()*
+                try :
+                    if orderidpai.json()["orderId"] and orderidpai.json()["errorCode"] != '1':
+                        order.ref_code =orderidpai.json()["orderId"]
+                        order.formUrl =orderidpai.json()["formUrl"]
+                except:
+                    order.ref_code=create_ref_code()
                 
                 
-                order.ref_code = create_ref_code()
+                
+                
                 
                  
                     
@@ -1071,128 +1242,181 @@ class CheckoutView(View):
                 order.save()
 
                 
+                try :
+                    if orderidpai.json()["orderId"] and orderidpai.json()["errorCode"] != '1':
+                        return redirect("/confirm_order/{}/{}/".format(self.request.user,order.id))
+                    # messages.success(self.request, "Order was successful")
 
-                messages.success(self.request, "Order was successful")
-                return redirect("/")
+                except:
+                    # messages.error(self.request, "Something went wrong")
+                    return redirect("/order-summary/")
 
         
                 # Display a very generic error to the user, and maybe send
                 # yourself an email
-                messages.error(self.request, "Something went wrong")
-                return redirect("/")
+               
+                
 
             except  :
                 # send an email to ourselves
                 messages.error(self.request, "Serious Error occured")
-        return redirect("/")
-
-
-
- 
-
-@login_required
-def add_to_cart(request, slug):
-    item = get_object_or_404(Item, slug=slug)
-     
-    size= request.GET["search"]
- 
-    
-    
-    order_item, created = OrderItem.objects.get_or_create(
-        item=item,
-        user=request.user,
-        ordered=False,
-        size=size
-    )
-    order_qs = Order.objects.filter(user=request.user, ordered=False)
-    if order_qs.exists():
-        order = order_qs[0]
-        if order.items.filter(item__slug=item.slug).exists():
-            order_item.quantity += 1
-            order_item.save()
-            messages.info(request, "Item qty was updated.")
-            return redirect("core:order-summary")
         else:
+            return redirect("/")
+
+
+
+ 
+
+ 
+def add_to_cart(request, slug):
+    if request.user.is_authenticated:
+        item = get_object_or_404(Item, slug=slug)
+        
+        size= request.GET["search"]
+    
+        
+        
+        order_item, created = OrderItem.objects.get_or_create(
+            item=item,
+            user=request.user,
+            ordered=False,
+            size=size
+        )
+        order_qs = Order.objects.filter(user=request.user, ordered=False)
+        if order_qs.exists():
+            order = order_qs[0]
+            if order.items.filter(item__slug=item.slug).exists():
+                order_item.quantity += 1
+                order_item.save()
+                messages.info(request, "Item qty was updated.")
+                return redirect("core:order-summary")
+            else:
+                order.items.add(order_item)
+                messages.info(request, "Item was added to your cart.")
+                return redirect("core:order-summary")
+        else:
+            ordered_date = timezone.now()
+            order = Order.objects.create(
+                user=request.user, ordered_date=ordered_date,)
             order.items.add(order_item)
             messages.info(request, "Item was added to your cart.")
-            return redirect("core:order-summary")
+        return redirect("core:order-summary")
     else:
-        ordered_date = timezone.now()
-        order = Order.objects.create(
-            user=request.user, ordered_date=ordered_date)
-        order.items.add(order_item)
-        messages.info(request, "Item was added to your cart.")
-    return redirect("core:order-summary")
+        return redirect("/accounts/login")
 
 
-@login_required
+def refund(request, id_ref):
+    if request.user.is_authenticated:
+        order_qs = Order.objects.filter(pk=id_ref,user=request.user,).first()
+        amounttot=int(order_qs.depositAmount)*100
+        confirmorderapi="https://test.satim.dz/payment/rest/refund.do?amount={}&language=AR&orderId={}&password=satim120&userName=SAT2310130762".format(amounttot,order_qs.ref_code)
+        orderidpai=requests.get(confirmorderapi)
+        
+        if orderidpai.json()["errorMessage"] == "Success":
+            
+            # for item_ordered in order_qs.items.all():
+            #     item_ordered.delete()
+            #     item_ordered.save() 
+            order_qs.items.clear()
+            order_qs.save()
+            order_qs.delete()
+
+    
+    
+    
+        return redirect("/profile")
+    else:
+            return redirect("/accounts/login")
+
+    
+
+ 
 def remove_from_cart(request, slug):
-    size=request.GET["search"]
-    item = get_object_or_404(Item, slug=slug)
-    order_qs = Order.objects.filter(
-        user=request.user,
-        ordered=False)
-    if order_qs.exists():
-        order = order_qs[0]
-        # check if the order item is in the order
-        if order.items.filter(item__slug=item.slug).exists():
-            order_item = OrderItem.objects.filter(
-                item=item,
-                user=request.user,
-                ordered=False,
-                size=size
-            )[0]
-            order.items.remove(order_item)
-            order_item.delete()
-            messages.info(request, "Item was removed from your cart.")
-            return redirect("core:order-summary")
-        else:
-            # add a message saying the user dosent have an order
-            messages.info(request, "Item was not in your cart.")
-            return redirect("core:product", slug=slug)
-    else:
-        # add a message saying the user dosent have an order
-        messages.info(request, "u don't have an active order.")
-        return redirect("core:product", slug=slug)
-    return redirect("core:product", slug=slug)
+    if request.user.is_authenticated:
 
 
-@login_required
-def remove_single_item_from_cart(request, slug):
-    size=request.GET["search"]
-    item = get_object_or_404(Item, slug=slug)
-    order_qs = Order.objects.filter(
-        user=request.user,
-        ordered=False)
-    if order_qs.exists():
-        order = order_qs[0]
-        # check if the order item is in the order
-        if order.items.filter(item__slug=item.slug).exists():
-            order_item = OrderItem.objects.filter(
-                item=item,
-                user=request.user,
-                ordered=False,
-                size=size
-            )[0]
-            if order_item.quantity > 1:
-                order_item.quantity -= 1
-                order_item.save()
-              
-            else:
+   
+        size=request.GET["search"]
+        item = get_object_or_404(Item, slug=slug)
+        order_qs = Order.objects.filter(
+            user=request.user,
+            ordered=False)
+        if order_qs.exists():
+            order = order_qs[0]
+            # check if the order item is in the order
+            if order.items.filter(item__slug=item.slug).exists():
+                order_item = OrderItem.objects.filter(
+                    item=item,
+                    user=request.user,
+                    ordered=False,
+                    size=size
+                )[0]
+                
+                # order.items.remove(order_item)
                 order_item.delete()
-                order.items.remove(order_item)
-               
-            messages.info(request, "This item qty was updated.")
-            return redirect("core:order-summary")
+                if len(order.items.all()) == 0:
+                    order.delete()
+
+                messages.info(request, "Item was removed from your cart.")
+                return redirect("core:order-summary")
+                # return JsonResponse({str(order_item):str(len(order.items.all()) )}, status=400)
+            else:
+                # add a message saying the user dosent have an order
+                messages.info(request, "Item was not in your cart.")
+                return redirect("core:product", slug=slug)
         else:
             # add a message saying the user dosent have an order
-            messages.info(request, "Item was not in your cart.")
+            messages.info(request, "u don't have an active order.")
             return redirect("core:product", slug=slug)
-    else:
-        # add a message saying the user dosent have an order
-        messages.info(request, "u don't have an active order.")
         return redirect("core:product", slug=slug)
-    return redirect("core:product", slug=slug)
+    else:
+        return redirect("/accounts/login")
+
+ 
+def remove_single_item_from_cart(request, slug):
+    
+    if request.user.is_authenticated:
+     
+        size=request.GET["search"]
+        item = get_object_or_404(Item, slug=slug)
+        order_qs = Order.objects.filter(
+            user=request.user,
+            ordered=False)
+        if order_qs.exists():
+            order = order_qs[0]
+            # check if the order item is in the order
+            if order.items.filter(item__slug=item.slug).exists():
+                order_item = OrderItem.objects.filter(
+                    item=item,
+                    user=request.user,
+                    ordered=False,
+                    size=size
+                )[0]
+
+
+                if order_item.quantity > 1:
+                    order_item.quantity -= 1
+                    order_item.save()
+                
+                else:
+                    order_item.delete()
+                    order.items.remove(order_item)
+                if len(order.items.all()) == 0:
+                    order.delete()
+                messages.info(request, "This item qty was updated.")
+                return redirect("core:order-summary")
+            else:
+                # add a message saying the user dosent have an order
+                messages.info(request, "Item was not in your cart.")
+                return redirect("core:product", slug=slug)
+        else:
+            # add a message saying the user dosent have an order
+            messages.info(request, "u don't have an active order.")
+            return redirect("core:product", slug=slug)
+        return redirect("core:product", slug=slug)
+
+    else:
+                return redirect("/accounts/login")
 
 
 def get_coupon(request, code):
@@ -1290,3 +1514,287 @@ def get_filtered_items(request):
     filtered_items = get_filtered_items_by_type(filter_type)
     
     return JsonResponse(filtered_items, safe=False)
+
+
+
+import random
+import string
+from django.core.mail import send_mail
+ 
+ 
+
+ 
+from django.contrib.auth.models import User
+from django.utils.crypto import get_random_string
+from django.shortcuts import render
+
+def send_verification_code(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        try:
+            user = User.objects.get(email=email)
+            reset_code = get_random_string(length=6)  # Generate a random verification code
+            
+            try:
+                user.profile.reset_code = reset_code
+                user.profile.save()
+            except:
+                profile=Profile(user=user,reset_code=reset_code)
+                profile.save()
+            
+
+            # Send the verification code via email
+            send_mail(
+                'Password Reset Verification Code',
+                f'Your verification code is: {reset_code}',
+                'joesdevil10@gmail.com',
+                [email],
+                fail_silently=False,
+            )
+            return redirect('/verify_code/')
+        except User.DoesNotExist:
+            # Handle case where the email is not found
+            return render(request, 'invalid_email.html')
+    else:
+        return render(request, 'enter_email.html')
+    
+    
+
+def verify_code(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        reset_code = request.POST.get('reset_code')
+
+        try:
+            user = User.objects.get(email=email)
+            if user.profile.reset_code == reset_code:
+                return redirect(f'/change_password/{user.id}/')
+            else:
+                return render(request, 'invalid_code.html')
+        except User.DoesNotExist:
+            # Handle case where the email is not found
+            return render(request, 'invalid_email.html')
+    else:
+        return render(request, 'verify_code.html')
+
+ 
+ 
+
+from django.contrib.auth.hashers import make_password
+
+def change_password(request, user_id):
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        user = User.objects.get(pk=user_id)
+        user.password = make_password(password)
+        user.save()
+        return render(request, 'password_changed.html')
+    else:
+        return render(request, 'change_password.html')
+ 
+
+def payment_fail(request, cmd_id):
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        user = User.objects.get(pk=user_id)
+        user.password = make_password(password)
+        user.save()
+        return render(request, 'password_changed.html')
+    else:
+        return render(request, 'change_password.html')
+ 
+
+def payement_succ(request, cmd_id):
+    order= get_object_or_404(Order, id=int(cmd_id))
+    if order.ref_code:
+        confirmorderapi="https://test.satim.dz/payment/rest/confirmOrder.do?language=EN&orderId={}&password=satim120&userName=SAT2310130762".format(order.ref_code)
+        orderidpai=requests.get(confirmorderapi)
+        if orderidpai:
+            if orderidpai.json()["depositAmount"] == order.get_total()*100:
+                order.ordered = True
+                order.approvalCode = orderidpai.json()["approvalCode"]
+                order.depositAmount=orderidpai.json()["depositAmount"]/100
+                order.message=orderidpai.json()["actionCodeDescription"]
+                order.ip_address=orderidpai.json()["Ip"]
+                order.cardholderName=orderidpai.json()["cardholderName"]
+                order.paiement_meth="E"
+                for item_ordered in order.items.all():
+                    item_ordered.ordered = True
+                    item_ordered.save() 
+                order.save()
+              
+                send_mail(
+                'Payement Status',
+                f'Your Payement has been done , successfully! \n  with total of {order.get_total()} DZD.',
+                'joesdevil10@gmail.com',
+                [request.user.email],
+                fail_silently=False,
+                ) 
+                respCode_desc=orderidpai.json()["params"]["respCode_desc"]
+                OrderId=order.ref_code
+                OrderNumber=order.id
+                approvalCode=orderidpai.json()["approvalCode"]
+                currency=""
+                if orderidpai.json()["currency"] ==  "012":
+                    currency="DZD"
+                date=orderidpai.json()["params"]["udf1"]
+                mode_pai="CIB/Edhahabia"
+                amount=orderidpai.json()["depositAmount"]
+                context={
+                    "mode_pai":mode_pai,
+                    "date":date,
+                    "currency":currency,
+                    "approvalCode":approvalCode,
+                    "OrderNumber":OrderNumber,
+                    "OrderNumber":OrderNumber,
+                    "OrderId":OrderId,
+                    "amount":amount
+                }
+
+
+
+
+
+
+                return render(request, 'pay_succ.html',{'respCode_desc':respCode_desc,"context":context})
+            else:
+                order.paiement_meth="C"
+                send_mail(
+                'Payement Status',
+                f'Your Payement has been rejected, please try to remove your ordered items and try again! , {orderidpai.json()["params"]["respCode_desc"]}' ,
+                'joesdevil10@gmail.com',
+                [request.user.email],
+                fail_silently=False,
+                ) 
+                respCode_desc =''
+
+                if orderidpai.json()["params"]["respCode"] == "00" and int(orderidpai.json()["ErrorCode"]) ==  0  and int(orderidpai.json()["OrderStatus"]) == 3 :
+                    respCode_desc ="Votre transaction a été rejetée"
+                else:
+                    if orderidpai.json()["params"]["respCode_desc"] != "":
+                        respCode_desc=orderidpai.json()["params"]["respCode_desc"]
+                    else:
+                        respCode_desc=orderidpai.json()["actionCodeDescription"]
+
+
+
+                
+                return render(request, 'payement_fail.html',{'respCode_desc':respCode_desc})
+        else:
+            order.paiement_meth="C"
+            order.save()
+            return redirect("/")
+    
+    
+ 
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from io import BytesIO
+
+
+def render_to_pdf(template_src, context_dict):
+
+    # Load the template
+    template = get_template('pdfDownload.html')  # Replace with the actual template name
+    template = get_template(template_src)
+    html  = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if pdf.err:
+        return HttpResponse("Invalid PDF", status_code=400, content_type='text/plain')
+    return HttpResponse(result.getvalue(), content_type='application/pdf')
+
+
+def generate_pdf(request, cmd_id):
+    # Get data from your context (replace this with your actual data)
+    tar_order= get_object_or_404(Order, id=int(cmd_id))
+    
+    
+    
+    context_data = {
+        'respCode_desc': 'Payment Successful',
+        'context': {
+            'OrderId': tar_order.ref_code,
+            'OrderNumber': tar_order.id,
+            'approvalCode':  tar_order.approvalCode,
+            'date': tar_order.ordered_date,
+            'amount': tar_order.depositAmount,
+            'currency': "DZD"
+        }
+    }
+
+    return render_to_pdf('pdfDownload.html', context_data)
+
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+def send_email_paiement(request,cmd_id):
+    tar_order= get_object_or_404(Order, id=int(cmd_id))
+    try:
+        if request.user.email == tar_order.email:
+            emails=[request.user.email]
+        else:
+            emails=[request.user.email,tar_order.email]
+    except:
+        emails=[request.user.email]
+
+    if tar_order.approvalCode :
+        approvalCode=tar_order.approvalCode
+    else:
+        approvalCode=""
+    context_data = {
+        'respCode_desc': 'Payment Successful',
+        'context': {
+            'OrderId': tar_order.ref_code,
+            'OrderNumber': tar_order.id,
+            'approvalCode':  approvalCode,
+            'date': tar_order.ordered_date,
+            'amount': tar_order.depositAmount,
+            'currency': "DZD"
+        }
+    }
+
+    # send_mail(
+    #             'Payement Status',
+    #             f'Your Payement has been rejected, please try to remove your ordered items and try again! ' ,
+    #             'joesdevil10@gmail.com',
+    #             [request.user.email],
+    #             fail_silently=False,
+    #             ) 
+    
+    html_content = render_to_string('pdfDownload.html', context_data)
+
+    # Create a unique filename based on the current date and time
+    file_name =  "payement_status.pdf"
+
+    # Create a BytesIO buffer to store the PDF content
+    pdf_buffer = BytesIO()
+
+    # Use xhtml2pdf to convert HTML to PDF
+    pisa_status = pisa.CreatePDF(html_content, dest=pdf_buffer)
+
+    if pisa_status.err:
+        # Handle the error, e.g., return a response with an error message
+        return HttpResponse("Error generating PDF", status=500)
+
+    # Reset the buffer position to the beginning
+    pdf_buffer.seek(0)
+
+    # Create an EmailMessage object
+    email = EmailMessage(
+        'Payement Status - Matacor',
+        f'Your Payement has been done , successfully! \n  with total of {tar_order.get_total()} DZD.',
+       'joesdevil10@gmail.com',
+        emails,
+    )
+
+    # Attach the PDF file to the email
+    email.attach(file_name, pdf_buffer.read(), 'application/pdf')
+    
+    email.send(fail_silently=False)
+
+  
+    
+
+    return redirect("/")
+

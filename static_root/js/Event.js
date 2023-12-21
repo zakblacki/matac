@@ -1,11 +1,13 @@
 
-
-document.addEventListener('DOMContentLoaded', function() {
+if( window.innerWidth >  992){
 	document.getElementById('img-container').addEventListener('mouseover', function(){
 		imageZoom('featured')
 		
 	})
-});
+ 
+}
+ 
+ 
 
  
 

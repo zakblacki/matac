@@ -1,0 +1,154 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Template</title>
+</head>
+<body>
+    <style>
+        body{
+        
+            padding: 5px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        #imglogo{
+            margin: auto;
+        }
+        #imglogo,#imglogodiv{
+            display: none;
+           
+                    
+        }
+        @media (max-width: 992px) {
+            
+        table{
+                
+                width: 100% !important;
+        }
+        table tr th ,table tr td {
+           width: 50% !important;
+           font-size: 17px !important;
+        }
+        table tr{
+            text-align: center !important;
+            width: 100% !important;
+            display: inline-flex !important;
+        }
+    }
+    
+    .button-container {
+                display: flex;
+                gap: 10px;
+            }
+            .button {
+                padding: 10px;
+                font-size: 14px;
+                cursor: pointer;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 4px;
+            }
+    
+    
+            @media print {
+    
+                #call{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+    
+                /* Landscape orientation for printing */
+                @page {
+                    size: landscape;
+                }
+                a {
+                    content: none !important;
+                    display: none !important;
+                }
+                
+                
+    
+                #imglogodiv{
+                    width: 100%;
+                    
+                }
+    
+                #imglogo,#imglogodiv{
+                    display: block;
+                    
+                }
+                #imglogo{
+                    margin: auto;
+                }
+                
+                table{
+                    width: 100%;
+                }
+    
+                table tr th ,table tr td {
+                    width: 50% !important;
+                    font-size: 17px !important;
+                }
+                
+            }
+    </style>
+    
+    <br>
+    <br>
+    <h1 id="title" style="padding-bottom: 20px;text-align: center;">
+        <!-- paiement avec succès -->
+        {{respCode_desc}}
+    </h1>
+    
+    <!-- <p style="margin-bottom: 55vh;">
+        {{respCode_desc}}
+    </p> -->
+    
+    <table id="table" style="width: 50%;border-bottom: 1px solid ;text-align: center; margin: auto;">
+        <tr style="width: 100%;text-align: center;" >
+            <th style="width: 50%;">Parameter</th>
+            <th>Description</th>
+        </tr>
+         
+        <tr>
+            <td>orderId</td>
+            <td>{{context.OrderId}}</td>
+        </tr>
+        <tr>
+            <td>orderNumber</td>
+            <td>{{context.OrderNumber}}</td>
+        </tr>
+        <tr>
+            <td>approvalCode</td>
+            <td>{{context.approvalCode}}</td>
+        </tr>
+        <tr>
+            <td>Date and Time</td>
+            <td>{{context.date}}</td>
+        </tr>
+        <tr>
+            <td>Amount</td>
+            <td>{{context.amount}} {{context.currency}}</td>
+        </tr>
+        <tr>
+            <td>Payment Method</td>
+            <td>CIB card/Edhahabia.</td>
+        </tr>
+    </table>
+
+    <br>
+    <br>
+    <br>
+    
+    <p style="text-align: center;padding: 15px;" id="call" >
+        En cas de problème de paiement, veuillez contacter le numéro vert de la SATIM 3020 <img src="{% static 'images/3020.png' %}" alt="">
+    </p>
+</body>
+</html>

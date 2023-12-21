@@ -22,6 +22,19 @@
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 	}
+
+	@media (max-width: 992px) {
+		.product-name {
+			padding-right: 0px !important;
+		}
+   
+  .container .row{
+	margin: 0px !important;
+  }
+  body{
+	overflow-x: hidden;
+  }
+}
 </style>
 
 	<!-- Title Page -->
@@ -44,12 +57,32 @@
 									
 									
 										<li>
-											<input type="radio" class="custom-checkbox" id="cat-1" value="F" name="gender" onchange="this.form.submit()">
+											<input type="radio" class="custom-checkbox" id="cat-1" value="F" name="gender" onchange="
+											if(window.location.search){
+												if(window.location.search.includes('search')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&amp;')[0] +'&amp;gender='+ this.value
+												}else{
+													this.form.submit()
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 											<label class="form-control-label " for="cat-1">{% trans 'FEMMES' %}</label>
 										</li>
 									
 										<li>
-											<input type="radio" class="custom-checkbox" id="cat-24" value="M" name="gender" onchange="this.form.submit()">
+											<input type="radio" class="custom-checkbox" id="cat-24" value="M" name="gender"  onchange="
+											if(window.location.search){
+												if(window.location.search.includes('search')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&amp;')[0] +'&amp;gender='+ this.value
+												}else{
+													this.form.submit()
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 											<label class="form-control-label " for="cat-24">{% trans 'HOMMES' %} </label>
 										</li>
 									
@@ -61,32 +94,45 @@
 								<h3 class="widget-title" >{% trans 'Prix' %} 
 									<span style="height: 10px;" class="toggle-btn">-</span></h3>
 												<ul class="slided widget-body filter-items">
-														<li style="display:flex;">
-															<input style="padding: 8px !important;" type="number" class="form-control price-input" name="start_price" placeholder="de">
-																<span class="price-devider"> &nbsp; - &nbsp;</span>
-															<input style="padding: 8px !important;" type="number" class="form-control price-input" name="end_price" placeholder="à">
+														<li style="display:flex;justify-content: space-between;">
+															<input style="padding: 8px !important;width: 70px!important;" type="number" class="form-control price-input" name="start_price" placeholder="de">
+																<!-- <span class="price-devider"> &nbsp; - &nbsp;</span> -->
+															<input style="padding: 8px !important;width: 70px!important;" type="number" class="form-control price-input" name="end_price" placeholder="à">
 															<button style="scale: 1.6;
-															padding-bottom: 16px;
+														 
 															padding-right: 12px;" class="price-btn-f" type="submit">
 																<i class="fa-solid fa-magnifying-glass"></i>
 																</button>
 														</li>
 														
 														<li>
-															<input id="rangeOne" type="radio" class="custom-checkbox" name="price_range" value="range_one" onchange="this.form.submit()">
-															<label for="rangeOne" class="form-control-label">0 DZD - 700 DZD</label>
+															<input id="rangeOne" type="radio" class="custom-checkbox" name="price_range" value="range_one" onchange=" 
+															if(window.location.search){
+																if(window.location.search.includes('search')){
+																	 
+																		window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&range_one='+ this.value
+																	
+																	 
+																}else{
+																	this.form.submit()
+																}
+																
+															}else{
+																this.form.submit()
+															}">
+															<label for="rangeOne" class="form-control-label">0 DZD - 2000 DZD</label>
 														</li>
 														<li>
 															<input id="rangeTwo" type="radio" class="custom-checkbox" name="price_range" value="range_two" onchange="this.form.submit()">
-															<label for="rangeTwo" class="form-control-label">700 DZD - 1400 DZD</label>
+															<label for="rangeTwo" class="form-control-label">2000 DZD - 4000 DZD</label>
 														</li>
 														<li>
 															<input id="rangeThree" type="radio" class="custom-checkbox" name="price_range" value="range_three" onchange="this.form.submit()">
-															<label for="rangeThree" class="form-control-label">1400 DZD - 4200 DZD</label>
+															<label for="rangeThree" class="form-control-label">4000 DZD - 6000 DZD</label>
 														</li>
 														<li>
 															<input id="rangeFour" type="radio" class="custom-checkbox" name="price_range" value="range_four" onchange="this.form.submit()">
-															<label for="rangeFour" class="form-control-label"> + 4200 DZD </label>
+															<label for="rangeFour" class="form-control-label"> + 6000 DZD </label>
 														</li>
 														  
 												</ul>
@@ -98,54 +144,257 @@
 								<ul class="slided widget-body filter-items">
 									 
 									<li>
-										<input type="checkbox" name="size_exist" id="value-32" value="32" class="custom-checkbox" onchange="this.form.submit()">
+										<input type="checkbox" name="size_exist" id="value-32" value="32" class="custom-checkbox" onchange="
+										if(window.location.search){
+											if(! window.location.search.includes('size_exist')){
+													window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+											}else{
+												window.location =  window.location.search +'&size_exist='+ this.value
+											}
+											
+										}else{
+											this.form.submit()
+										}">
 										<label class="form-control-label" for="value-32">32</label>
 									</li>
 									<li>
-										<input type="checkbox" name="size_exist" id="value-34" value="34" class="custom-checkbox" onchange="this.form.submit()">
+										<input type="checkbox" name="size_exist" id="value-34" value="34" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 										<label class="form-control-label" for="value-34">34</label>
 									</li>
 									<li>
-										<input type="checkbox" name="size_exist" id="value-36" value="36" class="custom-checkbox" onchange="this.form.submit()">
+										<input type="checkbox" name="size_exist" id="value-36" value="36" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 										<label class="form-control-label" for="value-36">36</label>
 									</li>
 									<li>
-										<input type="checkbox" name="size_exist" id="value-38" value="38" class="custom-checkbox" onchange="this.form.submit()">
+										<input type="checkbox" name="size_exist" id="value-38" value="38" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 										<label class="form-control-label" for="value-38">38</label>
 									</li>
 									<li>
-										<input type="checkbox" name="size_exist" id="value-40" value="40" class="custom-checkbox" onchange="this.form.submit()">
+										<input type="checkbox" name="size_exist" id="value-40" value="40" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 										<label class="form-control-label" for="value-40">40</label>
 									</li>
 									<li>
-										<input type="checkbox" name="size_exist" id="value-42" value="42" class="custom-checkbox" onchange="this.form.submit()">
+										<input type="checkbox" name="size_exist" id="value-42" value="42" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 										<label class="form-control-label" for="value-42">42</label>
 									</li>
 									<li>
-										<input type="checkbox" name="size_exist" id="value-XS" value="XS" class="custom-checkbox" onchange="this.form.submit()">
+										<input type="checkbox" name="size_exist" id="value-44" value="44" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+										<label class="form-control-label" for="value-44">44</label>
+									</li>
+									<li>
+										<input type="checkbox" name="size_exist" id="value-46" value="46" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+										<label class="form-control-label" for="value-46">46</label>
+									</li>
+									<li>
+										<input type="checkbox" name="size_exist" id="value-48" value="48" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+										<label class="form-control-label" for="value-48">48</label>
+									</li>
+									<li>
+										<input type="checkbox" name="size_exist" id="value-XXS" value="XXS" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+										<label class="form-control-label" for="value-XXS">XXS</label>
+									</li>
+									<li>
+										<input type="checkbox" name="size_exist" id="value-XS" value="XS" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 										<label class="form-control-label" for="value-XS">XS</label>
 									</li>
 									<li>
-										<input type="checkbox" name="size_exist" id="value-S" value="S" class="custom-checkbox" onchange="this.form.submit()">
+										<input type="checkbox" name="size_exist" id="value-S" value="S" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 										<label class="form-control-label" for="value-S">S</label>
 									</li>
 									<li>
-										<input type="checkbox" name="size_exist" id="value-M" value="M" class="custom-checkbox" onchange="this.form.submit()">
+										<input type="checkbox" name="size_exist" id="value-M" value="M" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 										<label class="form-control-label" for="value-M">M</label>
 									</li>
 									<li>
-										<input type="checkbox" name="size_exist" id="value-L" value="L" class="custom-checkbox" onchange="this.form.submit()">
+										<input type="checkbox" name="size_exist" id="value-L" value="L" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 										<label class="form-control-label" for="value-L">L</label>
 									</li>
 									<li>
-										<input type="checkbox" name="size_exist" id="value-XL" value="XL" class="custom-checkbox" onchange="this.form.submit()">
+										<input type="checkbox" name="size_exist" id="value-XL" value="XL" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 										<label class="form-control-label" for="value-XL">XL</label>
 									</li>
 									<li>
-										<input type="checkbox" name="size_exist" id="value-2XL" value="2XL" class="custom-checkbox" onchange="this.form.submit()">
+										<input type="checkbox" name="size_exist" id="value-2XL" value="2XL" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 										<label class="form-control-label" for="value-2XL">2XL</label>
 									</li>
-									 
+									<li>
+										<input type="checkbox" name="size_exist" id="value-3XL" value="3XL" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+										<label class="form-control-label" for="value-3XL">2XL</label>
+									</li>
+									<li>
+										<input type="checkbox" name="size_exist" id="value-4XL" value="4XL" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+										<label class="form-control-label" for="value-4XL">2XL</label>
+									</li>
 								</ul>
 							</div>
 							 
@@ -165,7 +414,8 @@
 						 
 	
 						<span class="s-text8 p-t-5 p-b-5">
-							{% trans 'Showing' %} {{object_list|length}} {% trans 'of results' %}
+							<!-- {% trans 'Showing' %}  -->
+							{{object_list_len|length}} {% trans 'style trouvés' %}
 						</span>
 					</div>
 					<div class="header-search hs-simple filt" style="z-index: 9;">
@@ -200,11 +450,15 @@
 					sticky-sidebar-wrapper">
 
 						<form style="width: 235px;" action="." method="get">
+							<input type="radio" name="search"  id="searchbox" checked="true">
+							<script>
+								document.getElementById("searchbox").value=localStorage.getItem("searchQuery")
+							</script>
 								<div class="sidebar-overlay"></div>
 									
 									<a href="#" class="sidebar-toggle mobile-side"><img src="/static/images/3.svg" class="img-filter"></a>
 									<a class="sidebar-close" href="#"><i class="d-icon-times"></i></a>
-							<div class="sidebar-content">
+							<!-- <div class="sidebar-content"> -->
 								<div class="filter-actions "> 
 									
 									<button type="submit" class="toolbox-item btn btn-outline btn-primary btn-icon-left filter-btn" style="border:none;font-size: 13px;
@@ -215,7 +469,7 @@
 									
 									<a style="margin-left: 95px !important;" href="/fr/produits/" class="clear-all text-primary pb-3 clear-all"><i class="fas fa-times"></i></a>
 								</div>
-								<div class="widget widget-collapsible">
+								<!-- <div class="widget widget-collapsible">
 									<h3 class="widget-title"> {% trans 'Brand' %} 
 										<span style="height: 10px;" 
 										class="toggle-btn">-</span></h3>
@@ -233,7 +487,7 @@
 											 
 										
 									</ul>   
-								</div>
+								</div> -->
 									 
 										
 										
@@ -244,7 +498,7 @@
 								<div class="filter_type widget widget-collapsible">
 									<h3 class="widget-title"> {% trans 'Catégorie' %}
 										<span style="height: 10px;" class="toggle-btn">-</span></h3>
-									<form action="." method="get">
+									<!-- <form action="." method="get"> -->
 										<ul class="widget-body filter-items slided">
 										
 										
@@ -258,8 +512,8 @@
 											{% endfor %}
 											 
 										
-									</ul>   
-									</form>
+									    </ul>   
+									<!-- </form> -->
 								</div>
 								<div class="widget widget-collapsible">
 									<h3 class="widget-title"> {% trans 'Gender' %}
@@ -269,16 +523,46 @@
 										
 										
 											<li>
-												<input type="radio" class="custom-checkbox" id="cat-1" value="F" name="gender" onchange="this.form.submit()">
+												<input type="radio" class="custom-checkbox" id="cat-1" value="F" name="gender" onchange="
+												if(window.location.search){
+													if(window.location.search.includes('search')){
+															window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&gender='+ this.value
+													}else{
+														this.form.submit()
+													}
+													
+												}else{
+													this.form.submit()
+												}">
 												<label class="form-control-label " for="cat-1">{% trans 'FEMMES' %}</label>
 											</li>
 										
 											<li>
-												<input type="radio" class="custom-checkbox" id="cat-24" value="M" name="gender" onchange="this.form.submit()">
+												<input type="radio" class="custom-checkbox" id="cat-24" value="M" name="gender" onchange="
+												if(window.location.search){
+													if(window.location.search.includes('search')){
+															window.location ='?search='+ window.location.search.split('search=')[1].split('&amp;')[0] +'&amp;gender='+ this.value
+													}else{
+														this.form.submit()
+													}
+													
+												}else{
+													this.form.submit()
+												}">
 												<label class="form-control-label " for="cat-24">{% trans 'HOMMES' %} </label>
 											</li>
 											<li>
-												<input type="radio" class="custom-checkbox" id="cat-26" value="E" name="gender" onchange="this.form.submit()">
+												<input type="radio" class="custom-checkbox" id="cat-26" value="E" name="gender" onchange="
+												if(window.location.search){
+													if(window.location.search.includes('search')){
+															window.location ='?search='+ window.location.search.split('search=')[1].split('&amp;')[0] +'&amp;gender='+ this.value
+													}else{
+														this.form.submit()
+													}
+													
+												}else{
+													this.form.submit()
+												}">
 												<label class="form-control-label " for="cat-26">{% trans 'ENFANTS' %} </label>
 											</li>
 										
@@ -291,12 +575,12 @@
 										<span style="height: 10px;"
 										 class="toggle-btn">-</span></h3>
 									<ul class="slided widget-body filter-items">
-											<li style="display:flex;">
-												<input style="padding: 8px !important;" type="number" class="form-control price-input" name="start_price" placeholder="de">
-													<span class="price-devider"> &nbsp; - &nbsp;</span>
-												<input style="padding: 8px !important;" type="number" class="form-control price-input" name="end_price" placeholder="à">
+											<li style="display:flex;justify-content: space-between;">
+												<input style="padding: 8px !important;width: 70px!important;" type="number" class="form-control price-input" name="start_price" placeholder="de">
+													<!-- <span class="price-devider"> &nbsp; - &nbsp;</span> -->
+												<input style="padding: 8px !important;width: 70px!important;" type="number" class="form-control price-input" name="end_price" placeholder="à">
 												<button style="scale: 1.6;
-												padding-bottom: 16px;
+											 
 												padding-right: 12px;" class="price-btn-f" type="submit">
 													<i class="fa-solid fa-magnifying-glass"></i>
 													</button>
@@ -304,21 +588,281 @@
 											
 											<li>
 												<input id="rangeOne" type="radio" class="custom-checkbox" name="price_range" value="range_one" onchange="this.form.submit()">
-												<label for="rangeOne" class="form-control-label">0 DZD - 700 DZD</label>
+												<label for="rangeOne" class="form-control-label">0 DZD - 2000 DZD</label>
 											</li>
 											<li>
 												<input id="rangeTwo" type="radio" class="custom-checkbox" name="price_range" value="range_two" onchange="this.form.submit()">
-												<label for="rangeTwo" class="form-control-label">700 DZD - 1400 DZD</label>
+												<label for="rangeTwo" class="form-control-label">2000 DZD - 4000 DZD</label>
 											</li>
 											<li>
 												<input id="rangeThree" type="radio" class="custom-checkbox" name="price_range" value="range_three" onchange="this.form.submit()">
-												<label for="rangeThree" class="form-control-label">1400 DZD - 4200 DZD</label>
+												<label for="rangeThree" class="form-control-label">4000 DZD - 6000 DZD</label>
 											</li>
 											<li>
 												<input id="rangeFour" type="radio" class="custom-checkbox" name="price_range" value="range_four" onchange="this.form.submit()">
-												<label for="rangeFour" class="form-control-label"> + 4200 DZD </label>
+												<label for="rangeFour" class="form-control-label"> + 6000 DZD </label>
 											</li>
 											  
+									</ul>
+								</div>
+								<div class="filter_type widget widget-collapsible">
+									<h3 class="widget-title">{% trans 'Taille' %}
+										<span style="height: 10px;" class="toggle-btn">+</span></h3>
+									<ul style="height: 0; display: none;" class=" widget-body filter-items">
+										 
+										<li>
+											<input type="checkbox" name="size_exist" id="value-32" value="32" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-32">32</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-34" value="34" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-34">34</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-36" value="36" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-36">36</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-38" value="38" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-38">38</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-40" value="40" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-40">40</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-42" value="42" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-42">42</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-44" value="44" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-44">44</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-46" value="46" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-46">46</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-48" value="48" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-48">48</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-XXS" value="XXS" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-XXS">XXS</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-XS" value="XS" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-XS">XS</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-S" value="S" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-S">S</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-M" value="M" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-M">M</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-L" value="L" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-L">L</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-XL" value="XL" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-XL">XL</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-2XL" value="2XL" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-2XL">2XL</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-3XL" value="3XL" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-3XL">2XL</label>
+										</li>
+										<li>
+											<input type="checkbox" name="size_exist" id="value-4XL" value="4XL" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+											<label class="form-control-label" for="value-4XL">2XL</label>
+										</li>
+										 
 									</ul>
 								</div>
 							
@@ -331,8 +875,22 @@
 											
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
-													<label for="color-1">
-													<input type="radio" id="color-1" name="color" value="orange" onchange="this.form.submit()">
+													<label for="color-158">
+													<input type="radio" id="color-158" name="color" value="orange" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location =  window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #FF8F1B;"></span>
 				
@@ -342,8 +900,22 @@
 										
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
-													<label for="color-2">
-													<input type="radio" id="color-2" name="color" value="beige" onchange="this.form.submit()">
+													<label for="color-258">
+													<input type="radio" id="color-258" name="color" value="beige" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #F5F5DC;"></span>
 				
@@ -353,8 +925,22 @@
 										
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
-													<label for="color-3">
-													<input type="radio" id="color-3" name="color" value="3" onchange="this.form.submit()">
+													<label for="color-358">
+													<input type="radio" id="color-358" name="color" value="3" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #4E2D05;"></span>
 				
@@ -364,8 +950,22 @@
 										
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
-													<label for="color-4">
-													<input type="radio" id="color-4" name="color" value="4" onchange="this.form.submit()">
+													<label for="noir">
+													<input type="radio" id="noir" name="color" value="noir" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #000000;"></span>
 				
@@ -375,8 +975,22 @@
 										
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
-													<label for="color-5">
-													<input type="radio" id="color-5" name="color" value="grey" onchange="this.form.submit()">
+													<label for="color-558">
+													<input type="radio" id="color-558" name="color" value="grey" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #9B9B9B;"></span>
 				
@@ -386,8 +1000,22 @@
 										
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
-													<label for="color-7">
-													<input type="radio" id="color-7" name="color" value="7" onchange="this.form.submit()">
+													<label for="color-758">
+													<input type="radio" id="color-758" name="color" value="7" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #FEFEE0;"></span>
 				
@@ -398,18 +1026,50 @@
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
 													<label for="color-9">
-													<input type="radio" id="color-9" name="color" value="vert" onchange="this.form.submit()">
+													<input type="radio" id="color-9" name="color" value="vert" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #008020;"></span>
 				
 													</label>
 												</div>
 											</li>
+
+										
+
+											
 										
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
-													<label for="color-11">
-													<input type="radio" id="color-11" name="color" value="11" onchange="this.form.submit()">
+													<label for="color-1158">
+													<input type="radio" id="color-1158" name="color" value="11" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #03224C;"></span>
 				
@@ -419,8 +1079,22 @@
 										
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
-													<label for="color-12">
-													<input type="radio" id="color-12" name="color" value="rose" onchange="this.form.submit()">
+													<label for="color-1258">
+													<input type="radio" id="color-1258" name="color" value="rose" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #FF007F;"></span>
 				
@@ -430,8 +1104,22 @@
 										
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
-													<label for="color-13">
-													<input type="radio" id="color-13" name="color" value="kaki" onchange="this.form.submit()">
+													<label for="color-1358">
+													<input type="radio" id="color-1358" name="color" value="kaki" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #F0E68C;"></span>
 				
@@ -441,8 +1129,22 @@
 										
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
-													<label for="color-14">
-													<input type="radio" id="color-14" name="color" value="14" onchange="this.form.submit()">
+													<label for="color-1458">
+													<input type="radio" id="color-1458" name="color" value="14" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #7F00FF;"></span>
 				
@@ -453,7 +1155,21 @@
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
 													<label for="color-16">
-													<input type="radio" id="color-16" name="color" value="blue" onchange="this.form.submit()">
+													<input type="radio" id="color-16" name="color" value="blue" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #0000FF;"></span>
 				
@@ -464,7 +1180,21 @@
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
 													<label for="color-17">
-													<input type="radio" id="color-17" name="color" value="rouge" onchange="this.form.submit()">
+													<input type="radio" id="color-17" name="color" value="rouge" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #D70000;"></span>
 				
@@ -474,8 +1204,22 @@
 										
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
-													<label for="color-19">
-													<input type="radio" id="color-19" name="color" value="blanc-blanche" onchange="this.form.submit()">
+													<label for="Blanc">
+													<input type="radio" id="Blanc" name="color" value="Blanc" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #FFFFFF;"></span>
 				
@@ -485,8 +1229,22 @@
 										
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
-													<label for="color-8">
-													<input type="radio" id="color-8" name="color" value="jaune" onchange="this.form.submit()">
+													<label for="color-858">
+													<input type="radio" id="color-858" name="color" value="jaune" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #FFFF00;"></span>
 				
@@ -496,8 +1254,22 @@
 										
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
-													<label for="color-20">
-													<input type="radio" id="color-20" name="color" value="20" onchange="this.form.submit()">
+													<label for="color-2058">
+													<input type="radio" id="color-2058" name="color" value="20" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #AE730E;"></span>
 				
@@ -507,8 +1279,22 @@
 										
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
-													<label for="color-15">
-													<input type="radio" id="color-15" name="color" value="noir" onchange="this.form.submit()">
+													<label for="color-1558">
+													<input type="radio" id="color-1558" name="color" value="noir" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #000000;"></span>
 				
@@ -519,7 +1305,21 @@
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
 													<label for="color-10">
-													<input type="radio" id="color-10" name="color" value="10" onchange="this.form.submit()">
+													<input type="radio" id="color-10" name="color" value="10" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #7F1734;"></span>
 				
@@ -530,19 +1330,58 @@
 											<li class="colours float-left">
 												<div class="d-inline-block text-center dot-wrapper">
 													<label for="color-18">
-													<input type="radio" id="color-18" name="color" value="18" onchange="this.form.submit()">
+													<input type="radio" id="color-18" name="color" value="18" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
 														
 														<span class="dot" style="background-color: #E1E1E1;"></span>
 				
 													</label>
 												</div>
 											</li>
-										
+											<li class="colours float-left">
+												<div class="d-inline-block text-center dot-wrapper">
+													<label for="color-999">
+														<input type="radio" id="color-999" name="color" value="Multicolore" onchange=" 
+														if(window.location.search){
+															if(window.location.search.includes('search')){
+																if(window.location.search.includes('color')){
+																	window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+																}else{
+																	window.location =  window.location.search +'&color='+ this.value
+																}
+																
+																 
+															}else{
+																this.form.submit()
+															}
+															
+														}else{
+															this.form.submit()
+														}">
+															
+															<span class="dot" style="background: linear-gradient(90deg, #fa4750 0%, #e24597 13%, #a550ff 25%, #6c7ff8 38%, #70bbfd 50%, #2effd4 61%, #57e4a0 73%, #d2ab48 86%, #fdde0a 100%);"></span>
+					
+														</label>
+												</div>
+											</li>
 									</ul>
 								</div>
 							
 							
-				
+								
 							
 				
 						
@@ -579,9 +1418,11 @@
 									title="Ajouter à la liste de souhait">
 									{% if product in wishlist %}
 										<img src="/static/images/PSC.svg">
+										<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart-full"></i> -->
 									{% else %}
 			
 									<img src="/static/images/VSC.svg">
+									<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart"></i> -->
 			
 									{% endif %}
 								</a>
@@ -598,9 +1439,11 @@
 									title="Ajouter à la liste de souhait">
 									{% if product in wishlist %}
 										<img src="/static/images/PSC.svg">
+										<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart-full"></i> -->
 									{% else %}
 			
 									<img src="/static/images/VSC.svg">
+									<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart"></i> -->
 			
 									{% endif %}
 								</a>
@@ -641,14 +1484,14 @@
 		top: 30px  ;left: auto !important;">
 	
 		
-			<label style="width: 100%;"  class="product-label label-top">{% trans product.get_label_display %}</label>
+			<label style="width: 100%;"  class="product-label label-top {% if product.label == 'P' %} promo_label{% endif %}">{% trans product.get_label_display %}</label>
 		 
 	</div>  
 		{% else %}
 		<div class="product-label-group">
 	
 		
-			<label style="min-width: 60px;" class="product-label label-top">{% trans product.get_label_display %}</label>
+			<label style="min-width: 60px;" class="product-label label-top {% if product.label == 'P' %} promo_label{% endif %}">{% trans product.get_label_display %}</label>
 		 
 	</div>  
 		{% endif %}
@@ -669,13 +1512,13 @@
 								<div class="product-price d-flex justify-content-between {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
 									<div>
 										
-										{% if product.price > product.discount_price %}
-										<del class="old-price old-price-block">&nbsp;{{product.price|floatformat:0}} {% trans 'DA' %}</del>
+										{% if product.discount_price > product.price   %}
+										<del class="old-price old-price-block">&nbsp;{{product.discount_price|floatformat:0}} {% trans 'DA' %}</del>
 										 &nbsp; 
-										<ins class="new-price price-block">{{product.discount_price|floatformat:0}}{% trans 'DA' %}</ins>
+										<ins class="new-price price-block">{{product.price|floatformat:0}} {% trans 'DA' %}</ins>
 										{% else %}
 
-										<ins class="new-price price-block" style="color: #222 !important;">{{product.price|floatformat:0}}{% trans 'DA' %}</ins>
+										<ins class="new-price price-block" style="color: #222 !important;">{{product.price|floatformat:0}} {% trans 'DA' %}</ins>
 										{% endif %}
 									</div>
 									
@@ -705,9 +1548,19 @@
 						<ul class="pagination">
 							{% if object_list.has_previous   %}
 							<li class="page-item prev">
-								<a class="page-link page-link-next" href="?page={{object_list.previous_page_number }}" aria-label="Next">
+								
+								<a id="nextee" class="page-link page-link-next" href="?page={{object_list.previous_page_number }}" aria-label="Next">
 									<i class="d-icon-arrow-left"></i>Précédent
 								</a>
+								<script>
+									if(window.location.search != ""){
+										document.getElementById("nextee").href=window.location.search+'&page={{object_list.previous_page_number }}'
+									}
+									if(window.location.search.includes("page")){
+										document.getElementById("nextee").href=window.location.search.split("&page")[0]+'&page={{object_list.previous_page_number }}'
+									}
+									
+								</script>
 							</li>
 							
 							 {% endif %}
@@ -729,17 +1582,35 @@
 
         				{% else %}
 						<li class="page-item itm-p {% if page_number == object_list.number %}active{% endif %} " >
-						<a href="?page={{ page_number }}" class=" page-link" >{{page_number}}</a>
+						<a id="nexteeee{{page_number}}" data-page="{{ page_number }}" href="?page={{ page_number }}" class=" page-link" >{{page_number}}</a>
 						</li>
-
+						<script>
+							
+							if(window.location.search != ""){
+								document.getElementById("nexteeee{{page_number}}").href=window.location.search+'&page={{page_number}}'
+							}
+							if(window.location.search.includes("page")){
+								document.getElementById("nexteeee{{page_number}}").href=window.location.search.split("&page")[0]+'&page={{page_number}}'
+									}
+						</script>
 						{% endif %}
 
     				{% endfor %}
 					{% if object_list.has_next %}
 					<li class="page-item nxt">
-						<a class="page-link page-link-next" href="?page={{object_list.next_page_number}}" aria-label="Next">
+						<a  id="nexteee{{ object_list.next_page_number }}" class="page-link page-link-next" data-page="{{object_list.next_page_number}}" href="?page={{object_list.next_page_number}}" aria-label="Next">
 							Suivant<i class="d-icon-arrow-right"></i>
 						</a>
+						<script>
+							if(window.location.search != ""){
+								document.getElementById("nexteee{{ object_list.next_page_number }}").href=window.location.search+'&page={{object_list.next_page_number}}'
+							}
+
+							if(window.location.search.includes("page")){
+								document.getElementById("nexteee{{ object_list.next_page_number }}").href=window.location.search.split("&page")[0]+'&page={{object_list.next_page_number}}'
+									}
+							
+						</script>
 					</li>
 					{% endif %}
 					
@@ -769,21 +1640,81 @@
 					<label class="form-control-label " for="cat-1">{% trans 'Trier' %}</label>
 				</li>			
 				<li>
-					<input type="radio" class="custom-checkbox" id="cat-121" value="-date_added" name="filter" onchange="this.form.submit()">
+					<input type="radio" class="custom-checkbox" id="cat-121" value="-date_added" 
+					name="filter" onchange=" if(window.location.search){
+						if(window.location.search.includes('filter')){
+							if(window.location.search.split('filter')[0] != '?'){
+								window.location =window.location.search.split('filter')[0] + this.value
+							
+							}else{
+								this.form.submit()
+							}
+						}else{
+							window.location = window.location.search + '&filter='+ this.value
+						}
+						
+					}else{
+						this.form.submit()
+					}">
 					<label class="form-control-label " for="cat-121">newest</label>
 				</li>
 			
 				<li>
-					<input type="radio" class="custom-checkbox" id="cat-224" value="price" name="filter" onchange="this.form.submit()">
+					<input type="radio" class="custom-checkbox" id="cat-224" value="price"
+					 name="filter" onchange=" if(window.location.search){
+						if(window.location.search.includes('filter')){
+							if(window.location.search.split('filter')[0] != '?'){
+								window.location =window.location.search.split('filter')[0] + this.value
+							
+							}else{
+								this.form.submit()
+							}
+						}else{
+							window.location = window.location.search + '&filter='+ this.value
+						}
+						
+					}else{
+						this.form.submit()
+					}">
 					<label class="form-control-label " for="cat-224">lowest price </label>
 				</li>
 				<li>
-					<input type="radio" class="custom-checkbox" id="cat-1251" value="-wishlist_num" name="filter" onchange="this.form.submit()">
+					<input type="radio" class="custom-checkbox" id="cat-1251" value="-wishlist_num" 
+					name="filter" onchange=" if(window.location.search){
+						if(window.location.search.includes('filter')){
+							if(window.location.search.split('filter')[0] != '?'){
+								window.location =window.location.search.split('filter')[0] + this.value
+							
+							}else{
+								this.form.submit()
+							}
+						}else{
+							window.location = window.location.search + '&filter='+ this.value
+						}
+						
+					}else{
+						this.form.submit()
+					}">
 					<label class="form-control-label " for="cat-1251">most noted</label>
 				</li>
 			
 				<li>
-					<input type="radio" class="custom-checkbox" id="cat-2445" value="-rating" name="filter" onchange="this.form.submit()">
+					<input type="radio" class="custom-checkbox" id="cat-2445" value="-rating"
+					 name="filter" onchange=" if(window.location.search){
+						if(window.location.search.includes('filter')){
+							if(window.location.search.split('filter')[0] != '?'){
+								window.location =window.location.search.split('filter')[0] + this.value
+							
+							}else{
+								this.form.submit()
+							}
+						}else{
+							window.location = window.location.search + '&filter='+ this.value
+						}
+						
+					}else{
+						this.form.submit()
+					}">
 					<label class="form-control-label " for="cat-2445">most rated </label>
 				</li>
 			
@@ -815,19 +1746,19 @@
 				<form action="." method="get">
 					<div class="filter_all">
 						<div class="filter_type widget widget-collapsible">
-							<h3 class="widget-title"> {% trans 'Brand' %} 
+							<h3 class="widget-title"> {% trans 'Catégorie' %} 
 								<span style="height: 10px;" class="toggle-btn">+</span></h3>
 							<form action="." method="get">
 								<ul class="widget-body filter-items" style="height: 0; display: none;">
 								
 								
-									{% for brand_name in brands_list %}
-								
-									<li>
-										<input type="radio" class="custom-checkbox" id="cat-{{forloop.counter|mul:100}}" value="{{brand_name}}" name="brand"  onchange="this.form.submit()">
-										<label class="form-control-label " for="cat-{{forloop.counter|mul:100 }}">{{brand_name}} </label>
-									</li>
-									
+									{% for category in categories %}
+										
+											<li>
+												 
+												<a href="/category/{{category.slug}} " class="form-control-label " for="cat-{{forloop.counter|mul:100 }}">{{category.title}} </a>
+											</li>
+											
 									{% endfor %}
 									 
 								
@@ -841,13 +1772,48 @@
 								
 								
 									<li>
-										<input type="radio" class="custom-checkbox" id="cat-1" value="F" name="gender" onchange="this.form.submit()">
+										<input type="radio" class="custom-checkbox" id="cat-1" value="F" name="gender" onchange="
+										if(window.location.search){
+											if(window.location.search.includes('search')){
+													window.location ='?search='+ window.location.search.split('search=')[1].split('&amp;')[0] +'&amp;gender='+ this.value
+											}else{
+												this.form.submit()
+											}
+											
+										}else{
+											this.form.submit()
+										}">
 										<label class="form-control-label " for="cat-1">{% trans 'FEMMES' %}</label>
 									</li>
 								
 									<li>
-										<input type="radio" class="custom-checkbox" id="cat-24" value="M" name="gender" onchange="this.form.submit()">
+										<input type="radio" class="custom-checkbox" id="cat-24" value="M" name="gender" onchange="
+										if(window.location.search){
+											if(window.location.search.includes('search')){
+													window.location ='?search='+ window.location.search.split('search=')[1].split('&amp;')[0] +'&amp;gender='+ this.value
+											}else{
+												this.form.submit()
+											}
+											
+										}else{
+											this.form.submit()
+										}">
 										<label class="form-control-label " for="cat-24">{% trans 'HOMMES' %} </label>
+									</li>
+
+									<li>
+										<input type="radio" class="custom-checkbox" id="cat-2999" value="E" name="gender" onchange="
+										if(window.location.search){
+											if(window.location.search.includes('search')){
+													window.location ='?search='+ window.location.search.split('search=')[1].split('&amp;')[0] +'&amp;gender='+ this.value
+											}else{
+												this.form.submit()
+											}
+											
+										}else{
+											this.form.submit()
+										}">
+										<label class="form-control-label " for="cat-2999">{% trans 'ENFANTS' %} </label>
 									</li>
 								
 									 
@@ -858,12 +1824,12 @@
 							<h3 class="widget-title" >{% trans 'Prix' %} 
 								<span style="height: 10px;" class="toggle-btn">+</span></h3>
 											<ul class=" widget-body filter-items" style="height: 0; display: none;">
-													<li style="display:flex;">
-														<input style="padding: 8px !important;" type="number" class="form-control price-input" name="start_price" placeholder="de">
-															<span class="price-devider"> &nbsp; - &nbsp;</span>
-														<input style="padding: 8px !important;" type="number" class="form-control price-input" name="end_price" placeholder="à">
+													<li style="display:flex;justify-content: space-between;">
+														<input style="padding: 8px !important;width: 70px!important;" type="number" class="form-control price-input" name="start_price" placeholder="de">
+															<!-- <span class="price-devider"> &nbsp; - &nbsp;</span> -->
+														<input style="padding: 8px !important;width: 70px!important;" type="number" class="form-control price-input" name="end_price" placeholder="à">
 														<button style="scale: 1.6;
-														padding-bottom: 16px;
+														 
 														padding-right: 12px;" class="price-btn-f" type="submit">
 															<i class="fa-solid fa-magnifying-glass"></i>
 															</button>
@@ -871,19 +1837,19 @@
 													
 													<li>
 														<input id="rangeOne" type="radio" class="custom-checkbox" name="price_range" value="range_one" onchange="this.form.submit()">
-														<label for="rangeOne" class="form-control-label">0 DZD - 700 DZD</label>
+														<label for="rangeOne" class="form-control-label">0 DZD - 2000 DZD</label>
 													</li>
 													<li>
 														<input id="rangeTwo" type="radio" class="custom-checkbox" name="price_range" value="range_two" onchange="this.form.submit()">
-														<label for="rangeTwo" class="form-control-label">700 DZD - 1400 DZD</label>
+														<label for="rangeTwo" class="form-control-label">2000 DZD - 4000 DZD</label>
 													</li>
 													<li>
 														<input id="rangeThree" type="radio" class="custom-checkbox" name="price_range" value="range_three" onchange="this.form.submit()">
-														<label for="rangeThree" class="form-control-label">1400 DZD - 4200 DZD</label>
+														<label for="rangeThree" class="form-control-label">4000 DZD - 6000 DZD</label>
 													</li>
 													<li>
 														<input id="rangeFour" type="radio" class="custom-checkbox" name="price_range" value="range_four" onchange="this.form.submit()">
-														<label for="rangeFour" class="form-control-label"> + 4200 DZD </label>
+														<label for="rangeFour" class="form-control-label"> + 6000 DZD </label>
 													</li>
 													  
 											</ul>
@@ -895,54 +1861,766 @@
 							<ul style="height: 0; display: none;" class=" widget-body filter-items">
 								 
 								<li>
-									<input type="checkbox" name="size_exist" id="value-32" value="32" class="custom-checkbox" onchange="this.form.submit()">
+									<input type="checkbox" name="size_exist" id="value-32" value="32" class="custom-checkbox" onchange="
+									if(window.location.search){
+										if(! window.location.search.includes('size_exist')){
+												window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+										}else{
+											window.location =  window.location.search +'&size_exist='+ this.value
+										}
+										
+									}else{
+										this.form.submit()
+									}">
 									<label class="form-control-label" for="value-32">32</label>
 								</li>
 								<li>
-									<input type="checkbox" name="size_exist" id="value-34" value="34" class="custom-checkbox" onchange="this.form.submit()">
+									<input type="checkbox" name="size_exist" id="value-34" value="34" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 									<label class="form-control-label" for="value-34">34</label>
 								</li>
 								<li>
-									<input type="checkbox" name="size_exist" id="value-36" value="36" class="custom-checkbox" onchange="this.form.submit()">
+									<input type="checkbox" name="size_exist" id="value-36" value="36" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 									<label class="form-control-label" for="value-36">36</label>
 								</li>
 								<li>
-									<input type="checkbox" name="size_exist" id="value-38" value="38" class="custom-checkbox" onchange="this.form.submit()">
+									<input type="checkbox" name="size_exist" id="value-38" value="38" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 									<label class="form-control-label" for="value-38">38</label>
 								</li>
 								<li>
-									<input type="checkbox" name="size_exist" id="value-40" value="40" class="custom-checkbox" onchange="this.form.submit()">
+									<input type="checkbox" name="size_exist" id="value-40" value="40" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 									<label class="form-control-label" for="value-40">40</label>
 								</li>
 								<li>
-									<input type="checkbox" name="size_exist" id="value-42" value="42" class="custom-checkbox" onchange="this.form.submit()">
+									<input type="checkbox" name="size_exist" id="value-42" value="42" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 									<label class="form-control-label" for="value-42">42</label>
 								</li>
 								<li>
-									<input type="checkbox" name="size_exist" id="value-XS" value="XS" class="custom-checkbox" onchange="this.form.submit()">
+									<input type="checkbox" name="size_exist" id="value-44" value="44" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+									<label class="form-control-label" for="value-44">44</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-46" value="46" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+									<label class="form-control-label" for="value-46">46</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-48" value="48" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+									<label class="form-control-label" for="value-48">48</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-XXS" value="XXS" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+									<label class="form-control-label" for="value-XXS">XXS</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-XS" value="XS" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 									<label class="form-control-label" for="value-XS">XS</label>
 								</li>
 								<li>
-									<input type="checkbox" name="size_exist" id="value-S" value="S" class="custom-checkbox" onchange="this.form.submit()">
+									<input type="checkbox" name="size_exist" id="value-S" value="S" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 									<label class="form-control-label" for="value-S">S</label>
 								</li>
 								<li>
-									<input type="checkbox" name="size_exist" id="value-M" value="M" class="custom-checkbox" onchange="this.form.submit()">
+									<input type="checkbox" name="size_exist" id="value-M" value="M" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 									<label class="form-control-label" for="value-M">M</label>
 								</li>
 								<li>
-									<input type="checkbox" name="size_exist" id="value-L" value="L" class="custom-checkbox" onchange="this.form.submit()">
+									<input type="checkbox" name="size_exist" id="value-L" value="L" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 									<label class="form-control-label" for="value-L">L</label>
 								</li>
 								<li>
-									<input type="checkbox" name="size_exist" id="value-XL" value="XL" class="custom-checkbox" onchange="this.form.submit()">
+									<input type="checkbox" name="size_exist" id="value-XL" value="XL" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 									<label class="form-control-label" for="value-XL">XL</label>
 								</li>
 								<li>
-									<input type="checkbox" name="size_exist" id="value-2XL" value="2XL" class="custom-checkbox" onchange="this.form.submit()">
+									<input type="checkbox" name="size_exist" id="value-2XL" value="2XL" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
 									<label class="form-control-label" for="value-2XL">2XL</label>
 								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-3XL" value="3XL" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+									<label class="form-control-label" for="value-3XL">2XL</label>
+								</li>
+								<li>
+									<input type="checkbox" name="size_exist" id="value-4XL" value="4XL" class="custom-checkbox" onchange="
+											if(window.location.search){
+												if(! window.location.search.includes('size_exist')){
+														window.location ='?search='+ window.location.search.split('search=')[1].split('&')[0] +'&size_exist='+ this.value
+												}else{
+													window.location =  window.location.search +'&size_exist='+ this.value
+												}
+												
+											}else{
+												this.form.submit()
+											}">
+									<label class="form-control-label" for="value-4XL">2XL</label>
+								</li>
 								 
+							</ul>
+						</div>
+						<div class="filter_type widget widget-collapsible">
+							<h3 class="widget-title">{% trans 'Couleur' %}
+								<span style="height: 10px;" 
+								class="toggle-btn">-</span></h3>
+							<ul class="slided widget-body  ">
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-1">
+											<input type="radio" id="color-1" name="color" value="orange" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #FF8F1B;"></span>
+		
+											</label>
+										</div>
+									</li>
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-2">
+											<input type="radio" id="color-2" name="color" value="beige" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #F5F5DC;"></span>
+		
+											</label>
+										</div>
+									</li>
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-3">
+											<input type="radio" id="color-3" name="color" value="3" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #4E2D05;"></span>
+		
+											</label>
+										</div>
+									</li>
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="Noir">
+											<input type="radio" id="Noir" name="color" value="Noir" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #000000;"></span>
+		
+											</label>
+										</div>
+									</li>
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-5">
+											<input type="radio" id="color-5" name="color" value="grey" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #9B9B9B;"></span>
+		
+											</label>
+										</div>
+									</li>
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-7">
+											<input type="radio" id="color-7" name="color" value="7" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #FEFEE0;"></span>
+		
+											</label>
+										</div>
+									</li>
+									
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-958">
+											<input type="radio" id="color-958" name="color" value="vert" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #008020;"></span>
+		
+											</label>
+										</div>
+									</li>
+									
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-11">
+											<input type="radio" id="color-11" name="color" value="11" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #03224C;"></span>
+		
+											</label>
+										</div>
+									</li>
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-12">
+											<input type="radio" id="color-12" name="color" value="rose" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #FF007F;"></span>
+		
+											</label>
+										</div>
+									</li>
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-13">
+											<input type="radio" id="color-13" name="color" value="kaki" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #F0E68C;"></span>
+		
+											</label>
+										</div>
+									</li>
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-14">
+											<input type="radio" id="color-14" name="color" value="14" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #7F00FF;"></span>
+		
+											</label>
+										</div>
+									</li>
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-1658">
+											<input type="radio" id="color-1658" name="color" value="blue" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #0000FF;"></span>
+		
+											</label>
+										</div>
+									</li>
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-1758">
+											<input type="radio" id="color-1758" name="color" value="rouge" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #D70000;"></span>
+		
+											</label>
+										</div>
+									</li>
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="Blanc">
+											<input type="radio" id="Blanc" name="color" value="Blanc" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #FFFFFF;"></span>
+		
+											</label>
+										</div>
+									</li>
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-8">
+											<input type="radio" id="color-8" name="color" value="jaune" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #FFFF00;"></span>
+		
+											</label>
+										</div>
+									</li>
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-20">
+											<input type="radio" id="color-20" name="color" value="20" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #AE730E;"></span>
+		
+											</label>
+										</div>
+									</li>
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-1555">
+											<input type="radio" id="color-1555" name="color" value="noir" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #000000;"></span>
+		
+											</label>
+										</div>
+									</li>
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-1058">
+											<input type="radio" id="color-1058" name="color" value="10" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #7F1734;"></span>
+		
+											</label>
+										</div>
+									</li>
+								
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-1858">
+											<input type="radio" id="color-1858" name="color" value="18" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background-color: #E1E1E1;"></span>
+		
+											</label>
+										</div>
+									</li>
+									<li class="colours float-left">
+										<div class="d-inline-block text-center dot-wrapper">
+											<label for="color-9999">
+											<input type="radio" id="color-9999" name="color" value="Multicolore" onchange=" 
+													
+														if(window.location.search.includes('search')){
+															if(window.location.search.includes('color')){
+																window.location = window.location.search.split('color=')[0].split('&')[0] +'&color='+ this.value
+															}else{
+																window.location =  window.location.search +'&color='+ this.value
+															}
+															
+															 
+														}else{
+															this.form.submit()
+														}
+														
+													">
+												
+												<span class="dot" style="background: linear-gradient(90deg, #fa4750 0%, #e24597 13%, #a550ff 25%, #6c7ff8 38%, #70bbfd 50%, #2effd4 61%, #57e4a0 73%, #d2ab48 86%, #fdde0a 100%);"></span>
+		
+											</label>
+										</div>
+									</li>
+								
 							</ul>
 						</div>
 						 
@@ -963,15 +2641,15 @@
 </div>
 	<script>
 		$(".filterphone1").on("click",function(){
-		$(".filtermob").css({"left":74})
+		$(".filtermob").css({"right":0})
 		document.querySelector(".overlay_div112").style.display="block"
 		})
 		$(".filterheader a").on("click",function(){
-		$(".filtermob").css({"left":420})
+		$(".filtermob").css({"right":-470})
 		document.querySelector(".overlay_div112").style.display="none"
 		})
 		$(".overlay_div112").on("click",function(){
-			$(".filtermob").css({"left":420})
+			$(".filtermob").css({"right":-470})
 			this.style.display="none"
 		})
 
@@ -992,6 +2670,15 @@
 	this.style.display="none"
    
 	})
+	</script>
+	<script>
+		document.querySelectorAll(".product-media").forEach(ele=>{
+			ele.children[0].children[0].onerror = function() {
+				ele.children[0].children[0].src="/static/images/ProductDet.png";  
+				// ele.style.height=344 + "px"
+			};
+			 
+		})
 	</script>
 
 

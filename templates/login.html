@@ -24,7 +24,7 @@
 
                 <div class="tab-content">
                     <div class="" id="signin">
-                        <form action="/login/" method="POST">
+                        <form  method="POST">
                             {% csrf_token %}
                             <div class="form-group mb-3">
                             {{form.email}}           
@@ -33,7 +33,7 @@
                               {{form.password}}
                             </div>
                             <div class="form-footer">
-                                <a href="#" class="lost-link">{% trans "J'ai oublier mon mot de pass" %}</a>
+                                <a href="/reset_password/" class="lost-link">{% trans "J'ai oublier mon mot de pass" %}</a>
                             </div>
                             <button class="btn btn-dark btn-block btn-rounded" type="submit">{% trans 'Se connecter' %}</button>
                         </form>

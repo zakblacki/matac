@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block head_title %}Payement failed{% endblock %}
+{% block content %}
+
+<style>
+    
+    #call{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                
+            }
+
+    @media (max-width: 992px)  {
+        body{
+            padding: 33px !important;
+        }
+        #call{
+            margin-bottom:8vh !important
+        }
+        #msg{
+            margin-bottom:15vh !important
+        }
+    }
+</style>
+
+
+<h1>
+    paiement avec échec
+</h1>
+<br>
+<br>
+<br>
+<p>
+    {{respCode_desc}}
+</p>
+<br>
+<p style="margin-bottom:27vh;" id="msg">
+    votre paiement a échoué, veuillez supprimer votre commande puis réessayer
+</p>
+
+
+<p style="text-align: center;padding: 15px;margin-bottom:5vh; border-top: 1px solid;" id="call" >
+    En cas de problème de paiement, veuillez contacter le numéro vert de la SATIM 3020 <img src="{% static 'images/3020.png' %}" alt="">
+</p>
+
+
+{% endblock content %}

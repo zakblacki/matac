@@ -6,7 +6,20 @@
 {% block content %}
 {% load category_template_tags %}
 
-<div class="container" style="min-height: 130vh;
+<style>
+  @media (max-width:992) {
+    .page-content .container .row .col-lg-8.col-md-12.pr-lg-4,.pt-7,.toptopco{
+      
+      padding: 0px !important;
+    } 
+
+    .mt-7{
+      margin-top:0px !important;
+    }
+  }
+</style>
+
+<div class="container toptopco" style="min-height: 130vh;
 padding: 16px;">
   <div class="row">
     <!-- <div class="col-lg-12">
@@ -80,9 +93,9 @@ padding: 16px;">
       </table>
     </div> -->
     <div class="page-content pt-7 pb-10 {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
-      <div class="row">
+      <!-- <div class="row">
         
-      </div>
+      </div> -->
       <div class="step-by pr-4 pl-4">
           <a class="s-text16" href="#"> {% trans "1. Panier" %} <i class="fa fa-angle-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} m-l-8 m-r-9" aria-hidden="true"></i></a>
         
@@ -108,7 +121,7 @@ padding: 16px;">
                     <tr>
                       
                       <td class="product-thumbnail">
-                        <figure>
+                        <figure class="product-media22">
                           <a href="{{ order_item.item.image.url }}">
                             <img src="{{ order_item.item.image.url }}" alt="product" width="100" height="100">
                           </a>
@@ -116,7 +129,7 @@ padding: 16px;">
                       </td>
                       <td class="product-name {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
                         <div class="product-name-section">
-                          <a href="product/{{order_item.item.slug}}">
+                          <a href="/product/{{order_item.item.slug}}">
                             
                             {% if LANGUAGE_CODE == 'ar'  %}
 						{{ order_item.item.title_ar}}
@@ -132,7 +145,7 @@ padding: 16px;">
                         </div>
                       </td>
                       <td class="product-subtotal">
-                        <span class="amount">{{ order_item.price_per_item|floatformat:0}}{% trans 'DA' %} </span>		
+                        <span class="amount">{{ order_item.price_per_item|floatformat:0}} {% trans 'DA' %} </span>		
                       </td>
                       <td class="product-quantity ">
                          
@@ -151,9 +164,9 @@ padding: 16px;">
                       <td class="product-price">
                         <span class="amount">
                         {% if  order_item.item.price > order_item.item.discount_price    %}
-                          {{ order_item.get_total_discount_item_price|floatformat:0}}{% trans 'DA' %}
+                          {{ order_item.get_total_discount_item_price|floatformat:0}} {% trans 'DA' %}
                           {% if order_item.get_amount_saved !=  None  %}
-                          <span class="badge badge-primary">  Saving {{ order_item.get_amount_saved|floatformat:0 }}{% trans 'DA' %}</span>
+                          <span class="badge badge-primary">  Saving {{ order_item.get_amount_saved|floatformat:0 }} {% trans 'DA' %}</span>
                           {% endif %}
                       {% else %}
                           {{ order_item.get_total_item_price|floatformat:0}} DZD
@@ -176,7 +189,8 @@ padding: 16px;">
                  <div class="check-coupon-box d-flex">
 
                   <input type="text" name="code_coupon" class="input-text form-control text-grey ls-m mr-4" id="coupon_code" value="" placeholder="code coupon / carte cadeau">
-                  <button type="submit" class="btn btn-dark btn-rounded btn-outline"> {% trans "Appliquer" %}</button>
+                  <button style="background-color: #000 !important;color: #fff !important;
+                  border-color: #222 !important; " type="submit" class="btn btn-dark btn-rounded btn-outline"> {% trans "Appliquer" %}</button>
                 </div>
                  
               </form>
@@ -201,25 +215,54 @@ padding: 16px;">
                 <div class="col-xs-6">
                   <label> {% trans "adresse" %}</label>
                     {{form.address}}
+                    {{form.captcha}}
                      
                  </div>
                  {{form.wilayaship}}
                  {{form.communship}}
                  {{form.delivery_type}}
                  {{form.delivery_price}}
+                 {{form.orderidpai}}
+                
+                 
                 <h2 class="title title-simple text-uppercase text-left"> {% trans "information additionnel" %}</h2>
                 <textarea class="form-control pb-2 pt-2 mb-0" cols="30" rows="5" placeholder="{% trans 'Notes de commande  (Optionel)' %}"></textarea>
                 <br>
+                
                 {{form.recu_img}}
                 <!-- <input name="recu_img" hidden="true" type="file" class="form-control-file text-primary font-weight-bold" id="inputFile" accept="image/*" onchange="readUrl(this)" data-title="Drag and drop a file"> -->
                 <button type="button" class="btn btn-success btn-block recu-cap" 
                 onclick="document.getElementById('inputFile').click()">
                 <img src="{% static 'images/icon_image.png' %}" alt="">  {% trans "Captutré le reçu ccp" %}
               </button>
-              <button type="submit" class="d-none d d-lg-block btn btn-success btn-block btn-rounded btn-checkout mt-3"> {% trans "Valider ma commande" %}</button>
+              
+              
+                <!-- <a blank="true" href=" ">
+
+                  <button type="button" class="btn btn-success btn-block recu-cap" ><img src="{% static 'images/satim.png' %}" alt="">  {% trans "Paiement electronique" %}</button>
+                </a>
+                <script>
+                var link_reg="https://test.satim.dz/payment/rest/register.do?currency=012&amount={% if request.user.is_authenticated %}{% orders request.user as orders_cart %}{{orders_cart.total|floatformat:0}}{% endif %}&language=fr&orderNumber={{orderid}}&userName=SAT2310130762&password=satim120&returnUrl=https://matacor.com/order-summary//directpayment/step2/cib%3Flogin%3Dtest%26variable%3DtestPwd&failUrl=https://matacor.com/order-summary//directpayment/step2/cib/c&jsonParams={%22force_terminal_id%22:%22E010901004%22,%22udf1%22:%222024105301346%22,%22udf5%22:%22ggsf85s42524s5uhgsf%22}"
+                fetch(link_reg)
+                .then(function(data) {
+                  if(! data.errorMessage){
+                    document.getElementById("id_orderidpai").value=data.formUrl
+                 
+                  } 
+                  
+                    
+                })
+                .catch(function() {
+                  // handle the error
+                });
+                </script> -->
+                
+              
+              <button type="submit" class="d-none d d-lg-block btn btn-success btn-block btn-rounded btn-checkout mt-3 "> {% trans "Valider ma commande" %}</button>
   
               <p class="font-weight-bold"> 
                  {% trans "NB: votre commande sera validée une fois le reçu de paiement envoyé." %} 
+                 {% trans "si vous désirez utiliser le e-paiement, valider la commande d'abord sans ajouter un photo de ccp" %} 
               </p>
                 <p class="font-weight-bold"> 
                    {% trans "Numero du ccp:" %} {{contact.ccp}}
@@ -263,7 +306,7 @@ padding: 16px;">
                       <select id="id_delivery" class="form-control trigershipping" name="delivery">
                                                   <option value="DOM"> {% trans "LIVRAISON A DOMICILE" %}</option>
                                                   <option value="REL"> {% trans "LIVRAISON POINT DE RELAIS" %}</option>
-                                                  <option value="NON"> {% trans "SANS LIVRAISON" %}</option>
+                                                  
                       </select>
                     </td>
                   </tr>
@@ -287,15 +330,15 @@ padding: 16px;">
                 </div>
                 
                    <strong class="product-quantity"> {% trans "Livraison" %}</strong> 
-                  <span class="amount" id="deliveryCost"> 500 </span>   
+                  <span class="amount" id="deliveryCost"> 500 </span>
                 
                 <table class="total">
                   <tbody><tr class="summary-subtotal">
                     <td>
-                      <h4 class="summary-subtitle"> {% trans "Total" %} </h4>
+                      <h4 class="summary-subtitle"> {% trans "Total: " %} </h4>
                     </td>
                     <td>
-                      <p id="order_total" class="summary-total-price ls-s"  >
+                      <p id="order_total" class="summary-total-price ls-s" style="  font-size: 17px;" >
                         {% if request.user.is_authenticated %}
                         {% orders request.user as orders_cart %}
                         {{orders_cart.total|floatformat:0}}
@@ -309,7 +352,7 @@ padding: 16px;">
                     </td>												
                   </tr>
                 </tbody></table>
-                <button  type="submit" class="btnwithoutform btn btn-success btn-block btn-rounded btn-checkout"> {% trans "Valider ma commande" %}</button>
+                <button  type="submit" class="btnwithoutform btn btn-success btn-block btn-rounded btn-checkout" style="display: block !important;;"> {% trans "Valider ma commande" %}</button>
                 <script>
                   $(".btnwithoutform").on("click",function(){
                     $("#order_form").submit()
@@ -346,13 +389,14 @@ document.getElementById("id_delivery").addEventListener("change",function(){
           
             var wilaya_id = document.getElementById("wilayaId").value
             var typedel = document.getElementById("id_delivery").value
+             
             document.querySelector("input[name=delivery_price]").value = jsonData[wilaya_id-1][typedel]
             document.getElementById("deliveryCost").innerHTML  =  jsonData[wilaya_id-1][typedel]
             // Do something with the JSON data here
          
         
       })
-      .catch(error => console.error("Error fetching JSON data.", error));
+      .catch(error => console.error(""));
   })
 
 document.getElementById("wilayaId").addEventListener("change",function(){
@@ -416,6 +460,16 @@ document.getElementById("Commune").addEventListener("change",function(){
       el.parentElement.href=el.parentElement.href.slice(0, lastSlashIndex) + '?search='+sizetarget_
       window.location =   el.parentElement.href
     })
+  })
+</script>
+
+<script>
+  document.querySelectorAll(".product-media22").forEach(ele=>{
+    ele.children[0].children[0].onerror = function() {
+      ele.children[0].children[0].src="/static/images/ProductDet.png";  
+      // ele.style.height=344 + "px"
+    };
+     
   })
 </script>
 {% endblock content %}

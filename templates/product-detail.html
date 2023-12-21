@@ -15,18 +15,33 @@
 						{% endif %}
 {% endblock %}
 {% block content %}
+<style>
+	.btn-back-to-top{bottom:105px !important}
+	@media (max-width: 992px) {
 
+	.suggproduct{
+		padding-right: 0px !important;
+	}
+
+}
+</style>
 	<!-- breadcrumb -->
-	<div class=" {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} bread-crumb bgwhite flex-w p-l-52 p-r-15 p-t-30 p-l-15-sm">
-		<a href="/">
-			<i class="d-icon-home chemin"></i>
-			<i class="fa fa-angle-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} m-l-8 m-r-9" aria-hidden="true"></i>
-		</a>
+	<div class=" {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} bread-crumb bgwhite flex-w p-l-52 p-r-15 p-t-70 p-l-15-sm">
+		<!-- <a href="/" style="font-size: small;">
+			  <i class="d-icon-home chemin"></i> 
+			  <i style="color: #555;" class="fa fa-angle-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} m-l-8 m-r-9" aria-hidden="true"></i>  
+		</a> -->
 		<a href="/" class="s-text16">
 			{% trans 'Home' %}
-			<i class="fa fa-angle-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} m-l-8 m-r-9" aria-hidden="true"></i>
+			<i  style="color: #555;" class="fa fa-angle-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} m-l-8 m-r-9" aria-hidden="true"></i>
 		</a>
-
+		<a href="/" class="s-text16" style="text-transform: lowercase;"> 
+		 
+			 
+						{{object.get_gender_display    }}
+						<i style="color: #555;" class="fa fa-angle-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} m-l-8 m-r-9" aria-hidden="true"></i> 
+		 
+	</a>
 		<a href="{% url 'core:category' object.category.slug %}" class="s-text16">
 			
 			{% if LANGUAGE_CODE == 'ar'  %}
@@ -36,22 +51,14 @@
 						{% else %}
 						{{ object.category }}
 						{% endif %}
-			<i class="fa fa-angle-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} m-l-8 m-r-9" aria-hidden="true"></i>
+			
 		</a>
 
-		<span class="s-text17">
-			{% if LANGUAGE_CODE == 'ar'  %}
-						{{object.title_ar}}
-						{% elif  LANGUAGE_CODE == 'en' %}
-						{{object.title_en}} 
-						{% else %}
-						{{object.title}} 
-						{% endif %}
-		</span>
+		
 	</div>
 
 	<!-- Product Detail -->
-	<div class="container bgwhite p-t-35 p-b-80">
+	<div class="container bgwhite p-t-10 p-b-80">
 		<div class="flex-w flex-sb">
 			<div class="w-size13 p-t-30 respon5">
 				<div class="wrap-slick3 flex-sb flex-w">
@@ -126,24 +133,28 @@
 						
 					</div>
 
-					<div class="slick3">
+					<div class="slick3" style="position: relative;">
+						
 						<div class="item-slick3" data-thumb="{{ object.image.url }}">
 							<div id="img-container" class="wrap-pic-w">
 								<div id="lens"></div>	
-								<a data-lightbox="photo" href="{{ object.image.url }}">
-
+								<div onclick="document.getElementById('lghtbx').click()" class="overlay
+						" style="width: 100%;height: 88%; position: absolute;z-index: 167;background: transparent;"></div>
+								<a id="lghtbx" data-lightbox="photo" href="{{ object.image.url }}">
+									
 									<img id="featured" src="{{ object.image.url }}" alt="{{ object.title }}">
-									<!-- <script>
+									<script>
 										document.getElementById('featured').onerror = function() {
-											document.getElementById('featured').src="/static/images/product-def.png";  
-											// ele.style.height=348 + "px"
+											document.getElementById('featured').src="/static/images/ProductDet.png";  
+											// ele.style.height=258 + "px"
 										};
-									</script> -->
+									</script>
 								</a>
  								
 									 							 
 							</div>
 						</div>
+						
 					{% for image in images %}
 						
 					<div class="item-slick3" data-thumb="{{image.image.url}}">
@@ -153,48 +164,26 @@
 					</div>
 
 					{% endfor %}
-<script>
-	document.querySelectorAll(".product-thumb ").forEach(ele=>{
-		ele.children[0].onerror = function() {
-            ele.remove(); // Hide the image if it doesn't exist
-			
-        };
-		if(ele.nextElementSibling.children[0].src == ele.children[0].src){
-			ele.remove();
-		}
-	})
-</script>
-						 
+
+					 
 					</div>
+					<div class="wrap-slick3-dots"></div>
+					
 				</div>
 			</div>
 
-			<!-- <div class="w-size14 p-t-30 respon5">
-				<h4 class="product-detail-name m-text16 p-b-13">
-					{{object.title}}
-				</h4>
-
-				
-				{% if object.discount_price %}
-								<span class="block2-oldprice m-text7 p-r-5" style="font-size: 1.5rem;">
-									${{ object.price }}
-								</span>
-
-								<span class="block2-newprice m-text8 p-r-5" style="font-size: 1.5rem;">
-									${{ object.discount_price }}
-								</span>
-								{% else %}
-								<span class="m-text17">
-									${{object.price}}
-								</span>
-								{% endif %}
-
-				<p class="s-text8 p-t-10">
-					{{ object.description_short }}
-				</p>
-
-				<!--  -->
-				<div class="product-details" style="width: 50%;">
+			<script>
+				document.querySelectorAll(".product-thumb").forEach(ele=>{
+					ele.children[0].onerror = function() {
+						ele.remove();  
+						
+					};
+					if(ele.nextElementSibling.children[0].src == ele.children[0].src){
+						ele.remove();
+					}
+				})
+			</script>
+				<div class="product-details prod-det-ec" style="width: 50%;">
 					<div id="img_lens_zoom" class="img_lens_zoom" >
 		
 					</div>
@@ -212,20 +201,22 @@
 						{{object.title}} 
 						{% endif %}
 					</h1>
+					
 
 					
 					<div class="product-price price-detail d-none d-lg-block d-xl-none {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
-						{% if object.price > object.discount_price %}
-										<del class="old-price old-price-block">&nbsp;{{object.price|floatformat:0}} {% trans 'DA' %}</del>
-										 &nbsp; 
-										<ins class="new-price price-block">{{object.discount_price|floatformat:0}}{% trans 'DA' %}</ins>
-										{% else %}
+						{% if object.discount_price > object.price   %}
+						<del class="old-price old-price-block">&nbsp;{{object.price|floatformat:0}} {% trans 'DA' %}</del>
+						&nbsp; 
+					   <ins class="new-price price-block">{{object.discount_price|floatformat:0}} {% trans 'DA' %}</ins>
+					   {% else %}
+						 
 
-										<ins class="new-price price-block">{{object.price|floatformat:0}}{% trans 'DA' %}</ins>
+										<ins class="new-price price-block" style="color: #222 !important;">{{object.price|floatformat:0}} {% trans 'DA' %}</ins>
 						{% endif %}
 					</div> 
 
-					<div class="ratings-container price-detai {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
+					<div style="display: flex;justify-content: space-between;" class="ratings-container price-detai {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
 						 
 						<div class="ratings-full">
 							<style>
@@ -235,30 +226,65 @@
 							</style>
 							<span class="ratings " ></span>
 							<span class="tooltiptext tooltip-top">{{object.rating}}</span>
-						</div>
-						<a href="#product-tab-reviews" class="link-to-tab rating-reviews">( {{comments|length}} {% trans 'Avis' %} )</a>
+							<a href="#product-tab-reviews" class="link-to-tab rating-reviews" style="font-size: 16px;
+							color: #555;">({{comments|length}}) {% trans 'Avis' %}</a>
 						
-						<img src="/static/images/VSC.svg" class="head-heart" style="width:30px; height:30px;">
-						<a href="#product-tab-reviews" class="link-to-tab rating-reviews">{{object.wishlist_num|floatformat:0}}</a>
+						</div>
+						
+						<div style="display: flex;
+						justify-content: center;align-items: center;">
+							<img src="/static/images/VSC.svg" class="head-heart" style="width:30px; height:30px;">
+							<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart"></i> -->
+						<a style="margin-top: 5px;font-size: 16px;
+						color: #555;" href="#product-tab-reviews" class="link-to-tab rating-reviews">{{object.wishlist_num|floatformat:0}}</a>
+						<i id="shareButton" style="font-size: 24px;
+						color: #222;
+						margin-left: 7px;margin-top: 4px" class="fa-solid fa-share-nodes"></i>
+						</div>
+
+						<script>
+							// Add this to your JavaScript file or script block
+document.getElementById('shareButton').addEventListener('click', () => {
+    // Replace 'your_product_url' with the actual URL you want to share
+    const productUrl = 'https://matacor.com/fr/product/{{object.slug}}/';
+    
+    // Open the share dialog
+    if (navigator.share) {
+        navigator.share({
+            title: '{{object.title}}',
+            text:   '{{object.title}}',
+            url: productUrl,
+        })
+        .then(() => console.log(''))
+        .catch((error) => console.error('Error sharing:', error));
+    } else {
+        // Fallback if the share API is not supported
+        alert('Sharing is not supported in your browser.');
+    }
+});
+						</script>
 					</div>
 					
 					
 					
 					{% if object.has_coupon and object.show_coupon %}
 						<div class="owl-stage-outer {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
-							<div class="owl-item active" style="width: 280px; margin-right: 20px;">
-								<div class="icon-box  icon-box-side flex-column coupon-box">
+							<div class="owl-item active" style="width: 100%; margin-right: 20px;">
+								<div class="icon-box  icon-box-side flex-column coupon-box" style="background-color: transparent!important;border: 1px solid #222;">
 										<div class="icon-box-content mb-1 text-center">
 											<div class="row">
 												<div class="col-3">
-													<i class="icon-box-icon  d-icon-card"></i> 
+													<i class="icon-box-icon  d-icon-card" style="color: #222 !important;"></i> 
 												</div>
 												<div class="col-8">
 													<h4 class="icon-box-title text-uppercase">{% if not LANGUAGE_CODE == 'ar' %}{{object.price_after_coupon|mul:100|div:object.price|sub:100|floatformat:0}}% {%endif %} {% trans "Tu viens d'arriver ? Profite de" %}
 														{{object.price_after_coupon|mul:100|div:object.price|sub:100|mul:-1|floatformat:0}}% {% trans 'de réduction' %}</h4>
 												</div>
 											</div>
-											<p style="color:#000;">{% trans 'avec le code :' %}   <span style="font-weight:600;"> {{object.coupon_code}} </span></p>
+											<p style="color:#000;">{% trans 'avec le code :' %}   <span style="font-weight: 600;
+												background: #222;
+												color: #fff;
+												padding: 4px;"> {{object.coupon_code}} </span></p>
 										</div>
 								</div>
 							</div> 
@@ -275,10 +301,11 @@
 
 									
 											
-								<div class="{% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} owl-carousel555 owl-theme owl-nav-inner mb-10 pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
+								<div class="{% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} owl-carousel555 owl-theme owl-nav-inner  pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
 									'nav': false,
 									'dots': false,
 									'margin': 0,
+									'loop':false,
 									'responsive': {
 										'0': {
 											'items': 5
@@ -311,15 +338,15 @@
 								</div> 
 								{% endfor %}
 								
-								<!-- <script>
+								<script>
 									document.querySelectorAll(".product-mediaitm").forEach(ele=>{
 										ele.children[0].children[0].onerror = function() {
-											ele.children[0].children[0].src="/static/images/product-def.png";  
-											// ele.style.height=348 + "px"
+											ele.children[0].children[0].src="/static/images/ProductDet.png";  
+											// ele.style.height=258 + "px"
 										};
 										 
 									})
-								</script> -->
+								</script>
 									</div>
 								</div>
 								
@@ -395,62 +422,200 @@ itemLinks.forEach(itemLink => {
 												
 											</div>	 
 											
+											 
+
 											
 												
 											
-											<script>
-												var mysize="{{object.size_exist}}"
-												var splitedsize= mysize.split(",")
-												var sizes_not = "{{object.size_not_exist}}"
-												var splitedsizenot= sizes_not.split(",")
-												var stickysizes=document.getElementById("sticky_sizes")
+											 
+									 
 
-												// Extract all labels with class "variant__button__label" into an array
-									const labels = splitedsize.concat(splitedsizenot)
-								 
-								// Extract the text content of each label and store it in a separate array
-								const labelTexts = labels.map(label => label);
-							
-								// Sort the text values (assuming they contain both numbers and strings)
-								labelTexts.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
-							
-								  
-												for(var append_size=0; append_size < labelTexts.length;append_size++){
-													if(! splitedsizenot.includes(labelTexts[append_size])){
+										<!-- <script>
+											 
+											const sizeCarousel = document.getElementById('sizeCarousel');
+											let isDragging = false;
+											let startPosition = 0;
+											let currentTranslate = 0;
+
+											sizeCarousel.addEventListener('touchstart', (event) => {
+											isDragging = true;
+											startPosition = event.touches[0].clientX;
+											});
+
+											sizeCarousel.addEventListener('touchmove', (event) => {
+											if (isDragging) {
+												const currentPosition = event.touches[0].clientX;
+												const translate = currentTranslate + currentPosition - startPosition;
+												sizeCarousel.style.transform = `translateX(${translate}px)`;
+											}
+											});
+
+											sizeCarousel.addEventListener('touchend', () => {
+											isDragging = false;
+											const currentPosition = event.changedTouches[0].clientX;
+											currentTranslate += currentPosition - startPosition;
+											});
+
+											window.addEventListener('resize', () => {
+											currentTranslate = 0;
+											sizeCarousel.style.transform = 'translateX(0)';
+											});
+
+											 
+											 
+										</script> -->
+										<div class="{% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} owl-carousel5552 owl-theme owl-nav-inner  pb-6 appear-animate owl-loaded owl-drag fadeIn appear-animation-visible" data-animation-options="{'name': 'fadeIn'}" data-owl-options="{
+											'nav': false,
+											'dots': false,
+											'margin': 0,
+											'items':10,
+											'loop':false,
+											'responsive': {
+												'0': {
+													'items': 6
+												},
+												'576': {
+													'items': 6
+												},
+												'768': {
+													'items': 6
+												},
+												
+												'992': {
+													'items': 10
+												}
+											}
+										}" style="animation-duration: 1.2s;">
+											
+										
+										<div class="owl-stage-outer" style="overflow: visible;">
+											<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); 
+											transition: all 3s ease 0s;  ">
+										 
+										 <script>
+											var mysize="{{object.size_exist}}"
+											var splitedsize= mysize.split(",")
+											var sizes_not = "{{object.size_not_exist}}"
+											var splitedsizenot= sizes_not.split(",")
+											var stickysizes=document.getElementById("sticky_sizes")
+
+											// Extract all labels with class "variant__button__label" into an array
+								const labels = splitedsize.concat(splitedsizenot)
+								function orderSizes(originalArray) {
+							const sizeOrder = {
+								"XXS": 0,
+								"2XS": 1,
+								"XS": 2,
+								"S": 3,
+								"M": 4,
+								"L": 5,
+								"XL": 6,
+								"2XL": 7,
+								"XXL": 8,
+								"3XL": 9,
+								"XXXL": 10,
+								"4XL": 11
+							};
+
+							// Extract the numeric part of the size
+							const extractNumericPart = (size) => {
+								const numericPart = size.match(/\d+/);
+								return numericPart ? parseInt(numericPart[0]) : null;
+							};
+
+							// Sort the array based on the custom order
+							const sortedArray = originalArray.sort((a, b) => {
+								const orderA = sizeOrder[a] !== undefined ? sizeOrder[a] : extractNumericPart(a);
+								const orderB = sizeOrder[b] !== undefined ? sizeOrder[b] : extractNumericPart(b);
+
+								if (orderA === null) return 1; // Handle non-standard sizes by placing them at the end
+								if (orderB === null) return -1;
+
+								return orderA - orderB;
+							});
+
+							return sortedArray;
+							}
+							const originalSizesc = labels;
+							 
+							const sortedSizesc = orderSizes(originalSizesc);
+
+							 
+							// Extract the text content of each label and store it in a separate array
+							// const labelTexts = labels.map(label => label);
+						
+							// // Sort the text values (assuming they contain both numbers and strings)
+							// labelTexts.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+						
+							  
+											for(var append_size=0; append_size < sortedSizesc.length;append_size++){
+												if(! splitedsizenot.includes(sortedSizesc[append_size])){
+													document.write(
+													`<div style='width:70px!important' class="product-mediaitm owl-item new_item owl-item1 notitem1 {% if forloop.counter == 1 %} margin-right-2 {% endif %}   active " style="width: 247px !important; margin-right: 20px;"><div class="d-inline-block text-center dot-wrapper taille__wrapper mr-2 mr-lg-0">
+													<input id="stock-${append_size+1}" class="variant-input visually-hidden" type="radio" name="atribute" required="" value="${append_size+1}">
+													<label style="line-height: 2.7rem;" class="variant__button__label" for="stock-${append_size+1}">
+														${sortedSizesc[append_size]} 
+													</label> 
+												</div>
+													</div>`
+												)
+												}else{
+
+													if( sortedSizesc[append_size] != "nan"){
 														document.write(
-														`<div class="d-inline-block text-center dot-wrapper taille__wrapper mr-2 mr-lg-0">
-														<input id="stock-${append_size+1}" class="variant-input visually-hidden" type="radio" name="atribute" required="" value="${append_size+1}">
-														<label style="line-height: 2.7rem;" class="variant__button__label" for="stock-${append_size+1}">
-															${labelTexts[append_size]} 
-														</label> 
-														 
-														</div>`
-													)
-													}else{
-
-														if( labelTexts[append_size] != "nan"){
-															document.write(
-														`<div class="d-inline-block text-center dot-wrapper taille__wrapper mr-2 mr-lg-0 barred">
-														<input id="stock-${append_size+1}"  class="variant-input visually-hidden" type="radio" name="atribute" disabled="true" >
-														<label  style="line-height: 2.7rem;" class="variant__button__label" for="stock-${append_size+1}"  style="color:#d5b2b2a8  !important">
-															${labelTexts[append_size]} 
-														</label> 
-														<div class="notice-alarm"><div class="i-notice-alarm"></div></div>
-														
-														</div>`
-													)
-														}
-
-														
+													`<div style='width:70px!important' class="product-mediaitm owl-item new_item owl-item1  notitem1{% if forloop.counter == 1 %} margin-right-2 {% endif %}   active " style="width: 247px !important; margin-right: 20px;">
+											<div class="d-inline-block text-center dot-wrapper taille__wrapper mr-2 mr-lg-0 barred">
+													<input id="stock-${append_size+1}"  class="variant-input visually-hidden" type="radio" name="atribute" disabled="true" >
+													<label  style="line-height: 2.7rem;" class="variant__button__label" for="stock-${append_size+1}"  style="color:#d5b2b2a8  !important">
+														${sortedSizesc[append_size]} 
+													</label> 
+													<div class="notice-alarm"><div class="i-notice-alarm"></div></div>
+													
+													</div></div>`
+												)
 													}
- 												}
 
+													
+												}
+											 }
+
+										
 											
-												
-												
-											</script>  
+											
+										</script> 
 										
+										 
+										 
 										
+										 
+											</div>
+										</div>
+										
+										 
+							
+									</div>
+									<script>
+										$(document).ready(function(){
+										  $(".owl-carousel5552").owlCarousel({
+											items: 10, // Display 4 items in a line
+											loop: false,
+											margin: 0,
+											nav: false,
+											dots: false,
+											responsive: {
+											  0: {
+												items: 6 // Display 1 item on smaller screens
+											  },
+											  600: {
+												items: 6 // Display 2 items on screens wider than 600px
+											  },
+											  992: {
+												items: 10 // Display 4 items on screens wider than 1000px
+											  }
+											}
+										  });
+										});
+									  </script>		
 												
 											
 										</div>
@@ -470,8 +635,8 @@ itemLinks.forEach(itemLink => {
 											<input type="number" name="quantity" class="quantity form-control" value="1" required="">
 										<button class="btn-num-update-product-up d-icon-plus"></button>
 									</div>
-									<a id="submit_to" style="width: 76%;" href="/add-to-cart/{{object.slug}}?name=dd">
-										<button  style="width: 100%;" type="submit" class="btn-product btn-cart"><i class="d-icon-bag" style="color:#fff;"></i>
+									<a id="submit_to" style="width: 68%;" href="/add-to-cart/{{object.slug}}?name=dd">
+										<button  style="width: 100%;" type="submit" class="btn-product btn-cart"><i class="d-icon-bag" style="color:#fff;margin-right: 10px;"></i>
 											
 											{% trans 'Ajouter Au Panier' %}
 										</button> 
@@ -483,8 +648,10 @@ itemLinks.forEach(itemLink => {
 									 
 									{% if whished %}
 									<img src="/static/images/PSC.svg">
+									<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart-full"></i> -->
 									{% else %}
 									<img src="/static/images/VSC.svg">
+									<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart"></i> -->
 
 									{% endif %}
 								</a>
@@ -495,18 +662,20 @@ itemLinks.forEach(itemLink => {
 					</form>
 					<div class="mobile_cart"  >
 						<a id="submit_to" style="width: 76%;" href="/add-to-cart/{{object.slug}}?name=dd">
-																<button style="width: 100%;" type="submit" class="btn-product btn-cart"><i class="d-icon-bag" style="color:#fff;"></i>
+																<button style="width: 100%;border: none;" type="submit" class="btn-product btn-cart"><i class="d-icon-bag" style="color:#fff;margin-right: 10px;"></i>
 																	{% trans 'Ajouter Au Panier' %}
 																</button> 
 															</a>
 						
 						<a  class="{% if LANGUAGE_CODE == 'ar' %}margin-right-30{% endif %} sticky-wishlist-th d-md-none d-lg-block d-xl-block  d-xs-none" id="wishHeart" 
 						href="/wishlist-add/{{object.slug}}" 
-						style="display: block !important;height: 100%;height: 40px;">
+						style="display: none !important;height: 100%;height: 40px;">
 						{% if whished %}
 						<img src="/static/images/PSC.svg" style="height: 100%"  >
+						<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart-full"></i> -->
 						{% else %}
 						<img src="/static/images/VSC.svg" style="height: 100%;">
+						<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart"></i> -->
 
 						{% endif %}
 					
@@ -532,7 +701,7 @@ itemLinks.forEach(itemLink => {
 								
 								
 							</div> 
-							
+							<hr class="product-divider  mb-3 hr-product">
 							
 							
 							
@@ -549,7 +718,7 @@ itemLinks.forEach(itemLink => {
 							style="padding-top: 0px;opacity: 0;  height: 67px;top: -67px; margin-top: 0px; z-index: 1060;">
 							 
 							<input type="hidden" name="csrfmiddlewaretoken" value="AVg2LaTGIt7mBFL7aXM68glmYxpnptul1hepXqZ0c8RwmGFt8WR0enfQubiNYq9O">
-							<div class="container">  
+							<div class="container webcontt">  
 								<div class="sticky-product-details d-sm-block">
 										<figure class="product-image">
 											<img src="{{ object.image.url }}" alt="{{object.title}}" class="sticky-image mr-3" loading="lazy">
@@ -566,13 +735,14 @@ itemLinks.forEach(itemLink => {
 										</a></h4>
 										<div class="product-info sticky-p-info">
 											<div class="product-price ">
-												{% if object.discount_price > object.price%}
+												
+												{% if object.discount_price > object.price   %}
 												<ins class="new-price new-price-sticky">{{object.price|floatformat:0}} {% trans 'DA' %}</ins>
 												
-												<del class="old-price-sticky"> &nbsp; {{object.discount_price|floatformat:0}} {% trans 'DA' %}</del>
+												<del class="old-price-sticky">{{object.discount_price|floatformat:0}} {% trans 'DA' %}</del>
 											
 												{% else %}
-												<ins class="new-price new-price-sticky">{{object.price|floatformat:0}} {% trans 'DA' %}</ins>
+												<ins style="color: #222 !important;" class="new-price new-price-sticky">{{object.price|floatformat:0}} {% trans 'DA' %}</ins>
 												
 
 												{% endif %}
@@ -593,14 +763,56 @@ itemLinks.forEach(itemLink => {
 															var mysize="{{object.size_exist}}"
 															var splitedsize= mysize.split(",")
 															var stickysizes=document.getElementById("sticky_sizes")
-															splitedsize = splitedsize.map(label => label);
+															// splitedsize = splitedsize.map(label => label);
+															
 							
-															// Sort the text values (assuming they contain both numbers and strings)
-															splitedsize.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+															// // Sort the text values (assuming they contain both numbers and strings)
+															// splitedsize.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 														
-															for(var append_size=0; append_size < splitedsize.length;append_size++){
+															
+															function orderSizes(originalArray) {
+								const sizeOrder = {
+									"XXS": 0,
+									"2XS": 1,
+									"XS": 2,
+									"S": 3,
+									"M": 4,
+									"L": 5,
+									"XL": 6,
+									"2XL": 7,
+									"XXL": 8,
+									"3XL": 9,
+									"XXXL": 10,
+									"4XL": 11
+								};
+
+								// Extract the numeric part of the size
+								const extractNumericPart = (size) => {
+									const numericPart = size.match(/\d+/);
+									return numericPart ? parseInt(numericPart[0]) : null;
+								};
+
+								// Sort the array based on the custom order
+								const sortedArray = originalArray.sort((a, b) => {
+									const orderA = sizeOrder[a] !== undefined ? sizeOrder[a] : extractNumericPart(a);
+									const orderB = sizeOrder[b] !== undefined ? sizeOrder[b] : extractNumericPart(b);
+
+									if (orderA === null) return 1; // Handle non-standard sizes by placing them at the end
+									if (orderB === null) return -1;
+
+									return orderA - orderB;
+								});
+
+								return sortedArray;
+								}
+								const originalSizes = splitedsize;
+								 
+								const sortedSizes = orderSizes(originalSizes);
+
+								 
+								for(var append_size=0; append_size < sortedSizes.length;append_size++){
 																document.write(
-																	`<option id="stock-${append_size+1}" name="atribute" value="${splitedsize[append_size]}">${splitedsize[append_size]}</option>`
+																	`<option id="stock-${append_size+1}" name="atribute" value="${sortedSizes[append_size]}">${sortedSizes[append_size]}</option>`
 																)
 																 
 															}
@@ -610,16 +822,15 @@ itemLinks.forEach(itemLink => {
 																	document.getElementById(targetid_op).checked=true
 															})
 														</script>
-															
-															 
+												 
 															
 														</select>
 													</div>
 												</div> 
 												
-											<input type="number" style="display: none;" name="quantity" class="quantity form-control display-none" value="1" required="">
-												<a id="submit_to" href="/add-to-cart/{{object.slug}}?name=dd">
-													<button type="submit" class="btn-product btn-cart sticky-bag"><i class="d-icon-bag" style="color:#fff;"></i>
+											<input type="number" style="display: none !important;" name="quantity" class="quantity form-control display-none" value="1" required="">
+												<a id="submit_to sticky-sub" href="/add-to-cart/{{object.slug}}?name=dd">
+													<button type="submit" class="btn-product btn-cart sticky-bag"><i class="d-icon-bag" style="color:#fff;margin-right: 10px;"></i>
 														{% trans 'Ajouter Au Panier' %}
 													</button>
 												</a>
@@ -628,15 +839,59 @@ itemLinks.forEach(itemLink => {
 											 >
 											 {% if whished %}
 											 <img src="/static/images/PSC.svg">
+											 <!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart-full"></i> -->
 											 {% else %}
 											 <img src="/static/images/VSC.svg">
-		 
+											 <!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart"></i> -->
 											 {% endif %}
 											
 											</a>
 										</div>
 									</div>
 								</div>
+							</div>
+							<div class="container mobcontt" style="display: flex;align-items: center;justify-content: space-between;flex-direction: row;">  
+								 
+										<figure class="product-image" style="margin-left: 15px;">
+											<img src="{{ object.image.url }}" alt="{{object.title}}" class="sticky-image mr-3" loading="lazy">
+										</figure>
+									 
+											<div style="text-decoration: none;width: 143px;" >
+												
+												{% if object.discount_price > object.price   %}
+												<ins class="new-price new-price-sticky" style="color: #fc0d1b;
+												font-size: 17px;
+												text-decoration: none;
+												font-family: Roboto-Bold">{{object.price|floatformat:0}} {% trans 'DA' %}</ins>
+												
+												<del class="old-price-sticky" style="font-family: Roboto-Bold ">{{object.discount_price|floatformat:0}} {% trans 'DA' %}</del>
+											
+												{% else %}
+												<ins style="color: #222 !important;text-decoration: none;
+												font-size: 17px !important;
+												font-family: Roboto-Bold;" class="new-price new-price-sticky">{{object.price|floatformat:0}} {% trans 'DA' %}</ins>
+												
+
+												{% endif %}
+											</div>
+										 
+								
+								 
+										 
+											
+												 
+												
+											<input type="number" style="display: none !important;" name="quantity" class="quantity form-control display-none" value="1" required="">
+												<a style="width: 187px;" id="submit_to sticky-sub" href="/add-to-cart/{{object.slug}}?name=dd">
+													<button type="submit" class="btn-product btn-cart sticky-bag" style=" 
+													font-size: 11px;">
+														<i class="d-icon-bag" style="color:#fff;margin-right: 4px;"></i>
+														{% trans ' Ajouter Au Panier' %}
+													</button>
+												</a>
+											 
+										 
+									 
 							</div>
 						 
 						</div>
@@ -655,10 +910,10 @@ itemLinks.forEach(itemLink => {
 	<div class="tab tab-nav-simple product-tabs pt-4"  style="padding: 8px;min-height:50vh;width: 85.5%;margin: auto;">
 		<ul class="nav nav-tabs d-flex justify-content-center {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}" style="width:auto;" role="tablist">
 			<li class="nav-item mr-auto ml-auto">
-				<a class="nav-link navvlink active ls-normal1" style="text-decoration: none;background: none;" href="#product-tab-description">{% trans 'Déscription' %}</a>
+				<a class="nav-link navvlink active ls-normal1" style="text-decoration: none;background: none;padding: 20px;" href="#product-tab-description">{% trans 'Déscription' %}</a>
 			</li>
 			<li class="nav-item mr-auto ml-auto">
-				<a class="nav-link navvlink ls-normal1" style="text-decoration: none;background: none;" href="#product-tab-additional">{% trans 'Caractéristiques' %}</a>
+				<a class="nav-link navvlink ls-normal1" style="text-decoration: none;background: none;padding: 20px;" href="#product-tab-additional">{% trans 'Caractéristiques' %}</a>
 			</li>					
 		</ul>
 		<div class="tab-content">
@@ -764,8 +1019,9 @@ itemLinks.forEach(itemLink => {
 				{% if LANGUAGE_CODE ==  'ar'  %}
 			<div class="product-action-vertical" style="right: 78% !important;">
 	 
-			<a id="wishHeart" hx-get="/fr/wishlistadd/873" hx-target="this" hx-swap="outerHTML" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+			<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}"   class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
 				<img src="/static/images/VSC.svg">
+				<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart"></i> -->
 			</a>		
 			</div>
 			<div class="product-label-group" style="width: 48px;position: absolute !important;
@@ -773,21 +1029,22 @@ itemLinks.forEach(itemLink => {
 			top: 30px  ;left: auto !important;">
 				
 					
-					<label style="width: 100%;" class="product-label label-top">{% trans new_item.get_label_display %}</label>
+					<label style="width: 100%;" class="product-label label-top {% if new_item.label == 'P' %} promo_label{% endif %}">{% trans new_item.get_label_display %}</label>
 
 			</div>  
 
 			{% else %}
 			<div class="product-action-vertical">
 	 
-				<a id="wishHeart" hx-get="/fr/wishlistadd/873" hx-target="this" hx-swap="outerHTML" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
+				<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}"  class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
 					<img src="/static/images/VSC.svg">
+					<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart"></i> -->
 				</a>		
 				</div>
 				<div class="product-label-group">
 					
 						
-						<label class="product-label label-top">{% trans new_item.get_label_display %}</label>
+						<label class="product-label label-top {% if new_item.label == 'P' %} promo_label{% endif %}">{% trans new_item.get_label_display %}</label>
 	
 				</div>  
 
@@ -795,7 +1052,7 @@ itemLinks.forEach(itemLink => {
 </figure>
 <div class="product-details">
 	
-<h3 class="product-name {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
+<h3 class="product-name suggproduct {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
 	<a href="/product/{{new_item.slug}}">
 		
 						{% if LANGUAGE_CODE == 'ar'  %}
@@ -810,13 +1067,14 @@ itemLinks.forEach(itemLink => {
 <div class="product-price d-flex justify-content-between {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
 	<div>
 		
-		{% if new_item.price > new_item.discount_price %}
-		<del class="old-price old-price-block">&nbsp;{{new_item.price|floatformat:0}} {% trans 'DA' %}</del>
+		{% if new_item.discount_price > new_item.price   %}
+		 
+		<del class="old-price old-price-block">&nbsp;{{new_item.discount_price|floatformat:0}} {% trans 'DA' %}</del>
 		 &nbsp; 
-		<ins class="new-price price-block">{{new_item.discount_price|floatformat:0}}{% trans 'DA' %}</ins>
+		<ins class="new-price price-block">{{new_item.price|floatformat:0}} {% trans 'DA' %}</ins>
 		{% else %}
 
-		<ins class="new-price price-block">{{new_item.price|floatformat:0}}{% trans 'DA' %}</ins>
+		<ins  style="color: #222 !important;" class="new-price price-block">{{new_item.price|floatformat:0}} {% trans 'DA' %}</ins>
 {% endif %}
 	</div>
 	
@@ -902,19 +1160,24 @@ itemLinks.forEach(itemLink => {
 			  });
 			});
 		  </script>
-		  <!-- <script>
+		  <script>
 			document.querySelector('.sticky-image').onerror = function() {
-				document.querySelector('.sticky-image').src="/static/images/product-def.png";  
+				document.querySelector('.sticky-image').src="/static/images/ProductDet.png";  
 					 
 				};
 			document.querySelectorAll(".product-media").forEach(ele=>{
 				ele.children[0].children[0].onerror = function() {
-					ele.children[0].children[0].src="/static/images/product-def.png";  
-					ele.style.height=348 + "px"
+					ele.children[0].children[0].src="/static/images/ProductDet.png";  
+				// 	ele.style.height=342+ "px"
+				// if(window.outerWidth <= 992){
+				// 	ele.style.height=322 + "px"
+				// }
+					 
+					
 				};
 				 
 			})
-		</script> -->
+		</script>
 	</section>
 	{% endif %}
 	<div style="padding: 10px;" class="tab tab-nav-simple product-tabs pt-4">
@@ -924,7 +1187,7 @@ itemLinks.forEach(itemLink => {
 				border-bottom-color: transparent;
 			  border-bottom-color: transparent !important;
 			  background-color: transparent;
-			  border-bottom-color: #222 !important;" class="nav-link active avis" href="#product-tab-reviews">{% trans 'Avis' %} ({{comments|length}})</a> 
+			  border-bottom-color: #222 !important;padding: 20px;" class="nav-link active avis" href="#product-tab-reviews">{% trans 'Avis' %} ({{comments|length}})</a> 
 			</li>
 		</ul>     
 		<div class="tab-content">
@@ -989,7 +1252,8 @@ itemLinks.forEach(itemLink => {
 				</div>
 				
 					{% if request.user.is_authenticated %}
-
+					
+					{% if bought %}
 					<form method="POST" action="." enctype="multipart/form-data">
 						{% csrf_token %}
 					   <div class="reply ">
@@ -1049,14 +1313,16 @@ itemLinks.forEach(itemLink => {
 								   <input type="checkbox" class="custom-checkbox" id="signin-remember" name="signin-remember">
 							   </div>
 						   </div>
-						   <button type="button" id="btnuplo" style="background-color: forestgreen;border: none;outline: none;" type="submit" class="btn   btn-rounded">
+						   
+						   <button type="button" id="btnuplo" style=" border: none;outline: none;" type="submit" class="btn   btn-rounded">
 							
 							<img style="height: 21px;scale: 1.6;margin-right: 8px;
 							cursor: pointer;"  src="{% static 'images/upload_icon.png' %}" alt="">
 							   {% trans 'Upload image' %}
 						   </button>
+						    
 						   
-							   <button type="submit" class="btn btn-primary btn-rounded">{% trans 'Confirmer' %}</button>
+							   <button type="submit" class="btn btn-primary btn-rounded btnnearup">{% trans 'Confirmer' %}</button>
 							   <script>
 								       function readUrl(input) {
   if (input.files && input.files[0]) {
@@ -1077,7 +1343,7 @@ itemLinks.forEach(itemLink => {
 								var allcomimagesin_one= document.getElementById("allcomimagesin_one")
 								var imageInput = document.getElementById("comment_image")
 								var imageContainer = document.getElementById("comment_img_list")
-								console.log(imageContainer)
+								 
 								imageInput.addEventListener('change', function(event) {
 								const selectedFile = event.target.files[0]; // Get the selected file
 								if (selectedFile) {
@@ -1103,6 +1369,9 @@ itemLinks.forEach(itemLink => {
 								});
 							 </script>  
 					   </form>
+					   {% else %}
+					     <span style="font-weight:bold;">Achetez-vous ce produit</span> pour rédiger un commentaire. 
+					   {% endif %}
 					{% else %}
 					<a href="/login"> <span style="font-weight:bold;">Connectez-vous</span> pour rédiger un commentaire.</a>
 					{% endif %}
@@ -1175,7 +1444,7 @@ itemLinks.forEach(itemLink => {
 	parentContainer.addEventListener("mouseup", function() {
 		// Reset the starting position of the drag
 		startX = 0;
-		console.log(startX)
+		console.log(" ")
 	});
 
 
@@ -1187,6 +1456,27 @@ itemLinks.forEach(itemLink => {
 
 
 document.addEventListener("DOMContentLoaded", function() {
+	const aElement = document.createElement('a');
+		aElement.setAttribute('class', "wishmob {% if LANGUAGE_CODE == 'ar' %}margin-right-30{% endif %} sticky-wishlist-th d-md-none d-lg-block d-xl-block d-xs-none");
+		aElement.setAttribute('id', 'wishHeart');
+		aElement.setAttribute('href', "/wishlist-add/{{object.slug}}");
+		if(window.outerWidth >= 992){
+			aElement.setAttribute('style', 'display:none!important;width: 40px;height: 40px !important; z-index:9;top:10px;right:7px;position:absolute; height: 100%; height: 40px;border:none!important;border-radius:50%');
+		
+		}else{
+			aElement.setAttribute('style', 'width: 40px;height: 40px !important;display: block !important;z-index:9;top:10px;right:7px;position:absolute; height: 100%; height: 40px;border:none!important;border-radius:50%');
+		
+		}
+		
+		const imgElement = document.createElement('img');
+		imgElement.src='{% if whished %} /static/images/PSC.svg {% else %}/static/images/VSC.svg{% endif %}'
+		// imgElement.setAttribute('style','scale: 1.1;padding: 10px;')
+		aElement.appendChild(imgElement)
+		
+		// Append the <a> element to the slick-initialized div
+		const slickDiv = document.querySelector('.slick-initialized');
+		
+		slickDiv.appendChild(aElement);
     // Get the navbar element
     var navbar = document.querySelector(".sticky-content");
 
@@ -1222,12 +1512,12 @@ document.addEventListener("DOMContentLoaded", function() {
 								ele.addEventListener("click",function(){
 									
 									var slickcurrent = document.getElementsByClassName("slick-current slick-active")[0]
-									var main_img_src = slickcurrent.children[0].children[1].getAttribute("href")
+									var main_img_src = slickcurrent.children[0].children[2].getAttribute("href")
 									var src_target = this.children[0].getAttribute("src");
-									console.log(slickcurrent.children[0].children[1])
+									 
 									
-									slickcurrent.children[0].children[1].href =src_target;
-									slickcurrent.children[0].children[1].children[0].src =src_target;
+									slickcurrent.children[0].children[2].href =src_target;
+									slickcurrent.children[0].children[2].children[0].src =src_target;
 									 
 								})
 							}) 

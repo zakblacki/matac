@@ -27,35 +27,35 @@ def orders(user_ath):
     
 
 
-@register.simple_tag
-def genders():
+# @register.simple_tag
+# def genders():
     
     
-    unique_genders = set()
-    uniq_categ=[]
+#     unique_genders = set()
+#     uniq_categ=[]
     
-    obj ={}
-    items_li=""
-    # Iterate over available items and add their genders to the set
-    try:
-        available_items = Item.objects.filter(is_active=True)
-        for item in available_items:
-            uniq_categ=[]
-            unique_genders.add(item.get_gender_display())
-            category = Item.objects.filter(gender=item.gender)
-            for item in category:
-                keyy=item.get_gender_display()
-                uniq_categ.append(item.category.title)
-                obj[keyy]=set(uniq_categ)
+#     obj ={}
+#     items_li=""
+#     # Iterate over available items and add their genders to the set
+#     try:
+#         available_items = Item.objects.filter(is_active=True)
+#         for item in available_items:
+#             uniq_categ=[]
+#             unique_genders.add(item.get_gender_display())
+#             category = Item.objects.filter(gender=item.gender)
+#             for item in category:
+#                 keyy=item.get_gender_display()
+#                 uniq_categ.append(item.category.title)
+#                 obj[keyy]=set(uniq_categ)
         
-        items_li=""
-        if unique_genders:
-            for gender  in unique_genders :
+#         items_li=""
+#         if unique_genders:
+#             for gender  in unique_genders :
                 
-                items_li += """<li><a href="">{}</a></li>""".format(gender)
-        return mark_safe(items_li)
-    except:
-        return items_li
+#                 items_li += """<li><a href="">{}</a></li>""".format(gender)
+#         return mark_safe(items_li)
+#     except:
+#         return items_li
     
      
     
@@ -77,12 +77,11 @@ def gendercat():
 @register.simple_tag
 def categories():
     
+
     context={} 
     items_li = ""
     items =GenderCategory.objects.all()
-    bannercat=Banner_category.objects.all()
-    
-        
+       
         
     for indx,i in enumerate(items):
         
@@ -130,7 +129,7 @@ def categories():
              
             print("test..")
 
-        translated_text = _("Rechercher par mot clés...")
+        translated_text = _("Rechercher")
         if translation.get_language() == 'ar':
             
             rtl="rtl"

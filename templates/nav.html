@@ -37,13 +37,13 @@
 							{% for catg in  catgg %}
 							{% if forloop.counter == 1 %}
 							
-							<li class="nav-item">
+							<li class="nav-item topnavnav">
 								<a data-id="#{{catg.title}}" class="nav-link active navat activenavit nav-link-top" href="{{catg.slug}} ">
 									{% trans catg.title %}
 								</a>
 							</li>
 							{% else %}
-							<li class="nav-item">
+							<li class="nav-item topnavnav">
 								<a data-id="#{{catg.title}}" class="nav-link nav-link-top" href=" {{catg.slug}}">{% trans catg.title %}</a>
 							</li>
 							{% endif %}
@@ -198,7 +198,9 @@
 				<div class="header-icons" style="width: 19%;">
 
 					<a href="/wishlist" class="header-wrapicon1 dis-block">
-						<img style="scale: 1.3;" src="{% static 'images/VSC.svg' %}" class="header-icon1" alt="ICON" loading="lazy">
+						 <img style="scale: 1.3;margin-top: -6px;" src="{% static 'images/VSC.svg' %}" class="header-icon1" alt="ICON" loading="lazy">  
+						<!-- <i style="scale: 1.1;" class="d-icon-heart"></i> -->
+						<!-- <i style="scale: 1.6;color: #222; padding-right: 4px" class="fa-regular fa-heart"></i> -->
 					</a>
 					<a   class="wishlist d-block">
                         <p class="account-text  d-none d-lg-block d-xl-none"
@@ -217,7 +219,9 @@
 					{% if user.is_authenticated %}
 					<a href="/profile" class="header-wrapicon1 dis-block">
 						
-						<i class="d-icon-user"></i>
+						<i class="d-icon-user" style="font-size: 23px;
+						color: #222;
+						margin: -3px;"></i>
 					</a>
 					<a href="/profile" class="wishlist d-block">
                         <p class="account-text  d-none d-lg-block d-xl-none"
@@ -233,10 +237,12 @@
 						>{% trans 'Compte' %}</p>
                     </a>
 					{% else %}
-					<a href="/login" class="header-wrapicon1 dis-block">
-						<i class="d-icon-user"></i>
+					<a href="/accounts/login" class="header-wrapicon1 dis-block">
+						<i class="d-icon-user" style="font-size: 23px;
+						color: #222;
+						margin: -3px;"></i>
 					</a>
-					<a href="/login" class="wishlist d-block">
+					<a href="/accounts/login" class="wishlist d-block">
                         <p class="account-text  d-none d-lg-block d-xl-none"
 						style="height: 100%;
 						margin-top: 0px;
@@ -309,9 +315,11 @@ position: fixed;">
 									{% endif %}
 												
 											</a>
-
 											<span class="header-cart-item-info">
-												{{order.quantity}} x {{order.price_per_item|floatformat:0}} {% trans 'DZD' %}
+												Taille: {{order.size}}
+											</span>
+											<span class="header-cart-item-info">
+												{{order.quantity}} x {{order.price_per_item|floatformat:0}} {% trans 'DA' %}
 											</span>
 										</div>
 									</li>
@@ -328,19 +336,35 @@ position: fixed;">
 									" class="mt-2">{% trans 'aucun Produit trouver' %}</p>
 									
 									<div class="cart-action">
-										<a style="width: 100%;" href="/shop" class="btn btn-dark"><span>{% trans 'Aller au Shopping' %}</span></a>
+										<a style="width: 100%;color: white !important;" href="/shop" class="btn btn-dark"><span>{% trans 'Aller au Shopping' %}</span></a>
 									</div>
 									{% endfor %}
 								 
 							</ul>
 							{% if orders_cart.total != 0 %}
 							<div class="header-cart-total">
-								{% trans 'Total' %}: {{orders_cart.total|floatformat:0}}{% trans 'DZD' %}
+								{% trans 'Total' %}: {{orders_cart.total|floatformat:0}} {% trans 'DA' %}
 							</div>
 							<div class="cart-action">
 								<a style="width: 100%;" href="{% url 'core:order-summary' %}" class="btn btn-dark"><span>{% trans 'Checkout' %}</span></a>
 							</div>
 							{% endif %}
+
+							{% else %}
+
+							<p style="font-size: 1.4rem;
+											font-weight: 700;
+											color: #222;
+											letter-spacing: -.0428em;
+											line-height: 1;
+											padding: 14px;
+											padding-left: 14px;
+											padding-left: 0;
+											" class="mt-2">Login and start Shopping</p>
+											
+											<div class="cart-action">
+												<a style="width: 100%;" href="/accounts/login" class="btn btn-dark"><span>Login</span></a>
+											</div>
 							 
 
 							{% endif %}	 
@@ -366,45 +390,7 @@ position: fixed;">
 			</div>
 
 			<div class="wrap_header" style="overflow: visible !important;width: 90%; margin: auto; ">
-				<!-- Logo -->
-				
-
-				<!-- Menu -->
-				<!-- <div class="wrap_menu">
-					<nav class="menu">
-						<ul class="main_menu">
-							<li>
-								<a href="/">Home</a>
-
-							</li>
-
-							<li>
-								<a href="/shop/">Shop</a>
-							</li>
-
-							 
-							{%  genders %}
-							{% if request.user.is_authenticated %}
-							<li>
-								<a href="{% url 'core:order-summary' %}">Cart<span class="badge badge-dark"></span></a>
-							</li>
-							<li>
-								<a href="{% url 'account_logout' %}">Logout</a>
-							</li>
-							{% else %}
-							<li>
-								<a href="/login">{% trans 'Login' %}</a>
-								<ul class="sub_menu">
-									<li><a href="/login">{% trans 'Login' %}</a></li>
-									<li><a href="/register ">SignUp</a></li>
-								</ul>
-							</li>
-							{% endif %}
-						</ul>
-					</nav>
-				</div> -->
-
-				<!-- Header Icon -->
+				 
 				<nav class="main-nav" style="width: 98%;padding-top: 15px;">
 					    
 						 
@@ -443,21 +429,29 @@ position: fixed;">
 						  submenus.forEach(ele=>{
 								ele.addEventListener("click",function(e){
 									document.querySelectorAll(".megamenu").forEach(kk=>{
-										kk.style.display="none"
+										kk.style.display="none";
+										document.querySelectorAll(".mega-sub-cat").forEach(kkl=>{
+										kkl.addEventListener("click",function(){
+											window.location.href = kkl.children[0].href 
+										})
+										
+									})
 									})
 									e.preventDefault();
 									ele.classList.toggle("showsubmenuitm")
 								
-								if(ele.classList.contains("showsubmenuitm")){
-									console.log("yes contains")
+								if(ele.classList.contains("showsubmenuitm") && ele.classList.contains("submenu")){
+									 
 									ele.children[1].style.display="block"
-									console.log(ele.children[1])
+									 
 								}else{
 									ele.children[1].style.display="none"
+									
 								}
 								
 							})
 							})
+
 						 </script>
 						
 
@@ -519,18 +513,24 @@ position: fixed;">
 								<!-- Header Icon mobile -->
 								<div class="header-icons-mobile">
 									<a href="/wishlist" class="header-wrapicon1 dis-block">
-										<img style="scale: 1.3;" src="{% static 'images/VSC.svg' %}" class="header-icon1" alt="ICON">
+										 <img style="scale: 1.3;margin-top: -6px;" src="{% static 'images/VSC.svg' %}" class="header-icon1" alt="ICON">  
+										<!-- <i style="scale: 1.1;" class="d-icon-heart"></i> -->
+										<!-- <i style="scale: 1.6;color: #222;padding-bottom: 8px;" class="fa-regular fa-heart"></i> -->
 									</a>
 				
 									 
 									<span class="linedivide2"></span>
 									{% if request.user.is_authenticated %}
 									<a href="/profile" class="header-wrapicon1 dis-block">
-										<i class="d-icon-user"></i>
+										<i class="d-icon-user" style="font-size: 23px;
+						color: #222;
+						margin: -3px;"></i>
 									</a>
 									{% else %}
-									<a href="/login" class="header-wrapicon1 dis-block">
-										<i class="d-icon-user"></i>
+									<a href="/accounts/login" class="header-wrapicon1 dis-block">
+										<i class="d-icon-user" style="font-size: 23px;
+						color: #222;
+						margin: -3px;"></i>
 									</a>
 									{% endif %}
 				
@@ -589,13 +589,18 @@ position: fixed;">
 									{{order.item.title}}
 									{% endif %}
 															</a>
+															<span class="header-cart-item-info">
+																Taille: {{order.size}}
+															</span>
 				
 															<span class="header-cart-item-info">
-																{{order.quantity}} x {{order.price_per_item|floatformat:0}} {% trans 'DZD' %}
+																{{order.quantity}} x {{order.price_per_item|floatformat:0}} {% trans 'DA' %}
 															</span>
 														</div>
 													</li>
 												{% empty %}
+
+												
 												<p style="font-size: 1.4rem;
 												font-weight: 700;
 												color: #222;
@@ -604,19 +609,20 @@ position: fixed;">
 												padding: 14px;
 												padding-left: 14px;
 												padding-left: 0;
-												" class="mt-2">{% trans 'you have to login first'  %}</p>
+												" class="mt-2">{% trans 'Panier vide'  %}</p>
 												
 												<div class="cart-action">
-													<a style="width: 100%;" href="/login" class="btn btn-dark"><span>{% trans 'Login & start shopping' %}</span></a>
+													<a style="width: 100%;" href="/shop" class="btn btn-dark"><span>{% trans 'start shopping' %}</span></a>
 												</div>
 												{% endfor %}
+												
 				
 												
 											</ul>
 				
 											{% if orders_cart.total != 0 %}
 											<div class="header-cart-total">
-												{% trans 'Total' %}: {{orders_cart.total}}{% trans 'DZD' %}
+												{% trans 'Total' %}: {{orders_cart.total}} {% trans 'DA' %}
 											</div>
 											<div class="cart-action">
 												<a style="width: 100%;" href="{% url 'core:order-summary' %}" class="btn btn-dark"><span>{% trans 'Checkout' %}</span></a>
@@ -651,7 +657,7 @@ position: fixed;">
 											" class="mt-2">Login and start Shopping</p>
 											
 											<div class="cart-action">
-												<a style="width: 100%;" href="/login" class="btn btn-dark"><span>Login</span></a>
+												<a style="width: 100%;" href="/accounts/login" class="btn btn-dark"><span>Login</span></a>
 											</div>
 				
 											{% endif %}
@@ -690,11 +696,11 @@ position: fixed;">
 		width: 55%;margin-left: 10.25%;">
                         
                         
-			<form action="/shop" class="input-wrapper {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}" style="border-bottom: 1px solid #222 !important;">
+			<form action="/shop" class="input-wrapper {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}" style="border-bottom: 1px solid #555 !important;">
  				<button class="btn btn-search-mobile {% if LANGUAGE_CODE == 'ar' %}mobrightlen{% endif %}" type="submit">
 					<i class="d-icon-search" style="scale: 0.9;"></i> 
 				</button>
-				<input placeholder="{% trans 'Rechercher par mot clés...' %}" type="text" class="search-input" name="search" autocomplete="off" required="" >
+				<input placeholder="{% trans 'Rechercher' %}" type="text" class="search-input" name="search" autocomplete="off" required="" >
 			</form>
 		</div>
 		<!-- Menu Mobile -->
@@ -703,10 +709,10 @@ position: fixed;">
 				<ul class="main-menu " style="padding-left: 10px !important;">
 					 
 
-					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8 mobile-menu-container"
-					style="transform: translate(0);">
+					<li  class="item-topbar-mobile p-l-20 p-t-8 p-b-8 mobile-menu-container"
+					style="transform: translate(0);border: none!important;">
 						<form action="/shop"   class="input-wrapper {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
- 								<input style="height: 100%;" type="text" class="form-control" name="search" autocomplete="off" placeholder="{% trans 'Rechercher par mot clés...' %}" required="">
+ 								<input style="height: 100%;" type="text" class="form-control" name="search" autocomplete="off" placeholder="{% trans 'Rechercher' %}" required="">
 								<button class="btn btn-search" type="submit">
 									<i class="d-icon-search"></i>
 								</button>
@@ -716,7 +722,7 @@ position: fixed;">
 					 
 					
  
-					<ul class="nav nav-tabs nav-fill  " role="tablist">
+					<ul style="border: none  !important;" class="nav nav-tabs nav-fill  " role="tablist">
                     
                         <!-- <li class="nav-item" style="width: 100px;">
                             <a class="nav-link active"  style="text-decoration: none;">FEMME</a>
@@ -779,7 +785,7 @@ position: fixed;">
 						</li>
 						{% else %}
 						<li class="item-menu-mobile">
-							<a href="/login">{% trans 'Login' %}</a>
+							<a href="/accounts/login">{% trans 'Login' %}</a>
 						</li>
 						<li class="item-menu-mobile">
 							<a href="/register">Register</a>
@@ -787,7 +793,7 @@ position: fixed;">
 						{% endif %}
 					{% else %}
 					<li class="item-menu-mobile">
-						<a href="/login">{% trans 'Login' %}</a>
+						<a href="/accounts/login">{% trans 'Login' %}</a>
 					</li>
 					<li>
 						<a href="/register">Register</a>
@@ -835,3 +841,12 @@ position: fixed;">
 		})
 		
 	 </script>
+	 <script>
+		document.querySelectorAll(".header-cart-item").forEach(ele=>{
+		  ele.children[0].children[0].onerror = function() {
+			ele.children[0].children[0].src="/static/images/ProductDet.png";  
+			// ele.style.height=344 + "px"
+		  };
+		   
+		})
+	  </script>

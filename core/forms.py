@@ -7,8 +7,8 @@ from .models import Images_upload,NewsLetterEmails , Comment_images
 
 
 PAYMENT_CHOICES = (
-    ('S', 'Stripe'),
-    ('P', 'PayPal')
+    ('E', 'E-paiement'),
+    ('C', 'CCP')
 )
 
 class LoginForm(forms.Form):
@@ -17,7 +17,7 @@ class LoginForm(forms.Form):
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Email', 'class': 'form-control'}))
-    username = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Full name', 'class': 'form-control'}))
+    username = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Username', 'class': 'form-control'}))
     phone_number = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'placeholder': 'phone number', 'class': 'form-control'}))
     address = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Address', 'class': 'form-control'}))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'}) )
@@ -97,6 +97,7 @@ class FormInput(forms.Form):
         'class': 'form-control',
         'style':"display:none !important"
     }))
+     
      
 
 class CheckoutForm(forms.Form):

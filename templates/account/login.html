@@ -1,3 +1,4 @@
+ 
 {% extends "account/base.html" %}
 
 {% load i18n %}
@@ -9,18 +10,37 @@
 {% block content %}
 
 <style type="text/css">
-  input {
+  .socialaccount_providers li{
+    order: 2;
+  }
+  /* input {
 
     border: 1px solid #ced4da !important;
 
+} */
+.offset-3{
+  margin: auto !important;
 }
+   #id_login,#id_password{
+    padding: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #0000001f !important;
+  border-radius: 2px;
+  font-size: 17px;
+  width: 100%;
+   }
+   #id_remember, label  {
+    display: none !important;
+   }
+   
 </style>
 
-
+<div class="page-content mt-6 pb-2 mb-10">
+ 
 <div class="container">
   <div class="row">
 
-    <div class="col-md-6 mt-5 offset-3">
+    <div class="col-md-6 mt-5 offset-3" style="text-align: center;">
       <h1>{% trans "Sign In" %}</h1>
 
 {% get_providers as socialaccount_providers %}
@@ -29,37 +49,117 @@
 <p>{% blocktrans with site.name as site_name %}Please sign in with one
 of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
 for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
-
 <div class="socialaccount_ballot">
 
-  <ul class="socialaccount_providers">
+  
+
+  
+
+
+
+  <div class="width100" style="width: 100%;">
+    <ul class="socialaccount_providers" style="display: flex;
+  justify-content: space-around;
+  width: 110px;margin: auto;
+  align-items: center;
+  padding: 0px !important;">
+  
+    
     {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+    <i class="fa-brands fa-google" style="font-size: 25px; order: 1;"></i>
   </ul>
-
-  <div class="login-or">{% trans 'or' %}</div>
-
+  </div>
+  <div class="login-or" style="font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 8px;">{% trans 'or' %}</div>
 </div>
 
 {% include "socialaccount/snippets/login_extra.html" %}
+
+
+
+<div class="login-popup mt-3" style="margin: auto;">
+  <div class="form-box">
+      <div class="tab tab-nav-simple tab-nav-boxed form-tab">
+          <ul class="nav nav-tabs nav-fill align-items-center border-no justify-content-center mb-5" role="tablist">
+              <li class="nav-item">
+                  <span class="nav-link active border-no lh-1 ls-normal">{% trans 'Se connecter' %}</span>
+              </li>
+              <li class="delimiter">{% trans 'OU' %}</li>
+              <li class="nav-item">
+                  <a class=" border-no lh-1 ls-normal" href="/accounts/signup">{% trans "S'inscrire" %}</a>
+              </li>
+          </ul>
+
+      <div class="tab-content">
+          <div class="" id="signin">
+              <form  method="POST" action="{% url 'account_login' %}">
+                  {% csrf_token %}
+                   
+                  {{form }}           
+                   
+                  <div class="form-footer">
+                      <a href="{% url 'account_reset_password' %}" class="lost-link">{% trans "Forgot Password?" %}</a>
+                  </div>
+                   
+                  
+                 <button class="btn btn-primary" style="width: 100%;" type="submit">{% trans "Sign In" %}</button>
+              </form>
+              {% if redirect_field_value %}
+
+              <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+              {% endif %}
+              <!-- <p><strong>-- OR --</strong></p> -->
+
+          </div>            
+      </div>
+
+      </div>
+  </div>
+</div>
+
 
 {% else %}
 <p>{% blocktrans %}If you have not created an account yet, then please
 <a href="{{ signup_url }}" class="text-primary">sign up</a> first.{% endblocktrans %}</p>
 {% endif %}
 
-<form class="login" method="POST" action="{% url 'account_login' %}">
-  {% csrf_token %}
-  {{ form|crispy }}
-  {% if redirect_field_value %}
 
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-  {% endif %}
-  <a class="btn btn-outline-dark" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-  <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
-</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
 
     </div>
   </div>
+</div>
 </div>
 
 

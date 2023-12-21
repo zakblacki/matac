@@ -11,6 +11,74 @@
 
 <style>
 
+	/* .mt-2.mt-2phone{
+		display: none !important;
+	} */
+	@media (max-width: 992px) {
+		.product-name {
+			padding-right: 0px !important;
+		}
+
+	}
+
+
+
+
+@media (min-width:900px){
+	.wrap-btn-slide1{
+		margin-top: 20px;
+	}
+	.slick1-dots{
+		padding-left: 0px !important;
+	}
+
+
+}
+@media (max-width:900px){
+
+	.owl-carousel1{
+	overflow: hidden !important;
+
+}
+	.slide1{
+		padding-top: 0px !important;
+	}
+
+
+	.banner-group.pt-11,.banner-group.pt-11 div,.banner-group.pt-11 > div{
+		padding: 0px !important;
+		margin: 0px !important;
+	}
+	.banner-group.pt-11{
+		width: 100% !important;
+		padding: 8px !important;
+		padding-top: 0px !important;
+	}
+	.banner-group.pt-11 .banner.banner-fixed {
+		margin-top: 10px !important;
+	}
+	
+	.slide1.pt-3,.mt-2phone{
+		padding-top: 0px !important;
+	}
+	.slick1-dots{
+		padding-left: 0px !important;
+	}
+
+	
+
+	.wrap-slick1{
+		height: 65vh;
+	}
+	.wrap-slick1 div,.wrap-slick1  > div,.slick-slide.slick-current.slick-active{
+		height: 100% !important;
+	}
+	.wrap-content-slide1.sizefull{
+		padding-top: 250px !important;
+	}
+}
+	
+
 	/*[ Block2 ]
 ///////////////////////////////////////////////////////////
 */
@@ -75,33 +143,59 @@
 
 				{% slides %}
 				
-
-				<!-- <div class="item-slick1 item2-slick1" style="background-image: url({% static 'images/master-slide-03.webp' %});">-->
-<!--					<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">-->
-<!--						<span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15" data-appear="rollIn">-->
-<!--							Women Collection 2018-->
-<!--						</span>-->
-<!--						<h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37" data-appear="lightSpeedIn">-->
-<!--							New arrivals-->
-<!--						</h2>-->
-<!--						<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="slideInUp">-->
-<!--							&lt;!&ndash; Button &ndash;&gt;-->
-<!--							<a href="product.html" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">-->
-<!--								Shop Now-->
-<!--							</a>-->
-<!--						</div>-->
-<!--					</div>-->
-<!--				</div> -->
+				
 
 			</div>
+			
 		</div>
+		<div class="wrap-slick1-dots"></div>
+					
+			</div>
 	</section>
-	<section class="banner-group  pt-11 ">
+	<script>
+		const newScreenWidth = window.innerWidth;
+		window.addEventListener('load', () => {
+			if(newScreenWidth <= 992){
+			document.querySelectorAll(".slick-slide").forEach(ele=>{
+				ele.style.backgroundImage = `url(${ele.dataset.imgphone})`
+			 
+
+		})
+		}else{
+			document.querySelectorAll(".slick-slide").forEach(ele=>{
+			ele.style.backgroundImage = `url(${ele.dataset.img})`;
+			 
+		})
+		}
+});
+	
+	
+
+		window.addEventListener('resize', () => {
+		
+		
+		if(newScreenWidth <= 992){
+			document.querySelectorAll(".slick-slide").forEach(ele=>{
+				ele.style.backgroundImage = `url(${ele.dataset.imgphone})`
+			 
+
+		})
+		}else{
+			document.querySelectorAll(".slick-slide").forEach(ele=>{
+			ele.style.backgroundImage = `url(${ele.dataset.img})`;
+			 
+		})
+		}
+		
+		});
+		
+	</script>
+	<section class="banner-group  pt-11 "  >
 		<div class="container">
 			
 			<div class="row">
 				
-					<div class="col-md-6 mb-4" style="padding: 20px;" >
+					<!-- <div class="col-md-6 mb-4" style="padding: 20px;" >
 						<div class="banner banner-fixed overlay-dark appear-animate fadeIn appear-animation-visible" style="background-color: rgb(239, 240, 244); animation-duration: 1.2s;">
 							<a role="button">
 								<figure>
@@ -109,17 +203,29 @@
 								</figure>
 							</a>
 						</div>
+					</div> -->
+				
+					{% for ad_item in ad_items %}
+					
+					<div class="col-md-6 mb-4"  style="padding: 20px;">
+						<div class="wrap-btn-slide1 w-size1 animated visible-false slideInUp visible-true" data-appear="slideInUp" style="position: absolute;z-index: 9;
+							width: 93.5%;
+  							margin: auto;
+							top: 75%;"><a href="{{ad_item.AD_link}}" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4" tabindex="0" style="width: 25%;
+						margin: auto;">Shop Now</a></div>
+						<a   href="{{ad_item.AD_link}}" > 
+						<div class="banner banner-fixed overlay-dark appear-animate fadeIn appear-animation-visible" style="background-color: rgb(239, 240, 244); animation-duration: 1.2s;">
+							
+								<figure>
+									<img src="{{ad_item.AD_image.url}}" alt="banner" loading="lazy">
+								</figure>
+								
+							
+						</div>
+					</a>
 					</div>
 				
-					<div class="col-md-6 mb-4"  style="padding: 20px;">
-						<div class="banner banner-fixed overlay-dark appear-animate fadeIn appear-animation-visible" style="background-color: rgb(239, 240, 244); animation-duration: 1.2s;">
-							<a role="button">
-								<figure>
-									<img src="{% static 'images\bekini.png' %}" alt="banner" loading="lazy">
-								</figure>
-							</a>
-						</div>
-					</div>
+					{% endfor %}
 				
 			</div>
  
@@ -131,20 +237,20 @@
 	<script>
 		$(document).ready(function(){
 		  $(".owl-carousel").owlCarousel({
-			items: 7, // Display 4 items in a line
+			items: 7,
 			loop: true,
 			margin: 20,
-			nav: true,
+			nav: false,
 			dots: true,
 			responsive: {
 			  0: {
-				items: 4 // Display 1 item on smaller screens
+				items: 4
 			  },
 			  600: {
-				items: 4 // Display 2 items on screens wider than 600px
+				items: 4
 			  },
 			  992: {
-				items:7 // Display 4 items on screens wider than 1000px
+				items:7
 			  }
 			}
 		  });
@@ -320,7 +426,7 @@
 								<span style="font-weight: bolder;">
 									{{essential.price|floatformat:0}}
 									
-								</span><sup>{% trans 'DA' %}</sup>
+								</span><sup> {% trans 'DA' %}</sup>
 							</span>
 
 							<br>
@@ -395,12 +501,16 @@
 			
 						{% if new_item in wishedlist %}
 						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-							<img src="/static/images/PSC.svg" loading="lazy">
+							  <img src="/static/images/PSC.svg" loading="lazy">  
+							<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart-full"></i> -->
+
 						</a>
 						
 						{% else %}
 						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-							<img src="/static/images/VSC.svg" loading="lazy">
+							 <img src="/static/images/VSC.svg" loading="lazy">  
+							<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart"></i> -->
+
 						</a>
 						{% endif %}	
 					</div>
@@ -410,12 +520,16 @@
 			
 						{% if new_item in wishedlist %}
 						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-							<img src="/static/images/PSC.svg" loading="lazy">
+							  <img src="/static/images/PSC.svg" loading="lazy">  
+							<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart-full"></i> -->
+
 						</a>
 						
 						{% else %}
 						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-							<img src="/static/images/VSC.svg" loading="lazy">
+							  <img src="/static/images/VSC.svg" loading="lazy">  
+							<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart"></i> -->
+
 						</a>
 						{% endif %}	
 					</div>
@@ -452,14 +566,14 @@
 		top: 30px  ;left: auto !important;">
 	
 		
-			<label   class="product-label label-top" style="width: 100%;">{% trans new_item.get_label_display %}</label>
+			<label   class="product-label label-top {% if new_item.label == 'P' %} promo_label{% endif %}" style="width: 100%;">{% trans new_item.get_label_display %}</label>
 		 
 	</div>  
 		{% else %}
 		<div class="product-label-group">
 	
 		
-			<label style="min-width: 60px;" class="product-label label-top">{% trans new_item.get_label_display %}</label>
+			<label style="min-width: 60px;" class="product-label label-top {% if new_item.label == 'P' %} promo_label{% endif %}">{% trans new_item.get_label_display %}</label>
 		 
 	</div>  
 		{% endif %}
@@ -482,9 +596,9 @@
 					{% if new_item.price > new_item.discount_price %}
 					<del class="old-price old-price-block">&nbsp;{{new_item.price|floatformat:0}} {% trans 'DA' %}</del>
 					&nbsp; 
-					<ins class="new-price price-block">{{new_item.discount_price|floatformat:0}}{% trans 'DA' %}</ins>
+					<ins class="new-price price-block">{{new_item.discount_price|floatformat:0}} {% trans 'DA' %}</ins>
 					{% else %}
-					<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price|floatformat:0}}{% trans 'DA' %}</ins>
+					<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price|floatformat:0}} {% trans 'DA' %}</ins>
 					{% endif %}
 					</div>
 		
@@ -554,12 +668,16 @@
 			
 						{% if new_item in wishedlist %}
 						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-							<img src="/static/images/PSC.svg" loading="lazy">
+							  <img src="/static/images/PSC.svg" loading="lazy">  
+							<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart-full"></i> -->
+
 						</a>
 						
 						{% else %}
 						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-							<img src="/static/images/VSC.svg" loading="lazy">
+							  <img src="/static/images/VSC.svg" loading="lazy"> 
+							<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart"></i> -->
+
 						</a>
 						{% endif %}	
 					</div>
@@ -569,12 +687,16 @@
 			
 						{% if new_item in wishedlist %}
 						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-							<img src="/static/images/PSC.svg" loading="lazy">
+							  <img src="/static/images/PSC.svg" loading="lazy"> 
+							<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart-full"></i> -->
+
 						</a>
 						
 						{% else %}
 						<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
 							<img src="/static/images/VSC.svg" loading="lazy">
+							<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart"></i> -->
+
 						</a>
 						{% endif %}	
 					</div>
@@ -611,14 +733,14 @@
 		top: 30px  ;left: auto !important;">
 	
 		
-			<label style="width: 100%;"  class="product-label label-top">{% trans new_item.get_label_display %}</label>
+			<label style="width: 100%;"  class="product-label label-top {% if new_item.label == 'P' %} promo_label{% endif %}">{% trans new_item.get_label_display %}</label>
 		 
 	</div>  
 		{% else %}
 		<div class="product-label-group">
 	
 		
-			<label style="min-width: 60px;" class="product-label label-top">{% trans new_item.get_label_display %}</label>
+			<label style="min-width: 60px;" class="product-label label-top {% if new_item.label == 'P' %} promo_label{% endif %}">{% trans new_item.get_label_display %}</label>
 		 
 	</div>  
 		{% endif %}
@@ -639,9 +761,9 @@
 					{% if new_item.price > new_item.discount_price %}
 					<del class="old-price old-price-block">&nbsp;{{new_item.price|floatformat:0}} {% trans 'DA' %}</del>
 					&nbsp; 
-					<ins class="new-price price-block">{{new_item.discount_price|floatformat:0}}{% trans 'DA' %}</ins>
+					<ins class="new-price price-block">{{new_item.discount_price|floatformat:0}} {% trans 'DA' %}</ins>
 					{% else %}
-					<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price|floatformat:0}}{% trans 'DA' %}</ins>
+					<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price|floatformat:0}} {% trans 'DA' %}</ins>
 					{% endif %}
 					</div>
 		
@@ -715,12 +837,16 @@
 		
 					{% if new_item in wishedlist %}
 					<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-						<img src="/static/images/PSC.svg" loading="lazy">
+						  <img src="/static/images/PSC.svg" loading="lazy">  
+						<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart-full"></i> -->
+
 					</a>
 					
 					{% else %}
 					<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
-						<img src="/static/images/VSC.svg" loading="lazy">
+						  <img src="/static/images/VSC.svg" loading="lazy"> 
+						<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart"></i> -->
+
 					</a>
 					{% endif %}	
 				</div>
@@ -731,11 +857,15 @@
 					{% if new_item in wishedlist %}
 					<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
 						<img src="/static/images/PSC.svg" loading="lazy">
+						<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart-full"></i> -->
+
 					</a>
 					
 					{% else %}
 					<a id="wishHeart" href="/wishlist-add/{{new_item.slug}}" class="btn-product-icon btn-wishlist" title="Ajouter à la liste de souhait">
 						<img src="/static/images/VSC.svg" loading="lazy">
+						<!-- <i style="scale: 1.1;padding: 10px;" class="d-icon-heart"></i> -->
+
 					</a>
 					{% endif %}	
 				</div>
@@ -772,14 +902,14 @@
 		top: 30px  ;left: auto !important;">
 	
 		
-			<label style=" width: 65px;" class="product-label label-top">{% trans new_item.get_label_display %}</label>
+			<label style=" width: 65px;" class="product-label label-top {% if new_item.label == 'P' %} promo_label{% endif %}">{% trans new_item.get_label_display %}</label>
 		 
 	</div>  
 		{% else %}
 		<div class="product-label-group">
 	
 		
-			<label style="min-width: 60px;" class="product-label label-top">{% trans new_item.get_label_display %}</label>
+			<label style="min-width: 60px;" class="product-label label-top {% if new_item.label == 'P' %} promo_label{% endif %}">{% trans new_item.get_label_display %}</label>
 		 
 	</div>  
 		{% endif %}
@@ -803,10 +933,10 @@
 						{% if new_item.price > new_item.discount_price %}
 														<del class="old-price old-price-block">&nbsp;{{new_item.price|floatformat:0}} {% trans 'DA' %}</del>
 														&nbsp; 
-														<ins class="new-price price-block">{{new_item.discount_price|floatformat:0}}{% trans 'DA' %}</ins>
+														<ins class="new-price price-block">{{new_item.discount_price|floatformat:0}} {% trans 'DA' %}</ins>
 														{% else %}
 
-														<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price|floatformat:0}}{% trans 'DA' %}</ins>
+														<ins class="new-price price-block" style="color: #222 !important;">{{new_item.price|floatformat:0}} {% trans 'DA' %}</ins>
 						{% endif %}
 					</div>
 					
@@ -885,15 +1015,34 @@
 
 
 	
-	<!-- <script>
+	<script>
 		document.querySelectorAll(".product-media").forEach(ele=>{
 			ele.children[0].children[0].onerror = function() {
-				ele.children[0].children[0].src="/static/images/product-def.png";  
-				ele.style.height=348 + "px"
+				ele.children[0].children[0].src="/static/images/ProductDet.png";  
+				// ele.style.height=342+ "px"
+				// if(window.outerWidth <= 992){
+				// 	ele.style.height=330 + "px"
+				// }
 			};
 			 
 		})
-	</script> -->
+	</script>
+	<script>
+		document.querySelectorAll(".product-name").forEach(ele => {
+  const originalText = ele.textContent.trim();
+  const anchorTag = ele.querySelector("a");
+
+  if (anchorTag ) {
+    if (originalText.length > 55) {
+      anchorTag.textContent= originalText.slice(0, 55) + '...';
+  }else{
+    anchorTag.textContent= originalText;
+  }
+   
+   
+  }
+});
+	</script>
 	{% endblock content %}
 
 

@@ -1,17 +1,16 @@
+from unicodedata import category
 from django.contrib import admin
 import os 
 import requests
 import pandas as pd
+import openpyxl
 import csv
 from .models import *
-import openpyxl
-from openpyxl.utils import get_column_letter
 import time
 import re
 import ast
 import json
 import random
-import pytz
 from openpyxl import load_workbook
 # Register your models here.
 from PIL import Image
@@ -83,9 +82,11 @@ class ExcelFileAdmin(admin.ModelAdmin):
                 brand_id = row['brand_id']
                 # product_Group_Id = sheet["F" + str(index)]
                 sellingPrice = row['prix']
-                discountPrice = row['prix reduction']
+                discountPrice = row['ancien prix']
                 try:
-                    image_src = row['images_prod']
+                    image_src = row["images for website"]
+                    # image_src = row['images_prod']
+                    
                 except:
                     image_src = row['chemins photos']
 
@@ -135,22 +136,24 @@ class ExcelFileAdmin(admin.ModelAdmin):
 
                 details = row['product_details_attr']
                 try:
-                    image_src = row['images_prod']
+                    image_src = row["images for website"]
+                    # image_src = row['images_prod']
                 except:
                     image_src = row['chemins photos']
 
                 
                 if image_src :
-                    image_src ="https://cdn.dsmcdn.com"+ image_src.split(",")[0].replace("\\","/").replace(" ","")
-                    image_folder = image_src.split("/")[-3]
-                    
+                    # image_src ="https://cdn.dsmcdn.com"+ image_src.split(",")[0].replace("\\","/").replace(" ","")
+                    # image_folder = image_src.split("/")[-2]
+                    # image_folder = os.path.join(str(idxn), image_folder)
+                    image_src=image_src.split(",")[0].replace("\\","/").replace(" ","")
                     local_image_path = image_src 
                     # Replace this with the actual path of the image on your computer
 
                     # Construct the path to the media_root directory
                     media_root = os.path.join(settings.MEDIA_ROOT, 'images')
                     # Construct the path to the media_root directory
-                    media_root1 = os.path.join(settings.MEDIA_ROOT,"images_upload_product", image_folder)
+                    media_root1 = os.path.join(settings.MEDIA_ROOT,"images_upload_product" )
 
                     # Create the 'images' directory if it doesn't exist
                     if not os.path.exists(media_root):
@@ -160,8 +163,8 @@ class ExcelFileAdmin(admin.ModelAdmin):
                         os.makedirs(media_root1)
 
                     # Get the image filename from the local path
-                    filename = os.path.basename(local_image_path)
-                    image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+                    filename =  local_image_path 
+                    image_path = os.path.join(media_root,media_root1,  filename.replace("+","") )
                 
                     
                     # Copy the image file to the media_root directory
@@ -212,11 +215,24 @@ class ExcelFileAdmin(admin.ModelAdmin):
                             random_number = random.randint(0, 10000)
                             if queryset.filter(slug=new_slug).exists():
                             
-                                new_slug = f"{slug}-{ random_number }"
+                                new_slug = f"{slug}-{ idxn }"
+                                if queryset.filter(slug=new_slug).exists():
+                                    new_slug = f"{slug}-{ random_number }"
+
+
                                 
-                            
+                            label_pro="N"
+                            try:
+
+                                if discountPrice:
+                                    if discountPrice > price:
+                                        label_pro="P"
+                            except:
+                                pass
+
+
                             doesexist11 = Item.objects.filter(id_item = idxn)
-                            imagepathitem = os.path.join(media_root,"images_upload_product",media_root1, f"{filename.split('.')[0]}.webp")
+                            imagepathitem = os.path.join(media_root,"images_upload_product",media_root1,  filename.replace("/root/demo/media_root",""  ))
                             if len(doesexist11) == 0:
                                 itemnow = Item.objects.create(
                                     id_item=idxn,
@@ -226,7 +242,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                     discount_price=discountPrice,
                                     brand_name=brand_name,
                                     category=Category.objects.filter(title=categoryName).first(),
-                                    label="N",
+                                    label=label_pro,
                                     article_id=article_id,
                                     stock_no=stock,
                                     details= details ,
@@ -234,7 +250,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                     description_short=description,
                                     description_long=description,
                                     tags= details ,
-                                    image=imagepathitem.replace("/root/demo/media_root",""),
+                                   
                                     rating=rating,
                                     color_exist="M,S",
                                     color_not_exist="F",
@@ -250,12 +266,13 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                 
                                 
                                 try:
-                                    image_src = row['images_prod']
+                                    # image_src = row['images_prod']
+                                    image_src = row["images for website"]
                                     for image_url in  image_src.split(",")[1:]:
-                                        image_src = "https://cdn.dsmcdn.com"+ image_url.replace(" ","")
-                                        image_folder = image_src.split("/")[-3]
+                                        # image_src = "https://cdn.dsmcdn.com"+ image_url.replace(" ","")
+                                        # image_folder = image_src.split("/")[-3]
                                         
-                                        local_image_path = image_src 
+                                        local_image_path = image_url 
                                         # Replace this with the actual path of the image on your computer
 
                                         
@@ -264,9 +281,10 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                         
 
                                         # Get the image filename from the local path
-                                        filename = os.path.basename(local_image_path)
-                                        print(f"{local_image_path}/{filename}")
-                                        image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+                                        # filename = os.path.basename(local_image_path)
+                                        filename = local_image_path
+                                        # print(f"{local_image_path}/{filename}")
+                                        image_path = os.path.join(media_root,media_root1,  filename.replace("+","") )
                                         
                                         
                                         # image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
@@ -275,11 +293,11 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                         
                                         # Copy the image file to the media_root directory
                                         
-                                        ImageItem.objects.create(
-                                            item=Item.objects.filter(slug=slug_ex).first(),
-                                            slug=slug_ex,
-                                            image=image_path.replace("/root/demo/media_root","") 
-                                        )
+                                        # ImageItem.objects.create(
+                                        #     item=Item.objects.filter(slug=slug_ex).first(),
+                                        #     slug=slug_ex,
+                                        #     image=image_path.replace("/root/demo/media_root","") 
+                                        # )
                                         
                                         # response = requests.get(local_image_path)
                                         # if response.status_code == 200:
@@ -300,9 +318,12 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                         #     rgba_image.save(webp_file_path, "WEBP")
                                 except:
                                     image_src = row['chemins photos']
-                                    for image_url in  image_src.split(",")[1:]:
+                                    # for image_url in  image_src.split(",")[1:]:
+                                    for image_url in  image_src.split(","):
                                         image_src = "https://cdn.dsmcdn.com"+ image_url.replace(" ","")
                                         image_folder = image_src.split("/")[-3]
+                                         
+                                        image_folder = os.path.join(image_folder, image_src.split("/")[-2])
                                         
                                         local_image_path = image_src 
                                         # Replace this with the actual path of the image on your computer
@@ -324,11 +345,11 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                         
                                         # Copy the image file to the media_root directory
                                         
-                                        ImageItem.objects.create(
-                                            item=Item.objects.filter(slug=slug_ex).first(),
-                                            slug=slug_ex,
-                                            image=image_path.replace("/root/demo/media_root","") 
-                                        )
+                                        # ImageItem.objects.create(
+                                        #     item=Item.objects.filter(slug=slug_ex).first(),
+                                        #     slug=slug_ex,
+                                        #     image=image_path.replace("/root/demo/media_root","") 
+                                        # )
                                                 
         else:
             for index, row in df.iterrows():
@@ -336,8 +357,73 @@ class ExcelFileAdmin(admin.ModelAdmin):
                 id = row["id"]
                 try:
                     tar_pro= Item.objects.get(id_item=id)
+                     
+
                 except:
-                    pass
+                    titleprod=row["nom d'article"]
+                    categoryName1=row["category_name"]
+
+                    try:
+                        category_instance = Category.objects.get(title=categoryName1)
+                    except Category.DoesNotExist:
+                        # Handle the case where the category with the specified title doesn't exist
+                        category_instance = 0
+                    
+                    if not pd.isna(row['code produit']):
+                        article_id = row['code produit']
+                    else:
+                        article_id = name.split(" ")[-1]
+
+                    description = row["details d'article"]
+                    rating = 0
+
+                    sizes = row['sizes_exist']
+                    if sizes:
+                        sizes = sizes
+                    else:
+                        sizes="not"
+
+                    sizes_not_exist = row['sizes_not_exist']
+                    if sizes_not_exist:
+                        sizes_not_exist =  sizes_not_exist
+                    else:
+                        sizes_not_exist="not"
+                    
+                    tar_pro= Item.objects.create(id_item=id,title=titleprod,category=category_instance, article_id=article_id,details= details 
+                                                 ,description_short=description,description_long=description,rating=rating,tags= details ,size_exist=sizes,size_not_exist=sizes_not_exist,)
+                    price1=row["prix"]
+                    tar_pro.price=int(price1)
+                    oldprice1=row["ancien prix"]
+                    tar_pro.discount_price=oldprice1
+                    label_pro="N"
+                    try:
+
+                        if discountPrice:
+                            if discountPrice > price:
+                                label_pro="P"
+                    except:
+                        pass
+                    
+                    brand_name = row["brand_name"]
+                    tar_pro.label=label_pro
+                    tar_pro.brand_name=brand_name
+
+                    slug = slugify(titleprod)
+                    queryset = Item.objects.filter(slug=slug)
+                    numbr = 1
+                    new_slug = slug
+                    random_number = random.randint(0, 10000)
+                    if queryset.filter(slug=new_slug).exists():
+                            
+                        new_slug = f"{slug}-{ idxn }"
+                        if queryset.filter(slug=new_slug).exists():
+                            new_slug = f"{slug}-{ random_number }"
+
+
+                    tar_pro.slug=new_slug
+
+   
+                                     
                 
                 try:
                     if not pd.isna(row["nom d'article arabe"])  :
@@ -390,8 +476,55 @@ class ExcelFileAdmin(admin.ModelAdmin):
                 except:
                     pass
                 
+                # if row["id"]:
+                     
+                    # image_src = row['chemins photos']
+                    # image_src = row["images for website"]
                 
+                    # if image_src :
+                    #     # image_src ="https://cdn.dsmcdn.com"+ image_src.split(",")[0].replace("\\","/").replace(" ","")
+                    #     # image_folder = image_src.split("/")[-2]
+                    #     # image_folder = os.path.join(str(row["id"]), image_folder)
+                    #     local_image_path = image_src.split(",")[0].replace("\\","/").replace(" ","") 
+                    #     # Replace this with the actual path of the image on your computer
+
+                    #     # Construct the path to the media_root directory
+                    #     media_root = os.path.join(settings.MEDIA_ROOT, 'images')
+                    #     # Construct the path to the media_root directory
+                    #     media_root1 = os.path.join(settings.MEDIA_ROOT,"images_upload_product" )
+
+
+                    #     # image_src ="https://cdn.dsmcdn.com"+ image_src.split(",")[0].replace("\\","/").replace(" ","")
+                    #     # image_folder = image_src.split("/")[-2]
+                    #     # image_folder = os.path.join(image_src.split("/")[-3], image_folder)
+                    #     # local_image_path = image_src 
+                    #     # Replace this with the actual path of the image on your computer
+
+                    #     # Construct the path to the media_root directory
+                    #     # media_root = os.path.join(settings.MEDIA_ROOT, 'images')
+                    #     # # Construct the path to the media_root directory
+                    #     # media_root1 = os.path.join(settings.MEDIA_ROOT,"images_upload_product", image_folder)
+
+                    #     # Create the 'images' directory if it doesn't exist
+                    #     if not os.path.exists(media_root):
+                    #         os.makedirs(media_root)
+                        
+                    #     if not os.path.exists(media_root1):
+                    #         os.makedirs(media_root1)
+
+                    #     # Get the image filename from the local path
+                    #     # filename = os.path.basename(local_image_path)
+                    #     filename =local_image_path
+                    #     # image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+                    #     image_path = os.path.join(media_root,media_root1,  filename.replace("+","") )
+
+                    #     # imagepathitem = os.path.join(media_root,"images_upload_product",media_root1, f"{filename.split('.')[0]}.webp")
+                    #     imagepathitem = os.path.join(media_root,media_root1, filename.replace("+",""))
+                    #     tar_pro.image=imagepathitem.replace("/root/demo/media_root","")
+                # else:
+                #     pass
                 try:
+                    
                     sizes = row['sizes_exist']
                     tar_pro.size_exist=sizes
                 except:
@@ -414,7 +547,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
                 try:
                     
                 
-                    pricerid = row['prix reduction']
+                    pricerid = row['ancien prix']
                     tar_pro.discount_price=pricerid
                 except:
                     pass
@@ -435,9 +568,81 @@ class ExcelFileAdmin(admin.ModelAdmin):
                 try:
                     details =row['product_details_attr']
                     tar_pro.details=details
+
+                    
                 
                 except:
                     pass
+
+                if ImageItem.objects.filter(item__id_item=id):
+                    # ImageItem.objects.filter(item__id_item=id).delete()
+                    # image_src1 = row["chemins photos"]
+                    image_src1=row["images for website"]
+
+                    for image_url in  image_src1.split(","):
+                        image_src = "https://cdn.dsmcdn.com" + image_url.replace(" ","")
+                        image_folder = image_src.split("/")[-3]
+                                         
+                     
+                                        
+                        local_image_path = image_src 
+                                       
+                        # filename = os.path.basename(local_image_path)
+                        filename=image_url.replace("+","")
+                        media_root = os.path.join(settings.MEDIA_ROOT, 'images')
+                        # Construct the path to the media_root directory
+                        media_root1 = os.path.join(settings.MEDIA_ROOT,"images_upload_product" )
+                                         
+                        # image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+                        image_path = os.path.join(media_root,media_root1,  filename )
+                                        
+                                        
+                                        
+                        slug_ex=Item.objects.filter(id_item=id).first().slug
+                                        
+                        # ImageItem.objects.create(
+                        #     item=Item.objects.filter(id_item=id).first(),
+                        #     slug=slug_ex,
+                        #     image=image_path.replace("/root/demo/media_root","") 
+                        # )
+                        
+                
+                # else:
+                #     # image_src1 = row["chemins photos"]
+                #     image_src1=row["images for website"]
+                #     for image_url in  image_src1.split(","):
+                #         # image_src = "https://cdn.dsmcdn.com"+ image_url.replace(" ","")
+                #         # image_folder = image_src.split("/")[-3]
+                                         
+                #         # image_folder = os.path.join(image_folder, image_src.split("/")[-2])
+                                        
+                #         local_image_path = image_src 
+                                       
+                #         # filename = os.path.basename(local_image_path)
+                #         filename=image_url.replace("+","")
+
+                #         image_src ="https://cdn.dsmcdn.com"+ image_src.split(",")[0].replace("\\","/").replace(" ","")
+                #         image_folder = image_src.split("/")[-3]
+                #         image_folder = os.path.join(str(id), image_folder)
+                #         local_image_path = image_src 
+                #         # Replace this with the actual path of the image on your computer
+
+                #         # Construct the path to the media_root directory
+                #         media_root = os.path.join(settings.MEDIA_ROOT, 'images')
+                #         # Construct the path to the media_root directory
+                #         media_root1 = os.path.join(settings.MEDIA_ROOT,"images_upload_product" )
+                                         
+                #         image_path = os.path.join(media_root,media_root1,  filename )
+                                        
+                                        
+                                        
+                #         slug_ex=Item.objects.filter(id_item=id).first().slug
+                                        
+                        # ImageItem.objects.create(
+                        #     item=Item.objects.filter(id_item=id).first(),
+                        #     slug=slug_ex,
+                        #     image=image_path.replace("/root/demo/media_root","") 
+                        # )
                 
                 try:
                     tar_pro.save()
@@ -545,14 +750,24 @@ move_to_Sale.short_description = "Move to best Sale"
 class ItemAdmin(admin.ModelAdmin):
     list_display = [
         'title',
-        'category',
+        'category','label'
     ]
-    list_filter = ['title', 'category','brand_name', 'article_id','id_item']
+    list_filter = ['title', 'category','brand_name', 'article_id','id_item','label']
     search_fields = ['title', 'description_long' ,'brand_name' ,'article_id','id_item']
     prepopulated_fields = {"slug": ("title",)}
     actions = [add_coupon_to_selected,delete_coupon_to_selected,move_to_Sale,move_to_new,move_to_promotion]
-    list_display = ('id_item','title','has_coupon', 'coupon_code')  # Customize the displayed columns in the admin list view
+    list_display = ('id_item','get_image_display','title','price','discount_price','has_coupon', 'coupon_code','label')  # Customize the displayed columns in the admin list view
     
+
+    def get_image_display(self, obj):
+        try:
+            return mark_safe(f'<img src="{obj.image.url}" width="50" height="50" />')
+        except:
+            return mark_safe(f'<img src="" width="50" height="50" />')
+
+
+    get_image_display.allow_tags = True
+    get_image_display.short_description = 'Image Preview'
     
 
     def save_model(self, request, obj, form, change):
@@ -620,12 +835,20 @@ class ItemAdmin(admin.ModelAdmin):
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = [
+        "get_image_display",
         'title',
         'is_active'
     ]
     list_filter = ['title', 'is_active']
     search_fields = ['title', 'is_active']
     prepopulated_fields = {"slug": ("title",)}
+
+    def get_image_display(self, obj):
+            return mark_safe(f'<img src="{obj.image.url}" width="50" height="50" />')
+
+    get_image_display.allow_tags = True
+    get_image_display.short_description = 'Image Web'
+
 
 class CategoryGenTopAdmin(admin.ModelAdmin):
     
@@ -656,120 +879,127 @@ class CategoryGenTopAdmin(admin.ModelAdmin):
 
  
 
-
-
-def export_confirmed_orders(modeladmin, request, queryset):
-    
-     
-
-    # Apply the coupon to the selected products
-    ordersConfirmed = queryset.filter(ordered=True)
+def export_all_orders(modeladmin, request, queryset):
+    ordersConfirmed = queryset.all()
+    modeladmin.message_user(request, "Confirmed Orders Exported successfully.")
     wb = openpyxl.Workbook()
     ws = wb.active
+    
+    ws.append(['ORDER ID',"USERNAME","ITEMS ORDERED","CONFIRMED",'REF CODE', 'TOTAL AMOUNT','PAYEMENT METHODE','DEPOSIT AMOUNT','MESSAGE','IP ADDRESS','CARD NAME HOLDER','ORDERED DATE','PHONE N°','SHIPPING TYPE',"SHIPPING ADDRESS", 'WILATA SHIPPING','COMMUN SHIPPING','SHIPPING PRICE','CUPON'])
+    item_orderd=[]
+    for order in ordersConfirmed:
+        item_orderd=[]
+        for item in order.items.all():
+            prod_cr=f"{item.item.title} * {item.quantity} with id {item.item.id} , size : {item.size}"
+            item_orderd.append(prod_cr)
+        item_orderd=str(item_orderd)
+        ws.append([order.id,order.user.username,item_orderd,order.ordered, order.ref_code,order.total_amount,order.paiement_meth,order.depositAmount,order.message,order.ip_address,order.cardholderName,order.ordered_date,order.phone_number,order.shipping_type,order.shipping_address,order.wilaya_ship,order.commun_ship,order.shipping_price,order.coupon])
 
-    # Write headers to the worksheet
-    headers = ['User', 'Ref Code', 'Items', 'Total Amount','shipping price','shipping address','phone number','ordered date','Received']
-    for col_num, header in enumerate(headers, 1):
-        col_letter = get_column_letter(col_num)
-        ws[f"{col_letter}1"] = header
-
-    utc_tz = pytz.UTC
-    # Write order data to the worksheet
-    for row_num, order in enumerate(ordersConfirmed, start=2):
-        
-        ws[f"A{row_num}"] = order.user.username
-        ws[f"B{row_num}"] = order.ref_code
-        ws[f"C{row_num}"] =','.join([ str(item.quantity) +" x "+ str(item.item.title) for item in order.items.all()])
-        ws[f"D{row_num}"] = order.total_amount
-        ws[f"E{row_num}"] = order.shipping_price
-        ws[f"F{row_num}"] = order.shipping_address
-        ws[f"G{row_num}"] = order.phone_number
-        
-        ws[f"H{row_num}"] = order.ordered_date.astimezone(utc_tz).replace(tzinfo=None)
-        ws[f"I{row_num}"] = order.received
-
-
-    # Create a response with the Excel file
+        # Prepare the response for Excel download
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename="confirmed_orders.xlsx"'
+    response['Content-Disposition'] = 'attachment; filename=ALL_ORDERS.xlsx'
     wb.save(response)
-
     return response
 
-    
+export_all_orders.short_description = "Export All Orders"
+
+def export_confirmed_orders(modeladmin, request, queryset):
+    ordersConfirmed = queryset.filter(ordered=True)
+    modeladmin.message_user(request, "Confirmed Orders Exported successfully.")
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    item_orderd=[]
+     
+    ws.append(['ORDER ID',"USERNAME","ITEMS ORDERED","CONFIRMED",'REF CODE', 'TOTAL AMOUNT','PAYEMENT METHODE','DEPOSIT AMOUNT','MESSAGE','IP ADDRESS','CARD NAME HOLDER','ORDERED DATE','PHONE N°','SHIPPING TYPE',"SHIPPING ADDRESS", 'WILATA SHIPPING','COMMUN SHIPPING','SHIPPING PRICE','CUPON'])
+
+    for order in ordersConfirmed:
+        item_orderd=[]
+        for item in order.items.all():
+            prod_cr=f"{item.item.title} * {item.quantity} with id {item.item.id} , size : {item.size}"
+            item_orderd.append(prod_cr)
+        item_orderd=str(item_orderd)
+        ws.append([order.id,order.user.username, item_orderd,order.ordered,order.ref_code,order.total_amount,order.paiement_meth,order.depositAmount,order.message,order.ip_address,order.cardholderName,order.ordered_date,order.phone_number,order.shipping_type,order.shipping_address,order.wilaya_ship,order.commun_ship,order.shipping_price,order.coupon])
+
+        # Prepare the response for Excel download
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=CONFIRMED_ORDERS.xlsx'
+    wb.save(response)
+    return response
 
 export_confirmed_orders.short_description = "Export Confirmed Orders"
 
-
-def export_confirmed_ordersAll(modeladmin, request, queryset):
-    
-     
-
-    # Apply the coupon to the selected products
-    ordersConfirmed = Order.objects.filter(ordered=True)
-    wb = openpyxl.Workbook()
-    ws = wb.active
-
-    # Write headers to the worksheet
-    headers = ['User', 'Ref Code', 'Items', 'Total Amount','shipping price','shipping address','phone number','ordered date','Received']
-    for col_num, header in enumerate(headers, 1):
-        col_letter = get_column_letter(col_num)
-        ws[f"{col_letter}1"] = header
-
-    utc_tz = pytz.UTC
-    # Write order data to the worksheet
-    for row_num, order in enumerate(ordersConfirmed, start=2):
-        
-        ws[f"A{row_num}"] = order.user.username
-        ws[f"B{row_num}"] = order.ref_code
-        ws[f"C{row_num}"] =','.join([ str(item.quantity) +" x "+ str(item.item.title) for item in order.items.all()])
-        ws[f"D{row_num}"] = order.total_amount
-        ws[f"E{row_num}"] = order.shipping_price
-        ws[f"F{row_num}"] = order.shipping_address
-        ws[f"G{row_num}"] = order.phone_number
-        
-        ws[f"H{row_num}"] = order.ordered_date.astimezone(utc_tz).replace(tzinfo=None)
-        ws[f"I{row_num}"] = order.received
-
-    # Create a response with the Excel file
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename="confirmed_orders_all.xlsx"'
-    wb.save(response)
-
-    return response
-
-    
-
-export_confirmed_ordersAll.short_description = "Export Confirmed Orders All"
-
- 
- 
 class OrderConfirmAdmin(admin.ModelAdmin):
-    list_display =['user', 'ref_code','total_amount','received'] 
+    list_display = ['user','ordered', 'ref_code','total_amount','received'] 
     list_filter = ['user', 'ref_code']
     search_fields = ['user', 'ref_code']
-    
-    actions = [export_confirmed_orders,export_confirmed_ordersAll]
- 
-    
+    actions = [export_confirmed_orders,export_all_orders]
 
+ 
+from django.utils.safestring import mark_safe
+
+
+class Imageitemdef(admin.ModelAdmin):
+    list_display = ['get_image_display', 'item','item_category','item_id','image'] 
+    list_filter = ['image', 'item', ]
+    search_fields = ['item__title','item__id_item','item__category__title']
+    actions = []
+
+    def get_image_display(self, obj):
+        return mark_safe(f'<img src="{obj.image.url}" width="50" height="50" />')
+
+    get_image_display.allow_tags = True
+    get_image_display.short_description = 'Image Preview'
+
+    def item_id(self, obj):
+        return obj.item.id_item 
+    
+    def item_category(self, obj):
+        return obj.item.category 
+
+class OrderItemfun(admin.ModelAdmin):
+    list_display = [ 'user','ordered','Order_item_detail'] 
+    def Order_item_detail(self, obj):
+        return str(obj)
+    
+    
+    list_filter = ['user']
+    search_fields = ['user']
+
+    
+   
+class slideAdmin(admin.ModelAdmin):
+    list_display = ['get_image_display1','get_image_display2', 'caption1' ] 
+    list_filter = ['caption1']
+    search_fields = ['caption1']
+   
+
+    def get_image_display1(self, obj):
+        return mark_safe(f'<img src="{obj.image.url}" width="80" height="60" />')
+    def get_image_display2(self, obj):
+        return mark_safe(f'<img src="{obj.image_mob.url}" width="50" height="60" />')
+
+    get_image_display1.allow_tags = True
+    get_image_display1.short_description = 'Image Web'
+    get_image_display2.allow_tags = True
+    get_image_display2.short_description = 'Image Mobile'
+ 
 
 admin.site.register(GenderCategory,CategoryGenTopAdmin)
-admin.site.register(ImageItem)
-
+admin.site.register(ImageItem,Imageitemdef)
+admin.site.register(Ad_homePage)
 admin.site.register(Banner_category)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Slide)
+admin.site.register(Slide,slideAdmin)
 admin.site.register(Essential)
-admin.site.register(OrderItem)
+admin.site.register(OrderItem,OrderItemfun)
 admin.site.register(Order,OrderConfirmAdmin)
 admin.site.register(Coupon)
 admin.site.register(WishList)
 admin.site.register(TopCategory,CategoryGenTopAdmin)
 # admin.site.register(ShopHeader)
 admin.site.register(Matacor_info)
-admin.site.register(Images_upload)
+# admin.site.register(Images_upload)
 admin.site.register(NewsLetterEmails)
 admin.site.register(Comments_and_Ratings)
 admin.site.register(Profile)

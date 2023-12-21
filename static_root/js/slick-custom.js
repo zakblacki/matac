@@ -41,17 +41,23 @@
             slidesToShow: 1,
             slidesToScroll: 1,
             fade: true,
-            dots: false,
+            dots: true,
+            draggable: window.innerWidth <= 992,
             appendDots: $('.wrap-slick1-dots'),
             dotsClass:'slick1-dots',
             infinite: true,
             autoplay: true,
             autoplaySpeed: 6000,
-            arrows: true,
+            arrows: window.innerWidth >= 992,
             appendArrows: $('.wrap-slick1'),
             prevArrow:'<button class="arrow-slick1 prev-slick1"><i class="fa  fa-angle-left" aria-hidden="true"></i></button>',
             nextArrow:'<button class="arrow-slick1 next-slick1"><i class="fa  fa-angle-right" aria-hidden="true"></i></button>',  
-        });
+            customPaging: function(slick, index) {
+                // var portrait = $(slick.$slides[index]).data('thumb');
+                return '<div class="slick1-dot-overlay"></div>';
+            },  
+       
+          });
 
         $('.slick1').on('afterChange', function(event, slick, currentSlide){ 
             for(var i=0; i<itemSlick1.length; i++) {
@@ -90,6 +96,7 @@
             infinite: true,
             autoplay: false,
             autoplaySpeed: 6000,
+            draggable: window.innerWidth <= 992,
             arrows: true,
             appendArrows: $('.wrap-slick2'),
             prevArrow:'<button class="arrow-slick2 prev-slick2"><i class="fa  fa-angle-left" aria-hidden="true"></i></button>',
@@ -128,15 +135,17 @@
 
 
         /*[ Slick3 ]
+
         ===========================================================*/
         $('.slick3').slick({
             slidesToShow: 1,
             slidesToScroll: 1,
             fade: true,
             dots: true,
+            draggable: window.innerWidth <= 992,
             appendDots: $('.wrap-slick3-dots'),
             dotsClass:'slick3-dots',
-            infinite: true,
+            infinite: false,
             autoplay: false,
             autoplaySpeed: 6000,
             arrows: false,
@@ -146,6 +155,51 @@
             },  
         });
 
-        
+
+        // 
+  
+        document.addEventListener('DOMContentLoaded', () => {
+  const slickDotsDiv = document.querySelector('.slick3-dots');
+
+  if (slickDotsDiv) {
+    const imageSourcesSet = new Set();
+
+    slickDotsDiv.querySelectorAll('li').forEach((liElement) => {
+      const imgElement = liElement.querySelector('img');
+      const imageSource = imgElement.src;
+
+       
+      if (imageSourcesSet.has(imageSource)) {
+        liElement.remove();   
+      } else {
+        imageSourcesSet.add(imageSource);   
+      }
+
+      // Listen for image loading errors
+      imgElement.addEventListener('error', () => {
+        liElement.remove();   
+      });
+      imgElement.remove()
+    });
+  }
+});
+
+document.querySelectorAll(".product-name").forEach(ele => {
+  const originalText = ele.textContent.trim();
+  const anchorTag = ele.querySelector("a");
+
+  if (anchorTag ) {
+    if (originalText.length > 55) {
+      anchorTag.textContent= originalText.slice(0, 55) + '...';
+  }else{
+    anchorTag.textContent= originalText;
+  }
+ 
+   
+  }
+});
 
 })(jQuery);
+ 
+
+		 

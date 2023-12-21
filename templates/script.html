@@ -1,13 +1,14 @@
 {% load static %}
 
 
+
 <script
   type="text/javascript"
   src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"
 ></script>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>  
  
 <!-- Include js plugin -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -16,18 +17,18 @@
   src="{% static 'vendor/animsition/js/animsition.min.js' %}"
 ></script>
 
-<script
+ <script
   src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
   integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
   crossorigin="anonymous"
-></script>
+></script>  
 <script
   src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
   integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
   crossorigin="anonymous"
 ></script>
 
-<script
+  <script
   type="text/javascript"
   src="{% static 'vendor/select2/select2.min.js' %}"
 ></script>
@@ -36,7 +37,7 @@
     minimumResultsForSearch: 20,
     dropdownParent: $("#dropDownSelect1")
   });
-</script>
+</script>  
 
 <script
   type="text/javascript"
@@ -49,24 +50,24 @@
 
 
 
-<script
+ <script
   type="text/javascript"
   src="{% static 'vendor/countdowntime/countdowntime.js' %}"
-></script>
+></script>  
 
 <script
   type="text/javascript"
   src="{% static 'vendor/lightbox2/js/lightbox.min.js' %}"
 ></script>
-<script crossorigin src="{% static 'js/react.development.js' %}"></script>
-<script crossorigin src="{% static 'js/react-dom.development.js' %}"></script>
+  <script crossorigin src="{% static 'js/react.development.js' %}"></script>
+<script crossorigin src="{% static 'js/react-dom.development.js' %}"></script>  
 
-<script
+ <script
   type="text/javascript"
   src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"
-></script>
+></script> 
 
-<script type="text/javascript">
+  <script type="text/javascript">
   $(".block2-btn-addcart").each(function() {
     var nameProduct = $(this)
       .parent()
@@ -77,13 +78,13 @@
     $(this).on("click", function() {
       swal(nameProduct, "is added to cart !", "success");
     });
-  });
-</script>
+  });  
+  </script>  
 
 <script src="{% static 'js/main.js' %}"></script>
 <script src="{% static 'js/main2.js' %}"></script> 
-
-<script>
+<script src="{% static 'js/Event.js' %}"></script> 
+ <script>
 
 
  Array.from(document.querySelectorAll(".gutter-lg .nav-tabs .nav-item .nav-link")).forEach(ele=>{
@@ -140,6 +141,33 @@ document.querySelector(".header-icons-mobile .header-wrapicon2 i").addEventListe
 </script>
 
 <script>
+  // Check if the URL contains "process=login"
+if (window.location.href.indexOf("process=login") > -1 || window.location.href.indexOf("payement_status") > -1) {
+    // Create a style tag
+    var styleTag = document.createElement("style");
+    
+    // Set the CSS rules
+    styleTag.innerHTML = `
+        .mt-2.mt-2phone {
+            margin-top: 20vh !important;
+        }
+
+        .mt-2.mt-2phone form {
+            font-size: 22px;
+            text-align: center;
+            margin-bottom: 20vh !important;
+        }
+
+        .mt-2.mt-2phone h1,
+        .mt-2.mt-2phone p {
+            text-align: center;
+        }
+    `;
+
+    // Append the style tag to the document head
+    document.head.appendChild(styleTag);
+}
+
   
   document.querySelector("input[name=search]").addEventListener("keyup",()=>{
 									// Fetch data from the API
@@ -155,7 +183,7 @@ document.querySelector(".header-icons-mobile .header-wrapicon2 i").addEventListe
                   var title = data[index]["title"].toLowerCase();
                   var slug = data[index]["slug"];
                   if( title.includes(inputval)){
-                    console.log(true)
+                     
                     var appendedele =`<a title="${title}" href="/product/${slug}"><li>${title}</li></a>`
                     document.querySelector(".search_list_q").children[0].innerHTML += appendedele
                   }
@@ -220,7 +248,7 @@ document.querySelector(".header-icons-mobile .header-wrapicon2 i").addEventListe
 
 document.getElementById("filtertop").addEventListener("change",function(){
   var valselctd=this.value 
-	window.location = window.location.pathname + "?filter="+valselctd
+	window.location = window.location.search + "&filter="+valselctd
 	})
 
 $(".filtertoptop").on("click",function(){
@@ -252,6 +280,20 @@ $(".filtertoptop").on("click",function(){
   var search_page=window.location.search.replaceAll("?","").split("&")
   window.onload = function(){
     
+    // document.querySelector(".form-control.padd-en").addEventListener("submit",function(e){
+    //   console.log
+    // })
+    document.querySelector(".form-control.padd-en").value=localStorage.getItem("searchQuery")
+     if(window.location.search.includes("search")){
+    localStorage.setItem('searchQuery', window.location.search.split("search=")[1].split("&")[0]);
+      document.querySelector(".form-control.padd-en").value=localStorage.getItem("searchQuery")
+     }
+    //  else{
+    //   if(window.location.pathname.includes("shop")){
+    //   window.location.search += "&search="+localStorage.getItem("searchQuery")
+    // }
+    // }
+    
     $("input[name=price_range]").on("click",function(e){
       
       e.preventDefault() ;
@@ -277,10 +319,11 @@ $(".filtertoptop").on("click",function(){
 
 
     search_page.forEach(element => {
+      
       var keyval =element.split("=")
       var key = keyval[0]
       var val = keyval[1]
-     
+      
       if(key == "gender" || key == "price_range" || key == "brand" ){
         
        
@@ -292,6 +335,7 @@ $(".filtertoptop").on("click",function(){
           $(el).on("click",function() {
           // Toggle the checked state of the checkbox
           $(this).prop("checked", !$(this).prop("checked"));
+   
         });
          
         })
@@ -301,6 +345,7 @@ $(".filtertoptop").on("click",function(){
          
         Array.from(document.querySelectorAll("#value-"+val)).forEach(function(el){
           $(el).prop("checked",true)
+
            
         })
          
@@ -314,12 +359,70 @@ $(".filtertoptop").on("click",function(){
            
         })
       }
+
       
     });
     
-  }
+  }  
+
+  const slickDotsDiv = document.querySelector('.slick3-dots');
+
+const liElements = slickDotsDiv.querySelectorAll('li');
+
+liElements.forEach((liElement) => {
+const imgElement = liElement.querySelector('img');
+imgElement.addEventListener('error', () => {
+  liElement.remove();   
+});
+});
+
+ 
+ 
 
 
-  
  </script>
+<script>
+  document.querySelectorAll(".product-name").forEach(ele => {
+const originalText = ele.textContent.trim();
+const anchorTag = ele.querySelector("a");
+
+if (anchorTag ) {
+
+  if (originalText.length > 30) {
+    if(window.outerWidth <= 992){
+      anchorTag.textContent= originalText.slice(0, 37) + '...';
+    }else{
+      anchorTag.textContent= originalText.slice(0, 51) + '...';
+    }
+    
+}else{
+  anchorTag.textContent= originalText;
+}
+
+}
+});
+
+
+if(location.pathname.includes("social/signup")){
+  document.querySelector(".mt-2.mt-2phone").style.textAlign="center"
+  document.querySelector(".mt-2.mt-2phone h1").style.marginTop=10+"vh"
+  document.querySelector(".mt-2.mt-2phone form").style.marginTop=5+"vh"
+  document.querySelector(".mt-2.mt-2phone form").style.marginBottom=30+"vh"
+
+  document.getElementById("id_username").style.padding=8+"px"
+  document.getElementById("id_username").style.marginBottom=8+"px"
+  document.getElementById("id_username").style.border = "1px solid #00000005 !important";
+
+  document.getElementById("id_username").style.borderRadius=5+"px"
+
+
+  document.getElementById("id_email").style.padding=8+"px"
+  document.getElementById("id_email").style.marginBottom=20+"px"
+  document.getElementById("id_username").style.border = "1px solid #00000005 !important";
+
+  document.getElementById("id_email").style.borderRadius=5+"px"
+  Array.from(document.querySelectorAll("button[type=submit]"))[4].classList.add("btn") 
+  Array.from(document.querySelectorAll("button[type=submit]"))[4].classList.add("btn-primary") 
+}
+</script>
 

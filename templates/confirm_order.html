@@ -40,7 +40,7 @@
                     <span>Reçu:</span>
                 <a href="#confirmer">
                 
-                    <strong> {%if target.recui_image%} 
+                    <strong> {% if target.recui_image %} 
                         {% trans 'Sent' %}
 
                      
@@ -62,7 +62,7 @@
                     <span>{% trans 'Total:' %}</span>
                     <strong>
                         {% if target.shipping_price %}
-                            {{ target.total_amount|total_withship:target.shipping_price }}
+                            {{ target.total_amount|total_withship:target.shipping_price|floatformat:0 }}
                             {% trans 'DA' %}
                         {% endif %}
                     </strong>
@@ -70,8 +70,8 @@
                 <div class="overview-item">
                     <span>{% trans 'Mode de paiement:' %}</span>
                 
-                    <strong>{% trans 'Reçu de Paiement' %}</strong>
-                
+                    <!-- <strong>{% trans 'Reçu de Paiement' %}</strong> -->
+                    <strong>{{target.get_paiement_meth_display}}</strong>
                 </div>
             </div>
             
@@ -131,8 +131,8 @@
                                 <td class="product-name"></td>
 
                             
-                                <td class="summary-subtotal-price">{% trans 'Reçu de Paiement' %}</td>
-                            
+                                <!-- <td class="summary-subtotal-price">{% trans 'Reçu de Paiement' %}</td> -->
+                                <td class="summary-subtotal-price">{{target.get_paiement_meth_display}}</td>
                         </tr>
                         <tr class="summary-subtotal">
                             <td>
@@ -143,13 +143,46 @@
                             <td>
                                 <p class="summary-total-price">
                                     {% if target.shipping_price %}
-                                    {{ target.total_amount|total_withship:target.shipping_price }}
+                                    {{ target.total_amount|total_withship:target.shipping_price|floatformat:0 }}
                                     {% endif %} {% trans 'DA' %}</p>
+                            </td>
+                        </tr>
+                        <tr class="summary-subtotal">
+                            <td>
+                                <h4 class="summary-subtitle">{% trans 'Payé:' %}</h4>
+                            </td>
+                                <td class="product-name"></td>
+
+                            <td>
+                                <p class="summary-total-price">
+                                    {% if target.recui_image or target.depositAmount == target.total_amount %}
+                                    {% trans 'Oui' %}
+                                    {% else %} {% trans 'Non' %}{% endif %}</p>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            {% if not target.ordered %}
+            
+
+            {% if target.formurl %}
+            <a href="{{target.formUrl}}"   rel="noopener noreferrer">
+                <button type="button" class="btn btn-success btn-block recu-cap" ><img style="width: 30px!important;" src="{% static 'images/satim.png' %}" alt="">  {% trans "Paiement electronique" %}</button>
+            </a>
+            {% else %}
+            <a href="https://test.satim.dz/payment/merchants/merchant1/payment_fr.html?mdOrder={{target.ref_code}}"   rel="noopener noreferrer">
+                <button type="button" class="btn btn-success btn-block recu-cap" ><img style="width: 30px!important;" src="{% static 'images/satim.png' %}" alt="">  {% trans "Paiement electronique" %}</button>
+            </a>
+            {% endif %}
+            
+            {% endif %}
+            {% if target.ordered %}
+            <a href="{% url 'core:refund' target.id %}"><button type="button" class="btn btn-success btn-block recu-cap" >Annuler la commande</button></a>
+            
+            
+            {% endif %}
+            
             <h2 class="title title-simple text-left pt-10 mb-2 {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">{% trans 'Adresse de Livraison' %}</h2>
             <div class="{% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} address-info pb-8 mb-6">
                 <p class="address-detail pb-2">
@@ -173,13 +206,15 @@
                     {{contact.email}} {% trans 'ou' %} {{contact.phone_number}}
                 </p>
             </div>
+            {% if target.paiement_meth != "E" %}
             <div class="address-info pb-8 mb-6  {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %} " id="confirmer">
                 
-                {% if  target.recui_image%}
+                {% if  target.recui_image %}
                 <a data-lightbox="photo" href="{{target.recui_image.url}}" alt="reçu de paiment" style="height:150px; width:auto;">
                     <img src="{{target.recui_image.url}}" alt="reçu de paiment" style="height:150px; width:auto;">
                 </a>
                 {% endif %}
+                {% if target.paiement_meth == 'C' %}
                 <div class="order-results">
                     <form action="/confirm_order/{{request.user}}/{{target.id}}/" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
@@ -188,9 +223,12 @@
                     </form>
                 </div> 
                     <h6>{% trans 'NB: Votre commande est en cours de confirmation.*' %}</h6>
+                {% endif %}
+                
 
                 
             </div>
+            {% endif %}
             <a href="/fr/" class="btn btn-icon-left btn-dark btn-back btn-rounded btn-md mb-4"><i class="d-icon-arrow-left"></i> {% trans "Retourner a l'acceuil" %}</a>
         </div>
     </div>

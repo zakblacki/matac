@@ -12,6 +12,7 @@ SECRET_KEY ='-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
 ALLOWED_HOSTS =["matacor.com","www.matacor.com","207.154.249.107"]
 
 
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -28,7 +29,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.facebook',
+    # 'allauth.socialaccount.providers.facebook',
     'crispy_forms',
     'django_countries',
     'core',
@@ -103,6 +104,12 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR  , 'db.sqlite3'),
+#     }
+# }
 
 if DEBUG == False:
     DEBUG = False
@@ -116,16 +123,19 @@ if DEBUG == False:
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+
+
 # Auth
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
 )
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
-SITE_ID = 1
-LOGIN_REDIRECT_URL = '/'
+# SITE_ID = 1
+LOGIN_REDIRECT_URL = 'https://matacor.com'
 
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
@@ -134,9 +144,16 @@ SOCIALACCOUNT_PROVIDERS = {
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
         'APP': {
-            'client_id': '123',
-            'secret': '456',
-            'key': '666'
+            'client_id': '573181579663-4uv8b6cmcjotc921km9f7deuv1tinmsl.apps.googleusercontent.com',
+            'secret': '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',
+            'key': 'AIzaSyABGlrFljxbQ-bGVZPaVCZEmCRXYXpHj2g'
+        },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
         }
     }
 }
@@ -157,8 +174,11 @@ DATA_UPLOAD_MAX_NUMBER_FILES=50000
 
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
-LOGIN_REDIRECT_URL = '/'
-
+LOGIN_REDIRECT_URL = 'https://matacor.com'
+SOCIALACCOUNT_QUERY_EMAIL =True
+SOCIALACCOUNT_AUTO_SIGNUP=True
+SOCIALACCOUNT_EMAIL_VERIFICATION ="none"
+SOCIALACCOUNT_STORE_TOKENS = False
 SOCIAL_AUTH_FACEBOOK_KEY  = '1332074261038830'  # App ID
 SOCIAL_AUTH_FACEBOOK_SECRET = '9e57419d03907e57fbe2fe2e1d05392a'  # 
 
@@ -166,12 +186,20 @@ SOCIAL_AUTH_FACEBOOK_SECRET = '9e57419d03907e57fbe2fe2e1d05392a'  #
  
 LANGUAGE_CODE = 'fr'
 LANGUAGES = [
-    ('en', _('English')),
+    # ('en', _('English')),
     ('fr', _('French')),
-    ('ar', _('Arabic')),
+    # ('ar', _('Arabic')),
 ]
 
 LOCALE_PATHS=[
     os.path.join(BASE_DIR,'local')
 ]
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Correct SMTP server for Gmail
+EMAIL_PORT = 587  # Correct port for Gmail
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'joesdevil10@gmail.com'  # Your Gmail email
+EMAIL_HOST_PASSWORD = 'aoud gvmn kpqn auja'  # Your Gmail password
+DEFAULT_FROM_EMAIL = 'joesdevil10@gmail.com'

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verify Code</title>
+</head>
+<body>
+    <h1>Enter the verification code sent to your email</h1>
+    <form method="post"  >
+        {% csrf_token %}
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="reset_code">Verification Code:</label>
+        <input type="text" id="reset_code" name="reset_code" required>
+        <button type="submit">Verify Code</button>
+    </form>
+</body>
+</html>

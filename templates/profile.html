@@ -7,13 +7,18 @@
 
 
 <main class="main account">
-    <nav class="breadcrumb-nav">
+    <nav class="breadcrumb-nav p-t-70">
         <div class="container">
             <ul class="breadcrumb {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}" style="background: white;
            
             padding: 25px;">
-                <li><a href="/"><i class="d-icon-home"></i></a></li>
-                <li> {% trans "Profile" %}</li>
+                <li>
+                    <a href="/">
+                        <!-- <i class="d-icon-home"></i> -->
+                        Accueil
+                    </a>
+                </li>
+                <li><a href="/profile"> {% trans "Profile" %}</a></li>
             </ul>
         </div>
     </nav>
@@ -30,6 +35,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#orders" id="ordersclick"> {% trans "Mes Commandes" %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#commentaires"> {% trans "Mes Avis" %}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#account"> {% trans "Mes informations" %}</a>
@@ -55,7 +63,7 @@
                             })
                         </script>
 
-                        <a href="/shop " class="btn btn-dark btn-rounded"> {% trans "Aller a la boutique" %}<i class="d-icon-arrow-right"></i></a>
+                        <a href="/shop " style="color:white !important;" class="btn btn-dark btn-rounded"> {% trans "Aller a la boutique" %}<i class="d-icon-arrow-right"></i></a>
                     </div>
                     <div class="tab-pane" id="orders">
                         {% if leng  == 0  %}
@@ -69,9 +77,10 @@
                             <table class="order-table">
                                 <thead>
                                     <tr>
-                                        <th class="pl-2"> {% trans "N° Commande" %}</th>
-                                        <th> {% trans "Date" %}</th>
-                                        <th> {% trans "État" %}</th>
+                                        <th class="pl-2 webcomnd"> {% trans "N° Commande" %}</th>
+                                        <th class="pl-2 phonecomnd"> {% trans "N°" %}</th>
+                                        <th class="datepho"> {% trans "Date" %}</th>
+                                        <th class="etatpho"> {% trans "État" %}</th>
                                         <th> {% trans "Total" %}</th>
                                         <th class="pr-2"> {% trans "Actions" %}</th>
                                     </tr>
@@ -95,7 +104,7 @@
                                                 {% trans 'waiting' %}
                                                 {% endif %}
                                             </span></td>
-                                            <td class="order-total"><span>{{order.total_amount}} {% trans 'DA' %}</span></td>
+                                            <td class="order-total"><span>{{order.total_amount|floatformat:0}} {% trans 'DA' %}</span></td>
                                             <td class="order-action">
                                                 
                                                 <a href="/confirm_order/{{request.user}}/{{order.id}}/" class="btn btn-primary btn-link btn-underline">{% trans 'Voir' %}</a>
@@ -109,7 +118,7 @@
                             </table>
                             
                             <br>
-                            <h6> {% trans 'NB: Veuillez soumettre un reçu de paiement pour confirmer votre commande.*'  %}</h6>
+                            <!-- <h6> {% trans 'NB: Veuillez soumettre un reçu de paiement pour confirmer votre commande.*'  %}</h6> -->
                         
                         {% endif %}
                     </div>
@@ -151,7 +160,9 @@
                                       
                                       {% if request.user.profile %}
                                       <input  type="file" id="id_picture" name="picture">
+                                      {% if request.user.profile.image %}
                                       <img style="width: 100px" src="{{request.user.profile.image.url}}" alt="">
+                                      {% endif %}
                                        {% else %}
                                        <input  type="file" id="id_picture" name="picture">
 
@@ -174,6 +185,100 @@
                                 
                             
                     </div>
+                    <div class="tab-pane" id="commentaires">
+                        {% if lengg  == 0  %}
+
+                        <p> {% trans "Vous n'avez aucun avis sur les produits." %}</p>
+                        <a href="/" class="btn btn-outline-primary-2">
+                                        <span> {% trans "Accueil" %}</span>
+                                        <i class="icon-long-arrow-right"></i>
+                        </a>
+                        {% else %}
+                            <table class="order-table">
+                                <thead>
+                                    <tr>
+                                        
+                                         
+                                        <th class="datepho"> {% trans "Article" %}</th>
+                                        <th class="datepho"> {% trans "Commentaire" %}</th>
+                                        <th> {% trans "Date" %}</th>
+                                        <th class="pr-2"> {% trans "Actions" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                
+                                        {% for product in products_com %}
+                                        <tr>
+                                            <td class="order-number"><a href="#">  {{product.product.title}}</a></td>
+                                            <td class="order-date"><time>{{product.comment}}</time></td>
+                                            <td class="order-date"><time>{{product.date_added}}</time></td>
+                                             
+                                            
+                                            <td class="order-action">
+                                                
+                                                <a href="/product/{{product.product.slug}}/" class="btn btn-primary btn-link btn-underline">{% trans 'Voir' %}</a>
+                                            </td>
+                                        </tr>
+                                    
+                                        {% endfor %}
+                                        
+                                    
+                                </tbody>
+                            </table>
+                            
+                            <br>
+                            <!-- <h6> {% trans 'NB: Veuillez soumettre un reçu de paiement pour confirmer votre commande.*'  %}</h6> -->
+                        
+                        {% endif %}
+                    </div>
+                    <!-- <div class="tab-pane" id="Avis">
+                        {% if lengg  == 0  %}
+
+                        <p> {% trans "Vous n'avez aucun avis sur les produits." %}</p>
+                        <a href="/" class="btn btn-outline-primary-2">
+                                        <span> {% trans "Accueil" %}</span>
+                                        <i class="icon-long-arrow-right"></i>
+                        </a>
+                        {% else %}
+                            <table class="order-table">
+                                <thead>
+                                    <tr>
+                                        
+                                         
+                                        <th class="datepho"> {% trans "Article" %}</th>
+                                        <th class="datepho"> {% trans "Commentaire" %}</th>
+                                        <th> {% trans "Date" %}</th>
+                                        <th class="pr-2"> {% trans "Actions" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                
+                                        {% for product in products_com %}
+                                        <tr>
+                                            <td class="order-number"><a href="#">  {{product.product.title}}</a></td>
+                                            <td class="order-date"><time>{{product.comment}}</time></td>
+                                            <td class="order-date"><time>{{product.date_added}}</time></td>
+                                             
+                                            
+                                            <td class="order-action">
+                                                
+                                                <a href="/product/{{product.id}}/" class="btn btn-primary btn-link btn-underline">{% trans 'Voir' %}</a>
+                                            </td>
+                                        </tr>
+                                    
+                                        {% endfor %}
+                                        
+                                    
+                                </tbody>
+                            </table>
+                            
+                            <br>
+                            <!-- <h6> {% trans 'NB: Veuillez soumettre un reçu de paiement pour confirmer votre commande.*'  %}</h6> -->
+                        
+                        {% endif %}
+                    </div> -->
                 </div>
             </div>
         </div>
