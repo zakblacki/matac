@@ -27,6 +27,10 @@ from django.contrib.auth.forms import UserCreationForm
 stripe.api_key = settings.STRIPE_SECRET_KEY
 import requests
 from django import template
+import json
+import os
+import shutil
+from django.views.decorators.csrf import csrf_exempt  # Import csrf_exempt decorator if needed
 
 register = template.Library()
 
@@ -167,7 +171,7 @@ def wishlist_add_view(request,slug):
         
         return redirect(f"/product/{slug}/")
     else:
-        return redirect("/account/login")
+        return redirect("/accounts/login")
      
 
 def logout_view(request):
@@ -209,35 +213,44 @@ def index(request):
         
     except:
         pass
+
+    try:
+        tp=request.GET["gender"]
+    except:
+        tp="F"
     
     # Get a random selection of products
     try:
-        items_most_sales = random.sample(list(Item.objects.filter(label="S",is_active=True)),32)
+        items_most_sales = random.sample(list(Item.objects.filter(label="S",is_active=True,gender=tp)),32)
     except:
-        items_most_sales = Item.objects.filter(label="S",is_active=True)
+        items_most_sales = Item.objects.filter(label="S",is_active=True,gender=tp)
     try:
-        items_most_new = random.sample(list(Item.objects.filter(label="N",is_active=True)), 32)
+        items_most_new = random.sample(list(Item.objects.filter(label="N",is_active=True,gender=tp)), 32)
     except:
-        items_most_new =  Item.objects.filter(label="N",is_active=True) 
+        items_most_new =  Item.objects.filter(label="N",is_active=True,gender=tp) 
     try:
-        items_promo= random.sample(list(Item.objects.filter(label="P",is_active=True)), 32) 
+        items_promo= random.sample(list(Item.objects.filter(label="P",is_active=True,gender=tp)), 32) 
     except:
-        items_promo=Item.objects.filter(label="P",is_active=True)
+        items_promo=Item.objects.filter(label="P",is_active=True,gender=tp)
     try:
         wishlist =WishList.objects.get(user=request.user).items.all()
     except:
         wishlist=[]
-        
+    
+
+    
+    
     
     context={
-        "items":Item.objects.filter(is_active=True),
+        "items":Item.objects.filter(is_active=True,gender=tp),
         "category":Category.objects.filter(is_active=True),
+        "category_gen":TopCategory.objects.filter(gender=tp),
         "new_items":items_most_new,
         "promo_items":items_promo,
         "most_sale":items_most_sales,
         "essentials":Essential.objects.filter(is_active=True),
         "wishedlist":wishlist,
-        "ad_items":Ad_homePage.objects.all()[:2]
+        "ad_items":Ad_homePage.objects.filter(gender=tp)[:2]
     }
     
     print(context)
@@ -379,7 +392,7 @@ class OrderSummaryView(LoginRequiredMixin, View):
                 # send an email to ourselves
                 messages.error(self.request, "Serious Error occured")
         else:
-            return redirect("/")
+            return redirect("/order-summary/")
 
 
 
@@ -570,10 +583,6 @@ class ShopView(ListView):
         return render(self.request, "shop.html", context)             
 
 
-import json
-import os
-import shutil
-from django.views.decorators.csrf import csrf_exempt  # Import csrf_exempt decorator if needed
 
  
 @csrf_exempt
@@ -633,7 +642,7 @@ def ajax_example(request):
                     pass
                     
             # form.save()
-        return redirect("/")
+        return redirect("/ss")
     else:
         form = ImageUploadForm()
     return render(request,"admin/upload.html",{"form":form})
@@ -646,75 +655,80 @@ def admin_upload(request):
         if form.is_valid():
             print('requested')
             title= form.cleaned_data['excel_related']
+             
+
             for index,image in enumerate(request.FILES.getlist('images')):
                  
                 # print("uploading..",(index+1)*100/len(request.FILES.getlist('images')))
-                if index:
-                    if image :
+                try:
+                   
+                       
                         
-                        parts = image.name.split("_")[-1]
-                        idimg = image.name.split("+")[0]
-                        folder_name_org=parts.split(".")[0]
-                        image_number=index
-                        # name_org=str(image.name.split("_")[-2]) + "_org_zoom" + ".webp"
-                        name_org=  idimg +str(image).replace(idimg,"")
+                    parts = image.name.split("_")[-1]
+                    idimg = image.name.split("+")[0]
 
-                        folder_name_org = os.path.join(  folder_name_org,str(image_number))
+                        
+                    folder_name_org=parts.split(".")[0]
+                    image_number=index
+                    # name_org=str(image.name.split("_")[-2]) + "_org_zoom" + ".webp"
+                    name_org=  idimg +str(image).replace(idimg,"")
+
+                    folder_name_org = os.path.join(  folder_name_org,str(image_number))
                         
                         # Construct the path to the media_root directory
-                        media_root1 = os.path.join(settings.MEDIA_ROOT, "images_upload_product"  )
-                        media_root21 = os.path.join(settings.MEDIA_ROOT, "images_upload_product" , "doubled_must_delted")
+                    media_root1 = os.path.join(settings.MEDIA_ROOT, "images_upload_product"  )
+                    media_root21 = os.path.join(settings.MEDIA_ROOT, "images_upload_product" , "doubled_must_delted")
                         # Create the 'images' directory if it doesn't exist
                         
-                        os.makedirs(media_root1, exist_ok=True)
-                        os.makedirs(media_root21, exist_ok=True)
-                        image_path_up = os.path.join(media_root1,name_org)
-                        realimg_path= os.path.join(settings.MEDIA_ROOT, "images_upload_product",name_org )
-                        realimg_path_exact= os.path.join( settings.MEDIA_ROOT,"images_upload_product",name_org )
+                    os.makedirs(media_root1, exist_ok=True)
+                    os.makedirs(media_root21, exist_ok=True)
+                    image_path_up = os.path.join(media_root1,name_org)
+                    realimg_path= os.path.join(settings.MEDIA_ROOT, "images_upload_product",name_org )
+                    realimg_path_exact= os.path.join( settings.MEDIA_ROOT,"images_upload_product",name_org )
                         
                         # image.name= name_org
                         
                     
-                        cur_prod=Item.objects.filter(id_item=idimg).first()
-                        if not os.path.exists(image_path_up) and cur_prod:
-                            imageup=Images_upload.objects.create(excel_related=title, images=image )
+                    cur_prod=Item.objects.filter(id_item=idimg).first()
+                    if not os.path.exists(image_path_up) and cur_prod:
+                        imageup=Images_upload.objects.create(excel_related=title, images=image )
                             # try:
                             #     shutil.move(realimg_path, media_root1)
                             # except:
                             #     shutil.move(realimg_path, media_root21)
 
-                            imageup.images=realimg_path_exact.replace("/workspace/media_root","").replace("+","").replace("/root/demo/media_root","")
+                        imageup.images=realimg_path_exact.replace("/workspace/media_root","").replace("+","").replace("/root/demo/media_root","")
                             
-                            imageup.save()
-                            try:
-                                imageup1=ImageItem.objects.create(item=cur_prod,slug=cur_prod.slug,image=image)
+                        imageup.save()
+                        if imageup:
+                            imageup1=ImageItem.objects.create(item=cur_prod,slug=cur_prod.slug,image=image)
                                 # try:
                                 #     shutil.move(realimg_path, media_root1)
                                 # except:
                                 #     shutil.move(realimg_path, media_root21)
                                 
-                                imageup1.image=realimg_path_exact.replace("/workspace/media_root","").replace("+","").replace("/root/demo/media_root","")
+                            imageup1.image=realimg_path_exact.replace("/workspace/media_root","").replace("+","").replace("/root/demo/media_root","")
                                 
-                                imageup1.save()
-                                first_img = "+0"
-                                sec_img = "+1"
+                            imageup1.save()
+                            first_img = "+0"
+                            sec_img = "+1"
 
-                                if first_img in realimg_path_exact:
-                                    cur_prod.image=realimg_path_exact.replace("/workspace/media_root","").replace("+","").replace("/root/demo/media_root","")
-                                elif sec_img in realimg_path_exact:
-                                    cur_prod.image=realimg_path_exact.replace("/workspace/media_root","").replace("+","").replace("/root/demo/media_root","")
-                                else:
-                                    cur_prod.image=realimg_path_exact.replace("/workspace/media_root","").replace("+","").replace("/root/demo/media_root","")
+                            if first_img in realimg_path_exact:
+                                cur_prod.image=realimg_path_exact.replace("/workspace/media_root","").replace("+","").replace("/root/demo/media_root","")
+                            elif sec_img in realimg_path_exact:
+                                cur_prod.image=realimg_path_exact.replace("/workspace/media_root","").replace("+","").replace("/root/demo/media_root","")
+                            else:
+                                cur_prod.image=realimg_path_exact.replace("/workspace/media_root","").replace("+","").replace("/root/demo/media_root","")
 
-                                cur_prod.save()
-                            except:
-                                pass
+                            cur_prod.save()
+                        else:
+                            pass
 
 
-
+                   
                             
                     
-                else:
+                except:
                     pass    
             # form.save()
             return HttpResponseRedirect(reverse('admin:index'))
@@ -825,6 +839,14 @@ def confirmorder(request,slug,slug1):
         if request.method == "POST":
             
             context["form"]=UploadImg(request.POST,request.FILES)
+            context["formConf"]=NotRobot(request.POST)
+
+            if context["formConf"].is_valid():
+                if order.ref_code:
+                    return redirect(f"https://test.satim.dz/payment/merchants/merchant1/payment_fr.html?mdOrder={order.ref_code}")
+                else:
+                    return redirect("/")
+                
             if context["form"].is_valid():
                 
                 
@@ -841,6 +863,7 @@ def confirmorder(request,slug,slug1):
                 # ordertar.save()
         else:
             context["form"]=UploadImg()
+            context["formConf"]=NotRobot()
         
         
         return render(request,"confirm_order.html",context)
@@ -898,8 +921,22 @@ class ItemDetailView(DetailView):
         
         # Add additional data to the context
         context['images'] =ImageItem.objects.filter(slug=self.object.slug) 
-        context["details"] =   ast.literal_eval(self.object.details)
         
+        
+
+        details_json = getattr(self.object, 'details', None)
+
+        # Check if details_json is not None and not an empty string
+        if details_json and isinstance(details_json, str):
+            
+            context['details'] = json.loads(details_json)
+            
+        else:
+            context['details'] = {}
+        
+        # context["details"] = json.loads(self.object.details )
+        
+            
         context["comments"] =   Comments_and_Ratings.objects.filter(product=self.object.id)
         
         context["colors_item"] = Item.objects.filter(article_id=self.object.article_id)
@@ -1630,16 +1667,23 @@ def payement_succ(request, cmd_id):
                 [request.user.email],
                 fail_silently=False,
                 ) 
-                respCode_desc=orderidpai.json()["params"]["respCode_desc"]
+
+                try:
+                    respCode_desc=orderidpai.json()["params"]["respCode_desc"]
+                except:
+                    respCode_desc=''
+                
                 OrderId=order.ref_code
                 OrderNumber=order.id
                 approvalCode=orderidpai.json()["approvalCode"]
                 currency=""
                 if orderidpai.json()["currency"] ==  "012":
                     currency="DZD"
-                date=orderidpai.json()["params"]["udf1"]
+                # date=orderidpai.json()["params"]["udf1"]
+                date=order.modified_at
                 mode_pai="CIB/Edhahabia"
-                amount=orderidpai.json()["depositAmount"]
+                amount=orderidpai.json()["depositAmount"]/100;
+                cardholder=orderidpai.json()["cardholderName"]
                 context={
                     "mode_pai":mode_pai,
                     "date":date,
@@ -1648,7 +1692,8 @@ def payement_succ(request, cmd_id):
                     "OrderNumber":OrderNumber,
                     "OrderNumber":OrderNumber,
                     "OrderId":OrderId,
-                    "amount":amount
+                    "amount":amount,
+                    "cardholder":cardholder
                 }
 
 
@@ -1659,27 +1704,43 @@ def payement_succ(request, cmd_id):
                 return render(request, 'pay_succ.html',{'respCode_desc':respCode_desc,"context":context})
             else:
                 order.paiement_meth="C"
+                try:
+                    rspcode=orderidpai.json()["params"]["respCode_desc"]
+                except:
+                    rspcode=''
                 send_mail(
                 'Payement Status',
-                f'Your Payement has been rejected, please try to remove your ordered items and try again! , {orderidpai.json()["params"]["respCode_desc"]}' ,
+                f'Your Payement has been rejected, please try to remove your ordered items and try again! , {rspcode}' ,
                 'joesdevil10@gmail.com',
                 [request.user.email],
                 fail_silently=False,
                 ) 
                 respCode_desc =''
+                action=''
+                if orderidpai.json()["actionCodeDescription"] and orderidpai.json()["params"]=={}:
+                    action=orderidpai.json()["actionCodeDescription"]
+                
 
-                if orderidpai.json()["params"]["respCode"] == "00" and int(orderidpai.json()["ErrorCode"]) ==  0  and int(orderidpai.json()["OrderStatus"]) == 3 :
+                try:
+                    respCode1=orderidpai.json()["params"]["respCode"]
+                except:
+                    respCode1="00"
+
+                    
+
+                if  respCode1== "00" and int(orderidpai.json()["ErrorCode"]) ==  0  and int(orderidpai.json()["OrderStatus"]) == 3 :
                     respCode_desc ="Votre transaction a été rejetée"
                 else:
-                    if orderidpai.json()["params"]["respCode_desc"] != "":
+                    try:
                         respCode_desc=orderidpai.json()["params"]["respCode_desc"]
-                    else:
-                        respCode_desc=orderidpai.json()["actionCodeDescription"]
+                    except:
+                        respCode_desc=''
 
+                
 
 
                 
-                return render(request, 'payement_fail.html',{'respCode_desc':respCode_desc})
+                return render(request, 'payement_fail.html',{'respCode_desc':respCode_desc,'action':action})
         else:
             order.paiement_meth="C"
             order.save()
@@ -1716,6 +1777,7 @@ def generate_pdf(request, cmd_id):
         'respCode_desc': 'Payment Successful',
         'context': {
             'OrderId': tar_order.ref_code,
+            'cardholder': tar_order.cardholderName,
             'OrderNumber': tar_order.id,
             'approvalCode':  tar_order.approvalCode,
             'date': tar_order.ordered_date,
@@ -1745,6 +1807,7 @@ def send_email_paiement(request,cmd_id):
     context_data = {
         'respCode_desc': 'Payment Successful',
         'context': {
+            'cardholder': tar_order.cardholderName,
             'OrderId': tar_order.ref_code,
             'OrderNumber': tar_order.id,
             'approvalCode':  approvalCode,

@@ -213,15 +213,16 @@ def categories_mobile1():
         if index==0:
            items_li += """
                 <li class="nav-item" style="width: 100px;">
-                                    <a data-id="{}1" class="nav-link nav-link-phone active"   style="text-decoration: none;">{}</a>
+                                    <a data-id="{}1" id="{}22" class="nav-link nav-link-phone active"   style="text-decoration: none;">{}</a>
+                                     
                                 </li>
-            """.format(i.title,_(i.title.upper()))
+            """.format(i.title,i.title.lower(),_(i.title.upper()))
         else:
             items_li += """
                 <li class="nav-item" style="width: 100px;">
-                                    <a data-id="{}1" class="nav-link nav-link-phone"   style="text-decoration: none;">{}</a>
+                                    <a data-id="{}1" id="{}22" class="nav-link nav-link-phone"   style="text-decoration: none;">{}</a>
                                 </li>
-            """.format(i.title,i.title)
+            """.format(i.title,i.title.lower(),_(i.title.upper()))
             
             
         

@@ -1404,7 +1404,13 @@
 							<figure class="product-media">
 								<a href="/product/{{product.slug}}">
 									
+										
+										{% if product.image %}
+									
 										<img src="{{product.image.url}}" loading="lazy" alt="Product image" width="300" height="338">
+										{% else %}
+							<img style="width: 100%; height: 100%;" src="/static/images/ProductDet.png" alt="pyjama T-shirt-Pantalon vert fonce a col en v" width="300" height="338" loading="lazy">
+						{% endif %}
 									
 								</a>
 								{% if LANGUAGE_CODE ==  'ar'  %}

@@ -55,7 +55,19 @@ class ImageUploadForm1(forms.Form):
     }))
     
     
-    
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV2Invisible
+
+
+class NotRobot(forms.Form):
+    captcha=ReCaptchaField()
+    accept_conditions = forms.BooleanField(
+        label='I accept the conditions of use',
+        required=True,
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input','id':'flexCheckDefault'})
+    )
+
+
 class FormInput(forms.Form):
     recu_img = forms.ImageField(required=False,widget=forms.FileInput(attrs={
         
@@ -97,6 +109,7 @@ class FormInput(forms.Form):
         'class': 'form-control',
         'style':"display:none !important"
     }))
+    captcha=ReCaptchaField()
      
      
 

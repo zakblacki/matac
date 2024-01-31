@@ -38,20 +38,28 @@
 							{% if forloop.counter == 1 %}
 							
 							<li class="nav-item topnavnav">
-								<a data-id="#{{catg.title}}" class="nav-link active navat activenavit nav-link-top" href="{{catg.slug}} ">
+								<a data-id="#{{catg.title}}" id="{{catg.title|lower}}99"  class="nav-link navat  nav-link-top" href="{{catg.slug}} ">
 									{% trans catg.title %}
 								</a>
+
 							</li>
 							{% else %}
 							<li class="nav-item topnavnav">
-								<a data-id="#{{catg.title}}" class="nav-link nav-link-top" href=" {{catg.slug}}">{% trans catg.title %}</a>
+								<a data-id="#{{catg.title}}" id="{{catg.title|lower}}99" class="nav-link nav-link-top" href=" {{catg.slug}}">{% trans catg.title %}</a>
 							</li>
 							{% endif %}
 							{% endfor %}
                           
                          <script>
+
+
+							
+
+
 							Array.from(document.querySelectorAll(".nav-link-top")).forEach(ele=>{ele.addEventListener("click",function(e){
 								e.preventDefault()
+								localStorage.setItem('gender',this.href.split("=")[1])
+
 								const nvitlength = document.querySelectorAll(".nav-link-top").length
 								for(var navitind=0;navitind<nvitlength; navitind++){
 									document.querySelectorAll(".nav-link-top")[navitind].classList.remove("active")
@@ -62,12 +70,33 @@
 								$(document.querySelector(this.dataset.id)).siblings().css({"display":"none"}) 
 								document.querySelector(this.dataset.id).style.display="flex"
 								
+
+
+								
+								var gender=localStorage.getItem('gender');
+					const urlSearchParams = new URLSearchParams(window.location.search);
+
+					if (gender) {
+                urlSearchParams.set('gender', gender);
+				 
+
+                // Update the window.location with the new search parameter
+                window.history.replaceState({}, '', `${window.location.pathname}?${urlSearchParams}`);
+
+            } 
+
+
 							})})
+
+
+
+							
 						 </script>
                         </ul>
                     </div>
                 <div></div></div>
-				<a href="/" class="logo">
+				<a href="" class="logo" id="logo_red">
+					 
 					<img src="{% static 'images/matacor.png' %}" style="scale: 1.17;" alt="" loading="lazy">
 				</a>
 				<!-- <form style="margin-bottom: 35px;
@@ -301,7 +330,11 @@ position: fixed;">
 								 
 									<li class="header-cart-item">
 										<div class="header-cart-item-img">
+											{% if order.item.image %}
 											<img src="{{order.item.image.url}}" alt="IMG" loading="lazy">
+											{% else %}
+											<img src="/static/images/ProductDet.png" alt="IMG" loading="lazy">
+											{% endif %}
 										</div>
 
 										<div class="header-cart-item-txt">
@@ -498,7 +531,8 @@ position: fixed;">
 				<i class="d-icon-bars2" style="scale: 1.3;"></i>
 			</div>
 			<!-- Logo moblie -->
-			<a href="/" class="logo-mobile">
+			<a href="" class="logo-mobile" id="logoMobile">
+				 
 				<img src="{% static 'images/matacor.png' %}" alt="IMG-LOGO" style="scale: 1.4;" loading="lazy">
 			</a>
 
@@ -575,7 +609,11 @@ position: fixed;">
 												 
 													<li class="header-cart-item">
 														<div class="header-cart-item-img">
+															{% if order.item.image %}
 															<img src="{{order.item.image.url}}" alt="IMG" loading="lazy">
+															{% else %}
+															<img src="/static/images/ProductDet.png" alt="IMG" loading="lazy">
+															{% endif %}
 														</div>
 				
 														<div class="header-cart-item-txt">
@@ -730,7 +768,17 @@ position: fixed;">
                     
 				 
                         {% categories_mobile1 %}
-						 
+						 <script>
+							if(localStorage.getItem("gender")){
+								document.getElementById("hommes22").classList.remove("active")
+								document.getElementById("femmes22").classList.remove("active")
+								if(localStorage.getItem("gender")=="M"){
+									document.getElementById("hommes22").classList.add("active")
+								}else if(localStorage.getItem("gender")=="F"){
+									document.getElementById("femmes22").classList.add("active")
+								}
+							}
+						 </script>
                 </ul>
 				 
 					{% categories_mobile %}
@@ -749,6 +797,29 @@ position: fixed;">
  						Array.from(document.querySelectorAll(".nav-link-phone")).forEach(ele=>{
 							ele.addEventListener("click",function(){
 								const idtar=this.dataset.id;
+
+								if(idtar.toLowerCase()=='hommes1'){
+									localStorage.setItem("gender","M")
+
+
+								}else if(idtar.toLowerCase()=='femmes1'){
+									localStorage.setItem("gender","F")
+								}
+
+								
+								var gender=localStorage.getItem('gender');
+					const urlSearchParams = new URLSearchParams(window.location.search);
+
+					if (gender) {
+                urlSearchParams.set('gender', gender);
+				 
+
+                // Update the window.location with the new search parameter
+                window.history.replaceState({}, '', `${window.location.pathname}?${urlSearchParams}`);
+
+            } 
+
+
 								$(this).parent().siblings().children("a").removeClass("active")
 								this.classList.add("active")
 								
@@ -849,4 +920,93 @@ position: fixed;">
 		  };
 		   
 		})
+
+				if(localStorage.getItem("gender") ){
+					if(localStorage.getItem("gender")=="M"){
+						document.getElementById("hommes99").classList.add("active")
+								document.getElementById("hommes99").classList.add("activenavit")
+								$("#hommes").siblings().css({"display":"none"}) 
+								document.querySelector(document.getElementById("hommes99").dataset.id).style.display="flex";
+
+					}else if(localStorage.getItem("gender")=="F"){
+						document.getElementById("femmes99").classList.add("active")
+								document.getElementById("femmes99").classList.add("activenavit")
+								$("#femmes").siblings().css({"display":"none"}) ;
+								document.querySelector("#femmes").style.display="flex";
+					}
+
+					var gender=localStorage.getItem('gender');
+					const urlSearchParams = new URLSearchParams(window.location.search);
+
+					if (gender) {
+                urlSearchParams.set('gender', gender);
+				 
+
+                // Update the window.location with the new search parameter
+                window.history.replaceState({}, '', `${window.location.pathname}?${urlSearchParams}`);
+
+            } 
+				}else{
+					if(window.location.search.includes("gender=M")){
+								localStorage.setItem("gender","M")
+								document.getElementById("hommes99").classList.add("active")
+								document.getElementById("hommes99").classList.add("activenavit")
+								$("#hommes").siblings().css({"display":"none"}) 
+								document.querySelector(document.getElementById("hommes99").dataset.id).style.display="flex";
+								
+
+								var gender=localStorage.getItem('gender');
+					const urlSearchParams = new URLSearchParams(window.location.search);
+
+					if (gender) {
+                urlSearchParams.set('gender', gender);
+				 
+
+                // Update the window.location with the new search parameter
+                window.history.replaceState({}, '', `${window.location.pathname}?${urlSearchParams}`);
+
+            } 
+							}else if(window.location.search.includes("gender=F") && !localStorage.getItem("gender")){
+								localStorage.setItem("gender","F")
+
+								var gender=localStorage.getItem('gender');
+					const urlSearchParams = new URLSearchParams(window.location.search);
+
+					if (gender) {
+                urlSearchParams.set('gender', gender);
+				 
+
+                // Update the window.location with the new search parameter
+                window.history.replaceState({}, '', `${window.location.pathname}?${urlSearchParams}`);
+
+            } 
+
+								document.getElementById("femmes99").classList.add("active")
+								document.getElementById("femmes99").classList.add("activenavit")
+								$("#femmes").siblings().css({"display":"none"}) ;
+								document.querySelector("#femmes").style.display="flex";
+								
+							}
+
+				}
+							
+
+ 
+				window.onload = function() {
+
+					var gender=localStorage.getItem('gender');
+					const urlSearchParams = new URLSearchParams(window.location.search);
+
+					if (gender) {
+                urlSearchParams.set('gender', gender);
+				 
+
+                // Update the window.location with the new search parameter
+                window.history.replaceState({}, '', `${window.location.pathname}?${urlSearchParams}`);
+
+            } 
+        };
+
+		 
+
 	  </script>

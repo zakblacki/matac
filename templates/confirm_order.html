@@ -136,17 +136,20 @@
                         </tr>
                         <tr class="summary-subtotal">
                             <td>
-                                <h4 class="summary-subtitle">{% trans 'Total:' %}</h4>
+                                <h4 class="summary-subtitle">{% trans 'Total sans livraison:' %}</h4>
                             </td>
                                 <td class="product-name"></td>
 
                             <td>
                                 <p class="summary-total-price">
                                     {% if target.shipping_price %}
-                                    {{ target.total_amount|total_withship:target.shipping_price|floatformat:0 }}
+                                    <!-- {{ target.total_amount|total_withship:target.shipping_price|floatformat:0 }} -->
+                                    {{target.total_amount|floatformat:0}}
                                     {% endif %} {% trans 'DA' %}</p>
                             </td>
                         </tr>
+
+                        
                         <tr class="summary-subtotal">
                             <td>
                                 <h4 class="summary-subtitle">{% trans 'Payé:' %}</h4>
@@ -164,17 +167,51 @@
                 </table>
             </div>
             {% if not target.ordered %}
+
+            <form action="" method="post">
+                {% csrf_token %}
+                <div style="margin-bottom: 38px;
+                margin-top: 14px;">
+                    {{formConf.captcha}}
+                </div>
+    
+                
+                <div class="form-check">
+                    {{formConf.accept_conditions }}
+                    <style>
+                        #flexCheckDefault{
+                            -webkit-appearance: button;
+                            display: block;
+                            margin-bottom: 10px;
+                            padding: 53px !important;
+                            font-size: 22px;
+                            scale: 1.5;
+                        }
+                    </style>
+               
+                    <label style="  margin-left: 15px" class="form-check-label" for="flexCheckDefault">
+                      J'accepte les conditions d'utilisation
+                    </label>
+                  </div>
+
+                  <button type="submit" class="btn btn-success btn-block recu-cap" ><img style="width: 30px!important;" src="{% static 'images/satim.png' %}" alt="">  {% trans "Paiement electronique" %}</button>
+
+
+            </form>
+
+          
+           
             
 
-            {% if target.formurl %}
+            <!-- {% if target.formurl %}
             <a href="{{target.formUrl}}"   rel="noopener noreferrer">
                 <button type="button" class="btn btn-success btn-block recu-cap" ><img style="width: 30px!important;" src="{% static 'images/satim.png' %}" alt="">  {% trans "Paiement electronique" %}</button>
             </a>
-            {% else %}
-            <a href="https://test.satim.dz/payment/merchants/merchant1/payment_fr.html?mdOrder={{target.ref_code}}"   rel="noopener noreferrer">
+            {% else %} -->
+            <!-- <a href="https://test.satim.dz/payment/merchants/merchant1/payment_fr.html?mdOrder={{target.ref_code}}"   rel="noopener noreferrer">
                 <button type="button" class="btn btn-success btn-block recu-cap" ><img style="width: 30px!important;" src="{% static 'images/satim.png' %}" alt="">  {% trans "Paiement electronique" %}</button>
-            </a>
-            {% endif %}
+            </a> -->
+            <!-- {% endif %} -->
             
             {% endif %}
             {% if target.ordered %}

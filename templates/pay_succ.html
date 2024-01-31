@@ -120,6 +120,11 @@
         <th style="width: 50%;">Parameter</th>
         <th>Description</th>
     </tr>
+
+    <tr>
+        <td>Card name holder</td>
+        <td>{{context.cardholder}}</td>
+    </tr>
      
     <tr>
         <td>orderId</td>
@@ -139,7 +144,7 @@
     </tr>
     <tr>
         <td>Amount</td>
-        <td>{{context.amount}} {{context.currency}}</td>
+        <td>{{context.amount|floatformat:0}} {{context.currency}}</td>
     </tr>
     <tr>
         <td>Payment Method</td>

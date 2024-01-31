@@ -75,14 +75,22 @@ class ExcelFileAdmin(admin.ModelAdmin):
         if obj.label == "A":
 
             for index, row in df.iterrows():
-                id = row["id"]
+                try:
+                    id = int(row["id"])
+                except:
+                    pass
                 name =row["nom d'article"]
                 # images = sheet["E" + str(index)]
                 brand_name = row["brand_name"]
                 brand_id = row['brand_id']
                 # product_Group_Id = sheet["F" + str(index)]
-                sellingPrice = row['prix']
-                discountPrice = row['ancien prix']
+                try:
+                    sellingPrice = int(row['prix'])
+                    discountPrice = int(row['ancien prix'])
+                except:
+                    sellingPrice=0
+                    discountPrice=0
+
                 try:
                     image_src = row["images for website"]
                     # image_src = row['images_prod']
@@ -93,7 +101,11 @@ class ExcelFileAdmin(admin.ModelAdmin):
                 if not pd.isna(row['code produit']):
                     article_id = row['code produit']
                 else:
-                    article_id = name.split(" ")[-1]
+                    try:
+                        article_id = name.split(" ")[-1]
+                    except:
+                        article_id=str(name).split(" ")[-1]
+                    
                 
                 sizes = row['sizes_exist']
                 if sizes:
@@ -112,8 +124,10 @@ class ExcelFileAdmin(admin.ModelAdmin):
                 categoryName = row["category_name"]
                 
                 description = row["details d'article"]
-                idxn=row["id"]
-                
+                try:
+                    idxn=int(row["id"])
+                except:
+                    pass
                 try:
                         
                     shipping = row["delivery"]
@@ -133,8 +147,19 @@ class ExcelFileAdmin(admin.ModelAdmin):
                 # else:
                 #     stock = 0
 
+                #in past it was row['product_details_attr'] now it is like bellow
+                details_upp=row['product_details_attr'].replace('d"', "de ")
+                details_upp=details_upp.replace("/","-")
+                details_upp=details_upp.replace('%','percent')
+                details_upp=details_upp.replace("d’","de ")
+                details_upp=details_upp.replace("d'","de ")
+                details_upp=details_upp.replace("'",'"')
+                details_upp=details_upp.replace(" ,",'",')
+                details = details_upp
 
-                details = row['product_details_attr']
+
+
+
                 try:
                     image_src = row["images for website"]
                     # image_src = row['images_prod']
@@ -146,7 +171,10 @@ class ExcelFileAdmin(admin.ModelAdmin):
                     # image_src ="https://cdn.dsmcdn.com"+ image_src.split(",")[0].replace("\\","/").replace(" ","")
                     # image_folder = image_src.split("/")[-2]
                     # image_folder = os.path.join(str(idxn), image_folder)
-                    image_src=image_src.split(",")[0].replace("\\","/").replace(" ","")
+                    try:
+                        image_src=image_src.split(",")[0].replace("\\","/").replace(" ","")
+                    except:
+                        image_src=str(image_src).split(",")[0].replace("\\","/").replace(" ","")
                     local_image_path = image_src 
                     # Replace this with the actual path of the image on your computer
 
@@ -221,14 +249,15 @@ class ExcelFileAdmin(admin.ModelAdmin):
 
 
                                 
-                            label_pro="N"
-                            try:
+                           
+                            
+                            
 
-                                if discountPrice:
-                                    if discountPrice > price:
-                                        label_pro="P"
-                            except:
-                                pass
+                                
+                            if discountPrice > sellingPrice:
+                                label_pro="P"
+                            else:
+                                label_pro="N"
 
 
                             doesexist11 = Item.objects.filter(id_item = idxn)
@@ -267,7 +296,9 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                 
                                 try:
                                     # image_src = row['images_prod']
+
                                     image_src = row["images for website"]
+                                     
                                     for image_url in  image_src.split(",")[1:]:
                                         # image_src = "https://cdn.dsmcdn.com"+ image_url.replace(" ","")
                                         # image_folder = image_src.split("/")[-3]
@@ -317,7 +348,10 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                         #     # Save the RGBA image as WebP
                                         #     rgba_image.save(webp_file_path, "WEBP")
                                 except:
-                                    image_src = row['chemins photos']
+                                     
+                                    image_src = str(row['chemins photos'])
+                                     
+                                        
                                     # for image_url in  image_src.split(",")[1:]:
                                     for image_url in  image_src.split(","):
                                         image_src = "https://cdn.dsmcdn.com"+ image_url.replace(" ","")
@@ -353,9 +387,21 @@ class ExcelFileAdmin(admin.ModelAdmin):
                                                 
         else:
             for index, row in df.iterrows():
-                
-                id = row["id"]
                 try:
+                    sellingPrice = int(row['prix'])
+                except:
+                    sellingPrice=0
+                try:
+                    discountPrice = int(row['ancien prix'])
+                except:
+                    discountPrice=0
+                try:
+
+                    id = int(row["id"])
+                except:
+                    pass
+                try:
+                    
                     tar_pro= Item.objects.get(id_item=id)
                      
 
@@ -388,24 +434,28 @@ class ExcelFileAdmin(admin.ModelAdmin):
                         sizes_not_exist =  sizes_not_exist
                     else:
                         sizes_not_exist="not"
+
+
+                    if discountPrice > sellingPrice:
+                        label_pro="P"
+                    else:
+                       label_pro="N"
                     
-                    tar_pro= Item.objects.create(id_item=id,title=titleprod,category=category_instance, article_id=article_id,details= details 
-                                                 ,description_short=description,description_long=description,rating=rating,tags= details ,size_exist=sizes,size_not_exist=sizes_not_exist,)
+                    tar_pro= Item.objects.create(id_item=id,title=titleprod,category=category_instance, article_id=article_id,details= details ,label=label_pro
+                                                 ,description_short=description,description_long=description,rating=rating,tags= details ,
+                                                 size_exist=sizes,size_not_exist=sizes_not_exist,price=sellingPrice,discount_price=discountPrice,)
                     price1=row["prix"]
                     tar_pro.price=int(price1)
-                    oldprice1=row["ancien prix"]
-                    tar_pro.discount_price=oldprice1
-                    label_pro="N"
                     try:
-
-                        if discountPrice:
-                            if discountPrice > price:
-                                label_pro="P"
+                        oldprice1=row["ancien prix"]
                     except:
-                        pass
+                        oldprice1=row["prix reduction"] 
+                    tar_pro.discount_price=oldprice1
+                     
+                    
                     
                     brand_name = row["brand_name"]
-                    tar_pro.label=label_pro
+                   
                     tar_pro.brand_name=brand_name
 
                     slug = slugify(titleprod)
@@ -415,16 +465,21 @@ class ExcelFileAdmin(admin.ModelAdmin):
                     random_number = random.randint(0, 10000)
                     if queryset.filter(slug=new_slug).exists():
                             
-                        new_slug = f"{slug}-{ idxn }"
+                        new_slug = f"{slug}-{ id }"
                         if queryset.filter(slug=new_slug).exists():
                             new_slug = f"{slug}-{ random_number }"
 
 
                     tar_pro.slug=new_slug
+                    
 
    
                                      
-                
+                if discountPrice > sellingPrice:
+                        label_pro="P"
+                else:
+                    label_pro="N"
+                tar_pro.label=label_pro
                 try:
                     if not pd.isna(row["nom d'article arabe"])  :
                         arabe_title = row["nom d'article arabe"]
@@ -566,46 +621,61 @@ class ExcelFileAdmin(admin.ModelAdmin):
                
                 
                 try:
-                    details =row['product_details_attr']
-                    tar_pro.details=details
+                    details_upp=row['product_details_attr'].replace('d"', "de ")
+                    details_upp=details_upp.replace("/","-")
+                    details_upp=details_upp.replace('%','percent')
+                    details_upp=details_upp.replace("d’","de ")
+                    details_upp=details_upp.replace("d'","de ")
+                    details_upp=details_upp.replace("'",'"')
+                    details_upp=details_upp.replace(" ,",'",')
+
+                    details =details_upp
+                    if details != "NaN":
+                        tar_pro.details=details
+                    else:
+                        tar_pro.details=""
+
 
                     
                 
                 except:
                     pass
 
-                if ImageItem.objects.filter(item__id_item=id):
-                    # ImageItem.objects.filter(item__id_item=id).delete()
-                    # image_src1 = row["chemins photos"]
-                    image_src1=row["images for website"]
 
-                    for image_url in  image_src1.split(","):
-                        image_src = "https://cdn.dsmcdn.com" + image_url.replace(" ","")
-                        image_folder = image_src.split("/")[-3]
-                                         
-                     
-                                        
-                        local_image_path = image_src 
-                                       
-                        # filename = os.path.basename(local_image_path)
-                        filename=image_url.replace("+","")
-                        media_root = os.path.join(settings.MEDIA_ROOT, 'images')
-                        # Construct the path to the media_root directory
-                        media_root1 = os.path.join(settings.MEDIA_ROOT,"images_upload_product" )
-                                         
-                        # image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
-                        image_path = os.path.join(media_root,media_root1,  filename )
-                                        
-                                        
-                                        
-                        slug_ex=Item.objects.filter(id_item=id).first().slug
-                                        
-                        # ImageItem.objects.create(
-                        #     item=Item.objects.filter(id_item=id).first(),
-                        #     slug=slug_ex,
-                        #     image=image_path.replace("/root/demo/media_root","") 
-                        # )
+                try:
+                    if ImageItem.objects.filter(item__id_item=id):
+                        # ImageItem.objects.filter(item__id_item=id).delete()
+                        # image_src1 = row["chemins photos"]
+                        image_src1=row["images for website"]
+
+                        for image_url in  image_src1.split(","):
+                            image_src = "https://cdn.dsmcdn.com" + image_url.replace(" ","")
+                            image_folder = image_src.split("/")[-3]
+                                            
                         
+                                            
+                            local_image_path = image_src 
+                                        
+                            # filename = os.path.basename(local_image_path)
+                            filename=image_url.replace("+","")
+                            media_root = os.path.join(settings.MEDIA_ROOT, 'images')
+                            # Construct the path to the media_root directory
+                            media_root1 = os.path.join(settings.MEDIA_ROOT,"images_upload_product" )
+                                            
+                            # image_path = os.path.join(media_root,media_root1, f"{filename.split('.')[0]}.webp")
+                            image_path = os.path.join(media_root,media_root1,  filename )
+                                            
+                                            
+                                            
+                            slug_ex=Item.objects.filter(id_item=id).first().slug
+                                            
+                            # ImageItem.objects.create(
+                            #     item=Item.objects.filter(id_item=id).first(),
+                            #     slug=slug_ex,
+                            #     image=image_path.replace("/root/demo/media_root","") 
+                            # )
+                except:
+                    pass           
                 
                 # else:
                 #     # image_src1 = row["chemins photos"]

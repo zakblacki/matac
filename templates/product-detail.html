@@ -67,11 +67,20 @@
 						<div class="product-thumbs " style="top: 0px;" >
 
 							<div class="product-thumb ">
+								{% if object.image %}
 								<img src="{{ object.image.url }}" loading="lazy" alt="product thumbnail" width="109" height="122">
+								{% else %}
+								<img src="/static/images/ProductDet.png" loading="lazy" alt="product thumbnail" width="109" height="122">
+								{% endif %}
 							</div>
 							{% for image in images %}
 							<div class="product-thumb ">
+								{% if object.image %}
 								<img src="{{ image.image.url }}" loading="lazy" alt="product thumbnail" width="109" height="122">
+								{% else %}
+								<img src="/static/images/ProductDet.png" loading="lazy" alt="product thumbnail" width="109" height="122">
+								{% endif %}
+								
 							</div>
 							{% endfor %}
 						</div>
@@ -134,15 +143,29 @@
 					</div>
 
 					<div class="slick3" style="position: relative;">
+
+						{% if object.image %}
 						
 						<div class="item-slick3" data-thumb="{{ object.image.url }}">
+
+						{% else %}
+						<div class="item-slick3" data-thumb="/static/images/ProductDet.png">
+
+						{% endif %}
 							<div id="img-container" class="wrap-pic-w">
 								<div id="lens"></div>	
 								<div onclick="document.getElementById('lghtbx').click()" class="overlay
 						" style="width: 100%;height: 88%; position: absolute;z-index: 167;background: transparent;"></div>
+
+						{% if object.image %}
 								<a id="lghtbx" data-lightbox="photo" href="{{ object.image.url }}">
-									
+
 									<img id="featured" src="{{ object.image.url }}" alt="{{ object.title }}">
+								<!-- 
+								<img src="/static/images/ProductDet.png" loading="lazy" alt="product thumbnail" width="109" height="122">
+								-->
+								
+									
 									<script>
 										document.getElementById('featured').onerror = function() {
 											document.getElementById('featured').src="/static/images/ProductDet.png";  
@@ -150,7 +173,25 @@
 										};
 									</script>
 								</a>
- 								
+ 						{% else %}
+						 <a id="lghtbx" data-lightbox="photo" href="/static/images/ProductDet.png">
+
+							<img id="featured" src="/static/images/ProductDet.png" alt="not exist">
+						<!-- 
+						<img src="/static/images/ProductDet.png" loading="lazy" alt="product thumbnail" width="109" height="122">
+						-->
+						
+							
+							<script>
+								document.getElementById('featured').onerror = function() {
+									document.getElementById('featured').src="/static/images/ProductDet.png";  
+									// ele.style.height=258 + "px"
+								};
+							</script>
+						</a>
+								
+						{% endif %} 
+									
 									 							 
 							</div>
 						</div>
@@ -159,7 +200,9 @@
 						
 					<div class="item-slick3" data-thumb="{{image.image.url}}">
 						<div class="wrap-pic-w">
+							{% if object.image %}
 							<img src="{{image.image.url}}" alt="IMG-PRODUCT">
+							{% endif %}
 						</div>
 					</div>
 
@@ -206,9 +249,10 @@
 					
 					<div class="product-price price-detail d-none d-lg-block d-xl-none {% if LANGUAGE_CODE == 'ar' %}rtl{% endif %}">
 						{% if object.discount_price > object.price   %}
-						<del class="old-price old-price-block">&nbsp;{{object.price|floatformat:0}} {% trans 'DA' %}</del>
-						&nbsp; 
-					   <ins class="new-price price-block">{{object.discount_price|floatformat:0}} {% trans 'DA' %}</ins>
+						
+					 
+					   <ins class="new-price price-block">{{object.price|floatformat:0}} {% trans 'DA' %}</ins>
+					   <del class="old-price old-price-block">&nbsp;{{object.discount_price|floatformat:0}} {% trans 'DA' %}</del>
 					   {% else %}
 						 
 
@@ -331,9 +375,12 @@ document.getElementById('shareButton').addEventListener('click', () => {
 								
 								<div class="product-mediaitm owl-item new_item {% if forloop.counter == 1 %} margin-right-2 {% endif %} {% if forloop.counter <= 4 %} active{% endif %}" style="width: 247px !important; margin-right: 20px;">
 									<a class="variant" >
-											 
+										{% if item.image %}
 										<img draggable="false" style="width: 50px !important; height: 100% !important;" class="color variant-owl" src="{{item.image.url}}"
-										 alt=" {{item.title}}" data-slug="{{item.slug}}" data-current="{{object.slug}}"  srcset="" loading="lazy" width="80">
+										alt=" {{item.title}}" data-slug="{{item.slug}}" data-current="{{object.slug}}"  srcset="" loading="lazy" width="80">
+							{% endif %}
+											 
+										
 									</a>
 								</div> 
 								{% endfor %}
@@ -721,7 +768,11 @@ itemLinks.forEach(itemLink => {
 							<div class="container webcontt">  
 								<div class="sticky-product-details d-sm-block">
 										<figure class="product-image">
+											{% if object.image %}
+										 
 											<img src="{{ object.image.url }}" alt="{{object.title}}" class="sticky-image mr-3" loading="lazy">
+							{% endif %}
+											
 										</figure>
 									<div class="title-sticky-div">
 										<h4 class="product-title sticky-title"><a href="#">
@@ -753,7 +804,7 @@ itemLinks.forEach(itemLink => {
 								<div class="product-form product-qty" style="padding-top: 3.5px;">
 									<div class="product-form-group">
 										<div class="product-form product-size sticky_div" style="margin-left:55rem;padding-right: 10px;">
-											
+												{% if object.size_exist %}
 												<div class="product-form product-size d-flex justify-content-end" style="margin-right: 8px;">
 													<div class="select-box sticky-selct-box">
 														<select name="atribute" value="" class="form-control" id="sticky_sizes" required="required">
@@ -827,6 +878,7 @@ itemLinks.forEach(itemLink => {
 														</select>
 													</div>
 												</div> 
+												{% endif %}
 												
 											<input type="number" style="display: none !important;" name="quantity" class="quantity form-control display-none" value="1" required="">
 												<a id="submit_to sticky-sub" href="/add-to-cart/{{object.slug}}?name=dd">
@@ -853,7 +905,10 @@ itemLinks.forEach(itemLink => {
 							<div class="container mobcontt" style="display: flex;align-items: center;justify-content: space-between;flex-direction: row;">  
 								 
 										<figure class="product-image" style="margin-left: 15px;">
+											{% if object.image %}
+										 
 											<img src="{{ object.image.url }}" alt="{{object.title}}" class="sticky-image mr-3" loading="lazy">
+							{% endif %}
 										</figure>
 									 
 											<div style="text-decoration: none;width: 143px;" >
@@ -931,7 +986,8 @@ itemLinks.forEach(itemLink => {
 				<ul class="detail-attr-container">
 					
 					{% for key, value in details.items %}
-					 
+					
+					
 							 
 							{% if value != nan %}
 								<li  class="detail-attr-item">
@@ -1012,9 +1068,16 @@ itemLinks.forEach(itemLink => {
 				<div class="product product-classic">
 				<figure class="product-media">
 				<a href="/product/{{new_item.slug}}">
+					{% if new_item.image %}
+										 
+					<img style="width: 100%; height: 100%;" src={{new_item.image.url}} loading="lazy" alt="{{new_item.title}}" width="300" height="338">
+					{% else %}
+								 
+					<img style="width: 100%; height: 100%;" src="/static/images/ProductDet.png" loading="lazy" alt="{{new_item.title}}" width="300" height="338">
+
 					
-						<img style="width: 100%; height: 100%;" src={{new_item.image.url}} loading="lazy" alt="{{new_item.title}}" width="300" height="338">
-					
+							{% endif %}
+						
 				</a>
 				{% if LANGUAGE_CODE ==  'ar'  %}
 			<div class="product-action-vertical" style="right: 78% !important;">
@@ -1068,10 +1131,10 @@ itemLinks.forEach(itemLink => {
 	<div>
 		
 		{% if new_item.discount_price > new_item.price   %}
-		 
-		<del class="old-price old-price-block">&nbsp;{{new_item.discount_price|floatformat:0}} {% trans 'DA' %}</del>
-		 &nbsp; 
 		<ins class="new-price price-block">{{new_item.price|floatformat:0}} {% trans 'DA' %}</ins>
+		<del class="old-price old-price-block">&nbsp;{{new_item.discount_price|floatformat:0}} {% trans 'DA' %}</del>
+	 
+		
 		{% else %}
 
 		<ins  style="color: #222 !important;" class="new-price price-block">{{new_item.price|floatformat:0}} {% trans 'DA' %}</ins>
@@ -1090,49 +1153,7 @@ itemLinks.forEach(itemLink => {
 				</div>
 			</div>
 			
-			<!-- Slide2 -->
-			<!-- <div class="wrap-slick2">
-				<div class="slick2">
-
-					  {%for rel_pro in relate_pros %}
-					
-					<div class="item-slick2 p-l-15 p-r-15">
-						 
-						<div class="block2">
-							<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-								<img src="{{rel_pro.image.url}}" alt="IMG-PRODUCT">
-
-								<div class="block2-overlay trans-0-4">
-									<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-										<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-										<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-									</a>
-
-									<div class="block2-btn-addcart w-size1 trans-0-4">
-									 
-										<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-											Add to Cart
-										</button>
-									</div>
-								</div>
-							</div>
-
-							<div class="block2-txt p-t-20">
-								<a href="/product/{{rel_pro.slug}}" class="block2-name dis-block s-text3 p-b-5">
-									{{rel_pro.title}}
-								</a>
-
-								<span class="block2-price m-text6 p-r-5">
-									${{rel_pro.price}}
-								</span>
-							</div>
-						</div>
-					</div>
-
-
-					{% endfor %}  
-				</div>
-			</div> -->
+			 
 
 		</div>
 		<script>
@@ -1373,7 +1394,7 @@ itemLinks.forEach(itemLink => {
 					     <span style="font-weight:bold;">Achetez-vous ce produit</span> pour rédiger un commentaire. 
 					   {% endif %}
 					{% else %}
-					<a href="/login"> <span style="font-weight:bold;">Connectez-vous</span> pour rédiger un commentaire.</a>
+					<a href="/accounts/login"> <span style="font-weight:bold;">Connectez-vous</span> pour rédiger un commentaire.</a>
 					{% endif %}
 			</div>
 		</div>

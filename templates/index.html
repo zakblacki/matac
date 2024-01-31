@@ -265,14 +265,31 @@
 	<div class="owl-stage-outer" style="overflow:hidden">
 		<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 809px;">
 			 
-			{% for category in category %}
+			{% for topcategory in category_gen %}
+			{% for category in topcategory.items.all %}
 			<div class="owl-item category{% if forloop.counter <= 4 %} active{% endif %}" style="width: 182.2px; margin-right: 20px;">
 				<div class="category-wrap mb-4 ">
 							   <div class="category category-default1 category-absolute">
 								   <a href="/category/{{category.slug}}">
 									   <div class="container" style="width:auto;">
 										   <figure>
-											   <img class="circular-category-image" src={{category.image.url}} alt="Category" loading="lazy">
+										 
+											   <img class="circular-category-image " src='{{category.image.url}}'  alt="Category" loading="lazy">
+											   <script>
+												document.querySelectorAll(".circular-category-image").forEach(ele=>{
+			 
+
+													ele.addEventListener("error", function() {
+														// Set the source to the default image URL
+														ele.src = "/static/images/nocategory.png";
+														ele.style.objectFit="cover"
+													});
+			 
+													})
+												</script>
+											
+											 
+											 
 										   </figure>
 									   </div>
 									   <p  style="text-align: center; ">
@@ -290,6 +307,7 @@
 								</div>
 				</div>
 			</div>
+			{% endfor %}
 			{% endfor %}
 			 
 			
@@ -491,8 +509,12 @@
 			<div class="product product-classic">
 				<figure class="product-media">
 					<a href="/product/{{new_item.slug}}">
+						{% if new_item.image %}
 						
 							<img style="width: 100%; height: 100%;" src={{new_item.image.url}}   alt="{{new_item.title}}" width="300" height="338" loading="lazy">
+							{% else %}
+							<img style="width: 100%; height: 100%;" src="/static/images/ProductDet.png" alt="-" width="300" height="338" loading="lazy">
+						{% endif %}
 						
 					</a>
 				
@@ -659,9 +681,12 @@
 			<div class="product product-classic">
 				<figure class="product-media">
 					<a href="/product/{{new_item.slug}}">
+						{% if new_item.image %}
 						
 							<img style="width: 100%; height: 100%;" src={{new_item.image.url}}  alt="{{new_item.title}}" width="300" height="338" loading="lazy">
-						
+							{% else %}
+							<img style="width: 100%; height: 100%;" src="/static/images/ProductDet.png" alt="-" width="300" height="338" loading="lazy">
+						{% endif %}
 					</a>
 					{% if LANGUAGE_CODE ==  'ar'  %}
 					<div class="product-action-vertical" style="left: 0;">
@@ -828,9 +853,14 @@
 				<div class="product product-classic">
 				<figure class="product-media">
 				<a href="/product/{{new_item.slug}}">
+					{% if new_item.image %}
+
 					
 						<img style="width: 100%; height: 100%;" src={{new_item.image.url}}   alt="{{new_item.title}}" width="300" height="338" loading="lazy">
-					
+						{% else %}
+							<img style="width: 100%; height: 100%;" src="/static/images/ProductDet.png" alt="-" width="300" height="338" loading="lazy">
+						
+					{% endif %}
 				</a>
 				{% if LANGUAGE_CODE ==  'ar'  %}
 				<div class="product-action-vertical" style="left: 0;">

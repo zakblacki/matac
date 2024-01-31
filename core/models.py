@@ -171,7 +171,8 @@ class Item(models.Model):
     description_long = models.TextField()
     description_long_en = models.TextField()
     description_long_ar = models.TextField()
-    details = models.CharField(max_length=5500,default="{'color':''}")
+    # details = models.CharField(max_length=5500,default="{'color':''}")
+    details=models.JSONField()
     details_en = models.CharField(max_length=5500,default="{'color':''}")
     details_ar = models.CharField(max_length=5500,default="{'color':''}")
     tags=models.TextField()
@@ -363,15 +364,13 @@ class Order(models.Model):
     refund_requested = models.BooleanField(default=False)
     refund_granted = models.BooleanField(default=False)
 
-    '''
-    1. Item added to cart
-    2. Adding a BillingAddress
-    (Failed Checkout)
-    3. Payment
-    4. Being delivered
-    5. Received
-    6. Refunds
-    '''
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        # Update modified_at before saving
+        self.modified_at = timezone.now()
+        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return self.user.username
@@ -457,7 +456,7 @@ class TopCategory(models.Model):
     title=models.CharField(max_length=500)
     items=  models.ManyToManyField(Category)
     slug = models.CharField( max_length=590)
-    
+    gender = models.CharField(choices=LABEL_CHOICES_GENDER, max_length=3,default="F")
     def __str__(self):
         return "{} - category".format(self.title)
     class Meta:
@@ -483,6 +482,7 @@ class GenderCategory(models.Model):
 class Ad_homePage(models.Model):
     AD_image=models.ImageField(upload_to="AD_imgs")
     AD_link = models.CharField(max_length=500)
+    gender=models.CharField(choices=LABEL_CHOICES_GENDER, max_length=3,default="F")
      
     
     def __str__(self):
@@ -497,6 +497,8 @@ class Banner_category(models.Model):
     banner_image=models.ImageField(upload_to="banner_imgs")
     banner_link = models.CharField(max_length=500)
     category=  models.ForeignKey(TopCategory,on_delete=models.CASCADE)
+    
+
     
     def __str__(self):
         return self.category.title

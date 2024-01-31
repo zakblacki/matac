@@ -24,7 +24,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'allauth',  
-  
+    'django_recaptcha',
+    
     "social_django",
     'allauth.account',
     'allauth.socialaccount',
@@ -74,7 +75,7 @@ TEMPLATES = [
 ]
 
 LANGUAGE_CODE = 'fr'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Algiers'
 USE_I18N = True
 USE_L10N = True
 # USE_TZ = True
@@ -203,3 +204,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'joesdevil10@gmail.com'  # Your Gmail email
 EMAIL_HOST_PASSWORD = 'aoud gvmn kpqn auja'  # Your Gmail password
 DEFAULT_FROM_EMAIL = 'joesdevil10@gmail.com'
+
+
+RECAPTCHA_PUBLIC_KEY = "6Ld8xDgpAAAAAE8eMIHSImHYCVc-U4DFfFkyl-BE"
+RECAPTCHA_PRIVATE_KEY = "6Ld8xDgpAAAAACDyv6GOLXqvVRIWwkjyQfd6QwLS"
